@@ -1,25 +1,21 @@
 const palette = {
-  /* teal */
-  teal5: '#20c997',
-  teal10: '#087f5b',
+  colorMain: '#FFCABB',
+  colorAccent: '#F33B06',
 
-  /* red */
-  red5: '#ff6b6b',
-  red10: '#c92a2a',
+  /* Jam */
+  colorGrade1: '#FFDAD7',
+  colorGrade2: '#F7AF0C',
+  colorGrade3: '#FD7E14',
+  colorGrade4: '#F23701',
+  colorGrade5: '#A24000',
+
+  colorBtn1: '#FF9B51',
+  colorBtn2: '#FF8B8B',
+  colorBtn3: '#DDDDDD',
+
+  colorJamOpen: '#B0D0FF',
+  colorJamClose: '#BABABA',
+  colorJamRealtime: '#FFB0B0',
 };
 
-const theme = {
-  teal: {
-    background: palette.teal5,
-    color: 'white',
-    hoverBackground: palette.teal10,
-  },
-
-  red: {
-    background: palette.red5,
-    color: 'white',
-    hoverBackground: palette.red10,
-  },
-};
-
-export default theme;
+export default palette;

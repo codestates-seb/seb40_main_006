@@ -1,9 +1,10 @@
-import { css } from '@emotion/css';
-import './Styles/App.css';
 import React from 'react';
+import { css } from '@emotion/css';
+import palette from './Styles/theme';
+import './Styles/App.css';
 
 function App() {
-  const color = 'white';
+  const color = palette.colorAccent;
   return (
     <div
       className={css`
