@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import './App.css';
+import './Styles/App.css';
 import React from 'react';
 
 function App() {
