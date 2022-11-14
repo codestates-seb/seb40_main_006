@@ -6,10 +6,12 @@
       0,
       { "namedcomponents": "arrow-function" }
     ],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   },
   "env": {
     "browser": true,
     "node": true
   }
+  
 }
