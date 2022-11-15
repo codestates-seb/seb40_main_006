@@ -1,4 +1,4 @@
-package com.jamit.audit;
+package com.jamit.global.audit;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
