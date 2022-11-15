@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "react/function-component-definition": [
+      0,
+      { "namedcomponents": "arrow-function" }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
