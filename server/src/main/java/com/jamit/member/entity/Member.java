@@ -1,6 +1,8 @@
 package com.jamit.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jamit.global.audit.Auditable;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Member {
+public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class Member {
     private String password;
 
     @Column(unique = true, nullable = false)
-    private String nickName;
+    private String nickname;
 
     @Column(nullable = false, updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
