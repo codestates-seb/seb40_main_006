@@ -30,6 +30,10 @@ const style = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
+  button {
+    background-color: transparent;
+    border: none;
+  }
 `;
 
 const GlobalStyle = () => {

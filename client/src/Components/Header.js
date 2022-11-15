@@ -4,11 +4,13 @@ import { css } from '@emotion/css';
 // import InputBase from '@mui/material/InputBase';
 // import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+// import { useState } from 'react';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import palette from '../Styles/theme';
 import logoImage from '../Assets/images/logo_header.png';
 
 const header = css`
-  padding: 10px 30px;
+  padding: 10px 40px 10px 30px;
   display: flex;
   background-color: white;
   width: 100%;
@@ -57,10 +59,27 @@ const loginArea = css`
   justify-content: center;
   margin-left: 40px;
 `;
-const loginBtn = css`
+// const loginBtn = css`
+//   border-radius: 10px;
+//   padding: 15px 40px;
+//   background-color: ${palette.gray_5};
+//   cursor: pointer;
+// `;
+
+// logout
+const createJamBtn = css`
   border-radius: 10px;
   padding: 15px 40px;
-  background-color: ${palette.gray_5};
+  background-color: ${palette.colorMain};
+  cursor: pointer;
+  margin: 0 10px;
+  &:hover {
+    background-color: ${palette.colorAccent};
+    color: ${palette.white};
+  }
+`;
+const username = css`
+  margin: 10px;
 `;
 
 const SearchBar = () => {
@@ -94,20 +113,45 @@ const Address = () => {
   );
 };
 
-const Login = () => {
+// const LoginArea = () => {
+//   return (
+//     <div className={loginArea}>
+//       <button type="button" className={loginBtn}>
+//         로그인{' '}
+//       </button>
+//     </div>
+//   );
+// };
+
+const LogoutArea = () => {
   return (
     <div className={loginArea}>
-      <div className={loginBtn}>로그인</div>
+      <button type="button" className={createJamBtn}>
+        잼 만들기{' '}
+      </button>
+      <div className={username}>유저이름님</div>
+      <AccountCircleIcon fontSize="large" />
     </div>
   );
 };
+
 const Header = () => {
+  // const [isLogin, setIsLogin] = useState(false);
+
+  // const onLoginBtnClick = () => {
+  //   console.log('버튼클릭');
+  //   setIsLogin(!isLogin);
+  //   console.log(isLogin);
+  // };
+
   return (
     <div className={header}>
       <img className={logo} alt="logo_jamit" src={logoImage} />
       <Address />
       <SearchBar />
-      <Login />
+      {/* <LoginArea /> */}
+      <LogoutArea />
+      {/* {!isLogin ? <LoginArea /> : <LogoutArea />} */}
     </div>
   );
 };
