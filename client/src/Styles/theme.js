@@ -1,4 +1,9 @@
 const palette = {
+  white: '#FFFFFF',
+  black: '#000000',
+  gray_4: '#F4F4F4',
+  gray_5: '#D9D9D9',
+
   colorMain: '#FFCABB',
   colorAccent: '#F33B06',
 
