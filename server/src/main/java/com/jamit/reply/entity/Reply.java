@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
+import com.jamit.jam.entity.Jam;
 import com.jamit.member.entity.Member;
 
 @Entity
@@ -24,6 +25,10 @@ public class Reply extends Auditable {
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
+
+	@ManyToOne
+	@JoinColumn(name = "jam_id")
+	private Jam jam;
 
 	@ManyToOne
 	@JoinColumn(name = "comment_id")
