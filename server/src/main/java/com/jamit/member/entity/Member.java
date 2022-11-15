@@ -41,7 +41,6 @@ public class Member extends Auditable {
     private String nickname;
 
     @Column(nullable = false, updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdTime = LocalDateTime.now();
 
     @ElementCollection(fetch = FetchType.EAGER)
