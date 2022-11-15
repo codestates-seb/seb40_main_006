@@ -1,4 +1,4 @@
-package com.jamit.dto;
+package com.jamit.global.dto;
 
 import java.util.List;
 import lombok.Getter;

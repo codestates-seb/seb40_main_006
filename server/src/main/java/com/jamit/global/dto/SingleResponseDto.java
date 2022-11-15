@@ -1,4 +1,4 @@
-package com.jamit.dto;
+package com.jamit.global.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
