@@ -28,9 +28,9 @@ public class Jam extends Auditable {
 	@Column(name = "jam_id")
 	private Long id;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Category category;
+//	@Column(nullable = false)
+//	@Enumerated(EnumType.STRING)
+//	private Category category;
 
 	@Column(nullable = false)
 	private String title;
