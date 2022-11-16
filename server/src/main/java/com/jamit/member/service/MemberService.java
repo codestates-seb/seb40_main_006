@@ -1,3 +1,4 @@
+/*
 package com.jamit.member.service;
 
 // import com.jamit.auth.utils.CustomAuthorityUtils;
@@ -19,9 +20,11 @@ public class MemberService {
     // private final PasswordEncoder passwordEncoder;
     // private final CustomAuthorityUtils authorityUtil;
 
-    /**
+    */
+/**
      * USER-01: Local 회원가입
-     */
+     *//*
+
     // public Member signupMember(Member member) {
     //     verifyExistsEmail(member.getEmail());
     //
@@ -42,9 +45,11 @@ public class MemberService {
 //        return savedMember;
 //    }
 
-    /**
+    */
+/**
      * USER-02: Local 로그인
-     */
+     *//*
+
 //    public Member loginMember(Member member) {
 //        Member verifiedExistsMember = verifyExistsEmailAndPassword(member.getEmail(),
 //            member.getPassword());
@@ -54,9 +59,11 @@ public class MemberService {
 //        return verifiedExistsMember;
 //    }
 
-    /**
+    */
+/**
      * USER-03: 정보 수정
-     */
+     *//*
+
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
@@ -70,9 +77,11 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    /**
+    */
+/**
      * USER-04: Local 로그아웃
-     */
+     *//*
+
 //    public Member logoutMember(Member member) {
 //        Member verifiedExistsMember = verifyExistsEmail(member.getEmail());
 //
@@ -81,9 +90,11 @@ public class MemberService {
 //        return verifiedExistsMember;
 //    }
 
-    /**
+    */
+/**
      * 유저 Id 찾기
-     */
+     *//*
+
     public Member findVerifiedMember(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
 
@@ -93,9 +104,11 @@ public class MemberService {
         return findMember;
     }
 
-    /**
+    */
+/**
      * 유저 이메일, 비밀번호 찾기
-     */
+     *//*
+
     public Member verifyExistsEmailAndPassword(String memberEmail, String memberPassword) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
             memberEmail, memberPassword);
@@ -106,9 +119,11 @@ public class MemberService {
         return existsEmailAndPassword;
     }
 
-    /**
+    */
+/**
      * 유저 이메일 찾기
-     */
+     *//*
+
     public Member verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
@@ -118,9 +133,11 @@ public class MemberService {
         return existsEmail;
     }
 
-    /**
+    */
+/**
      * 유저 이름 찾기
-     */
+     *//*
+
     public Member verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
@@ -129,4 +146,4 @@ public class MemberService {
 
         return existsName;
     }
-}
+}*/

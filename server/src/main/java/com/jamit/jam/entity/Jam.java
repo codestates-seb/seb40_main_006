@@ -1,8 +1,10 @@
 package com.jamit.jam.entity;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +22,8 @@ import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 import com.jamit.member.entity.Member;
 import com.jamit.reply.entity.Reply;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Entity
 public class Jam extends Auditable {
@@ -28,9 +32,9 @@ public class Jam extends Auditable {
 	@Column(name = "jam_id")
 	private Long id;
 
-	@Column(nullable = false)
+/*	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Category category;
+	private Category category;*/
 
 	@Column(nullable = false)
 	private String title;
@@ -60,6 +64,8 @@ public class Jam extends Auditable {
 
 	private int views = 0;
 
+	private Point point;
+
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
@@ -69,4 +75,5 @@ public class Jam extends Auditable {
 
 	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private final List<Reply> replyList = new ArrayList<>();
+
 }

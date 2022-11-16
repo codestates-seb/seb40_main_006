@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -29,14 +29,16 @@ dependencies {
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-//	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+//	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation group: 'com.jhlabs', name: 'javaproj', version: '1.0'
+	implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.12.Final'
 }
 
 tasks.named('test') {
