@@ -20,6 +20,7 @@ const palette = {
 
   colorTitle: '#455D7A',
   colorBorder: '#D9D9D9',
+  colorBorder2: '#EDEDED',
 };
 
 const themeUserPage = createTheme({

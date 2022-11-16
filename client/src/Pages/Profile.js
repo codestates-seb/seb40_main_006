@@ -5,6 +5,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeProvider } from '@mui/material/styles';
 import { palette, themeUserPage } from '../Styles/theme';
 
+const userContainer = css`
+  padding: 40px;
+  width: 700px;
+  min-width: 400px;
+  margin: 0 auto;
+`;
+
 const userTitle = css`
   display: flex;
   align-items: center;
@@ -16,12 +23,6 @@ const userTitle = css`
     font-weight: 500;
     color: ${palette.colorTitle};
   }
-`;
-const userContainer = css`
-  padding: 40px;
-  width: 700px;
-  min-width: 400px;
-  margin: 0 auto;
 `;
 
 const userAvatar = css`
