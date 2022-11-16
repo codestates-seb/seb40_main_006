@@ -9,8 +9,8 @@ function App() {
   // const color = palette.colorAccent;
   return (
     <>
-      <Header />;
-      <Sidebar />;
+      <Header />
+      <Sidebar />
     </>
   );
 }
