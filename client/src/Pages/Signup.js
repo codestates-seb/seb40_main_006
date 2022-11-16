@@ -12,47 +12,23 @@ import {
   Box,
 } from '@mui/material/';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import palette from '../Styles/theme';
+import { ThemeProvider } from '@mui/material/styles';
+import { palette, themeUserPage } from '../Styles/theme';
 
-const theme = createTheme({
-  typography: {
-    fontSize: 13,
-  },
-  palette: {
-    text: {
-      primary: '#455d7a',
-    },
-    primary: {
-      main: palette.colorJamRealtime,
-      dark: palette.colorMain,
-    },
-  },
-  components: {
-    MuiInputLabel: {
-      defaultProps: {
-        sx: {
-          fontSize: '15px',
-        },
-      },
-    },
-  },
-});
-
-export default function SignInSide() {
+export default function Signup() {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      닉네임: data.get('nickname'),
-      이메일: data.get('email'),
-      비밀번호: data.get('password'),
-      비밀번호확인: data.get('passwordCheck'),
+      nickname: data.get('nickname'),
+      email: data.get('email'),
+      password: data.get('password'),
+      passwordCheck: data.get('passwordCheck'),
     });
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themeUserPage}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -145,7 +121,7 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, boxShadow: 0 }}
               >
                 회원가입
               </Button>

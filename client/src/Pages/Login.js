@@ -11,34 +11,10 @@ import {
   Link,
 } from '@mui/material/';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { FcGoogle } from 'react-icons/fc';
 import { css } from '@emotion/css';
-import palette from '../Styles/theme';
-
-const theme = createTheme({
-  typography: {
-    fontSize: 13,
-  },
-  palette: {
-    text: {
-      primary: '#455d7a',
-    },
-    primary: {
-      main: palette.colorJamRealtime,
-      dark: palette.colorMain,
-    },
-  },
-  components: {
-    MuiInputLabel: {
-      defaultProps: {
-        sx: {
-          fontSize: '15px',
-        },
-      },
-    },
-  },
-});
+import { palette, themeUserPage } from '../Styles/theme';
 
 const socialLogin = css`
   display: flex;
@@ -62,7 +38,7 @@ const socialLogin = css`
   }
 `;
 
-export default function SignInSide() {
+export default function Login() {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -73,7 +49,7 @@ export default function SignInSide() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themeUserPage}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -144,7 +120,7 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, boxShadow: 0 }}
               >
                 로그인
               </Button>
