@@ -1,12 +1,13 @@
 package com.jamit.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 
+import com.jamit.jam.entity.Jam;
+import com.jamit.reply.entity.Reply;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -25,7 +26,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Member extends Auditable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
@@ -46,4 +46,24 @@ public class Member extends Auditable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Jam> jamList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Reply> replyList = new ArrayList<>();
+
+    public void addJam(Jam jam) {
+        jamList.add(jam);
+    }
+
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
+
+    public void addReply(Reply reply) {
+        replyList.add(reply);
+    }
 }
