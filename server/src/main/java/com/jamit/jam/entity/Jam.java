@@ -1,5 +1,7 @@
 package com.jamit.jam.entity;
 
+import static javax.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +22,24 @@ import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 import com.jamit.member.entity.Member;
 import com.jamit.reply.entity.Reply;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Jam extends Auditable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "jam_id")
-	private Long id;
 
-//	@Column(nullable = false)
-//	@Enumerated(EnumType.STRING)
-//	private Category category;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "jam_id")
+    private Long id;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
 	@Column(nullable = false)
 	private String title;
