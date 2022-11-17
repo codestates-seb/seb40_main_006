@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Avatar,
   Button,
   TextField,
   Paper,
@@ -11,12 +10,12 @@ import {
   Checkbox,
   ThemeProvider,
 } from '@mui/material/';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useLocation } from 'react-router-dom';
-import { palette, themeUserPage } from '../../Styles/theme';
+import { themeUserPage } from '../../Styles/theme';
 import BackgroundImage from './BackgroundImage';
 import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
+import AvatarImg from '../userComp/AvatarImg';
 
 const Sign = () => {
   const location = useLocation();
@@ -47,10 +46,8 @@ const Sign = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: palette.colorJamRealtime }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+            <AvatarImg />
+            <Typography component="h5" variant="h5">
               {page === 'login' ? '로그인' : '회원가입'}
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>

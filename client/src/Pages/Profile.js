@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeProvider } from '@mui/material/styles';
 import { palette, themeUserPage } from '../Styles/theme';
+import AvatarImg from '../Components/userComp/AvatarImg';
 
 const userContainer = css`
   padding: 40px;
@@ -74,9 +74,7 @@ const Profile = () => {
         className={userContainer}
       >
         <div className={userTitle}>
-          <Avatar sx={{ m: 1, bgcolor: palette.colorJamRealtime }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <AvatarImg />
           <h1>프로필 수정</h1>
         </div>
 
@@ -84,7 +82,7 @@ const Profile = () => {
           <Avatar
             sx={{ width: 96, height: 96 }}
             alt="Jaehoon"
-            src="./logo192.png"
+            // src="./logo192.png"
           />
           <Stack direction="column" spacing={1}>
             <Button variant="outlined" color="true" component="label">
