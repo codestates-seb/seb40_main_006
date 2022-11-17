@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useState } from 'react';
 import palette from '../Styles/theme';
 import logoImage from '../Assets/images/logo_header.png';
 
@@ -19,7 +20,7 @@ const logo = css`
   margin-left: 10px;
 `;
 // address
-const addressArea = css`
+const addressContainer = css`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,26 +45,19 @@ const searchBar = css`
   margin: 15px 10px;
   flex-grow: 1;
 `;
-// const searchInput = css`
-//   background-color: transparent;
-//   border-radius: 10px;
-//   border-width: 0px;
-//   width: 100%;
-//   padding: 15px 10px;
-// `;
-// login
-const loginArea = css`
+// 유저 로그인 파트
+const rightHeader = css`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 40px;
 `;
-// const loginBtn = css`
-//   border-radius: 10px;
-//   padding: 15px 40px;
-//   background-color: ${palette.gray_5};
-//   cursor: pointer;
-// `;
+const loginBtn = css`
+  border-radius: 10px;
+  padding: 15px 40px;
+  background-color: ${palette.gray_5};
+  cursor: pointer;
+`;
 
 // logout
 const createJamBtn = css`
@@ -72,6 +66,7 @@ const createJamBtn = css`
   background-color: ${palette.colorMain};
   cursor: pointer;
   margin: 0 10px;
+  font-size: 16px;
   &:hover {
     background-color: ${palette.colorAccent};
     color: ${palette.white};
@@ -114,43 +109,51 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// const [searchText, setSearchText] = useState('');
+const handleSearch = e => {
+  console.log(e.target.value);
+  // setSearchText(e.target.value);
+  // console.log(searchText);
+};
 const SearchBar = () => {
   return (
-    <div className={searchBar}>
+    <form className={searchBar}>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
+          onChange={handleSearch}
+          // value={searchText}
           placeholder="제목이나 내용, 유저이름으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
         />
       </Search>
-    </div>
+    </form>
   );
 };
 
 const Address = () => {
   return (
-    <div className={addressArea}>
+    <div className={addressContainer}>
       <div className={address}>주소 선택 영역</div>
     </div>
   );
 };
 
-// const LoginArea = () => {
-//   return (
-//     <div className={loginArea}>
-//       <button type="button" className={loginBtn}>
-//         로그인{' '}
-//       </button>
-//     </div>
-//   );
-// };
+const LoginArea = () => {
+  return (
+    <div className={rightHeader}>
+      <button type="button" className={loginBtn}>
+        로그인{' '}
+      </button>
+    </div>
+  );
+};
 
 const LogoutArea = () => {
   return (
-    <div className={loginArea}>
+    <div className={rightHeader}>
       <button type="button" className={createJamBtn}>
         잼 만들기{' '}
       </button>
@@ -161,22 +164,24 @@ const LogoutArea = () => {
 };
 
 const Header = () => {
-  // const [isLogin, setIsLogin] = useState(false);
-
-  // const onLoginBtnClick = () => {
-  //   console.log('버튼클릭');
-  //   setIsLogin(!isLogin);
-  //   console.log(isLogin);
-  // };
+  const [isLogin, setIsLogin] = useState(false);
+  const onLoginBtnClick = () => {
+    console.log('버튼클릭');
+    setIsLogin(!isLogin);
+    console.log(isLogin);
+  };
 
   return (
     <div className={header}>
       <img className={logo} alt="logo_jamit" src={logoImage} />
       <Address />
       <SearchBar />
+      <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
+        임시로그인토글{' '}
+      </button>
       {/* <LoginArea /> */}
-      <LogoutArea />
-      {/* {!isLogin ? <LoginArea /> : <LogoutArea />} */}
+      {/* <LogoutArea /> */}
+      {!isLogin ? <LoginArea /> : <LogoutArea />}
     </div>
   );
 };
