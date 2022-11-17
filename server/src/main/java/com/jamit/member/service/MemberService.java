@@ -1,4 +1,4 @@
-/*
+
 package com.jamit.member.service;
 
 // import com.jamit.auth.utils.CustomAuthorityUtils;
@@ -9,7 +9,7 @@ import com.jamit.member.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -20,35 +20,35 @@ public class MemberService {
     // private final PasswordEncoder passwordEncoder;
     // private final CustomAuthorityUtils authorityUtil;
 
-    */
+
 /**
      * USER-01: Local 회원가입
-     *//*
+     */
 
-    // public Member signupMember(Member member) {
-    //     verifyExistsEmail(member.getEmail());
-    //
-    //     String encryptedPassword = passwordEncoder.encode(member.getPassword());
-    //     member.setPassword(encryptedPassword);
-    //
-    //     List<String> roles = authorityUtil.createRoles(member.getEmail());
-    //     member.setRoles(roles);
-    //
-    //     Member savedMember = memberRepository.save(member);
-    //
-    //     return savedMember;
-    // }
-
+//     public Member signupMember(Member member) {
+//         verifyExistsEmail(member.getEmail());
+//
+//         String encryptedPassword = passwordEncoder.encode(member.getPassword());
+//         member.setPassword(encryptedPassword);
+//
+//         List<String> roles = authorityUtil.createRoles(member.getEmail());
+//         member.setRoles(roles);
+//
+//         Member savedMember = memberRepository.save(member);
+//
+//         return savedMember;
+//     }
+//
 //    public Member signupMember(Member member) {
 //        Member savedMember = memberRepository.save(member);
 //
 //        return savedMember;
 //    }
 
-    */
+
 /**
      * USER-02: Local 로그인
-     *//*
+     */
 
 //    public Member loginMember(Member member) {
 //        Member verifiedExistsMember = verifyExistsEmailAndPassword(member.getEmail(),
@@ -59,10 +59,10 @@ public class MemberService {
 //        return verifiedExistsMember;
 //    }
 
-    */
+
 /**
      * USER-03: 정보 수정
-     *//*
+     */
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
@@ -77,10 +77,10 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    */
+
 /**
      * USER-04: Local 로그아웃
-     *//*
+     */
 
 //    public Member logoutMember(Member member) {
 //        Member verifiedExistsMember = verifyExistsEmail(member.getEmail());
@@ -90,10 +90,10 @@ public class MemberService {
 //        return verifiedExistsMember;
 //    }
 
-    */
+
 /**
      * 유저 Id 찾기
-     *//*
+     */
 
     public Member findVerifiedMember(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
@@ -104,10 +104,10 @@ public class MemberService {
         return findMember;
     }
 
-    */
+
 /**
      * 유저 이메일, 비밀번호 찾기
-     *//*
+     */
 
     public Member verifyExistsEmailAndPassword(String memberEmail, String memberPassword) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
@@ -119,10 +119,10 @@ public class MemberService {
         return existsEmailAndPassword;
     }
 
-    */
+
 /**
      * 유저 이메일 찾기
-     *//*
+     */
 
     public Member verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
@@ -133,10 +133,10 @@ public class MemberService {
         return existsEmail;
     }
 
-    */
+
 /**
      * 유저 이름 찾기
-     *//*
+     */
 
     public Member verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
@@ -146,4 +146,4 @@ public class MemberService {
 
         return existsName;
     }
-}*/
+}

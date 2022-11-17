@@ -1,19 +1,24 @@
 package com.jamit.jam.dto;
 
+import com.jamit.jam.entity.Jam;
+import com.jamit.member.dto.MemberDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-//@Getter
-//@Builder
 @Data
+@Getter
+@Builder
 public class JamResponseDto {
 
-    private Long jamId;
+    private Long id;
+    private Long userId;
     private String nickname;
+    private String title;
     private String content;
+    private String category;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
     private int currentPpl;
@@ -24,5 +29,4 @@ public class JamResponseDto {
     private int views;
     private Double latitude;    // 위도
     private Double longitude;   // 경도
-
 }

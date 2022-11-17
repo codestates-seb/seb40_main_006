@@ -1,4 +1,4 @@
-/*
+
 package com.jamit.jam.entity;
 
 public enum Category {
@@ -17,5 +17,11 @@ public enum Category {
 	FINANCE("재테크"),
 	BUSINESS("비즈니스"),
 	DEVELOPMENT("개발");
+
+	public final String category;
+
+	 Category(String category) {
+		this.category = category;
+	}
 }
-*/
+

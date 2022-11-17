@@ -17,7 +17,13 @@ import com.jamit.global.audit.Auditable;
 import com.jamit.jam.entity.Jam;
 import com.jamit.member.entity.Member;
 import com.jamit.reply.entity.Reply;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Comment extends Auditable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +43,16 @@ public class Comment extends Auditable {
 
 	@OneToMany(mappedBy = "comment", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private final List<Reply> replyList = new ArrayList<>();
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public void setJam(Jam jam) {
+		this.jam = jam;
+	}
+
+	public void addReply(Reply reply) {
+		replyList.add(reply);
+	}
 }
