@@ -1,17 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
-// import { css } from '@emotion/css';
-// import palette from './Styles/theme';
 import './Styles/App.css';
 import Header from './Components/Header';
-import Sidebar from './Components/Sidebar';
+import Home from './Pages/Home';
+import Category from './Components/Category/Category';
 
 function App() {
   // const color = palette.colorAccent;
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      <Sidebar />
-    </>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/category" element={<Category />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

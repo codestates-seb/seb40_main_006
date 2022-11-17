@@ -6,7 +6,7 @@ import React from 'react';
 import palette from '../Styles/theme';
 
 const sidebar = css`
-  width: 200px;
+  width: 220px;
   padding-bottom: 50px;
   border: 1px ${palette.gray_4} solid;
   display: flex;
@@ -24,7 +24,7 @@ const sidebar = css`
   }
   & > ul > li {
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 5px;
     display: flex;
     justify-content: center;
@@ -94,7 +94,9 @@ const Sidebar = () => {
       <div>카테고리</div>
       <ul>
         {categoryDummy.map(el => (
-          <li onClick={onCategoryClick}>{el.name}</li>
+          <li onClick={onCategoryClick} key={el.name}>
+            {el.name}
+          </li>
         ))}
       </ul>
     </div>
