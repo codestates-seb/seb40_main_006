@@ -1,8 +1,11 @@
+import { createTheme } from '@mui/material/styles';
+
 const palette = {
   white: '#FFFFFF',
   black: '#000000',
   gray_4: '#F4F4F4',
   gray_5: '#D9D9D9',
+  border: '#D9D9D9',
 
   colorMain: '#FFCABB',
   colorAccent: '#F33B06',
@@ -23,4 +26,16 @@ const palette = {
   colorJamRealtime: '#FFB0B0',
 };
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#F33B06',
+    },
+    secondary: {
+      main: '#FFCABB',
+    },
+  },
+});
+
 export default palette;
+export { theme };
