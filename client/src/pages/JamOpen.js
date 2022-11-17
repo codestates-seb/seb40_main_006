@@ -9,6 +9,11 @@ import StudyInputField from '../Components/jamOpenComponent/StudyInputField';
 import JamInputField from '../Components/jamOpenComponent/JamInputField';
 import Description from '../Components/jamOpenComponent/Description';
 import EditButtonGroup from '../Components/jamOpenComponent/EditButtonGroup';
+import Sidebar from '../Components/Sidebar';
+
+const MergeContainer = css`
+  display: flex;
+`;
 
 const Container = css`
   margin: 0 auto;
@@ -161,72 +166,75 @@ const JamOpen = () => {
   };
 
   return (
-    <div css={Container}>
-      <header css={Header}>
-        <div css={HeaderText}>카테고리 &gt; 요리</div>
-        <div css={HeaderTap}>
-          <ThemeProvider theme={palette}>
-            <div css={Tapstyle}>
-              {tapArr.map(el => (
-                <button
-                  key={el.id}
-                  type="button"
-                  className={
-                    currentTab === el.id ? 'default focused' : 'default'
-                  }
-                  onClick={() => selectTapHandler(el)}
-                  aria-hidden="true"
-                >
-                  {el.name}
-                </button>
-              ))}
-            </div>
-          </ThemeProvider>
-          {isCreated ? (
-            <EditButtonGroup
-              isCreated={isCreated}
-              setIsCreated={setIsCreated}
-            />
-          ) : (
-            <button
-              css={OpenStudyButton}
+    <div css={MergeContainer}>
+      <Sidebar />
+      <div css={Container}>
+        <header css={Header}>
+          <div css={HeaderText}>카테고리 &gt; 요리</div>
+          <div css={HeaderTap}>
+            <ThemeProvider theme={palette}>
+              <div css={Tapstyle}>
+                {tapArr.map(el => (
+                  <button
+                    key={el.id}
+                    type="button"
+                    className={
+                      currentTab === el.id ? 'default focused' : 'default'
+                    }
+                    onClick={() => selectTapHandler(el)}
+                    aria-hidden="true"
+                  >
+                    {el.name}
+                  </button>
+                ))}
+              </div>
+            </ThemeProvider>
+            {isCreated ? (
+              <EditButtonGroup
+                isCreated={isCreated}
+                setIsCreated={setIsCreated}
+              />
+            ) : (
+              <button
+                css={OpenStudyButton}
+                type="submit"
+                form="test"
+                onClick={() => setIsCreated(!isCreated)}
+              >
+                개설하기
+              </button>
+            )}
+
+            {/* <Button
+              size="md"
+              variant="default"
               type="submit"
               form="test"
-              onClick={() => setIsCreated(!isCreated)}
+              // onClick={() => handleSubmit()}
             >
               개설하기
-            </button>
-          )}
-
-          {/* <Button
-            size="md"
-            variant="default"
-            type="submit"
-            form="test"
-            // onClick={() => handleSubmit()}
-          >
-            개설하기
-          </Button> */}
-        </div>
-      </header>
-      <main css={SectionContainer} id="test">
-        <div css={ArticleLeft}>
-          <div css={FileUpload}>
-            <BsPlusCircle size={40} />
-            <span>스터디를 표현할 이미지를 추가해주세요</span>
+            </Button> */}
           </div>
-          <div css={Chatlink}>
-            <input
-              type="text"
-              placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
-            />
+        </header>
+        <main css={SectionContainer} id="test">
+          <div css={ArticleLeft}>
+            <div css={FileUpload}>
+              <BsPlusCircle size={40} />
+              <span>스터디를 표현할 이미지를 추가해주세요</span>
+            </div>
+            <div css={Chatlink}>
+              <input
+                type="text"
+                placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
+              />
+            </div>
           </div>
-        </div>
-        <div css={ArticleRight}>
-          {currentTab === 0 ? <StudyInputField /> : <JamInputField />}
-        </div>
-      </main>
-      <Description />
+          <div css={ArticleRight}>
+            {currentTab === 0 ? <StudyInputField /> : <JamInputField />}
+          </div>
+        </main>
+        <Description />
+      </div>
     </div>
   );
 };
