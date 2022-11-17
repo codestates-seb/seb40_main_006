@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
+import 'rsuite/dist/rsuite.min.css';
 import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
+import { DateRangePicker } from 'rsuite';
 
 const Container = css`
   width: 100%;
@@ -15,6 +17,15 @@ const InputContainer = css`
   justify-content: center;
   align-items: flex-start;
   gap: 25px;
+`;
+
+const PeriodContainer = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
 `;
 
 const categories = [
@@ -118,7 +129,7 @@ const StudyInputField = () => {
               },
             }}
           />
-          <TextField
+          {/* <TextField
             id="study-period"
             label="모집기간"
             variant="standard"
@@ -130,7 +141,19 @@ const StudyInputField = () => {
                 borderBottomColor: 'black',
               },
             }}
-          />
+          /> */}
+          <div css={PeriodContainer}>
+            <span>모집기간</span>
+            <DateRangePicker
+              format="yyyy-MM-dd hh:mm aa"
+              showMeridian
+              style={{ color: 'black' }}
+              defaultCalendarValue={[
+                new Date('2022-02-01 00:00:00'),
+                new Date('2022-05-01 23:59:59'),
+              ]}
+            />
+          </div>
         </div>
       </Box>
     </div>
