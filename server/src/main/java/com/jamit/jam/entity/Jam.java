@@ -30,16 +30,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Jam extends Auditable {
+public class Jam {
+//public class Jam extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "jam_id")
     private Long id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Category category;
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private Category category;
 
 	@Column(nullable = false)
 	private String title;
@@ -47,35 +48,35 @@ public class Jam extends Auditable {
 	@Column(nullable = false)
 	private String content;
 
-	@Column(nullable = false)
-	private LocalDateTime jamFrom;
-
-	@Column(nullable = false)
-	private LocalDateTime jamTo;
-
-	private int currentPpl = 1;
-
-	@Column(nullable = false)
-	private int maximum;
-
-	@Column(nullable = false)
-	private int capacity;
-
-	@Column(nullable = false)
-	private boolean realTime;
-
-	@Column(nullable = false)
-	private boolean complete = false;
-
-	private int views = 0;
+//	@Column(nullable = false)
+//	private LocalDateTime jamFrom;
+//
+//	@Column(nullable = false)
+//	private LocalDateTime jamTo;
+//
+//	private int currentPpl = 1;
+//
+//	@Column(nullable = false)
+//	private int maximum;
+//
+//	@Column(nullable = false)
+//	private int capacity;
+//
+//	@Column(nullable = false)
+//	private boolean realTime;
+//
+//	@Column(nullable = false)
+//	private boolean complete = false;
+//
+//	private int views = 0;
 
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private final List<Comment> commentList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private final List<Reply> replyList = new ArrayList<>();
+//	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//	private final List<Comment> commentList = new ArrayList<>();
+//
+//	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//	private final List<Reply> replyList = new ArrayList<>();
 }
