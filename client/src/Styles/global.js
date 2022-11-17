@@ -7,7 +7,6 @@ const style = css`
     padding: 0;
     box-sizing: border-box;
   }
-
   body {
     margin: 0;
     padding: 0;
@@ -30,6 +29,10 @@ const style = css`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  button {
+    background-color: transparent;
+    border: none;
   }
 `;
 

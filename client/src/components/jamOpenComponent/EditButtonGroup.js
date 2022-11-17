@@ -3,7 +3,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
-import palette from '../../Styles/theme';
+import { palette } from '../../Styles/theme';
 
 const ButtonContainer = css`
   display: flex;

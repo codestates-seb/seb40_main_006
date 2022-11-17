@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
 import { BsPlusCircle } from 'react-icons/bs';
-import palette from '../Styles/theme';
+import { palette } from '../Styles/theme';
 // import Button from '../components/Button';
-import StudyInputField from '../components/jamOpenComponent/StudyInputField';
-import JamInputField from '../components/jamOpenComponent/JamInputField';
-import Description from '../components/jamOpenComponent/Description';
-import EditButtonGroup from '../components/jamOpenComponent/EditButtonGroup';
+import StudyInputField from '../Components/jamOpenComponent/StudyInputField';
+import JamInputField from '../Components/jamOpenComponent/JamInputField';
+import Description from '../Components/jamOpenComponent/Description';
+import EditButtonGroup from '../Components/jamOpenComponent/EditButtonGroup';
 
 const Container = css`
   margin: 0 auto;

@@ -11,8 +11,8 @@
       { "namedcomponents": "arrow-function" }
     ],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
-    "react/prop-types": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   },
   "env": {
     "browser": true,

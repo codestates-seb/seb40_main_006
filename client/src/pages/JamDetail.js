@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-import JamInfo from '../components/jamDetailComponent/JamInfo';
-import JamComents from '../components/jamDetailComponent/JamComments';
-import JamSideBar from '../components/jamDetailComponent/JamSideBar';
+import JamInfo from '../Components/jamDetailComponent/JamInfo';
+import JamComents from '../Components/jamDetailComponent/JamComments';
+import JamSideBar from '../Components/jamDetailComponent/JamSideBar';
 // import palette from '../Styles/theme';
 // import Button from '../components/Button';
+// import Sidebar from '../Components/Sidebar';
 
 const Container = css`
   margin: 0 auto;
