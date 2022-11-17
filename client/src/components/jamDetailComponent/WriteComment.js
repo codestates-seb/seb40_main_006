@@ -5,7 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { TextField, Box, ThemeProvider } from '@mui/material';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import Button from '../Button';
-import palette from '../../Styles/theme';
+import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;

@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React from 'react';
-import palette from '../Styles/theme';
+import { palette } from '../Styles/theme';
 
 const sidebar = css`
   width: 220px;

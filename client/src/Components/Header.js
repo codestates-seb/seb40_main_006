@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
-import palette from '../Styles/theme';
+import { palette } from '../Styles/theme';
 import logoImage from '../Assets/images/logo_header.png';
 
 const header = css`

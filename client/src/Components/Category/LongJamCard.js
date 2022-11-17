@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
-import palette from '../../Styles/theme';
+import { palette } from '../../Styles/theme';
 
 const box = css`
   display: flex;

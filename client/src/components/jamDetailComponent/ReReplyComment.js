@@ -5,7 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { BiReply } from 'react-icons/bi';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import { ThemeProvider } from '@mui/material';
-import palette from '../../Styles/theme';
+import { palette } from '../../Styles/theme';
 
 const RootContainer = css`
   width: 100%;

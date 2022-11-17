@@ -59,4 +59,14 @@ const themeUserPage = createTheme({
   },
 });
 
-export { palette, themeUserPage };
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#F33B06',
+    },
+    secondary: {
+      main: '#FFCABB',
+    },
+  },
+});
+export { palette, themeUserPage, theme };
