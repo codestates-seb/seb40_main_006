@@ -1,20 +1,24 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
-import './Styles/App.css';
-import Header from './Components/Header';
-import Home from './Pages/Home';
-import Category from './Components/Category/Category';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Profile from './Pages/Profile';
+import Mypage from './Pages/Mypage';
 
 function App() {
-  // const color = palette.colorAccent;
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/category" element={<Category />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/mypage/*" element={<Mypage />} />
+          <Route path="/profile/*" element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

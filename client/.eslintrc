@@ -2,6 +2,10 @@
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "rules": {
     "prettier/prettier": ["error"],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      { "labelAttributes": ["htmlFor"] }
+    ],
     "react/function-component-definition": [
       0,
       { "namedcomponents": "arrow-function" }
@@ -14,4 +18,5 @@
     "browser": true,
     "node": true
   }
+  
 }

@@ -10,7 +10,6 @@ const palette = {
   colorMain: '#FFCABB',
   colorAccent: '#F33B06',
 
-  /* Jam */
   colorGrade1: '#FFDAD7',
   colorGrade2: '#F7AF0C',
   colorGrade3: '#FD7E14',
@@ -24,18 +23,40 @@ const palette = {
   colorJamOpen: '#B0D0FF',
   colorJamClose: '#BABABA',
   colorJamRealtime: '#FFB0B0',
+
+  colorTitle: '#455D7A',
+  colorBorder: '#D9D9D9',
+  colorBorder2: '#EDEDED',
 };
 
-const theme = createTheme({
+const themeUserPage = createTheme({
+  typography: {
+    fontSize: 13,
+  },
   palette: {
-    primary: {
-      main: '#F33B06',
+    text: {
+      primary: palette.colorTitle,
     },
-    secondary: {
-      main: '#FFCABB',
+    primary: {
+      main: palette.colorJamRealtime,
+      dark: palette.colorMain,
+    },
+    true: {
+      main: palette.colorTitle,
+    },
+    false: {
+      main: palette.colorBtn3,
+    },
+  },
+  components: {
+    MuiInputLabel: {
+      defaultProps: {
+        sx: {
+          fontSize: '15px',
+        },
+      },
     },
   },
 });
 
-export default palette;
-export { theme };
+export { palette, themeUserPage };
