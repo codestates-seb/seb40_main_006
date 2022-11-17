@@ -175,10 +175,11 @@ const Header = () => {
     <div className={header}>
       <img className={logo} alt="logo_jamit" src={logoImage} />
       <Address />
-      <SearchBar />
       <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
         임시로그인토글{' '}
       </button>
+      <SearchBar />
+
       {/* <LoginArea /> */}
       {/* <LogoutArea /> */}
       {!isLogin ? <LoginArea /> : <LogoutArea />}
