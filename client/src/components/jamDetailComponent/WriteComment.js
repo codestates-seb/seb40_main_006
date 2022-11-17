@@ -13,7 +13,6 @@ const Container = css`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-bottom: 10px;
 `;
 
 const UserBox = css`
@@ -90,7 +89,7 @@ const WriteComment = () => {
         </Box>
       </div>
       <div css={RegisterComment}>
-        <Button size="xs" variant="cancle">
+        <Button size="xs" variant="cancel">
           등록
         </Button>
       </div>

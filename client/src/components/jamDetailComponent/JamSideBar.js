@@ -10,6 +10,7 @@ import RecruitState from './RecruitState';
 
 const JamSideContainer = css`
   width: 35%;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,6 +21,7 @@ const JamSideContainer = css`
   gap: 10px;
   font-size: 12px;
   padding: 15px;
+  margin-top: 30px;
 `;
 
 const Header = css`
