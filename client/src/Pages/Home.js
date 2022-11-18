@@ -6,6 +6,7 @@ import React from 'react';
 // import palette from '../Styles/theme';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Category/LongJamCard';
+import Map from '../Components/Map/Map';
 
 const pagewithSidebar = css`
   display: flex;
@@ -23,11 +24,12 @@ const home = css`
 const mainArea = css`
   display: flex;
   margin: 10px;
+  justify-content: space-around;
 `;
 
 const map = css`
-  width: 500px;
-  height: 500px;
+  width: 800px;
+  height: 700px;
   display: flex;
   background-color: cadetblue;
 `;
@@ -35,6 +37,7 @@ const map = css`
 const list = css`
   display: flex;
   flex-direction: column;
+  margin-left: 20px;
 `;
 const Home = () => {
   return (
@@ -43,7 +46,9 @@ const Home = () => {
       <div className={home}>
         <h1>마곡동 주변의 잼이에요!</h1>
         <div className={mainArea}>
-          <div className={map} />
+          <div className={map}>
+            <Map />
+          </div>
           <div className={list}>
             <LongJamCard />
             <LongJamCard />
