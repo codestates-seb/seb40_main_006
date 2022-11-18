@@ -24,11 +24,12 @@ const home = css`
 const mainArea = css`
   display: flex;
   margin: 10px;
+  justify-content: space-around;
 `;
 
 const map = css`
-  width: 500px;
-  height: 500px;
+  width: 800px;
+  height: 700px;
   display: flex;
   background-color: cadetblue;
 `;
@@ -36,6 +37,7 @@ const map = css`
 const list = css`
   display: flex;
   flex-direction: column;
+  margin-left: 20px;
 `;
 const Home = () => {
   return (
