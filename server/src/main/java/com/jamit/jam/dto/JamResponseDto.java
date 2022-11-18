@@ -15,9 +15,12 @@ public class JamResponseDto {
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
     private Category category;
+    private int currentPpl;
+    private int maximum;
     private int capacity;
     private boolean realTime = false;
     private boolean complete = false;
+    private int views;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }
