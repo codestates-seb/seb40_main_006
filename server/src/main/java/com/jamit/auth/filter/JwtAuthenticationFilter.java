@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             loginDto.getUsername(), loginDto.getPassword()); // 인증 정보로 UsernamePasswordAuthenticationToken 생성
 
         return authenticationManager.authenticate(
-            authenticationToken); // AuthenticationManager 에게 인증 처리 위임
+            authenticationToken); // AuthenticationManager 에게 인증 처리 위임. authenticate() 가 실행되면 loadUserByUserName 메서드가 실행됨
     }
 
     /**

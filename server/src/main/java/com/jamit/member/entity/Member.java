@@ -55,15 +55,15 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
 
-//    public void addJam(Jam jam) {
-//        jamList.add(jam);
-//    }
-//
-//    public void addComment(Comment comment) {
-//        commentList.add(comment);
-//    }
-//
-//    public void addReply(Reply reply) {
-//        replyList.add(reply);
-//    }
+    public void addJam(Jam jam) {
+        jamList.add(jam);
+    }
+
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
+
+    public void addReply(Reply reply) {
+        replyList.add(reply);
+    }
 }
