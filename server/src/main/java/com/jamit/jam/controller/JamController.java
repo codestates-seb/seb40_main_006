@@ -7,8 +7,6 @@ import com.jamit.jam.mapper.JamMapper;
 import com.jamit.jam.service.JamService;
 import com.jamit.member.entity.Member;
 import com.jamit.member.service.MemberService;
-import java.nio.channels.FileChannel.MapMode;
-import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -31,17 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class JamController {
 
     private final JamService jamService;
+    private final MemberService memberService;
     private final JamMapper mapper;
 
     @PostMapping("/write")
-    public ResponseEntity postJam(@Valid @RequestBody JamPostDto jamPostDto) {
-        Member member = new Member();
-        member.setEmail("cheese@cat.com");
-        member.setPassword("hello");
-        member.setNickname("cheese");
+    public ResponseEntity postJam(@RequestBody JamPostDto jamPostDto) {
+        Member member = memberService.findUserByEmail("cheese@cat.com");
 
         Jam jam = jamService.createJam(mapper.jamPostDtoToJam(jamPostDto), member);
-
         JamResponseDto response = mapper.jamToJamResponseDto(jam);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
