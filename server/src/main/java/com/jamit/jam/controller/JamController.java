@@ -8,6 +8,8 @@ import com.jamit.jam.mapper.JamMapper;
 import com.jamit.jam.service.JamService;
 import com.jamit.member.entity.Member;
 import com.jamit.member.service.MemberService;
+import java.nio.channels.FileChannel.MapMode;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

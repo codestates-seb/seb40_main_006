@@ -1,6 +1,6 @@
 package com.jamit.member.service;
 
-// import com.jamit.auth.utils.CustomAuthorityUtils;
+import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
@@ -16,25 +16,25 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    // private final PasswordEncoder passwordEncoder;
-    // private final CustomAuthorityUtils authorityUtil;
+     private final PasswordEncoder passwordEncoder;
+     private final CustomAuthorityUtils authorityUtil;
 
     /**
      * USER-01: Local 회원가입
      */
-    // public Member signupMember(Member member) {
-    //     verifyExistsEmail(member.getEmail());
-    //
-    //     String encryptedPassword = passwordEncoder.encode(member.getPassword());
-    //     member.setPassword(encryptedPassword);
-    //
-    //     List<String> roles = authorityUtil.createRoles(member.getEmail());
-    //     member.setRoles(roles);
-    //
-    //     Member savedMember = memberRepository.save(member);
-    //
-    //     return savedMember;
-    // }
+     public Member signupMember(Member member) {
+         verifyExistsEmail(member.getEmail());
+
+         String encryptedPassword = passwordEncoder.encode(member.getPassword());
+         member.setPassword(encryptedPassword);
+
+         List<String> roles = authorityUtil.createRoles(member.getEmail());
+         member.setRoles(roles);
+
+         Member savedMember = memberRepository.save(member);
+
+         return savedMember;
+     }
 
 //    public Member signupMember(Member member) {
 //        Member savedMember = memberRepository.save(member);
@@ -107,15 +107,14 @@ public class MemberService {
     }
 
     /**
-     * 유저 이메일 찾기
+     * 유저 이메일 중복 검사
      */
-    public Member verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        Member existsEmail = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
-
-        return existsEmail;
+        if (optionalMember.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+        }
     }
 
     /**
@@ -124,9 +123,9 @@ public class MemberService {
     public Member verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
-        Member existsName = optionalMember.orElseThrow(
+        Member existsNickname = optionalMember.orElseThrow(
             () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
 
-        return existsName;
+        return existsNickname;
     }
 }

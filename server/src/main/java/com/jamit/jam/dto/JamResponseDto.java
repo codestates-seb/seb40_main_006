@@ -1,6 +1,7 @@
 package com.jamit.jam.dto;
 
 import com.jamit.jam.entity.Category;
+import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,11 @@ import lombok.Getter;
 public class JamResponseDto {
     private Long jamId;
     private String nickname;
+
+    public void setMember(Member member) {
+        this.nickname = member.getNickname();
+    }
+
     private String title;
     private String content;
     private LocalDateTime jamFrom;
@@ -18,8 +24,8 @@ public class JamResponseDto {
     private int currentPpl;
     private int maximum;
     private int capacity;
-    private boolean realTime = false;
-    private boolean complete = false;
+    private boolean realTime;
+    private boolean complete;
     private int views;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
