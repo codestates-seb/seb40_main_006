@@ -32,12 +32,21 @@ public class JamController {
     private final JamMapper mapper;
 
     @PostMapping("/write")
-    public ResponseEntity postJam(@Valid @RequestBody JamPostDto jamPostDto) {
-        Jam jam = jamService.createJam(mapper.jamPostDtoToJam(jamPostDto));
-        JamResponseDto response = mapper.jamToJamResponseDto(jam);
+    public ResponseEntity postJam(@Valid @RequestBody JamPostDto requestBody) {
+        Jam jam = mapper.jamPostDtoToJam(requestBody);
+        Jam createJam = jamService.createJam(jam);
+        JamResponseDto response = mapper.jamToJamResponseDto(createJam);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+//    @PostMapping("/write")
+//    public ResponseEntity postJam(@Valid @RequestBody JamPostDto jamPostDto) {
+//        Jam jam = jamService.createJam(mapper.jamPostDtoToJam(jamPostDto));
+//        JamResponseDto response = mapper.jamToJamResponseDto(jam);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
 
     @PatchMapping("/{jam_id}")
     public ResponseEntity patchJam(@Valid @Positive @PathVariable String jam_id) {

@@ -47,10 +47,8 @@ public class Jam extends Auditable {
 	@Column(nullable = false)
 	private String content;
 
-	@Column(nullable = true)
 	private LocalDateTime jamFrom;
 
-	@Column(nullable = true)
 	private LocalDateTime jamTo;
 
 	private int currentPpl = 1;
