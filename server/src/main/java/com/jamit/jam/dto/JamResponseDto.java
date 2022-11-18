@@ -9,22 +9,25 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class JamResponseDto {
-    private Long jamId;
-    private Long memberId;
+
+    private Long id;
     private String nickname;
+
+    public void setMember(Member member) {
+        this.nickname = member.getNickname();
+    }
+
     private String title;
     private String content;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
     private Category category;
+    private int currentPpl;
+    private int maximum;
     private int capacity;
-    private boolean realTime = false;
-    private boolean complete = false;
+    private boolean realTime;
+    private boolean complete;
+    private int views;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-
-    public void setMember(Member member) {
-        this.memberId = member.getMemberId();
-        this.nickname = member.getNickname();
-    }
 }

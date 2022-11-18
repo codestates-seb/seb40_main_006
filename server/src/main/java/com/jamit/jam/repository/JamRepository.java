@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JamRepository extends JpaRepository<Jam, Long> {
-//    Optional<Jam> findById(Long memberId); ??
+    Optional<Jam> findById(Long memberId);
 }

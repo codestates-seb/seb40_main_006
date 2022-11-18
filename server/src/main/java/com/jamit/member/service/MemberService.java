@@ -123,9 +123,9 @@ public class MemberService {
     public Member verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
-        Member existsName = optionalMember.orElseThrow(
+        Member existsNickname = optionalMember.orElseThrow(
             () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
 
-        return existsName;
+        return existsNickname;
     }
 }

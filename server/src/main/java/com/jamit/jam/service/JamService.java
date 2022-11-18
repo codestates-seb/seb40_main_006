@@ -5,21 +5,29 @@ import com.jamit.jam.repository.JamRepository;
 import com.jamit.member.entity.Member;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.member.service.MemberService;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional
+@Transactional
 public class JamService {
-
     private final JamRepository jamRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     public Jam createJam(Jam jam) {
-        Member member = memberService.findVerifiedMember(jam.getMember().getMemberId());
+        Member member = memberService.verifyExistsNickname(jam.getMember().getNickname());
         jam.setMember(member);
+
+        if (jam.isRealTime() == true) {
+            jam.setJamTo(LocalDateTime.now());
+            jam.setJamFrom(LocalDateTime.now());
+        }
+
         return jamRepository.save(jam);
     }
 

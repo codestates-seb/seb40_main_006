@@ -3,38 +3,35 @@ package com.jamit.jam.dto;
 import com.jamit.jam.entity.Category;
 import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.hibernate.annotations.Parameter;
 
 @Getter
 @AllArgsConstructor
 public class JamPostDto {
-    @NotBlank(message = "제목은 공백이 될 수 없습니다.")
-    private Long memberId;
+
+    private String nickname;
 
     public Member getMember() {
         Member member = new Member();
-        member.setMemberId(memberId);
-
+        member.setNickname(nickname);
         return member;
     }
 
-    @NotBlank(message = "제목은 공백이 될 수 없습니다.")
     private String title;
 
-//    @NotBlank
-//    private Category category;
-//
-//    @NotBlank
-//    private int maximum;
-//
-//    @NotBlank
-//    private LocalDateTime jamFrom;
-//
-//    @NotBlank
-//    private LocalDateTime jamTo;
+    private Category category;
 
-    @NotBlank(message = "제목은 공백이 될 수 없습니다.")
+    private Integer maximum;
+
+    private LocalDateTime jamFrom;
+
+    private LocalDateTime jamTo;
+
+    private boolean realTime;
+
     private String content;
+
 }
