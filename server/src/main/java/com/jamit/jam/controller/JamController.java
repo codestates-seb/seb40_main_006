@@ -1,5 +1,6 @@
 package com.jamit.jam.controller;
 
+import com.jamit.jam.dto.JamPatchDto;
 import com.jamit.jam.dto.JamPostDto;
 import com.jamit.jam.dto.JamResponseDto;
 import com.jamit.jam.entity.Jam;
@@ -43,9 +44,16 @@ public class JamController {
     }
 
     @PatchMapping("/{jam_id}")
-    public ResponseEntity patchJam(@Valid @Positive @PathVariable String jam_id) {
+    public ResponseEntity patchJam(@Valid @PathVariable("jam_id") @Positive Long jamId,
+        @RequestBody JamPatchDto jamPatchDto) {
+        Jam jam = mapper.jamPatchDtoToJam(jamPatchDto);
+        jam.setId(jamId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Jam updateJam = jamService.updateJam(jam);
+
+        JamResponseDto response = mapper.jamToJamResponseDto(updateJam);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{jam_id}")
