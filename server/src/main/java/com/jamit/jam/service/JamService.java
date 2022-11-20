@@ -21,11 +21,11 @@ public class JamService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    public Jam createJam(Jam jam, Member member) {
+    public Jam createJam(Jam jam) {
         Member member = memberService.verifyExistsNickname(jam.getMember().getNickname());
         jam.setMember(member);
 
-        if (jam.isRealTime() == true) {
+        if (jam.isRealTime()) {
             jam.setJamTo(LocalDateTime.now());
             jam.setJamFrom(LocalDateTime.now());
         }
@@ -50,12 +50,15 @@ public class JamService {
     }
 
     public Jam findJam(Long jamId) {
+        Jam jam = findVerifiedJam(jamId);
 
-        return null;
+        return jam;
     }
 
     public void deleteJam(Long jamId) {
+        Jam findJam = findVerifiedJam(jamId);
 
+        jamRepository.delete(findJam);
     }
 
     public Jam findVerifiedJam(Long jamId) {
