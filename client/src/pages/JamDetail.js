@@ -45,7 +45,6 @@ const JamContainer = css`
   /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
   /* border: 2px solid ${palette.gray_5}; */
   border-radius: 3px;
-  margin-bottom: 30px;
 `;
 
 const MainCommentContainer = css`

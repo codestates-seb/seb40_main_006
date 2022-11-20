@@ -9,6 +9,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { ThemeProvider } from '@mui/material';
 import { palette } from '../../Styles/theme';
 import Button from '../Button';
+import JamCarousel from './JamCarousel';
 
 const Container = css`
   margin: 0 auto;
@@ -58,20 +59,6 @@ const Carousel = css`
   width: 100%;
 `;
 
-const CarouselBox = css`
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 5px;
-  /* background-color: #fff; */
-  border: 1px solid ${palette.border};
-`;
-
 const JamDescTitle = css`
   font-size: 15px;
   margin-bottom: 15px;
@@ -85,7 +72,7 @@ const LocationContainer = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const LocationText = css`
@@ -147,20 +134,17 @@ const JamInfo = ({ host, loginUser }) => {
         <div css={JamDescTitle}>
           <span>우리 잼을 소개합니다</span>
         </div>
-        <ThemeProvider theme={palette}>
-          <div css={CarouselBox}>
-            소개이미지, 소개글 / 캐러셀로 구현 / react-slick 또는 다른
-            라이브러리
-          </div>
-        </ThemeProvider>
+        <JamCarousel />
       </div>
       <div css={LocationContainer}>
         <div css={LocationText}>
           <span>우리 잼은 여기 있어요</span>
         </div>
-        <div css={LocationMap}>
-          <span>지도 들어갈 곳</span>
-        </div>
+        <ThemeProvider theme={palette}>
+          <div css={LocationMap}>
+            <span>지도 들어갈 곳</span>
+          </div>
+        </ThemeProvider>
       </div>
     </div>
   );
