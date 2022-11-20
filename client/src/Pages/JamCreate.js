@@ -100,18 +100,6 @@ const Tapstyle = css`
   }
 `;
 
-// const FileUpload = css`
-//   width: 100%;
-//   height: 290px;
-//   background-color: #dddddd;
-//   border-radius: 5px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 20px;
-// `;
-
 const SectionContainer = css`
   width: 100%;
   height: 100%;
@@ -218,16 +206,6 @@ const JamCreate = () => {
                 개설하기
               </button>
             )}
-
-            {/* <Button
-              size="md"
-              variant="default"
-              type="submit"
-              form="test"
-              // onClick={() => handleSubmit()}
-            >
-              개설하기
-            </Button> */}
           </div>
         </header>
         <main css={SectionContainer} id="test">
@@ -235,10 +213,6 @@ const JamCreate = () => {
             <div>
               <FileUploader />
             </div>
-            {/* <div css={FileUpload}>
-              <BsPlusCircle size={40} />
-              <span>스터디를 표현할 이미지를 추가해주세요</span>
-            </div> */}
             <div css={ChatlinkBox}>
               <input
                 type="text"
