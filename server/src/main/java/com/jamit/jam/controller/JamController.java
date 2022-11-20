@@ -2,17 +2,17 @@ package com.jamit.jam.controller;
 
 import com.jamit.jam.dto.JamPatchDto;
 import com.jamit.jam.dto.JamPostDto;
-import com.jamit.jam.dto.JamResponseDto;
+import com.jamit.jam.dto.ResponseAllJamsDto;
+import com.jamit.jam.dto.ResponseSpecificJamDto;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.mapper.JamMapper;
+import com.jamit.jam.repository.JamRepository;
 import com.jamit.jam.service.JamService;
-import com.jamit.member.entity.Member;
-import com.jamit.member.service.MemberService;
-import java.nio.channels.FileChannel.MapMode;
-import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,15 +32,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class JamController {
 
     private final JamService jamService;
-    private final MemberService memberService;
     private final JamMapper mapper;
+    private final JamRepository jamRepository;
 
     @PostMapping("/write")
-    public ResponseEntity postJam(@RequestBody JamPostDto jamPostDto) {
-        Member member = memberService.findUserByEmail("cheese@cat.com");
+    public ResponseEntity postJam(@Valid @RequestBody JamPostDto jamPostDto) {
+        Jam jam = jamService.createJam(mapper.jamPostDtoToJam(jamPostDto));
 
-        Jam jam = jamService.createJam(mapper.jamPostDtoToJam(jamPostDto), member);
-        JamResponseDto response = mapper.jamToJamResponseDto(jam);
+        ResponseSpecificJamDto response = mapper.jamToResponseSpecificJamDto(jam);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -53,25 +52,32 @@ public class JamController {
 
         Jam updateJam = jamService.updateJam(jam);
 
-        JamResponseDto response = mapper.jamToJamResponseDto(updateJam);
+        ResponseSpecificJamDto response = mapper.jamToResponseSpecificJamDto(updateJam);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{jam_id}")
-    public ResponseEntity getJam(@Valid @Positive @PathVariable String jam_id) {
+    public ResponseEntity getJam(@Valid @PathVariable("jam_id") @Positive Long jamId) {
+        Jam jam = jamService.findJam(jamId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseSpecificJamDto response = mapper.jamToResponseSpecificJamDto(jam);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getJams() {
+    public Page<ResponseAllJamsDto> getJams(Pageable pageable) {
+        Page<Jam> pageJams = jamRepository.jamPage(pageable);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Page<ResponseAllJamsDto> response = pageJams.map(mapper::jamToResponseAllJamsDto);
+
+        return response;
     }
 
     @DeleteMapping("/{jam_id}")
-    public ResponseEntity deleteJam(@Valid @Positive @PathVariable String jam_id) {
+    public ResponseEntity deleteJam(@PathVariable("jam_id") Long jamId) {
+        jamService.deleteJam(jamId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
