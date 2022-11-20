@@ -2,21 +2,27 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
-import { BsPlusCircle } from 'react-icons/bs';
+// import { BsPlusCircle } from 'react-icons/bs';
 import { palette } from '../Styles/theme';
 // import Button from '../components/Button';
-import StudyInputField from '../Components/jamOpenComponent/StudyInputField';
-import JamInputField from '../Components/jamOpenComponent/JamInputField';
-import Description from '../Components/jamOpenComponent/Description';
-import EditButtonGroup from '../Components/jamOpenComponent/EditButtonGroup';
+import StudyInputField from '../Components/jamCreateComponent/StudyInputField';
+import JamInputField from '../Components/jamCreateComponent/JamInputField';
+import Description from '../Components/jamCreateComponent/Description';
+import EditButtonGroup from '../Components/jamCreateComponent/EditButtonGroup';
 import Sidebar from '../Components/Sidebar';
+import FileUploader from '../Components/jamCreateComponent/FileUploader';
 
 const MergeContainer = css`
+  width: 100%;
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const Container = css`
-  margin: 0 auto;
+  margin: 10px 30px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -94,20 +100,21 @@ const Tapstyle = css`
   }
 `;
 
-const FileUpload = css`
-  width: 100%;
-  height: 290px;
-  background-color: #dddddd;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-`;
+// const FileUpload = css`
+//   width: 100%;
+//   height: 290px;
+//   background-color: #dddddd;
+//   border-radius: 5px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 20px;
+// `;
 
 const SectionContainer = css`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -115,44 +122,51 @@ const SectionContainer = css`
 
 const ArticleLeft = css`
   width: 100%;
+  height: 360px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: space-between;
   margin-right: 10px;
+  /* background-color: #563254; */
 `;
 
 const ArticleRight = css`
-  max-width: 300px;
+  max-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 `;
 
-const Chatlink = css`
+const ChatlinkBox = css`
   width: 100%;
   height: 60px;
   border: 1px solid #dddddd;
   background-color: #dddddd;
-  margin-top: 10px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  input,
-  input:focus {
+  input {
     font-size: 15px;
     border: none;
     padding: 0 15px;
     background-color: #dddddd;
     width: 100%;
-    height: 90%;
     outline: none;
+    &:focus {
+      font-size: 15px;
+      border: none;
+      padding: 0 15px;
+      background-color: #dddddd;
+      width: 100%;
+      outline: none;
+    }
   }
 `;
 
-const JamOpen = () => {
+const JamCreate = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isCreated, setIsCreated] = useState(false);
 
@@ -218,11 +232,14 @@ const JamOpen = () => {
         </header>
         <main css={SectionContainer} id="test">
           <div css={ArticleLeft}>
-            <div css={FileUpload}>
+            <div>
+              <FileUploader />
+            </div>
+            {/* <div css={FileUpload}>
               <BsPlusCircle size={40} />
               <span>스터디를 표현할 이미지를 추가해주세요</span>
-            </div>
-            <div css={Chatlink}>
+            </div> */}
+            <div css={ChatlinkBox}>
               <input
                 type="text"
                 placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
@@ -239,4 +256,4 @@ const JamOpen = () => {
   );
 };
 
-export default JamOpen;
+export default JamCreate;

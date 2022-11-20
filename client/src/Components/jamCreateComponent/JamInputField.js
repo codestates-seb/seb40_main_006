@@ -59,7 +59,7 @@ const StudyInputField = () => {
       <Box
         component="form"
         sx={{
-          '& > :not(style)': { m: 1, width: '28ch' },
+          '& > :not(style)': { m: 1, width: '280px' },
         }}
         noValidate
         autoComplete="off"
