@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class LocationService {
-   private final EntityManager em;
+    private final EntityManager em;
 
     @Transactional(readOnly = true)
     public List<Jam> getNearByJams(Double latitude, Double longitude, Double distance) {
@@ -33,8 +33,10 @@ public class LocationService {
         System.out.println("pointFormat : " + pointFormat);
 
         Query query = em.createNativeQuery("SELECT * "
-                        + "FROM Jam AS j "
-                        + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", j.point)", Jam.class);
+                + "FROM Jam AS j "
+                + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", j.point)"
+                + "order by j.created_At desc"
+                , Jam.class);
 
         List<Jam> result = query.getResultList();
         return result;
