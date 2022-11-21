@@ -25,7 +25,7 @@ public class MemberDetailsService implements UserDetailsService {
     private final CustomAuthorityUtils authorityUtils;
 
     /**
-     * 이메일로 DB에 저장된 유저 찾기
+     * request 로 들어온 이메일로 DB에 저장된 유저 찾기
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,7 +36,7 @@ public class MemberDetailsService implements UserDetailsService {
         return new MemberDetails(findMember);
     }
 
-    private final class MemberDetails extends Member implements UserDetails {
+    public class MemberDetails extends Member implements UserDetails {
 
         MemberDetails(Member member) {
             setMemberId(member.getMemberId());

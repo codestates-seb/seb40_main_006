@@ -19,9 +19,6 @@ public class MemberService {
      private final PasswordEncoder passwordEncoder;
      private final CustomAuthorityUtils authorityUtil;
 
-    /**
-     * USER-01: Local 회원가입
-     */
      public Member signupMember(Member member) {
          verifyExistsEmail(member.getEmail());
 
@@ -36,53 +33,21 @@ public class MemberService {
          return savedMember;
      }
 
-//    public Member signupMember(Member member) {
-//        Member savedMember = memberRepository.save(member);
-//
-//        return savedMember;
-//    }
-
-    /**
-     * USER-02: Local 로그인
-     */
-//    public Member loginMember(Member member) {
-//        Member verifiedExistsMember = verifyExistsEmailAndPassword(member.getEmail(),
-//            member.getPassword());
-//
-//        verifiedExistsMember.setLoginOk(true);
-//
-//        return verifiedExistsMember;
-//    }
-
-    /**
-     * USER-03: 정보 수정
-     */
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getEmail())
-            .ifPresent(email -> findMember.setEmail(email));
         Optional.ofNullable(member.getNickname())
             .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
-            .ifPresent(password -> findMember.setPassword(password));
+            .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
+        Optional.ofNullable(member.getImage())
+            .ifPresent(image -> findMember.setImage(image));
 
         return memberRepository.save(findMember);
     }
 
     /**
-     * USER-04: Local 로그아웃
-     */
-//    public Member logoutMember(Member member) {
-//        Member verifiedExistsMember = verifyExistsEmail(member.getEmail());
-//
-//        verifiedExistsMember.setLoginOk(false);
-//
-//        return verifiedExistsMember;
-//    }
-
-    /**
-     * 유저 Id 찾기
+     * memberId 찾기
      */
     public Member findVerifiedMember(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
@@ -94,7 +59,7 @@ public class MemberService {
     }
 
     /**
-     * 유저 이메일, 비밀번호 찾기
+     * member email, password 찾기
      */
     public Member verifyExistsEmailAndPassword(String memberEmail, String memberPassword) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
@@ -107,7 +72,7 @@ public class MemberService {
     }
 
     /**
-     * 유저 이메일 중복 검사
+     * member email 중복 검사
      */
     public void verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
@@ -118,7 +83,7 @@ public class MemberService {
     }
 
     /**
-     * 유저 이름 찾기
+     * member nickname 찾기
      */
     public Member verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
