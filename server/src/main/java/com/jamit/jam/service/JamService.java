@@ -8,6 +8,7 @@ import com.jamit.member.entity.Member;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.member.service.MemberService;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,4 +67,19 @@ public class JamService {
 
         return getJam.orElseThrow(() -> new BusinessLogicException(ExceptionCode.JAM_NOT_FOUND));
     }
+
+    public List<Jam> searchTitleOrContent(String keyword) {
+        List<Jam> jams = Optional.ofNullable(jamRepository.findByTitleContainingOrContentContaining(keyword, keyword)).orElseThrow(IllegalAccessError::new);
+        return jams;
+    }
+
+    public List<Jam> searchNickname(String nickname) {
+        Member member = memberService.verifyExistsNickname(nickname);
+        Long memberId = member.getMemberId();
+        return jamRepository.findByJamMemberId(memberId);
+    }
+
+
+
+
 }
