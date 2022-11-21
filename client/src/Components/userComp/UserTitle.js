@@ -1,8 +1,9 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
-
 import { palette } from '../../Styles/theme';
+import { myPageInfoState } from '../../Atom/atoms';
 
 const userTitle = css`
   display: flex;
@@ -32,7 +33,7 @@ const userTitleContainer = css`
   }
   img {
     width: 18px;
-    padding-bottom: 3px;
+    padding-bottom: 1px;
   }
 `;
 
@@ -53,20 +54,22 @@ const userGiveJam = css`
 `;
 
 const UserTitle = () => {
+  const [userInfo] = useRecoilState(myPageInfoState);
+
   return (
     <div className={userTitle}>
       <div className={userTitleContainer}>
         <Avatar
           sx={{ width: 96, height: 96 }}
           alt="Jaehoon"
-          // src="./logo192.png"
+          src={userInfo.img}
         />
         <div className="userTitleInfo">
-          <div>유저닉네임</div>
+          <div>{userInfo.nickname}</div>
           <div className="userTitleJam">
             <img src="./img/orangeJam.png" alt="jam" />
-            <div>4.88</div>
-            <div>(6)</div>
+            <div>{userInfo.grade}</div>
+            <div>{`(${userInfo.평가수})`}</div>
           </div>
         </div>
       </div>
