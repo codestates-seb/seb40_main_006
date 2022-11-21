@@ -59,7 +59,7 @@ const UserTitle = () => {
         <Avatar
           sx={{ width: 96, height: 96 }}
           alt="Jaehoon"
-          // src="./logo192.png"
+          // src="./img/orangejam.png"
         />
         <div className="userTitleInfo">
           <div>유저닉네임</div>

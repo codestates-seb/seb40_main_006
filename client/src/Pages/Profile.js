@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
 import { ThemeProvider } from '@mui/material/styles';
@@ -65,6 +66,46 @@ const Profile = () => {
     });
   };
 
+  const [image, setImage] = useState({
+    image_file: '',
+    preview_URL: '',
+  });
+
+  const saveImg = e => {
+    e.preventDefault();
+    const fileReader = new FileReader();
+
+    if (e.target.files[0]) {
+      fileReader.readAsDataURL(e.target.files[0]);
+    }
+    fileReader.onload = () => {
+      setImage({
+        image_file: e.target.files[0],
+        preview_URL: fileReader.result,
+      });
+    };
+  };
+
+  const deleteImg = () => {
+    setImage({
+      image_file: '',
+      preview_URL: '',
+    });
+  };
+
+  const sendImageToServer = async () => {
+    // if (image.image_file) {
+    //   const formData = new FormData();
+    //   formData.append('file', image.image_file);
+    //   console.log(formData);
+    //   await axios.post('url', formData);
+    //   setImage({
+    //     image_file: '',
+    //     preview_URL: '',
+    //   });
+    // }
+  };
+
   return (
     <ThemeProvider theme={themeUserPage}>
       <Box
@@ -82,20 +123,20 @@ const Profile = () => {
           <Avatar
             sx={{ width: 96, height: 96 }}
             alt="Jaehoon"
-            // src="./logo192.png"
+            src={image.preview_URL}
           />
           <Stack direction="column" spacing={1}>
             <Button variant="outlined" color="true" component="label">
               변경
               <input
-                hidden
-                accept="image/*"
-                multiple
                 type="file"
-                name="userImg"
+                accept="image/*"
+                hidden
+                onChange={saveImg}
+                onClick={e => e.target.value === null}
               />
             </Button>
-            <Button variant="outlined" color="false">
+            <Button variant="outlined" color="false" onClick={deleteImg}>
               <span>삭제</span>
             </Button>
           </Stack>
@@ -152,6 +193,7 @@ const Profile = () => {
             variant="outlined"
             color="true"
             sx={{ boxShadow: 0 }}
+            onClick={sendImageToServer}
           >
             적용
           </Button>
