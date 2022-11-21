@@ -164,6 +164,12 @@ const JamCreate = () => {
   const categoryRef = useRef(null);
   const capacityRef = useRef(null);
 
+  const jamTitleRef = useRef(null);
+  const jamCategoryRef = useRef(null);
+  const jamCapacityRef = useRef(null);
+
+  const descRef = useRef(null);
+
   const tapArr = [
     { id: 0, name: '스터디 잼', content: '스터디 잼 내용' },
     { id: 1, name: '실시간 잼', content: '실시간 잼 내용' },
@@ -176,13 +182,33 @@ const JamCreate = () => {
   const handleSubmit = e => {
     e.preventDefault();
     // eslint-disable-next-line
-    console.log({
-      titleref: titleRef.current.value,
-      category: categoryRef.current.value,
-      capacity: capacityRef.current.value,
-      period,
-    });
+    // const now = new Date()
+    const CURRENT_DATE_TIME = new Date();
+    const TODAY_MIDNIGHT_TIME = new Date(
+      new Date().setHours(24, 0, 0, 0),
+    ).toLocaleString();
+
     // eslint-disable-next-line
+    // console.log(typeof CURRENT_DATE_TIME);
+    // eslint-disable-next-line
+    // console.log(typeof TODAY_MIDNIGHT_TIME);
+    // eslint-disable-next-line
+    console.log({
+      title:
+        currentTab !== 0 ? jamTitleRef.current.value : titleRef.current.value,
+      content: descRef.current.value,
+      category:
+        currentTab !== 0
+          ? jamCategoryRef.current.value
+          : categoryRef.current.value,
+      capacity:
+        currentTab !== 0
+          ? jamCapacityRef.current.value
+          : capacityRef.current.value,
+      jamFrom: currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
+      jamTo: currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
+      realtime: currentTab !== 0,
+    });
   };
 
   return (
@@ -215,12 +241,7 @@ const JamCreate = () => {
                 setIsCreated={setIsCreated}
               />
             ) : (
-              <button
-                css={OpenStudyButton}
-                type="submit"
-                form="makeStudy"
-                // onClick={() => setIsCreated(!isCreated)}
-              >
+              <button css={OpenStudyButton} type="submit" form="makeStudy">
                 개설하기
               </button>
             )}
@@ -251,11 +272,15 @@ const JamCreate = () => {
                   setPeriod={setPeriod}
                 />
               ) : (
-                <JamInputField />
+                <JamInputField
+                  jamTitleRef={jamTitleRef}
+                  jamCategoryRef={jamCategoryRef}
+                  jamCapacityRef={jamCapacityRef}
+                />
               )}
             </div>
           </main>
-          <Description />
+          <Description descRef={descRef} />
         </form>
       </div>
     </div>
