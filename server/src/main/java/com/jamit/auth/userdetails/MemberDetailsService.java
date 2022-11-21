@@ -7,6 +7,7 @@ import com.jamit.member.entity.Member;
 import com.jamit.member.repository.MemberRepository;
 import java.util.Collection;
 import java.util.Optional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +22,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberDetailsService implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;
+    private final MemberRepository memberRepository;
 
     /**
-     * 이메일로 DB에 저장된 유저 찾기
+     * request 로 들어온 이메일로 DB에 저장된 유저 찾기
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,43 +37,43 @@ public class MemberDetailsService implements UserDetailsService {
         return new MemberDetails(findMember);
     }
 
-    private final class MemberDetails extends Member implements UserDetails {
-
-        MemberDetails(Member member) {
-            setMemberId(member.getMemberId());
-            setEmail(member.getEmail());
-            setPassword(member.getPassword());
-            setRoles(member.getRoles());
-        }
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRoles());
-        }
-
-        @Override
-        public String getUsername() {
-            return getEmail();
-        }
-
-        @Override
-        public boolean isAccountNonExpired() {
-            return true;
-        }
-
-        @Override
-        public boolean isAccountNonLocked() {
-            return true;
-        }
-
-        @Override
-        public boolean isCredentialsNonExpired() {
-            return true;
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return true;
-        }
-    }
+//    public class MemberDetails extends Member implements UserDetails {
+//
+//        MemberDetails(Member member) {
+//            setMemberId(member.getMemberId());
+//            setEmail(member.getEmail());
+//            setPassword(member.getPassword());
+//            setRoles(member.getRoles());
+//        }
+//
+//        @Override
+//        public Collection<? extends GrantedAuthority> getAuthorities() {
+//            return authorityUtils.createAuthorities(this.getRoles());
+//        }
+//
+//        @Override
+//        public String getUsername() {
+//            return getEmail();
+//        }
+//
+//        @Override
+//        public boolean isAccountNonExpired() {
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean isAccountNonLocked() {
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean isCredentialsNonExpired() {
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean isEnabled() {
+//            return true;
+//        }
+//    }
 }

@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final JwtTokenizer jwtTokenizer;
 
     /**
-     * 로그인 인증 시도 메서드
+     * HttpServletRequest 에서 받은 로그인 정보를 인터셉트해서 AuthenticationManager 에게 넘겨준다.
      */
     @SneakyThrows // 예외 처리 생략
     @Override
