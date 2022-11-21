@@ -5,11 +5,11 @@ import Signup from './Pages/Signup';
 import Profile from './Pages/Profile';
 import Mypage from './Pages/Mypage';
 import Home from './Pages/Home';
-import Category from './Components/Category/Category';
+import Category from './Components/Category/CategoryResult';
 import Header from './Components/Header';
 import JamDetail from './Pages/JamDetail';
 import JamCreate from './Pages/JamCreate';
-import NoData from './Pages/NoData';
+import PageNotFound from './Pages/NotFound';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/profile/*" element={<Profile />} />
           <Route path="/jamcreate" element={<JamCreate />} />
           <Route path="/jamdetail" element={<JamDetail />} />
-          <Route path="*" element={<NoData />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

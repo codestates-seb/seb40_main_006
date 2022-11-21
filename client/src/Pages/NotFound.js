@@ -16,7 +16,7 @@ const textContainer = css`
   align-items: center;
 `;
 
-const NoData = () => {
+const PageNotFound = () => {
   return (
     <div className={container}>
       <img src={imgError} alt="error" />
@@ -28,4 +28,4 @@ const NoData = () => {
   );
 };
 
-export default NoData;
+export default PageNotFound;
