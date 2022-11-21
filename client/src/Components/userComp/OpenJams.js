@@ -1,16 +1,18 @@
 import React from 'react';
 import { Grid } from '@mui/material/';
-import JamCard from './JamCard';
+import { useRecoilState } from 'recoil';
+import { myPageInfoState } from '../../Atom/atoms';
+import OpenJamCard from './OpenJamCard';
 
 const OpenJams = () => {
-  const openJams = [1, 2, 3];
+  const [userInfo] = useRecoilState(myPageInfoState);
 
   return (
     <div>
       개설한 잼
-      {openJams.map(jam => (
+      {userInfo.participationList.map(jam => (
         <Grid item key={jam}>
-          <JamCard />
+          <OpenJamCard />
         </Grid>
       ))}
     </div>
