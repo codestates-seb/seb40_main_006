@@ -6,12 +6,18 @@ import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
 import { ThemeProvider } from '@mui/material/styles';
 import { palette, themeUserPage } from '../Styles/theme';
 import AvatarImg from '../Components/userComp/AvatarImg';
+import Sidebar from '../Components/Sidebar';
+
+const pageContainer = css`
+  display: flex;
+  gap: 100px;
+`;
 
 const userContainer = css`
   padding: 40px;
   width: 700px;
   min-width: 400px;
-  margin: 0 auto;
+  // margin: 0 auto;
 `;
 
 const userTitle = css`
@@ -105,106 +111,109 @@ const Profile = () => {
   };
 
   return (
-    <ThemeProvider theme={themeUserPage}>
-      <Box
-        component="form"
-        noValidate
-        onSubmit={handleSubmit}
-        className={userContainer}
-      >
-        <div className={userTitle}>
-          <AvatarImg />
-          <h1>프로필 수정</h1>
-        </div>
+    <div className={pageContainer}>
+      <Sidebar />
+      <ThemeProvider theme={themeUserPage}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit}
+          className={userContainer}
+        >
+          <div className={userTitle}>
+            <AvatarImg />
+            <h1>프로필 수정</h1>
+          </div>
 
-        <div className={userAvatar}>
-          <Avatar
-            sx={{ width: 96, height: 96 }}
-            alt="Jaehoon"
-            src={image.preview_URL}
-          />
-          <Stack direction="column" spacing={1}>
-            <Button variant="outlined" color="true" component="label">
-              변경
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={saveImg}
-                onClick={e => e.target.value === null}
+          <div className={userAvatar}>
+            <Avatar
+              sx={{ width: 96, height: 96 }}
+              alt="Jaehoon"
+              src={image.preview_URL}
+            />
+            <Stack direction="column" spacing={1}>
+              <Button variant="outlined" color="true" component="label">
+                변경
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={saveImg}
+                  onClick={e => e.target.value === null}
+                />
+              </Button>
+              <Button variant="outlined" color="false" onClick={deleteImg}>
+                <span>삭제</span>
+              </Button>
+            </Stack>
+          </div>
+
+          <div className={userInfo}>
+            <div>
+              닉네임
+              <TextField
+                sx={{ width: '70%' }}
+                margin="normal"
+                required
+                fullWidth
+                id="nickname"
+                name="nickname"
+                autoComplete="nickname"
+                autoFocus
+                size="small"
               />
-            </Button>
-            <Button variant="outlined" color="false" onClick={deleteImg}>
-              <span>삭제</span>
-            </Button>
-          </Stack>
-        </div>
+            </div>
+            <div>
+              비밀번호
+              <TextField
+                sx={{ width: '70%' }}
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                size="small"
+              />
+            </div>
+            <div>
+              비밀번호 확인
+              <TextField
+                sx={{ width: '70%' }}
+                margin="normal"
+                required
+                fullWidth
+                name="passwordCheck"
+                type="password"
+                id="passwordCheck"
+                autoComplete="current-password"
+                size="small"
+              />
+            </div>
+          </div>
 
-        <div className={userInfo}>
-          <div>
-            닉네임
-            <TextField
-              sx={{ width: '70%' }}
-              margin="normal"
-              required
-              fullWidth
-              id="nickname"
-              name="nickname"
-              autoComplete="nickname"
-              autoFocus
-              size="small"
-            />
+          <div className={userBtn}>
+            <Button
+              type="submit"
+              variant="outlined"
+              color="true"
+              sx={{ boxShadow: 0 }}
+            >
+              적용
+            </Button>
+            <Button
+              type="submit"
+              color="false"
+              variant="outlined"
+              sx={{ boxShadow: 0 }}
+            >
+              취소
+            </Button>
           </div>
-          <div>
-            비밀번호
-            <TextField
-              sx={{ width: '70%' }}
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              size="small"
-            />
-          </div>
-          <div>
-            비밀번호 확인
-            <TextField
-              sx={{ width: '70%' }}
-              margin="normal"
-              required
-              fullWidth
-              name="passwordCheck"
-              type="password"
-              id="passwordCheck"
-              autoComplete="current-password"
-              size="small"
-            />
-          </div>
-        </div>
-
-        <div className={userBtn}>
-          <Button
-            type="submit"
-            variant="outlined"
-            color="true"
-            sx={{ boxShadow: 0 }}
-          >
-            적용
-          </Button>
-          <Button
-            type="submit"
-            color="false"
-            variant="outlined"
-            sx={{ boxShadow: 0 }}
-          >
-            취소
-          </Button>
-        </div>
-      </Box>
-    </ThemeProvider>
+        </Box>
+      </ThemeProvider>
+    </div>
   );
 };
 
