@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import 'rsuite/dist/rsuite.min.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
 import { DateRangePicker } from 'rsuite';
 
 const Container = css`
   width: 100%;
+  max-width: 300px;
   height: 356px;
 `;
 
@@ -44,19 +46,35 @@ const categories = [
   { value: 'development', label: '개발' },
 ];
 
-const StudyInputField = () => {
-  const [category, setCategory] = useState('health');
+const StudyInputField = ({
+  titleRef,
+  categoryRef,
+  capacityRef,
+  period,
+  setPeriod,
+}) => {
+  // const [category, setCategory] = useState('health');
+  // const [period, setPeriod] = useState([new Date(), new Date()]);
 
-  const handleChange = e => {
-    setCategory(e.target.value);
+  const handlePeriodChange = pickDate => {
+    //   // console.log(value);
+    //   // console.log('e: ', e[0]);
+    setPeriod([pickDate[0], pickDate[1]]);
+    //   // console.log('From: ', period[0]);
+    //   // console.log('To: ', period[1]);
   };
 
+  // console.log('From: ', period[0]);
+  // console.log('To: ', period[1]);
+  // console.log('period: ', period);
+
+  // console.log(periodRef.current);
+  // console.log(periodRef);
   return (
     <div css={Container}>
       <Box
-        component="form"
         sx={{
-          '& > :not(style)': { m: 1, width: '28ch' },
+          '& > :not(style)': { m: 1, width: '280px' },
         }}
         noValidate
         autoComplete="off"
@@ -66,7 +84,10 @@ const StudyInputField = () => {
             id="study-name"
             label="스터디 이름"
             variant="standard"
+            name="title"
             placeholder="스터디 이름을 지어주세요"
+            defaultValue=""
+            inputRef={titleRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -81,9 +102,9 @@ const StudyInputField = () => {
             select
             label="카테고리"
             variant="standard"
-            value={category}
-            defaultValue="클릭해서 선택해주세요"
-            onChange={handleChange}
+            name="category"
+            defaultValue=""
+            inputRef={categoryRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -103,6 +124,7 @@ const StudyInputField = () => {
             id="study-location"
             label="스터디 위치"
             variant="standard"
+            // name=""
             placeholder="클릭하면 주소 검색창이 나와요"
             sx={{
               width: 300,
@@ -118,8 +140,11 @@ const StudyInputField = () => {
             label="모집인원"
             type="number"
             variant="standard"
+            name="numberOfPeople"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             placeholder="숫자를 입력해주세요"
+            defaultValue=""
+            inputRef={capacityRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -129,29 +154,17 @@ const StudyInputField = () => {
               },
             }}
           />
-          {/* <TextField
-            id="study-period"
-            label="모집기간"
-            variant="standard"
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          /> */}
           <div css={PeriodContainer}>
             <span>모집기간</span>
             <DateRangePicker
               format="yyyy-MM-dd hh:mm aa"
               showMeridian
               style={{ color: 'black' }}
-              defaultCalendarValue={[
-                new Date('2022-02-01 00:00:00'),
-                new Date('2022-05-01 23:59:59'),
-              ]}
+              defaultCalendarValue={[new Date(), new Date()]}
+              name="period"
+              // value={periodRef.current}
+              value={period}
+              onChange={handlePeriodChange}
             />
           </div>
         </div>

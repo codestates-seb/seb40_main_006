@@ -7,8 +7,8 @@ import Mypage from './Pages/Mypage';
 import Home from './Pages/Home';
 import Category from './Components/Category/Category';
 import Header from './Components/Header';
-import JamOpen from './Pages/JamOpen';
 import JamDetail from './Pages/JamDetail';
+import JamCreate from './Pages/JamCreate';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage/*" element={<Mypage />} />
           <Route path="/profile/*" element={<Profile />} />
-          <Route path="/jamopen" element={<JamOpen />} />
+          <Route path="/jamcreate" element={<JamCreate />} />
           <Route path="/jamdetail" element={<JamDetail />} />
         </Routes>
       </BrowserRouter>

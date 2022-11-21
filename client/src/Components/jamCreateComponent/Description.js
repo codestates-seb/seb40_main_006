@@ -26,7 +26,6 @@ const Description = () => {
   return (
     <div css={AboutStudy}>
       <Box
-        component="form"
         sx={{
           '& > :not(style)': { m: 0, width: '800px' },
         }}
@@ -38,7 +37,7 @@ const Description = () => {
             id="standard-basic"
             label="스터디 소개"
             multiline
-            rows={15}
+            rows={10}
             variant="outlined"
             placeholder="함께할 스터디를 소개해주세요"
             // 커스텀 색상 설정
