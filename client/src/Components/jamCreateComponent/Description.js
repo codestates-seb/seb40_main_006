@@ -26,7 +26,6 @@ const Description = () => {
   return (
     <div css={AboutStudy}>
       <Box
-        component="form"
         sx={{
           '& > :not(style)': { m: 0, width: '800px' },
         }}

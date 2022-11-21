@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
 // import { BsPlusCircle } from 'react-icons/bs';
@@ -158,6 +158,12 @@ const JamCreate = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isCreated, setIsCreated] = useState(false);
 
+  const [period, setPeriod] = useState([new Date(), new Date()]);
+  // const periodRef = useRef([new Date(), new Date()]);
+  const titleRef = useRef(null);
+  const categoryRef = useRef(null);
+  const capacityRef = useRef(null);
+
   const tapArr = [
     { id: 0, name: '스터디 잼', content: '스터디 잼 내용' },
     { id: 1, name: '실시간 잼', content: '실시간 잼 내용' },
@@ -165,6 +171,18 @@ const JamCreate = () => {
 
   const selectTapHandler = el => {
     setCurrentTab(el.id);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // eslint-disable-next-line
+    console.log({
+      titleref: titleRef.current.value,
+      category: categoryRef.current.value,
+      capacity: capacityRef.current.value,
+      period,
+    });
+    // eslint-disable-next-line
   };
 
   return (
@@ -200,31 +218,45 @@ const JamCreate = () => {
               <button
                 css={OpenStudyButton}
                 type="submit"
-                form="test"
-                onClick={() => setIsCreated(!isCreated)}
+                form="makeStudy"
+                // onClick={() => setIsCreated(!isCreated)}
               >
                 개설하기
               </button>
             )}
           </div>
         </header>
-        <main css={SectionContainer} id="test">
-          <div css={ArticleLeft}>
-            <div>
-              <FileUploader />
+        <form id="makeStudy" onSubmit={handleSubmit}>
+          <main css={SectionContainer}>
+            <div css={ArticleLeft}>
+              <div>
+                <FileUploader />
+              </div>
+              <div css={ChatlinkBox}>
+                <input
+                  type="text"
+                  name="chatLink"
+                  placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
+                />
+              </div>
             </div>
-            <div css={ChatlinkBox}>
-              <input
-                type="text"
-                placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
-              />
+            <div css={ArticleRight}>
+              {currentTab === 0 ? (
+                <StudyInputField
+                  titleRef={titleRef}
+                  categoryRef={categoryRef}
+                  capacityRef={capacityRef}
+                  // periodRef={periodRef}
+                  period={period}
+                  setPeriod={setPeriod}
+                />
+              ) : (
+                <JamInputField />
+              )}
             </div>
-          </div>
-          <div css={ArticleRight}>
-            {currentTab === 0 ? <StudyInputField /> : <JamInputField />}
-          </div>
-        </main>
-        <Description />
+          </main>
+          <Description />
+        </form>
       </div>
     </div>
   );
