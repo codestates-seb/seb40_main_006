@@ -169,6 +169,7 @@ const JamCreate = () => {
   const jamCapacityRef = useRef(null);
 
   const descRef = useRef(null);
+  const chatLinkRef = useRef(null);
 
   const tapArr = [
     { id: 0, name: '스터디 잼', content: '스터디 잼 내용' },
@@ -208,6 +209,7 @@ const JamCreate = () => {
       jamFrom: currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
       jamTo: currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
       realtime: currentTab !== 0,
+      chatLink: chatLinkRef.current.value,
     });
   };
 
@@ -255,6 +257,7 @@ const JamCreate = () => {
               </div>
               <div css={ChatlinkBox}>
                 <input
+                  ref={chatLinkRef}
                   type="text"
                   name="chatLink"
                   placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
