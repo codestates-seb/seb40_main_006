@@ -9,10 +9,10 @@ const Map = () => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
 
-      console.log(`위도 : ${position.coords.latitude}`);
-      console.log(`경도 : ${position.coords.longitude}`);
-      console.log(latitude);
-      console.log(longitude);
+      // console.log(`위도 : ${position.coords.latitude}`);
+      // console.log(`경도 : ${position.coords.longitude}`);
+      // console.log(latitude);
+      // console.log(longitude);
     });
 
     const container = document.getElementById('map'); // 지도를 표시할 div

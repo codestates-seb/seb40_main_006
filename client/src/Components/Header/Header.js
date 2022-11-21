@@ -4,8 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
-import { palette } from '../Styles/theme';
-import logoImage from '../Assets/images/logo_header.png';
+import { palette } from '../../Styles/theme';
+import logoImage from '../../Assets/images/logo_header.png';
+import Address from './Address';
 
 const header = css`
   padding: 10px 40px 10px 30px;
@@ -19,22 +20,7 @@ const header = css`
 const logo = css`
   margin-left: 10px;
 `;
-// address
-const addressContainer = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 10px;
-  padding: 20px;
-`;
-const address = css`
-  background-color: ${palette.gray_4};
-  display: flex;
-  align-items: center;
-  text-align: center;
-  border-radius: 10px;
-  padding: 15px 10px;
-`;
+
 // search
 const searchBar = css`
   display: flex;
@@ -130,14 +116,6 @@ const SearchBar = () => {
         />
       </Search>
     </form>
-  );
-};
-
-const Address = () => {
-  return (
-    <div className={addressContainer}>
-      <div className={address}>주소 선택 영역</div>
-    </div>
   );
 };
 
