@@ -1,35 +1,31 @@
 package com.jamit.jam.mapper;
 
-import com.jamit.jam.dto.JamResponseDto;
+import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface JamMapper {
 
-    default List<JamResponseDto> jamsToJamResponseDto(List<Jam> jams){
-        return jams.stream().map(jam -> JamResponseDto
-                .builder()
-                .id(jam.getId())
-                .title(jam.getTitle())
-                .userId(jam.getMember().getMemberId())
-                .nickname(jam.getMember().getNickname())
-                .content(jam.getContent())
-                 .category(jam.getCategory().category)          /// ?????
-                .jamFrom(jam.getJamFrom())
-                .jamTo(jam.getJamTo())
-                .currentPpl(jam.getCurrentPpl())
-                .maximum(jam.getMaximum())
-                .capacity(jam.getCapacity())
-                .realTime(jam.isRealTime())
-                .complete(jam.isComplete())
-                .views(jam.getViews())
-                .latitude(jam.getPoint().getY())
-                .longitude(jam.getPoint().getX())
-                .build())
-                .collect(Collectors.toList());
-    }
+    Jam jamPostDtoToJam(JamPostDto jamPostDto);
+
+    Jam jamPatchDtoToJam(JamPatchDto jamPatchDto);
+
+    @Named("jamList")
+    @Mapping(source = "id",target = "jamId")
+    @Mapping(source = "member.nickname",target = "nickname")
+    ResponseAllJamsDto jamToResponseAllJamsDto(Jam jam);
+
+    @Mapping(source = "id",target = "jamId")
+    @Mapping(source = "member.nickname",target = "nickname")
+    ResponseSpecificJamDto jamToResponseSpecificJamDto(Jam jam);
+
+    @IterableMapping(qualifiedByName = "jamList")
+    List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams);
+
 }

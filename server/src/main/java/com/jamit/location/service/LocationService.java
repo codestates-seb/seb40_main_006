@@ -36,8 +36,8 @@ public class LocationService {
                         + "FROM Jam AS j "
                         + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", j.point)", Jam.class);
 
-        List<Jam> restaurants = query.getResultList();
-        return restaurants;
+        List<Jam> result = query.getResultList();
+        return result;
     }
 
 }
