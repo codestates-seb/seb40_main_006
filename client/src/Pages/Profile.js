@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import { css } from '@emotion/css';
 import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
 import { ThemeProvider } from '@mui/material/styles';
@@ -55,21 +56,31 @@ const userBtn = css`
 `;
 
 const Profile = () => {
-  const handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('nickname'),
-      password: data.get('password'),
-      passwordCheck: data.get('passwordCheck'),
-      userImage: data.get('userImg'),
-    });
-  };
-
   const [image, setImage] = useState({
     image_file: '',
     preview_URL: '',
   });
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    formData.append(
+      'image',
+      new Blob([JSON.stringify(image.image_file.name)], {
+        // type: 'application/json',
+        type: 'multipart/form-data',
+      }),
+    );
+
+    // 로그인 된 유저만 가능해야하기에 토큰을 함께 헤더에 담아주기 and 비밀번호 유효성 검사 후 통신
+    // url=`${process.env.REACT_APP_URL}/user/change/${userid}`
+    await axios.post('http://localhost:4000/edit', formData, {
+      headers: {
+        'Content-Type': `application/json`,
+        // 'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
 
   const saveImg = e => {
     e.preventDefault();
@@ -81,7 +92,7 @@ const Profile = () => {
     fileReader.onload = () => {
       setImage({
         image_file: e.target.files[0],
-        preview_URL: fileReader.result,
+        preview_URL: `${fileReader.result}`,
       });
     };
   };
@@ -91,19 +102,6 @@ const Profile = () => {
       image_file: '',
       preview_URL: '',
     });
-  };
-
-  const sendImageToServer = async () => {
-    // if (image.image_file) {
-    //   const formData = new FormData();
-    //   formData.append('file', image.image_file);
-    //   console.log(formData);
-    //   await axios.post('url', formData);
-    //   setImage({
-    //     image_file: '',
-    //     preview_URL: '',
-    //   });
-    // }
   };
 
   return (
@@ -193,7 +191,6 @@ const Profile = () => {
             variant="outlined"
             color="true"
             sx={{ boxShadow: 0 }}
-            onClick={sendImageToServer}
           >
             적용
           </Button>
