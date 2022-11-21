@@ -53,7 +53,6 @@ const StudyInputField = ({
   period,
   setPeriod,
 }) => {
-  // const [category, setCategory] = useState('health');
   // const [period, setPeriod] = useState([new Date(), new Date()]);
 
   const handlePeriodChange = pickDate => {

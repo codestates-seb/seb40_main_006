@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
 
@@ -47,17 +48,10 @@ const categories = [
   { value: 'development', label: '개발' },
 ];
 
-const StudyInputField = () => {
-  const [category, setCategory] = useState('health');
-
-  const handleChange = e => {
-    setCategory(e.target.value);
-  };
-
+const JamInputField = ({ jamTitleRef, jamCategoryRef, jamCapacityRef }) => {
   return (
     <div css={Container}>
       <Box
-        component="form"
         sx={{
           '& > :not(style)': { m: 1, width: '280px' },
         }}
@@ -70,6 +64,8 @@ const StudyInputField = () => {
             label="잼 이름"
             variant="standard"
             placeholder="실시간 잼의 이름을 지어주세요"
+            defaultValue=""
+            inputRef={jamTitleRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -84,9 +80,9 @@ const StudyInputField = () => {
             select
             label="카테고리"
             variant="standard"
-            value={category}
-            defaultValue="클릭해서 선택해주세요"
-            onChange={handleChange}
+            name="category"
+            defaultValue=""
+            inputRef={jamCategoryRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -121,8 +117,11 @@ const StudyInputField = () => {
             label="모집인원"
             type="number"
             variant="standard"
+            name="numberOfPeople"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             placeholder="숫자를 입력해주세요"
+            defaultValue=""
+            inputRef={jamCapacityRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -142,4 +141,4 @@ const StudyInputField = () => {
   );
 };
 
-export default StudyInputField;
+export default JamInputField;
