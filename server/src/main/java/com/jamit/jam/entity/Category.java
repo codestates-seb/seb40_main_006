@@ -1,3 +1,4 @@
+
 package com.jamit.jam.entity;
 
 public enum Category {
@@ -23,3 +24,4 @@ public enum Category {
 		this.category = category;
 	}
 }
+

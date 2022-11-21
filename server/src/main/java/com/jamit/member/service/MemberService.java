@@ -16,25 +16,25 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-     private final PasswordEncoder passwordEncoder;
-     private final CustomAuthorityUtils authorityUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtil;
 
     /**
      * USER-01: Local 회원가입
      */
-     public Member signupMember(Member member) {
-         verifyExistsEmail(member.getEmail());
+    public Member signupMember(Member member) {
+        verifyExistsEmail(member.getEmail());
 
-         String encryptedPassword = passwordEncoder.encode(member.getPassword());
-         member.setPassword(encryptedPassword);
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
 
-         List<String> roles = authorityUtil.createRoles(member.getEmail());
-         member.setRoles(roles);
+        List<String> roles = authorityUtil.createRoles(member.getEmail());
+        member.setRoles(roles);
 
-         Member savedMember = memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
-         return savedMember;
-     }
+        return savedMember;
+    }
 
 //    public Member signupMember(Member member) {
 //        Member savedMember = memberRepository.save(member);
@@ -61,11 +61,11 @@ public class MemberService {
         Member findMember = findVerifiedMember(member.getMemberId());
 
         Optional.ofNullable(member.getEmail())
-            .ifPresent(email -> findMember.setEmail(email));
+                .ifPresent(email -> findMember.setEmail(email));
         Optional.ofNullable(member.getNickname())
-            .ifPresent(nickname -> findMember.setNickname(nickname));
+                .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
-            .ifPresent(password -> findMember.setPassword(password));
+                .ifPresent(password -> findMember.setPassword(password));
 
         return memberRepository.save(findMember);
     }
@@ -88,7 +88,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
 
         Member findMember = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return findMember;
     }
@@ -98,10 +98,10 @@ public class MemberService {
      */
     public Member verifyExistsEmailAndPassword(String memberEmail, String memberPassword) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
-            memberEmail, memberPassword);
+                memberEmail, memberPassword);
 
         Member existsEmailAndPassword = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
 
         return existsEmailAndPassword;
     }
@@ -124,7 +124,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
         Member existsNickname = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
 
         return existsNickname;
     }

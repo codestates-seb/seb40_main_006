@@ -40,8 +40,8 @@ public class Member extends Auditable {
     @Column(unique = true, nullable = false)
     private String nickname;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdTime = LocalDateTime.now();
+//    @Column(nullable = false, updatable = false)
+//    private LocalDateTime createdTime = LocalDateTime.now();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

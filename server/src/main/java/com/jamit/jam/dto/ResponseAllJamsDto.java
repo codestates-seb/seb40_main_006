@@ -1,6 +1,7 @@
 package com.jamit.jam.dto;
 
 import com.jamit.jam.entity.Category;
+import com.jamit.jam.entity.Jam;
 import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
 import java.util.List;

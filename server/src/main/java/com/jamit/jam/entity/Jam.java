@@ -25,6 +25,7 @@ import com.jamit.reply.entity.Reply;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @Setter
@@ -66,6 +67,8 @@ public class Jam extends Auditable {
 	private boolean complete = false;
 
 	private int views = 0;
+
+	private Point point;
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "member_id")
