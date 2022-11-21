@@ -9,6 +9,7 @@ import Category from './Components/Category/Category';
 import Header from './Components/Header';
 import JamDetail from './Pages/JamDetail';
 import JamCreate from './Pages/JamCreate';
+import NoData from './Pages/NoData';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile/*" element={<Profile />} />
           <Route path="/jamcreate" element={<JamCreate />} />
           <Route path="/jamdetail" element={<JamDetail />} />
+          <Route path="*" element={<NoData />} />
         </Routes>
       </BrowserRouter>
     </div>
