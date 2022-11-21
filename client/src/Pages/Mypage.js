@@ -7,11 +7,16 @@ import UserTitle from '../Components/userComp/UserTitle';
 import JoinJams from '../Components/userComp/JoinJams';
 import OpenJams from '../Components/userComp/OpenJams';
 import { myPageInfoState } from '../Atom/atoms';
+import Sidebar from '../Components/Sidebar';
 
-const container = css`
+const pageContainer = css`
+  display: flex;
+  gap: 100px;
+`;
+const userContainer = css`
   width: 800px;
   min-width: 400px;
-  margin: 40px auto;
+  // margin: 40px auto;
 `;
 
 const userJamInfo = css`
@@ -80,11 +85,14 @@ const Mypage = () => {
     // });
   });
   return (
-    <div className={container}>
-      <UserTitle />
-      <div className={userJamInfo}>
-        <JoinJams />
-        <OpenJams />
+    <div className={pageContainer}>
+      <Sidebar />
+      <div className={userContainer}>
+        <UserTitle />
+        <div className={userJamInfo}>
+          <JoinJams />
+          <OpenJams />
+        </div>
       </div>
     </div>
   );
