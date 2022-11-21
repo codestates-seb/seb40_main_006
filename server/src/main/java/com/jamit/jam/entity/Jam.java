@@ -32,62 +32,60 @@ import lombok.Setter;
 @Entity
 public class Jam extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "jam_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "jam_id")
+	private Long id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Category category;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Category category;
 
-    @Column(nullable = false)
-    private String title;
+	@Column(nullable = false)
+	private String title;
 
-    @Column(nullable = false)
-    private String content;
+	@Column(nullable = false)
+	private String content;
 
-    @Column(nullable = false)
-    private LocalDateTime jamFrom;
+	private LocalDateTime jamFrom;
 
-    @Column(nullable = false)
-    private LocalDateTime jamTo;
+	private LocalDateTime jamTo;
 
-    private int currentPpl = 1;
+	private int currentPpl = 1;
 
-    @Column(nullable = false)
-    private int maximum;
+	@Column(nullable = false)
+	private int maximum;
 
-    @Column(nullable = false)
-    private int capacity;
+	@Column(nullable = false)
+	private int capacity;
 
-    @Column(nullable = false)
-    private boolean realTime;
+	@Column(nullable = false)
+	private boolean realTime;
 
-    @Column(nullable = false)
-    private boolean complete = false;
+	@Column(nullable = false)
+	private boolean complete = false;
 
-    private int views = 0;
+	private int views = 0;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
 
-    @OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private final List<Comment> commentList = new ArrayList<>();
+	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	private final List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private final List<Reply> replyList = new ArrayList<>();
+	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	private final List<Reply> replyList = new ArrayList<>();
 
-    public void setMember(Member member) {
-        this.member = member;
-    }
+	public void setMember(Member member) {
+		this.member = member;
+	}
 
-    public void addComment(Comment comment) {
-        commentList.add(comment);
-    }
+	public void addComment(Comment comment) {
+		commentList.add(comment);
+	}
 
-    public void addReply(Reply reply) {
-        replyList.add(reply);
-    }
+	public void addReply(Reply reply) {
+		replyList.add(reply);
+	}
 }
