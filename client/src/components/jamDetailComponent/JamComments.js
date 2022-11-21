@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
 import WriteComment from './WriteComment';
 import ReplyComment from './ReplyComment';
 import ReReplyComment from './ReReplyComment';
+import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -12,14 +14,13 @@ const Container = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   font-size: 13px;
   padding: 20px;
 
   hr {
     width: 100%;
     border-style: none;
-    background-color: #fff;
+    background-color: ${palette.border};
     height: 1px;
   }
 `;
@@ -34,7 +35,9 @@ const JamComments = () => {
       <div>
         <WriteComment />
       </div>
-      <hr />
+      <ThemeProvider theme={palette}>
+        <hr />
+      </ThemeProvider>
       <div css={ReplyContainer}>
         <ReplyComment />
         <ReReplyComment />

@@ -34,7 +34,7 @@ const UserName = css`
 const WrittenComment = css`
   width: 100%;
   height: fit-content;
-  padding: 5px;
+  padding: 10px;
   border-radius: 3px;
   background-color: #fff;
 `;

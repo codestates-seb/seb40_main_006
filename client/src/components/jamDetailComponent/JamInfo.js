@@ -6,7 +6,10 @@ import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
+import { ThemeProvider } from '@mui/material';
+import { palette } from '../../Styles/theme';
 import Button from '../Button';
+import JamCarousel from './JamCarousel';
 
 const Container = css`
   margin: 0 auto;
@@ -23,19 +26,19 @@ const HeaderContainer = css`
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 const TitleContainer = css`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
 `;
 
 const Title = css`
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 const InfoIcons = css`
@@ -56,23 +59,11 @@ const Carousel = css`
   width: 100%;
 `;
 
-const CarouselBox = css`
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: #fff;
-`;
-
 const JamDescTitle = css`
   font-size: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  margin-left: 2px;
+  font-weight: 600;
 `;
 
 const LocationContainer = css`
@@ -81,26 +72,27 @@ const LocationContainer = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 40px;
 `;
 
 const LocationText = css`
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   font-size: 15px;
+  font-weight: 600;
 `;
 
 const LocationMap = css`
   width: 100%;
   height: 250px;
-  border: 1px solid #dddddd;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  /* background-color: #fff; */
+  border: 1px solid ${palette.border};
 `;
 
 const JamInfo = ({ host, loginUser }) => {
@@ -110,7 +102,7 @@ const JamInfo = ({ host, loginUser }) => {
         <div css={TitleContainer}>
           <h2 css={Title}>토익스터디 하실 분!!</h2>
           {host === loginUser && (
-            <Button size="sm" variant="cancle">
+            <Button size="xs" variant="cancel">
               수정
             </Button>
           )}
@@ -142,17 +134,17 @@ const JamInfo = ({ host, loginUser }) => {
         <div css={JamDescTitle}>
           <span>우리 잼을 소개합니다</span>
         </div>
-        <div css={CarouselBox}>
-          소개이미지, 소개글 / 캐러셀로 구현 / react-slick 또는 다른 라이브러리
-        </div>
+        <JamCarousel />
       </div>
       <div css={LocationContainer}>
         <div css={LocationText}>
           <span>우리 잼은 여기 있어요</span>
         </div>
-        <div css={LocationMap}>
-          <span>지도 들어갈 곳</span>
-        </div>
+        <ThemeProvider theme={palette}>
+          <div css={LocationMap}>
+            <span>지도 들어갈 곳</span>
+          </div>
+        </ThemeProvider>
       </div>
     </div>
   );

@@ -1,19 +1,25 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
 import JamInfo from '../Components/jamDetailComponent/JamInfo';
 import JamComents from '../Components/jamDetailComponent/JamComments';
 import JamSideBar from '../Components/jamDetailComponent/JamSideBar';
-// import palette from '../Styles/theme';
 // import Button from '../components/Button';
-// import Sidebar from '../Components/Sidebar';
+import Sidebar from '../Components/Sidebar';
+import { palette } from '../Styles/theme';
+
+const MergeContainer = css`
+  width: 100%;
+  display: flex;
+`;
 
 const Container = css`
-  margin: 0 auto;
+  margin: 0 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
+  padding: 10px;
   max-width: 800px;
   background-color: white;
   gap: 20px;
@@ -35,10 +41,10 @@ const JamContainer = css`
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  background-color: #dddddd;
-  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  /* background-color: ${palette.gray_5}; */
+  /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
+  /* border: 2px solid ${palette.gray_5}; */
   border-radius: 3px;
-  margin-bottom: 30px;
 `;
 
 const MainCommentContainer = css`
@@ -47,6 +53,7 @@ const MainCommentContainer = css`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  padding: 20px;
   span {
     font-size: 20px;
     margin-bottom: 10px;
@@ -60,8 +67,8 @@ const CommentContainer = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #dddddd;
-  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  background-color: ${palette.gray_4};
+  /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
   border-radius: 3px;
 `;
 
@@ -70,20 +77,25 @@ const JamDetail = () => {
   const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
 
   return (
-    <main css={Container}>
-      <div css={SectionContainer}>
-        <div css={JamContainer}>
-          <JamInfo host={host} loginUser={loginUser} />
-        </div>
-        <div css={MainCommentContainer}>
-          <span>댓글</span>
-          <div css={CommentContainer}>
-            <JamComents />
+    <div css={MergeContainer}>
+      <Sidebar />
+      <main css={Container}>
+        <div css={SectionContainer}>
+          <ThemeProvider theme={palette}>
+            <div css={JamContainer}>
+              <JamInfo host={host} loginUser={loginUser} />
+            </div>
+          </ThemeProvider>
+          <div css={MainCommentContainer}>
+            <span>댓글</span>
+            <div css={CommentContainer}>
+              <JamComents />
+            </div>
           </div>
         </div>
-      </div>
-      <JamSideBar host={host} loginUser={loginUser} />
-    </main>
+        <JamSideBar host={host} loginUser={loginUser} />
+      </main>
+    </div>
   );
 };
 

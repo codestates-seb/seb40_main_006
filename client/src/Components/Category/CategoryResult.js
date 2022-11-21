@@ -8,6 +8,7 @@ import React from 'react';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
+// import NoData from '../Search/NoData';
 
 const pagewithSidebar = css`
   display: flex;
@@ -40,6 +41,13 @@ const cardContainer = css`
   overflow: hidden;
   padding: 20px;
 `;
+
+// const noDataContainer = css`
+//   display: flex;
+//   height: 100px;
+//   justify-content: center;
+//   padding: 20px;
+// `;
 const Category = () => {
   return (
     <div className={pagewithSidebar}>
@@ -65,6 +73,9 @@ const Category = () => {
           <JamCard />
           <JamCard />
         </div>
+        {/* <div className={noDataContainer}>
+          <NoData />
+        </div> */}
       </div>
     </div>
   );
