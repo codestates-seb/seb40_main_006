@@ -83,6 +83,4 @@ public class JamService {
         Long memberId = member.getMemberId();
         return jamRepository.findByJamMemberId(memberId);
     }
-
-
 }
