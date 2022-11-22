@@ -20,6 +20,7 @@ import BackgroundImage from './BackgroundImage';
 import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
 import AvatarImg from '../userComp/AvatarImg';
+import { setCookie } from './Cookie';
 
 const validateText = css`
   width: 100%;
@@ -95,7 +96,6 @@ const Sign = () => {
 
   // 회원가입 및 로그인
   const handleSubmit = e => {
-    console.log(error);
     e.preventDefault();
 
     const handlePost = async () => {
@@ -113,6 +113,8 @@ const Sign = () => {
                 password: '이메일 또는 비밀번호가 올바르지 않습니다',
               });
             } else {
+              const { accessToken } = res.data;
+              setCookie('is_login', accessToken);
               setError({ ...error, password: '' });
               navigate('/');
             }
@@ -120,11 +122,15 @@ const Sign = () => {
       }
       if (page === 'signup') {
         await axios
-          .post('http://localhost:4000/signup', {
-            email: userInput.email,
-            password: userInput.password,
-            nickname: userInput.name,
-          })
+          .post(
+            'http://localhost:4000/signup',
+            {
+              email: userInput.email,
+              password: userInput.password,
+              nickname: userInput.name,
+            },
+            { withCredentials: true },
+          )
           .then(res => {
             console.log(res.data);
             if (res.data.status === 500) {
