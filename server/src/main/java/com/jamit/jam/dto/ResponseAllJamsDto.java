@@ -13,11 +13,6 @@ import lombok.Getter;
 public class ResponseAllJamsDto {
     private Long jamId;
     private String nickname;
-
-    public void setMember(Member member) {
-        this.nickname = member.getNickname();
-    }
-
     private String title;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
@@ -26,6 +21,12 @@ public class ResponseAllJamsDto {
     private int capacity;
     private boolean realTime;
     private boolean complete;
+    private String address;
+    private String location;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    public void setMember(Member member) {
+        this.nickname = member.getNickname();
+    }
 }

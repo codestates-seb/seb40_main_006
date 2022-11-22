@@ -11,11 +11,17 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JamPatchDto {
 
-    private String title;
     private Category category;
-    private Integer maximum;
+    private String title;
+    private String content;
+    private String image;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
+    private Integer capacity;
     private boolean realTime;
-    private String content;
+    private String address;
+    private String location;
+    private String latitude;    // 위도
+    private String longitude;   // 경도
+    private String openChatLink;
 }
