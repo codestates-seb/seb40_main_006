@@ -29,43 +29,59 @@ const Sign = () => {
   const location = useLocation();
   const page = location.pathname.slice(1);
 
-  // const [checked, setChecked] = useState(false);
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState('');
-  // const [registerError, setRegisterError] = useState('');
+  const [validPassword, setValidPassword] = useState('');
+  const [checked, setChecked] = useState(false);
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const joinData = {
-      nickname: data.get('nickname'),
-      email: data.get('email'),
-      password: data.get('password'),
-      passwordCheck: data.get('passwordCheck'),
-    };
+  // 유효성 검사
+  const validationCheck = e => {
+    const targetName = e.target.name;
+    const targetVal = e.target.value;
 
-    const emailRegex =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    if (!emailRegex.test(joinData.email))
-      setEmailError('올바른 이메일 형식이 아닙니다');
-    else setEmailError('');
+    if (targetName === 'nickname') {
+      if (!targetVal.length) setNameError('닉네임을 입력해주세요');
+      else setNameError('');
+    }
+    if (targetName === 'email') {
+      const emailRegex =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      if (!emailRegex.test(targetVal))
+        setEmailError('올바른 이메일 형식이 아닙니다');
+      else setEmailError('');
+    }
+    if (targetName === 'password') {
+      const passwordRegex =
+        /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+      setValidPassword(targetVal);
+      if (!passwordRegex.test(targetVal))
+        setPasswordError(
+          '숫자+영문자+특수문자 조합으로 8자리 이상이어야 합니다',
+        );
+      else setPasswordError('');
+    }
+    if (targetName === 'passwordCheck') {
+      if (validPassword !== targetVal)
+        setPasswordCheckError('비밀번호가 일치하지 않습니다.');
+      else setPasswordCheckError('');
+    }
+  };
 
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    if (!passwordRegex.test(joinData.password))
-      setPasswordError('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요');
-    else setPasswordError('');
+  const handleSubmit = e => {
+    e.preventDefault();
+    // const data = new FormData(e.currentTarget);
+    // const joinData = {
+    //   nickname: data.get('nickname'),
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    //   passwordCheck: data.get('passwordCheck'),
+    // };
 
-    if (joinData.password !== joinData.passwordCheck)
-      setPasswordCheckError('비밀번호가 일치하지 않습니다.');
-    else setPasswordCheckError('');
-
-    if (!joinData.nickname) setNameError('닉네임을 입력해주세요');
-    else if (joinData.nickname.length < 2)
-      setNameError('닉네임은 두글자 이상이어야 합니다');
-    else setNameError('');
+    if (!nameError && !emailError && !passwordError && !passwordCheckError) {
+      if (!checked) alert('약관에 동의해주세요!');
+    }
   };
 
   return (
@@ -102,6 +118,7 @@ const Sign = () => {
                     name="nickname"
                     autoFocus
                     size="small"
+                    onBlur={e => validationCheck(e)}
                     error={nameError !== '' || false}
                   />
                   <div className={validateText}>{nameError}</div>
@@ -113,8 +130,9 @@ const Sign = () => {
                 id="email"
                 label="이메일"
                 name="email"
-                autoFocus
+                // autoFocus
                 size="small"
+                onBlur={e => validationCheck(e)}
                 error={emailError !== '' || false}
               />
               <div className={validateText}>{emailError}</div>
@@ -126,6 +144,7 @@ const Sign = () => {
                 type="password"
                 id="password"
                 size="small"
+                onBlur={e => validationCheck(e)}
                 error={passwordError !== '' || false}
               />
               <div className={validateText}>{passwordError}</div>
@@ -139,12 +158,19 @@ const Sign = () => {
                     type="password"
                     id="passwordCheck"
                     size="small"
+                    onBlur={e => validationCheck(e)}
                     error={passwordCheckError !== '' || false}
                   />
                   <div className={validateText}>{passwordCheckError}</div>
 
                   <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
+                    control={
+                      <Checkbox
+                        value="remember"
+                        color="primary"
+                        onChange={e => setChecked(e.target.checked)}
+                      />
+                    }
                     label="회원가입 약관에 동의합니다"
                   />
                 </>
