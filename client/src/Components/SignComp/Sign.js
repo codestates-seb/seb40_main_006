@@ -32,8 +32,14 @@ const Sign = () => {
   const location = useLocation();
   const page = location.pathname.slice(1);
 
-  const [validPassword, setValidPassword] = useState('');
   const [checked, setChecked] = useState(false);
+
+  const [userInput, setUserInput] = useState({
+    name: '',
+    email: '',
+    password: '',
+    rePassword: '',
+  });
 
   const [error, setError] = useState({
     name: '',
@@ -49,64 +55,115 @@ const Sign = () => {
     if (targetName === 'nickname') {
       if (!targetVal.length)
         setError({ ...error, name: '닉네임을 입력해주세요' });
-      else setError({ ...error, name: '' });
+      else {
+        setError({ ...error, name: '' });
+        setUserInput({ ...userInput, name: targetVal });
+      }
     }
     if (targetName === 'email') {
       const emailRegex =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       if (!emailRegex.test(targetVal))
         setError({ ...error, email: '올바른 이메일 형식이 아닙니다' });
-      else setError({ ...error, email: '' });
+      else {
+        setError({ ...error, email: '' });
+        setUserInput({ ...userInput, email: targetVal });
+      }
     }
-    if (targetName === 'password' && page === 'signup') {
+    if (targetName === 'password') {
       const passwordRegex =
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-      setValidPassword(targetVal);
-      if (!passwordRegex.test(targetVal))
+      if (!passwordRegex.test(targetVal) && page === 'signup')
         setError({
           ...error,
-          password: '숫자+영문자+특수문자 조합으로 8자리 이상이어야 합니다',
+          password: '숫자,영문,특수문자를 포함해 8자리 이상이어야 합니다',
         });
-      else
-        setError({
-          ...error,
-          password: '',
-        });
+      else {
+        setError({ ...error, password: '' });
+        setUserInput({ ...userInput, password: targetVal });
+      }
     }
     if (targetName === 'passwordCheck') {
-      if (validPassword !== targetVal)
+      if (userInput.password !== targetVal)
         setError({ ...error, rePassword: '비밀번호가 일치하지 않습니다' });
-      else setError({ ...error, rePassword: '' });
+      else {
+        setError({ ...error, rePassword: '' });
+        setUserInput({ ...userInput, rePassword: targetVal });
+      }
     }
   };
 
   // 회원가입 및 로그인
   const handleSubmit = e => {
+    console.log(error);
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      nickname: formData.get('nickname'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      passwordCheck: formData.get('passwordCheck'),
-    };
+
     const handlePost = async () => {
-      await axios.post(`http://localhost:4000/${page}`, { data }).then(res => {
-        console.log(res.data);
-        if (page === 'signup') {
-          alert('회원가입이 완료되었습니다!');
-          navigate('/login');
-        } else if (page === 'login') {
-          navigate('/');
-        }
-      });
+      if (page === 'login') {
+        await axios
+          .post('http://localhost:4000/login', {
+            username: userInput.email,
+            password: userInput.password,
+          })
+          .then(res => {
+            console.log(res.data);
+            if (res.data.status === 500) {
+              setError({
+                ...error,
+                password: '이메일 또는 비밀번호가 올바르지 않습니다',
+              });
+            } else {
+              setError({ ...error, password: '' });
+              navigate('/');
+            }
+          });
+      }
+      if (page === 'signup') {
+        await axios
+          .post('http://localhost:4000/signup', {
+            email: userInput.email,
+            password: userInput.password,
+            nickname: userInput.name,
+          })
+          .then(res => {
+            console.log(res.data);
+            if (res.data.status === 500) {
+              setError({
+                ...error,
+                email: '이미 존재하는 이메일입니다',
+              });
+            } else {
+              setError({ ...error, email: '' });
+              alert('회원가입이 완료되었습니다');
+              navigate('/login');
+            }
+          });
+      }
     };
 
-    if (data.nickname && data.email && data.password && data.passwordCheck) {
-      if (!checked && page === 'signup') alert('약관에 동의해주세요');
+    // eslint-disable-next-line consistent-return
+    const notEmptyInputData = obj => {
+      const keys = Object.keys(obj);
+      for (let i = 0; i < keys.length; i += 1) {
+        if (!obj[keys[i]] && obj === userInput) return false;
+        if (obj[keys[i]] && obj === error) return false;
+      }
+      return true;
+    };
+
+    if (
+      page === 'signup' &&
+      notEmptyInputData(userInput) &&
+      notEmptyInputData(error)
+    ) {
+      if (userInput.password !== userInput.rePassword)
+        setError({ ...error, rePassword: '비밀번호가 일치하지 않습니다' });
+      else if (!checked) alert('약관에 동의해주세요');
       else {
         handlePost();
       }
+    } else if (page === 'login' && userInput.email && userInput.password) {
+      handlePost();
     }
   };
 
