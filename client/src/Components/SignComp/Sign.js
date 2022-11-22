@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/css';
+import axios from 'axios';
 import {
   Button,
   TextField,
@@ -69,18 +70,28 @@ const Sign = () => {
     }
   };
 
+  // 회원가입
   const handleSubmit = e => {
     e.preventDefault();
-    // const data = new FormData(e.currentTarget);
-    // const joinData = {
-    //   nickname: data.get('nickname'),
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    //   passwordCheck: data.get('passwordCheck'),
-    // };
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      nickname: formData.get('nickname'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      passwordCheck: formData.get('passwordCheck'),
+    };
+
+    const handlePost = async () => {
+      await axios
+        .post(`http://localhost:4000/${page}`, { data })
+        .then(res => console.log(res.data));
+    };
 
     if (!nameError && !emailError && !passwordError && !passwordCheckError) {
       if (!checked) alert('약관에 동의해주세요!');
+      else {
+        handlePost();
+      }
     }
   };
 
