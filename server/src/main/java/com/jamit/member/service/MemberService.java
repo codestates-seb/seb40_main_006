@@ -16,22 +16,22 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-     private final PasswordEncoder passwordEncoder;
-     private final CustomAuthorityUtils authorityUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtil;
 
-     public Member signupMember(Member member) {
-         verifyExistsEmail(member.getEmail());
+    public Member signupMember(Member member) {
+        verifyExistsEmail(member.getEmail());
 
-         String encryptedPassword = passwordEncoder.encode(member.getPassword());
-         member.setPassword(encryptedPassword);
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
 
-         List<String> roles = authorityUtil.createRoles(member.getEmail());
-         member.setRoles(roles);
+        List<String> roles = authorityUtil.createRoles(member.getEmail());
+        member.setRoles(roles);
 
-         Member savedMember = memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
-         return savedMember;
-     }
+        return savedMember;
+    }
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
