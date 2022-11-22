@@ -3,9 +3,10 @@ package com.jamit.jam.service;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
 import com.jamit.jam.repository.JamRepository;
+import com.jamit.jam.status.ParticipantStatus;
 import com.jamit.member.entity.Member;
-import com.jamit.member.repository.MemberRepository;
 import com.jamit.member.service.MemberService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,22 +19,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class JamService {
+
     private final JamRepository jamRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     public Jam createJam(Jam jam) {
         Member member = memberService.verifyExistsNickname(jam.getMember().getNickname());
         jam.setMember(member);
 
+        JamParticipant participant = new JamParticipant(ParticipantStatus.TRUE, member, jam);
+
         if (jam.isRealTime()) {
             jam.setJamTo(LocalDateTime.now());
             jam.setJamFrom(LocalDateTime.now());
         }
 
-        jamRepository.save(jam);
+        jam.addParticipant(participant);
 
-        return jam;
+        return jamRepository.save(jam);
     }
 
     public Jam updateJam(Jam jam) {
@@ -41,7 +44,7 @@ public class JamService {
 
         Optional.ofNullable(jam.getTitle()).ifPresent(verifiedJam::setTitle);
         Optional.ofNullable(jam.getCategory()).ifPresent(verifiedJam::setCategory);
-        Optional.of(jam.getMaximum()).ifPresent(verifiedJam::setMaximum);
+        Optional.of(jam.getCapacity()).ifPresent(verifiedJam::setCapacity);
         Optional.ofNullable(jam.getJamFrom()).ifPresent(verifiedJam::setJamFrom);
         Optional.ofNullable(jam.getJamTo()).ifPresent(verifiedJam::setJamTo);
         Optional.of(jam.isRealTime()).ifPresent(verifiedJam::setRealTime);
@@ -69,7 +72,9 @@ public class JamService {
     }
 
     public List<Jam> searchTitleOrContent(String keyword) {
-        List<Jam> jams = Optional.ofNullable(jamRepository.findByTitleContainingOrContentContaining(keyword, keyword)).orElseThrow(IllegalAccessError::new);
+        List<Jam> jams = Optional.ofNullable(
+                jamRepository.findByTitleContainingOrContentContaining(keyword, keyword))
+            .orElseThrow(IllegalAccessError::new);
         return jams;
     }
 
@@ -78,8 +83,6 @@ public class JamService {
         Long memberId = member.getMemberId();
         return jamRepository.findByJamMemberId(memberId);
     }
-
-
 
 
 }

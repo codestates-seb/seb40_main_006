@@ -48,17 +48,16 @@ public class Jam extends Auditable {
 	@Column(nullable = false)
 	private String content;
 
+	private String image;
+
 	private LocalDateTime jamFrom;
 
 	private LocalDateTime jamTo;
 
-	private int currentPpl = 1;
+	private Integer currentPpl = 1;
 
 	@Column(nullable = false)
-	private int maximum;
-
-	@Column(nullable = false)
-	private int capacity;
+	private Integer capacity;
 
 	@Column(nullable = false)
 	private boolean realTime;
@@ -68,7 +67,22 @@ public class Jam extends Auditable {
 
 	private int views = 0;
 
+	@Column(nullable = false)
+	private String address;
+
+	@Column(nullable = false)
+	private String location;
+
 	private Point point;
+
+	@Column(nullable = false)
+	private String latitude;    // 위도
+
+	@Column(nullable = false)
+    private String longitude;   // 경도
+
+	@Column
+	private String openChatLink;
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "member_id")
@@ -80,6 +94,9 @@ public class Jam extends Auditable {
 	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private final List<Reply> replyList = new ArrayList<>();
 
+	@OneToMany(mappedBy = "jam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	private final List<JamParticipant> participantList = new ArrayList<>();
+
 	public void setMember(Member member) {
 		this.member = member;
 	}
@@ -90,5 +107,13 @@ public class Jam extends Auditable {
 
 	public void addReply(Reply reply) {
 		replyList.add(reply);
+	}
+
+	public void addCurrentPpl(int change) {
+		this.currentPpl += change;
+	}
+
+	public void addParticipant(JamParticipant participant) {
+		this.participantList.add(participant);
 	}
 }

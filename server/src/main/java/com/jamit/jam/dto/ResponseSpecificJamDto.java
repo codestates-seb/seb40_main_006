@@ -15,26 +15,28 @@ public class ResponseSpecificJamDto {
 
     private Long jamId;
     private String nickname;
-
-    public void setMember(Member member) {
-        this.nickname = member.getNickname();
-    }
-
+    private Category category;
     private String title;
     private String content;
+    private String image;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
-    private Category category;
     private int currentPpl;
-
-    @Range(min = 1, max = 100)
     private int capacity;
-
     private boolean realTime;
     private boolean complete;
     private int views;
+    private String address;
+    private String location;
+    private String latitude;    // 위도
+    private String longitude;   // 경도
+    private String openChatLink;
     private List<ResponseParticipantDto> participantList;
 //  private List<ResponseCommentDto> commentList; // 댓글
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    public void setMember(Member member) {
+        this.nickname = member.getNickname();
+    }
 }

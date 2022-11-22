@@ -2,6 +2,7 @@ package com.jamit.jam.mapper;
 
 import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,7 +26,10 @@ public interface JamMapper {
     @Mapping(source = "member.nickname",target = "nickname")
     ResponseSpecificJamDto jamToResponseSpecificJamDto(Jam jam);
 
+    @Mapping(source = "member.memberId",target = "memberId")
+    @Mapping(source = "member.nickname",target = "nickname")
+    ResponseParticipantDto participantToParticipantListDto(JamParticipant jamParticipant);
+
     @IterableMapping(qualifiedByName = "jamList")
     List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams);
-
 }

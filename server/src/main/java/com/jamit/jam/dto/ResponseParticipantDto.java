@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResponseParticipantDto {
     private Long memberId;
-    private String username;
-    // 유저이미지 추가
+    private String nickname;
+    private String image;
 }

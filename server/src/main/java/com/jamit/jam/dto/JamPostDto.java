@@ -13,24 +13,23 @@ import org.hibernate.annotations.Parameter;
 public class JamPostDto {
 
     private String nickname;
+    private Category category;
+    private String title;
+    private String content;
+    private String image;
+    private LocalDateTime jamFrom;
+    private LocalDateTime jamTo;
+    private Integer capacity;
+    private boolean realTime;
+    private String address;
+    private String location;
+    private String latitude;    // 위도
+    private String longitude;   // 경도
+    private String openChatLink;
 
     public Member getMember() {
         Member member = new Member();
         member.setNickname(nickname);
         return member;
     }
-
-    private String title;
-
-    private Category category;
-
-    private Integer maximum;
-
-    private LocalDateTime jamFrom;
-
-    private LocalDateTime jamTo;
-
-    private boolean realTime;
-
-    private String content;
 }
