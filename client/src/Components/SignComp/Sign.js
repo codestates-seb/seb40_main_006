@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import * as React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/css';
@@ -13,7 +14,7 @@ import {
   Checkbox,
   ThemeProvider,
 } from '@mui/material/';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { themeUserPage } from '../../Styles/theme';
 import BackgroundImage from './BackgroundImage';
 import SocialLogin from './SocialLogin';
@@ -27,15 +28,19 @@ const validateText = css`
 `;
 
 const Sign = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const page = location.pathname.slice(1);
 
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordCheckError, setPasswordCheckError] = useState('');
   const [validPassword, setValidPassword] = useState('');
   const [checked, setChecked] = useState(false);
+
+  const [error, setError] = useState({
+    name: '',
+    email: '',
+    password: '',
+    rePassword: '',
+  });
 
   // 유효성 검사
   const validationCheck = e => {
@@ -43,30 +48,38 @@ const Sign = () => {
     const targetVal = e.target.value;
 
     if (targetName === 'nickname') {
-      if (!targetVal.length) setNameError('닉네임을 입력해주세요');
-      else setNameError('');
+      if (!targetVal.length)
+        setError({ ...error, name: '닉네임을 입력해주세요' });
+      else setError({ ...error, name: '' });
     }
     if (targetName === 'email') {
       const emailRegex =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       if (!emailRegex.test(targetVal))
-        setEmailError('올바른 이메일 형식이 아닙니다');
-      else setEmailError('');
+        // setEmailError('올바른 이메일 형식이 아닙니다');
+        setError({ ...error, email: '올바른 이메일 형식이 아닙니다' });
+      else setError({ ...error, email: '' });
     }
     if (targetName === 'password') {
       const passwordRegex =
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       setValidPassword(targetVal);
       if (!passwordRegex.test(targetVal))
-        setPasswordError(
-          '숫자+영문자+특수문자 조합으로 8자리 이상이어야 합니다',
-        );
-      else setPasswordError('');
+        setError({
+          ...error,
+          password: '숫자+영문자+특수문자 조합으로 8자리 이상이어야 합니다',
+        });
+      else
+        setError({
+          ...error,
+          password: '',
+        });
     }
     if (targetName === 'passwordCheck') {
       if (validPassword !== targetVal)
-        setPasswordCheckError('비밀번호가 일치하지 않습니다.');
-      else setPasswordCheckError('');
+        // setPasswordCheckError('비밀번호가 일치하지 않습니다.');
+        setError({ ...error, rePassword: '비밀번호가 일치하지 않습니다' });
+      else setError({ ...error, rePassword: '' });
     }
   };
 
@@ -82,13 +95,15 @@ const Sign = () => {
     };
 
     const handlePost = async () => {
-      await axios
-        .post(`http://localhost:4000/${page}`, { data })
-        .then(res => console.log(res.data));
+      await axios.post(`http://localhost:4000/${page}`, { data }).then(res => {
+        console.log(res.data);
+        alert('회원가입이 완료되었습니다!');
+        navigate('/login');
+      });
     };
 
-    if (!nameError && !emailError && !passwordError && !passwordCheckError) {
-      if (!checked) alert('약관에 동의해주세요!');
+    if (!error.name && !error.email && !error.password && !error.rePassword) {
+      if (!checked) alert('약관에 동의해주세요');
       else {
         handlePost();
       }
@@ -130,9 +145,9 @@ const Sign = () => {
                     autoFocus
                     size="small"
                     onBlur={e => validationCheck(e)}
-                    error={nameError !== '' || false}
+                    error={error.name !== '' || false}
                   />
-                  <div className={validateText}>{nameError}</div>
+                  <div className={validateText}>{error.name}</div>
                 </>
               )}
               <TextField
@@ -144,9 +159,9 @@ const Sign = () => {
                 // autoFocus
                 size="small"
                 onBlur={e => validationCheck(e)}
-                error={emailError !== '' || false}
+                error={error.email !== '' || false}
               />
-              <div className={validateText}>{emailError}</div>
+              <div className={validateText}>{error.email}</div>
               <TextField
                 margin="normal"
                 fullWidth
@@ -156,9 +171,9 @@ const Sign = () => {
                 id="password"
                 size="small"
                 onBlur={e => validationCheck(e)}
-                error={passwordError !== '' || false}
+                error={error.password !== '' || false}
               />
-              <div className={validateText}>{passwordError}</div>
+              <div className={validateText}>{error.password}</div>
               {page === 'login' ? null : (
                 <>
                   <TextField
@@ -170,9 +185,9 @@ const Sign = () => {
                     id="passwordCheck"
                     size="small"
                     onBlur={e => validationCheck(e)}
-                    error={passwordCheckError !== '' || false}
+                    error={error.rePassword !== '' || false}
                   />
-                  <div className={validateText}>{passwordCheckError}</div>
+                  <div className={validateText}>{error.rePassword}</div>
 
                   <FormControlLabel
                     control={
