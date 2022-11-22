@@ -46,7 +46,6 @@ const Sign = () => {
   const validationCheck = e => {
     const targetName = e.target.name;
     const targetVal = e.target.value;
-
     if (targetName === 'nickname') {
       if (!targetVal.length)
         setError({ ...error, name: '닉네임을 입력해주세요' });
@@ -56,11 +55,10 @@ const Sign = () => {
       const emailRegex =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       if (!emailRegex.test(targetVal))
-        // setEmailError('올바른 이메일 형식이 아닙니다');
         setError({ ...error, email: '올바른 이메일 형식이 아닙니다' });
       else setError({ ...error, email: '' });
     }
-    if (targetName === 'password') {
+    if (targetName === 'password' && page === 'signup') {
       const passwordRegex =
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       setValidPassword(targetVal);
@@ -77,13 +75,12 @@ const Sign = () => {
     }
     if (targetName === 'passwordCheck') {
       if (validPassword !== targetVal)
-        // setPasswordCheckError('비밀번호가 일치하지 않습니다.');
         setError({ ...error, rePassword: '비밀번호가 일치하지 않습니다' });
       else setError({ ...error, rePassword: '' });
     }
   };
 
-  // 회원가입
+  // 회원가입 및 로그인
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -93,17 +90,20 @@ const Sign = () => {
       password: formData.get('password'),
       passwordCheck: formData.get('passwordCheck'),
     };
-
     const handlePost = async () => {
       await axios.post(`http://localhost:4000/${page}`, { data }).then(res => {
         console.log(res.data);
-        alert('회원가입이 완료되었습니다!');
-        navigate('/login');
+        if (page === 'signup') {
+          alert('회원가입이 완료되었습니다!');
+          navigate('/login');
+        } else if (page === 'login') {
+          navigate('/');
+        }
       });
     };
 
-    if (!error.name && !error.email && !error.password && !error.rePassword) {
-      if (!checked) alert('약관에 동의해주세요');
+    if (data.nickname && data.email && data.password && data.passwordCheck) {
+      if (!checked && page === 'signup') alert('약관에 동의해주세요');
       else {
         handlePost();
       }
