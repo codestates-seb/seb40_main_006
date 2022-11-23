@@ -38,6 +38,7 @@ public class MemberController {
 
     /**
      * USER-01: Local User 회원가입
+     * Authorized: ALL
      */
     @PostMapping("/signup")
     public ResponseEntity signup(@Valid @RequestBody MemberDto.Signup requestBody) {
@@ -50,6 +51,7 @@ public class MemberController {
 
     /**
      * USER-08: Local User 정보 수정
+     * Authorized: Writer
      */
     @PatchMapping("/change/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
@@ -67,13 +69,13 @@ public class MemberController {
 
             return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
         } else {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
         }
-
     }
 
     /**
      * USER-09: Local User 프로필 조회
+     * Authorized: USER
      */
     @GetMapping("/profile/{member-id}")
     public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
@@ -82,17 +84,6 @@ public class MemberController {
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-
-//    /**
-//     * USER-09: Local User 마이프로필 조회
-//     */
-//    @GetMapping("/profile/myprofile")
-//    public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
-//        Member member = memberService.findVerifiedMember(memberId);
-//        MemberDto.ProfileResponse response = mapper.memberToProfileResponse(member);
-//
-//        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
-//    }
 
     /**
      * Authentication 토큰 조회

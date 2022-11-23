@@ -1,14 +1,22 @@
 package com.jamit.jam.controller;
 
+import com.jamit.auth.userdetails.MemberDetails;
+import com.jamit.exception.BusinessLogicException;
+import com.jamit.exception.ExceptionCode;
+import com.jamit.global.dto.SingleResponseDto;
 import com.jamit.jam.entity.JamParticipant;
 import com.jamit.jam.service.JamParticipantService;
 import com.jamit.jam.service.JamService;
 import com.jamit.jam.status.ParticipantStatus;
+import com.jamit.member.dto.MemberDto;
+import com.jamit.member.entity.Member;
 import com.jamit.member.service.MemberService;
 import java.security.Principal;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,12 +34,19 @@ public class JamParticipantController {
     private final MemberService memberService;
     private final JamService jamService;
 
+    /**
+     * JAM-07: Jam 참여
+     * Authorized: USER
+     */
     @PostMapping("/true")
     public ResponseEntity postParticipant(@Positive @PathVariable("jam_id") Long jamId,
-        @AuthenticationPrincipal String email) {
+        Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
+
         JamParticipant jamParticipant = buildParticipant(
             jamId,
-            email,
+            member.getEmail(),
             ParticipantStatus.TRUE
         );
 
@@ -40,11 +55,18 @@ public class JamParticipantController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * JAM-08: Jam 참여 취소
+     * Authorized: USER(Jam Member)
+     */
     @DeleteMapping("/false")
-    public ResponseEntity deleteParticipant(@Positive @PathVariable("jam_id") Long jamId, Principal principal) {
+    public ResponseEntity deleteParticipant(@Positive @PathVariable("jam_id") Long jamId, Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
+
         JamParticipant jamParticipant = buildParticipant(
             jamId,
-            principal.getName(),
+            member.getEmail(),
             ParticipantStatus.FALSE
         );
 

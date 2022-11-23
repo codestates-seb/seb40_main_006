@@ -4,16 +4,14 @@ import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 
 import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
 import com.jamit.reply.entity.Reply;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,6 +50,9 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member")
     private List<Jam> jamList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<JamParticipant> jamParticipantList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Comment> commentList = new ArrayList<>();

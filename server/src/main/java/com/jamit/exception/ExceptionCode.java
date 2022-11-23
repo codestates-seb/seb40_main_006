@@ -7,7 +7,8 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member exists"),
     SIGNUP_EXISTS_EMAIL(409, "This is a registered email"),
     SIGNUP_EXISTS_NICKNAME(409, "This is a registered nickname"),
-    MEMBER_NOT_MATCH(403, "Member not match"),
+    NO_AUTHORITY(403, "You don’t have Authority"),
+    LOGIN_REQUIRED(401, "You need to login"),
     JAM_NOT_FOUND(404, "Jam not found");
 
     @Getter

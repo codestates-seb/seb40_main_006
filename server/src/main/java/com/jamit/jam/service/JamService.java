@@ -23,10 +23,7 @@ public class JamService {
     private final JamRepository jamRepository;
     private final MemberService memberService;
 
-    public Jam createJam(Jam jam) {
-        Member member = memberService.findVerifiedNickname(jam.getMember().getNickname());
-        jam.setMember(member);
-
+    public Jam createJam(Jam jam, Member member) {
         JamParticipant participant = new JamParticipant(ParticipantStatus.TRUE, member, jam);
 
         if (jam.isRealTime()) {
@@ -34,6 +31,7 @@ public class JamService {
             jam.setJamFrom(LocalDateTime.now());
         }
 
+        jam.setMember(member);
         jam.addParticipant(participant);
 
         return jamRepository.save(jam);
