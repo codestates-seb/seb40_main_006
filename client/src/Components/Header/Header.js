@@ -6,7 +6,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
-import Address from './Address';
+// import Address from './Address';
+import AddressDialog from './AddressDialog';
 
 const header = css`
   padding: 10px 40px 10px 30px;
@@ -20,6 +21,23 @@ const header = css`
 const logo = css`
   margin-left: 10px;
 `;
+
+// address
+// const addressContainer = css`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin: 5px 10px;
+//   padding: 20px;
+// `;
+// const addressBtn = css`
+//   background-color: ${palette.gray_4};
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   border-radius: 10px;
+//   padding: 15px 10px;
+// `;
 
 // search
 const searchBar = css`
@@ -143,16 +161,26 @@ const LogoutArea = () => {
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
+  // const [isAddressClick, setIsAddressClick] = useState(false);
   const onLoginBtnClick = () => {
     console.log('버튼클릭');
     setIsLogin(!isLogin);
     console.log(isLogin);
   };
+  // const onAddressClick = () => {
+  //   console.log('address클릭');
+  //   setIsAddressClick(!isAddressClick);
+  //   console.log(isAddressClick);
+  // };
 
   return (
     <div className={header}>
       <img className={logo} alt="logo_jamit" src={logoImage} />
-      <Address />
+      {/* <button className={addressBtn} type="button" onClick={onAddressClick}>
+        <p>동네 선택</p>
+      </button>
+      {isAddressClick ? <AddressModal /> : null} */}
+      <AddressDialog />
       <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
         임시로그인토글{' '}
       </button>
