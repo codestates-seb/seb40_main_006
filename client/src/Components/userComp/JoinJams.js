@@ -6,7 +6,6 @@ import { myPageInfoState } from '../../Atom/atoms';
 
 const JoinJams = () => {
   const [userInfo] = useRecoilState(myPageInfoState);
-
   return (
     <div>
       참여한 잼

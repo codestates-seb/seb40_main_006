@@ -4,6 +4,8 @@ const loginUserInfoState = atom({
   key: 'loginUserInfo',
   default: {
     memberId: 1,
+    nickname: '',
+    img: '',
   },
 });
 

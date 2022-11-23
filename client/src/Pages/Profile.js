@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { palette, themeUserPage } from '../Styles/theme';
 import AvatarImg from '../Components/userComp/AvatarImg';
 import Sidebar from '../Components/Sidebar';
+import { getCookie } from '../Components/SignComp/Cookie';
 
 const pageContainer = css`
   display: flex;
@@ -67,6 +68,9 @@ const Profile = () => {
     preview_URL: '',
   });
 
+  const accessToken = getCookie('is_login');
+  console.log(accessToken);
+
   const handleSubmit = async e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -80,10 +84,11 @@ const Profile = () => {
 
     // 로그인 된 유저만 가능해야하기에 토큰을 함께 헤더에 담아주기 and 비밀번호 유효성 검사 후 통신
     // url=`${process.env.REACT_APP_URL}/user/change/${userid}`
-    await axios.post('http://localhost:4000/edit', formData, {
+    await axios.patch('http://localhost:4000/edit', formData, {
       headers: {
         'Content-Type': `application/json`,
         // 'Content-Type': 'multipart/form-data',
+        Authorization: accessToken,
       },
     });
   };
