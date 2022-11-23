@@ -42,13 +42,18 @@ public class JamService {
     public Jam updateJam(Jam jam) {
         Jam verifiedJam = findVerifiedJam(jam.getId());
 
-        Optional.ofNullable(jam.getTitle()).ifPresent(verifiedJam::setTitle);
         Optional.ofNullable(jam.getCategory()).ifPresent(verifiedJam::setCategory);
-        Optional.of(jam.getCapacity()).ifPresent(verifiedJam::setCapacity);
+        Optional.ofNullable(jam.getTitle()).ifPresent(verifiedJam::setTitle);
+        Optional.ofNullable(jam.getContent()).ifPresent(verifiedJam::setContent);
+        Optional.ofNullable(jam.getImage()).ifPresent(verifiedJam::setImage);
         Optional.ofNullable(jam.getJamFrom()).ifPresent(verifiedJam::setJamFrom);
         Optional.ofNullable(jam.getJamTo()).ifPresent(verifiedJam::setJamTo);
+        Optional.of(jam.getCapacity()).ifPresent(verifiedJam::setCapacity);
         Optional.of(jam.isRealTime()).ifPresent(verifiedJam::setRealTime);
-        Optional.ofNullable(jam.getContent()).ifPresent(verifiedJam::setContent);
+        Optional.ofNullable(jam.getAddress()).ifPresent(verifiedJam::setAddress);
+        Optional.ofNullable(jam.getLocation()).ifPresent(verifiedJam::setLocation);
+        Optional.ofNullable(jam.getLatitude()).ifPresent(verifiedJam::setLatitude);
+        Optional.ofNullable(jam.getLongitude()).ifPresent(verifiedJam::setLongitude);
 
         return jamRepository.save(verifiedJam);
     }
