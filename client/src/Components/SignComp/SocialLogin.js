@@ -1,35 +1,53 @@
-import React from 'react';
+import { useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 import { css } from '@emotion/css';
-import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loginUserInfoState } from '../../Atom/atoms';
 
-const socialLogin = css`
+const loginContainer = css`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 38px;
-  padding: 10px;
-  margin: 20px 0 10px 0;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  :hover {
-    background: hsl(210, 8%, 97.5%);
-    outline: 2px solid #e0e0e0;
-  }
-  * {
-    margin: 0 10px;
-  }
 `;
 
 const SocialLogin = () => {
+  const [user, setUser] = useRecoilState(loginUserInfoState);
+  const navigate = useNavigate();
+
+  function handleCallbackResponse(response) {
+    const encodedJwtIdToken = response.credential;
+    const userObject = jwtDecode(encodedJwtIdToken);
+    setUser(userObject);
+    setUser({
+      memberId: user.memberId + 1,
+      nickname: userObject.name,
+      img: userObject.picture,
+    });
+
+    document.getElementById('signInDiv').hidden = true;
+    navigate('/');
+  }
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      callback: handleCallbackResponse,
+    });
+    google.accounts.id.renderButton(document.getElementById('signInDiv'), {
+      theme: 'outline',
+      size: 'large',
+      shape: 'square',
+      logo_alignment: 'left',
+    });
+
+    // google.accounts.id.prompt();
+  }, []);
+
   return (
-    <button type="submit" className={socialLogin}>
-      <FcGoogle size={18} />
-      Log in with Google
-    </button>
+    <div id="signInDiv" className={loginContainer}>
+      {' '}
+    </div>
   );
 };
 
