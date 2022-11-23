@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import axios from 'axios';
+// import { useRecoilState } from 'recoil';
+// import axios from 'axios';
+// import { myPageInfoState } from '../Atom/atoms';
 import { css } from '@emotion/css';
 import { palette } from '../Styles/theme';
 import UserTitle from '../Components/userComp/UserTitle';
 import JoinJams from '../Components/userComp/JoinJams';
 import OpenJams from '../Components/userComp/OpenJams';
-import { myPageInfoState } from '../Atom/atoms';
 import Sidebar from '../Components/Sidebar';
+import { getCookie } from '../Components/SignComp/Cookie';
 
 const pageContainer = css`
   display: flex;
@@ -65,10 +66,21 @@ const userJamInfo = css`
 `;
 
 const Mypage = () => {
-  const [userInfo] = useRecoilState(myPageInfoState);
+  // const [userInfo] = useRecoilState(myPageInfoState);
+
+  const accessToken = getCookie('is_login');
+  console.log(accessToken);
 
   useEffect(() => {
-    axios.get('/', { memberId: userInfo.memberId });
+    // axios.get(
+    //   '/',
+    //   { memberId: userInfo.memberId },
+    //   {
+    //     headers: {
+    //       Authorization: accessToken,
+    //     },
+    //   },
+    // );
     // .then(res => {
     //   setUserInfo({
     //     memberId: userInfo.memberId,

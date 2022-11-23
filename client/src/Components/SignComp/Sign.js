@@ -113,8 +113,9 @@ const Sign = () => {
                 password: '이메일 또는 비밀번호가 올바르지 않습니다',
               });
             } else {
-              const { accessToken } = res.data;
-              setCookie('is_login', accessToken);
+              // const { accessToken } = res.data;
+              // setCookie('is_login', accessToken);
+              setCookie('is_login', '액세스토큰입니다');
               setError({ ...error, password: '' });
               navigate('/');
             }
