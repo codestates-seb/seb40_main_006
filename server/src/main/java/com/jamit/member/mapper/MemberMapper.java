@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 public interface MemberMapper {
     Member memberSignupToMember(MemberDto.Signup requestBody);
     Member memberUpdateToMember(MemberDto.UpdateMember requestBody);
-    MemberDto.MemberInfoResponse memberToMemberResponse(Member member);
     MemberDto.UpdateResponse memberToUpdateResponse(Member member);
+    MemberDto.ProfileResponse memberToProfileResponse(Member member);
 
 }

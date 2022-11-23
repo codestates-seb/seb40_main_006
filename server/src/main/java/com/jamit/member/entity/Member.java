@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Member extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
@@ -43,11 +46,9 @@ public class Member extends Auditable {
     @Column
     private String image;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdTime = LocalDateTime.now();
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Role roles;
 
     @OneToMany(mappedBy = "member")
     private List<Jam> jamList = new ArrayList<>();
@@ -57,6 +58,18 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
+
+    public enum Role {
+        USER("ROLE_USER"),
+        ADMIN("ROLE_ADMIN");
+
+        @Getter
+        private String status;
+
+        Role(String status) {
+            this.status = status;
+        }
+    }
 
     public void addJam(Jam jam) {
         jamList.add(jam);

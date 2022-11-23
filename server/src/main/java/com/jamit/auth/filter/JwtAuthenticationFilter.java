@@ -3,6 +3,7 @@ package com.jamit.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jamit.auth.dto.LoginDto;
 import com.jamit.auth.jwt.JwtTokenizer;
+import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.member.entity.Member;
 import java.io.IOException;
 import java.util.Date;
@@ -37,10 +38,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,
         HttpServletResponse response) {
         ObjectMapper objectMapper = new ObjectMapper(); // 인증 정보를 DTO 클래스로 역직렬화하기 위한 인스턴스
-        LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class); // request 를 LoginDto 로 역직렬화
+        LoginDto loginDto = objectMapper.readValue(request.getInputStream(),
+            LoginDto.class); // request 를 LoginDto 로 역직렬화
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            loginDto.getUsername(), loginDto.getPassword()); // 인증 정보로 UsernamePasswordAuthenticationToken 생성
+            loginDto.getUsername(),
+            loginDto.getPassword()); // 인증 정보로 UsernamePasswordAuthenticationToken 생성
 
         return authenticationManager.authenticate(
             authenticationToken); // AuthenticationManager 에게 인증 처리 위임. authenticate() 가 실행되면 loadUserByUserName 메서드가 실행됨
@@ -52,7 +55,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
         HttpServletResponse response, FilterChain chain, Authentication authResult)
         throws ServletException, IOException {
-        Member member = (Member) authResult.getPrincipal(); // authentication 에서 Member 객체를 얻음
+        MemberDetails memberDetails = (MemberDetails) authResult.getPrincipal();
+        Member member = memberDetails.getMember();
 
         String accessToken = delegateAccessToken(member); // Access Token 생성
         String refreshToken = delegateRefreshToken(member); // Refresh Token 생성
@@ -72,9 +76,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         claims.put("roles", member.getRoles());
 
         String subject = member.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+        Date expiration = jwtTokenizer.getTokenExpiration(
+            jwtTokenizer.getAccessTokenExpirationMinutes());
 
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(
+            jwtTokenizer.getSecretKey());
 
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration,
             base64EncodedSecretKey);
@@ -87,9 +93,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     private String delegateRefreshToken(Member member) {
         String subject = member.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        Date expiration = jwtTokenizer.getTokenExpiration(
+            jwtTokenizer.getRefreshTokenExpirationMinutes());
 
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(
+            jwtTokenizer.getSecretKey());
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration,
             base64EncodedSecretKey);

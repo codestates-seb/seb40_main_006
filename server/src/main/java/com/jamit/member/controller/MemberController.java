@@ -8,6 +8,7 @@ import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.mapper.MemberMapper;
 import com.jamit.member.service.MemberService;
+import java.security.Principal;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -53,103 +54,97 @@ public class MemberController {
     @PatchMapping("/change/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
         @Valid @RequestBody MemberDto.UpdateMember requestBody, Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
+
         Member findMember = memberService.findVerifiedMember(memberId);
 
-        if (authentication.getPrincipal().equals(findMember.getEmail())) {
+        if (member.getEmail().equals(findMember.getEmail())) {
             requestBody.setMemberId(memberId);
-            Member member = mapper.memberUpdateToMember(requestBody);
-            Member updateMember = memberService.updateMember(member);
+            Member UpdateToMember = mapper.memberUpdateToMember(requestBody);
+            Member updateMember = memberService.updateMember(UpdateToMember);
             MemberDto.UpdateResponse response = mapper.memberToUpdateResponse(updateMember);
 
             return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
         } else {
-
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
 
     }
 
-//    /**
-//     * USER-08: Local User 정보 수정
-//     */
-//    @PatchMapping("/change/{member-id}")
-//    public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
-//        @Valid @RequestBody MemberDto.UpdateMember requestBody, Authentication authentication) {
-//
-//        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-//        Member member = memberDetails.getMember();
-//
-//        Member findMember = memberService.findVerifiedMember(memberId);
-//
-//        if (member == null) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-//
-//        if (authentication.getName().equals(findMember.getEmail())) {
-//            requestBody.setMemberId(memberId);
-//            Member member = mapper.memberUpdateToMember(requestBody);
-//            Member updateMember = memberService.updateMember(member);
-//            MemberDto.UpdateResponse response = mapper.memberToUpdateResponse(updateMember);
-//
-//            return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
-//        } else {
-//
-//            return new ResponseEntity(HttpStatus.FORBIDDEN);
-//        }
-//
-//    }
-
     /**
      * USER-09: Local User 프로필 조회
      */
-//    @GetMapping("/profile/{member-id}")
+    @GetMapping("/profile/{member-id}")
+    public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
+        Member member = memberService.findVerifiedMember(memberId);
+        MemberDto.ProfileResponse response = mapper.memberToProfileResponse(member);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+//    /**
+//     * USER-09: Local User 마이프로필 조회
+//     */
+//    @GetMapping("/profile/myprofile")
 //    public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
 //        Member member = memberService.findVerifiedMember(memberId);
+//        MemberDto.ProfileResponse response = mapper.memberToProfileResponse(member);
+//
+//        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
 //    }
 
     /**
-     * Access Key 로 Authentication 조회
+     * Authentication 토큰 조회
      */
-//    @GetMapping("/get/authentication")
-//    public ResponseEntity user(Authentication authentication) {
-//
-//        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-//        Member member = memberDetails.getMember();
-//
-//        System.out.println("인증 객체 : " + member.getMemberId());
-//        System.out.println("인증 객체 : " + member.getEmail());
-//        System.out.println("인증 객체 : " + member.getNickname());
-//
-//        System.out.println("인증 객체 : " + authentication.getPrincipal());
-//        System.out.println("인증 객체 : " + authentication.getName());
-//        System.out.println("인증 객체 : " + authentication.getCredentials());
-//        System.out.println("인증 객체 : " + authentication.getDetails());
-//        System.out.println("인증 객체 : " + authentication.getAuthorities());
-//        System.out.println("인증 객체 : " + authentication.getClass());
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    @GetMapping("/get/authentication")
+    public ResponseEntity authentication(Authentication authentication) {
+
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+
+        Member member = memberDetails.getMember();
+
+        System.out.println("인증 객체 : " + memberDetails.getUsername());
+        System.out.println("인증 객체 : " + memberDetails.getPassword());
+        System.out.println("인증 객체 : " + memberDetails.getAuthorities());
+
+        System.out.println("인증 객체 : " + member.getEmail());
+        System.out.println("인증 객체 : " + member.getPassword());
+        System.out.println("인증 객체 : " + member.getRoles());
+        System.out.println("인증 객체 : " + member.getNickname());
+
+        return new ResponseEntity(member, HttpStatus.OK);
+    }
 
     /**
-     * Access Key 로 MemberDetails 조회
+     * principal 조회
      */
-    @GetMapping("/get/memberdetails")
-    public ResponseEntity apUser(@AuthenticationPrincipal MemberDetails memberDetails) {
-//        Member member = memberDetails.get;
+    @GetMapping("/get/principal")
+    public ResponseEntity principal(Principal principal) {
 
-        System.out.println("인증 객체 : " + memberDetails.getMemberId());
-        System.out.println("인증 객체 : " + memberDetails.getEmail());
-//        System.out.println("인증 객체 : " + memberDetails.getImage());
-//        System.out.println("인증 객체 : " + memberDetails.getNickname());
-//        System.out.println("인증 객체 : " + memberDetails.getPassword());
-//        System.out.println("인증 객체 : " + memberDetails.getUsername());
-//        System.out.println("인증 객체 : " + memberDetails.getAuthorities());
-//        System.out.println("인증 객체 : " + member.getEmail());
+        System.out.println(principal.getName());
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    /** Header 값 가져오기 */
-//    @GetMapping("/get/header")
-//    public ResponseEntity getHeader(Authentication authentication, @RequestHeader("login") String login){
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    /**
+     * @AuthenticationPrincipal MemberDetails 조회
+     */
+    @GetMapping("/get/memberdetails")
+    public ResponseEntity memberDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Member member = memberDetails.getMember();
+
+        System.out.println("인증 객체 : " + memberDetails.getUsername());
+        System.out.println("인증 객체 : " + memberDetails.getPassword());
+        System.out.println("인증 객체 : " + memberDetails.getAuthorities());
+
+        System.out.println("인증 객체 : " + member.getEmail());
+        System.out.println("인증 객체 : " + member.getPassword());
+        System.out.println("인증 객체 : " + member.getRoles());
+        System.out.println("인증 객체 : " + member.getNickname());
+
+        return new ResponseEntity(member, HttpStatus.OK);
+    }
 
 }

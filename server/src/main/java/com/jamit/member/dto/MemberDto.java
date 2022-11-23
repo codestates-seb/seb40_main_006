@@ -68,7 +68,10 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     public static class ProfileResponse {
-
+        private Long memberId;
+        private String email;
+        private String nickname;
+        private String image;
     }
 
 }

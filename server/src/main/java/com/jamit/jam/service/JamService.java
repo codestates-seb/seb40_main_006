@@ -24,7 +24,7 @@ public class JamService {
     private final MemberService memberService;
 
     public Jam createJam(Jam jam) {
-        Member member = memberService.verifyExistsNickname(jam.getMember().getNickname());
+        Member member = memberService.findVerifiedNickname(jam.getMember().getNickname());
         jam.setMember(member);
 
         JamParticipant participant = new JamParticipant(ParticipantStatus.TRUE, member, jam);
@@ -79,7 +79,7 @@ public class JamService {
     }
 
     public List<Jam> searchNickname(String nickname) {
-        Member member = memberService.verifyExistsNickname(nickname);
+        Member member = memberService.findVerifiedNickname(nickname);
         Long memberId = member.getMemberId();
         return jamRepository.findByJamMemberId(memberId);
     }
