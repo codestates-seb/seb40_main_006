@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
+import AddressModal from './AddressModal';
 
 const Container = css`
   width: 100%;
@@ -48,7 +49,17 @@ const categories = [
   { value: 'development', label: '개발' },
 ];
 
-const JamInputField = ({ jamTitleRef, jamCategoryRef, jamCapacityRef }) => {
+const JamInputField = ({
+  jamTitleRef,
+  jamCategoryRef,
+  jamCapacityRef,
+  address,
+  setAddress,
+}) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div css={Container}>
       <Box
@@ -100,9 +111,12 @@ const JamInputField = ({ jamTitleRef, jamCategoryRef, jamCapacityRef }) => {
           </TextField>
           <TextField
             id="study-location"
+            type="button"
+            onClick={handleOpen}
             label="잼 위치"
             variant="standard"
             placeholder="클릭하면 주소 검색창이 나와요"
+            value={address}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -112,6 +126,15 @@ const JamInputField = ({ jamTitleRef, jamCategoryRef, jamCapacityRef }) => {
               },
             }}
           />
+          {open && (
+            <AddressModal
+              open={open}
+              handleClose={handleClose}
+              setOpen={setOpen}
+              address={address}
+              setAddress={setAddress}
+            />
+          )}
           <TextField
             id="study-peopleNumber"
             label="모집인원"
