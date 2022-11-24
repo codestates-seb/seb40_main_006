@@ -34,8 +34,9 @@ const topInfo = css`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  h2 {
+  > p {
     font-size: 16px;
+    font-weight: bold;
     margin: 0px 5px;
   }
   div {
@@ -50,7 +51,8 @@ const topInfo = css`
 const bottomInfo = css`
   display: flex;
   margin-left: 5px;
-  & div {
+
+  div {
     display: flex;
     justify-content: baseline;
     margin-right: 10px;
@@ -68,7 +70,7 @@ const LongJamCard = () => {
       <div className={coverImage} />
       <div className={info}>
         <div className={topInfo}>
-          <h2>토익스터디하실분</h2>
+          <p>토익스터디하실분</p>
           <div>모집중</div>
         </div>
 

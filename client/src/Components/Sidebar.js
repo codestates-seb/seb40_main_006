@@ -36,7 +36,6 @@ const sidebar = css`
     }
   }
 `;
-
 const categoryDummy = [
   {
     name: '내 주변',
@@ -86,8 +85,11 @@ const categoryDummy = [
 ];
 
 const Sidebar = () => {
+  const [, setCurrentCategory] = useRecoilState(selectedCategory);
+
   const onCategoryClick = e => {
     console.log(e.target.innerText);
+    setCurrentCategory(e.target.innerText);
   };
   return (
     <div className={sidebar}>

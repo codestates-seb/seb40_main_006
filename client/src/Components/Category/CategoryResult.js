@@ -4,10 +4,13 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
+import { selectedCategory } from '../../Atom/atoms';
+
 // import NoData from '../Search/NoData';
 
 const pagewithSidebar = css`
@@ -49,12 +52,16 @@ const cardContainer = css`
 //   padding: 20px;
 // `;
 const Category = () => {
+  const [currentCategory] = useRecoilState(selectedCategory);
+
+  useEffect(() => {}, [currentCategory]);
+
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
       <div className={category}>
         <div className={topContainer}>
-          <p>현재페이지 안내 문구</p>
+          <p>카테고리 - {currentCategory}</p>
           <ThemeProvider theme={theme}>
             <ButtonGroup
               color="primary"
