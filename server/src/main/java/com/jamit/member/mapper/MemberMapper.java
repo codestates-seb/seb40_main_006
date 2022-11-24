@@ -1,10 +1,10 @@
 package com.jamit.member.mapper;
 
 import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
 import com.jamit.member.dto.MemberDto;
-import com.jamit.member.profile.CreateJam;
 import com.jamit.member.entity.Member;
-import com.jamit.member.profile.ProfileResponse;
+import com.jamit.member.dto.ProfileDto;
 import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -12,12 +12,16 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
+
     Member memberSignupToMember(MemberDto.Signup requestBody);
+
     Member memberUpdateToMember(MemberDto.UpdateMember requestBody);
+
     MemberDto.UpdateResponse memberToUpdateResponse(Member member);
 
-    default ProfileResponse memberToProfileResponse(Member member) {
-        if ( member == null ) {
+    default ProfileDto.Response memberToProfileResponse(Member member) {
+        if (member == null) {
+
             return null;
         }
 
@@ -31,15 +35,20 @@ public interface MemberMapper {
         nickname = member.getNickname();
         profileImage = member.getProfileImage();
 
-        List<CreateJam> createJams = null;
+        List<ProfileDto.CreateJam> createJams = null;
         createJams = createJamList(member.getJamList());
 
-        ProfileResponse profileResponse = new ProfileResponse( memberId, email, nickname, profileImage, createJams );
+        List<ProfileDto.JoinJam> joinJams = null;
+        joinJams = joinJamList(member.getJamParticipantList());
 
-        return profileResponse;
+        ProfileDto.Response profileDto = new ProfileDto.Response(memberId, email, nickname,
+            profileImage, createJams, joinJams);
+
+        return profileDto;
     }
-    default CreateJam createJam(Jam jam) {
-        if ( jam == null ) {
+
+    default ProfileDto.CreateJam createJam(Jam jam) {
+        if (jam == null) {
             return null;
         }
 
@@ -61,25 +70,70 @@ public interface MemberMapper {
 
         Long memberId = null;
 
-        CreateJam createJam = new CreateJam( jamId, memberId, title, image, location, currentPpl, capacity, realTime );
+        ProfileDto.CreateJam createJam = new ProfileDto.CreateJam(memberId, jamId, title, image, location, currentPpl,
+            capacity, realTime);
 
-        createJam.setMember( jam.getMember() );
+        createJam.setMember(jam.getMember());
 
         return createJam;
     }
-    default List<CreateJam> createJamList(List<Jam> jams) {
-        if ( jams == null ) {
+
+    default List<ProfileDto.CreateJam> createJamList(List<Jam> jams) {
+        if (jams == null) {
             return null;
         }
 
-        List<CreateJam> list = new ArrayList<CreateJam>( jams.size() );
-        for ( Jam jam : jams ) {
-            list.add( createJam( jam ) );
+        List<ProfileDto.CreateJam> list = new ArrayList<ProfileDto.CreateJam>(jams.size());
+        for (Jam jam : jams) {
+            list.add(createJam(jam));
         }
 
         return list;
     }
 
 
+    default ProfileDto.JoinJam joinJam(JamParticipant jamParticipant) {
+        if (jamParticipant == null) {
+            return null;
+        }
+
+        Long jamId = null;
+        String title = null;
+        String image = null;
+        String location = null;
+        Integer currentPpl = null;
+        Integer capacity = null;
+        boolean realTime = false;
+
+        jamId = jamParticipant.getJam().getId();
+        title = jamParticipant.getJam().getTitle();
+        image = jamParticipant.getJam().getImage();
+        location = jamParticipant.getJam().getLocation();
+        currentPpl = jamParticipant.getJam().getCurrentPpl();
+        capacity = jamParticipant.getJam().getCapacity();
+        realTime = jamParticipant.getJam().isRealTime();
+
+        Long memberId = null;
+
+        ProfileDto.JoinJam joinJam = new ProfileDto.JoinJam(memberId, jamId, title, image, location, currentPpl,
+            capacity, realTime);
+
+        joinJam.setMember(jamParticipant.getMember());
+
+        return joinJam;
+    }
+
+    default List<ProfileDto.JoinJam> joinJamList(List<JamParticipant> JamParticipants) {
+        if (JamParticipants == null) {
+            return null;
+        }
+
+        List<ProfileDto.JoinJam> list = new ArrayList<ProfileDto.JoinJam>(JamParticipants.size());
+        for (JamParticipant jamParticipant : JamParticipants) {
+            list.add(joinJam(jamParticipant));
+        }
+
+        return list;
+    }
 
 }
