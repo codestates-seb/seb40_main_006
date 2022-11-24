@@ -101,7 +101,7 @@ const Sign = () => {
     const handlePost = async () => {
       if (page === 'login') {
         await axios
-          .post('http://localhost:4000/login', {
+          .post(`${process.env.REACT_APP_URL}/user/login`, {
             username: userInput.email,
             password: userInput.password,
           })
@@ -124,7 +124,7 @@ const Sign = () => {
       if (page === 'signup') {
         await axios
           .post(
-            'http://localhost:4000/signup',
+            `${process.env.REACT_APP_URL}/user/signup`,
             {
               email: userInput.email,
               password: userInput.password,
