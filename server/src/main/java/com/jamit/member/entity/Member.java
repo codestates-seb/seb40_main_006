@@ -4,14 +4,14 @@ import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 
 import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
 import com.jamit.reply.entity.Reply;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Member extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
@@ -41,22 +42,35 @@ public class Member extends Auditable {
     private String nickname;
 
     @Column
-    private String image;
+    private String profileImage;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdTime = LocalDateTime.now();
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Role roles;
 
     @OneToMany(mappedBy = "member")
     private List<Jam> jamList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<JamParticipant> jamParticipantList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
+
+    public enum Role {
+        USER("ROLE_USER"),
+        ADMIN("ROLE_ADMIN");
+
+        @Getter
+        private String status;
+
+        Role(String status) {
+            this.status = status;
+        }
+    }
 
     public void addJam(Jam jam) {
         jamList.add(jam);

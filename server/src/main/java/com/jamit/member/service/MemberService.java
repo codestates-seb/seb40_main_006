@@ -1,11 +1,10 @@
 package com.jamit.member.service;
 
-import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
+import com.jamit.member.entity.Member.Role;
 import com.jamit.member.repository.MemberRepository;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,22 +15,25 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-     private final PasswordEncoder passwordEncoder;
-     private final CustomAuthorityUtils authorityUtil;
+    private final PasswordEncoder passwordEncoder;
 
-     public Member signupMember(Member member) {
-         verifyExistsEmail(member.getEmail());
+    public Member signupMember(Member member) {
+        verifyExistsEmail(member.getEmail());
+        verifyExistsNickname(member.getNickname());
 
-         String encryptedPassword = passwordEncoder.encode(member.getPassword());
-         member.setPassword(encryptedPassword);
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
 
-         List<String> roles = authorityUtil.createRoles(member.getEmail());
-         member.setRoles(roles);
+        if (member.getEmail() == "admin@gmail.com") {
+            member.setRoles(Role.ADMIN);
+        } else {
+            member.setRoles(Role.USER);
+        }
 
-         Member savedMember = memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
-         return savedMember;
-     }
+        return savedMember;
+    }
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
@@ -40,14 +42,14 @@ public class MemberService {
             .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
             .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
-        Optional.ofNullable(member.getImage())
-            .ifPresent(image -> findMember.setImage(image));
+        Optional.ofNullable(member.getProfileImage())
+            .ifPresent(image -> findMember.setProfileImage(image));
 
         return memberRepository.save(findMember);
     }
 
     /**
-     * memberId 찾기
+     * member id 찾기
      */
     public Member findVerifiedMember(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
@@ -59,16 +61,27 @@ public class MemberService {
     }
 
     /**
-     * member email, password 찾기
+     * member nickname 찾기
      */
-    public Member verifyExistsEmailAndPassword(String memberEmail, String memberPassword) {
-        Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
-            memberEmail, memberPassword);
+    public Member findVerifiedNickname(String nickname) {
+        Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
-        Member existsEmailAndPassword = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
+        Member existsNickname = optionalMember.orElseThrow(
+            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        return existsEmailAndPassword;
+        return existsNickname;
+    }
+
+    /**
+     * member email 찾기
+     */
+    public Member findVerifiedMemberEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+        Member findMember = optionalMember.orElseThrow(
+            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        return findMember;
     }
 
     /**
@@ -78,27 +91,20 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         if (optionalMember.isPresent()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+            throw new BusinessLogicException(ExceptionCode.SIGNUP_EXISTS_EMAIL);
         }
     }
 
     /**
-     * member nickname 찾기
+     * member nickname 중복 검사
      */
-    public Member verifyExistsNickname(String nickname) {
+    public void verifyExistsNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
-        Member existsNickname = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_EXISTS));
-
-        return existsNickname;
+        if (optionalMember.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.SIGNUP_EXISTS_NICKNAME);
+        }
     }
 
-    public Member findMemberByEmail(String email) {
-        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        return findMember;
-    }
 }

@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JamPatchDto {
 
+    private Long id;
     private Category category;
     private String title;
     private String content;

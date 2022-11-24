@@ -10,6 +10,7 @@ import com.jamit.auth.handler.MemberAuthenticationFailureHandler;
 import com.jamit.auth.handler.MemberAuthenticationSuccessHandler;
 import com.jamit.auth.jwt.JwtTokenizer;
 import com.jamit.auth.utils.CustomAuthorityUtils;
+import com.jamit.member.repository.MemberRepository;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,11 +30,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
-@Configuration
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
-    private final CustomAuthorityUtils authorityUtils;
+
+    private final MemberRepository memberRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -93,11 +94,13 @@ public class SecurityConfiguration {
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
                 authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/user/login"); // default URL 지정
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(
+                new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(
+                new MemberAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer,
-                authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(
+                authenticationManager, jwtTokenizer, memberRepository);
 
             builder // Security Filter Chain 에 추가
                 .addFilter(jwtAuthenticationFilter) // JWT 인증 필터

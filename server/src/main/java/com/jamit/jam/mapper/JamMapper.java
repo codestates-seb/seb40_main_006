@@ -3,6 +3,8 @@ package com.jamit.jam.mapper;
 import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
+import com.jamit.member.entity.Member;
+import java.time.LocalDateTime;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,16 +20,16 @@ public interface JamMapper {
     Jam jamPatchDtoToJam(JamPatchDto jamPatchDto);
 
     @Named("jamList")
-    @Mapping(source = "id",target = "jamId")
-    @Mapping(source = "member.nickname",target = "nickname")
+    @Mapping(source = "id", target = "jamId")
+    @Mapping(source = "member.nickname", target = "nickname")
     ResponseAllJamsDto jamToResponseAllJamsDto(Jam jam);
 
-    @Mapping(source = "id",target = "jamId")
-    @Mapping(source = "member.nickname",target = "nickname")
+    @Mapping(source = "id", target = "jamId")
+    @Mapping(source = "member.nickname", target = "nickname")
     ResponseSpecificJamDto jamToResponseSpecificJamDto(Jam jam);
 
-    @Mapping(source = "member.memberId",target = "memberId")
-    @Mapping(source = "member.nickname",target = "nickname")
+    @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "member.nickname", target = "nickname")
     ResponseParticipantDto participantToParticipantListDto(JamParticipant jamParticipant);
 
     @IterableMapping(qualifiedByName = "jamList")
