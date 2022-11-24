@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
 import { myPageInfoState } from '../../Atom/atoms';
+import GiveJam from './GiveJam';
 
 const userTitle = css`
   display: flex;
@@ -55,6 +56,11 @@ const userGiveJam = css`
 
 const UserTitle = () => {
   const [userInfo] = useRecoilState(myPageInfoState);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className={userTitle}>
@@ -74,8 +80,11 @@ const UserTitle = () => {
         </div>
       </div>
       <div className={userGiveJam}>
-        <button type="button">잼 주기</button>
+        <button type="button" onClick={openModalHandler}>
+          잼 주기
+        </button>
       </div>
+      {isOpen ? <GiveJam /> : ''}
     </div>
   );
 };
