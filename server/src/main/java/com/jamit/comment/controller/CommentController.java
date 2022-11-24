@@ -1,19 +1,21 @@
 package com.jamit.comment.controller;
 
-import static com.jamit.global.utils.Check.checkAuthor;
-
+import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.comment.dto.CommentPatchDto;
 import com.jamit.comment.dto.CommentPostDto;
 import com.jamit.comment.entity.Comment;
 import com.jamit.comment.service.CommentService;
+import com.jamit.exception.BusinessLogicException;
+import com.jamit.exception.ExceptionCode;
 import com.jamit.jam.service.JamService;
+import com.jamit.member.entity.Member;
 import com.jamit.member.service.MemberService;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -39,57 +41,66 @@ public class CommentController {
      */
     @PostMapping
     public ResponseEntity postComment(@Positive @PathVariable("jam_id") Long jamId,
-        @Valid @RequestBody CommentPostDto commentPostDto, @AuthenticationPrincipal String email) {
-        Comment comment = buildComment(
-            jamId,
-            email,
-            commentPostDto.getContent()
-        );
+        @Valid @RequestBody CommentPostDto commentPostDto, Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
 
-        commentService.createComment(comment);
+        if (member == null) {
+            throw new BusinessLogicException(ExceptionCode.LOGIN_REQUIRED);
+        } else {
+            Comment comment = buildComment(
+                jamId,
+                member.getEmail(),
+                commentPostDto.getContent()
+            );
+            commentService.createComment(comment);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
     }
 
     /**
      * COMMENT-02: Comment 수정
-     * Authorized:
+     * Authorized: USER(Writer)
      */
     @PatchMapping("/{comment_id}")
     public ResponseEntity patchComment(@Positive @PathVariable("comment_id") Long commentId,
-        @Valid @RequestBody CommentPatchDto commentPatchDto,
-        @AuthenticationPrincipal String email) {
+        @Valid @RequestBody CommentPatchDto commentPatchDto, Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
         Comment comment = commentService.findVerifiedComment(commentId);
 
-        checkAuthor(
-            comment.getMember().getEmail(),
-            email
-        );
+        if (member.getEmail().equals(comment.getMember().getEmail())) {
+            comment.updateContent(commentPatchDto.getContent());
+            commentService.updateComment(comment);
 
-        comment.updateContent(commentPatchDto.getContent());
+            return ResponseEntity.ok().build();
+        } else {
 
-        commentService.updateComment(comment);
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
 
-        return ResponseEntity.ok().build();
     }
 
     /**
      * COMMENT-03: Comment 삭제
-     * Authorized:
+     * Authorized: USER(Writer)
      */
     @DeleteMapping("/{comment_id}")
     public ResponseEntity deleteComment(@Positive @PathVariable("comment_id") Long commentId,
-        @AuthenticationPrincipal String email) {
+        Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
         Comment comment = commentService.findVerifiedComment(commentId);
 
-        checkAuthor(
-            comment.getMember().getEmail(),
-            email
-        );
+        if (member.getEmail().equals(comment.getMember().getEmail())) {
+            commentService.deleteVerifiedComment(comment);
 
-        commentService.deleteVerifiedComment(comment);
+            return ResponseEntity.ok().build();
+        } else {
 
-        return ResponseEntity.noContent().build();
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
     }
 
     private Comment buildComment(Long jamId, String email, String content) {
