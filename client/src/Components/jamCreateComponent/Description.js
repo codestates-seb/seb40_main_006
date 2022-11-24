@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { css } from '@emotion/react';
 import { TextField, Box } from '@mui/material';
@@ -22,7 +23,7 @@ const AboutStudy = css`
   }
 `;
 
-const Description = () => {
+const Description = ({ descRef }) => {
   return (
     <div css={AboutStudy}>
       <Box
@@ -40,6 +41,7 @@ const Description = () => {
             rows={10}
             variant="outlined"
             placeholder="함께할 스터디를 소개해주세요"
+            inputRef={descRef}
             // 커스텀 색상 설정
             sx={{
               '& > :not(style)': { m: 0, width: '790px' },

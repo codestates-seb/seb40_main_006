@@ -18,7 +18,11 @@ import { BsPlusCircle } from 'react-icons/bs';
 
 const FileUploader = () => {
   return (
-    <Uploader action="//jsonplaceholder.typicode.com/posts/" draggable>
+    <Uploader
+      action="//jsonplaceholder.typicode.com/posts/"
+      accept="image/*"
+      draggable
+    >
       <div
         style={{
           height: 250,

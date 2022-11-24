@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import 'rsuite/dist/rsuite.min.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
 import { DateRangePicker } from 'rsuite';
+// import AddressModal from './AddressModal';
+import KewordAddressModal from './KewordAddressModal';
 
 const Container = css`
   width: 100%;
@@ -52,9 +54,16 @@ const StudyInputField = ({
   capacityRef,
   period,
   setPeriod,
+  locationText,
+  setLocationText,
+  setLatitude,
+  setLongitude,
+  setAddress,
 }) => {
-  // const [category, setCategory] = useState('health');
   // const [period, setPeriod] = useState([new Date(), new Date()]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handlePeriodChange = pickDate => {
     //   // console.log(value);
@@ -70,6 +79,11 @@ const StudyInputField = ({
 
   // console.log(periodRef.current);
   // console.log(periodRef);
+
+  const handleLocationText = e => {
+    setLocationText(e.target.value);
+  };
+
   return (
     <div css={Container}>
       <Box
@@ -122,8 +136,12 @@ const StudyInputField = ({
           </TextField>
           <TextField
             id="study-location"
+            type="button"
+            onClick={handleOpen}
             label="스터디 위치"
             variant="standard"
+            value={locationText}
+            onChange={handleLocationText}
             // name=""
             placeholder="클릭하면 주소 검색창이 나와요"
             sx={{
@@ -135,6 +153,25 @@ const StudyInputField = ({
               },
             }}
           />
+          {open && (
+            <KewordAddressModal
+              open={open}
+              handleClose={handleClose}
+              setOpen={setOpen}
+              locationText={locationText}
+              setLocationText={setLocationText}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+              setAddress={setAddress}
+            />
+            // <AddressModal
+            //   open={open}
+            //   handleClose={handleClose}
+            //   setOpen={setOpen}
+            //   address={address}
+            //   setAddress={setAddress}
+            // />
+          )}
           <TextField
             id="study-peopleNumber"
             label="모집인원"
