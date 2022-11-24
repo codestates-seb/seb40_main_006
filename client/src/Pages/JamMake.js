@@ -166,7 +166,11 @@ const JamMake = ({ isEdit }) => {
     previewURL: null,
   });
   const [period, setPeriod] = useState([new Date(), new Date()]);
+  const [locationText, setLocationText] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [latitude, setLatitude] = useState('');
   const [address, setAddress] = useState('');
+
   // const periodRef = useRef([new Date(), new Date()]);
   const titleRef = useRef(null);
   const categoryRef = useRef(null);
@@ -210,6 +214,30 @@ const JamMake = ({ isEdit }) => {
       new Date().setHours(24, 0, 0, 0),
     ).toLocaleString();
 
+    // eslint-disable-next-line no-console
+    const mainData = {
+      title:
+        currentTab !== 0 ? jamTitleRef.current.value : titleRef.current.value,
+      content: descRef.current.value,
+      category:
+        currentTab !== 0
+          ? jamCategoryRef.current.value
+          : categoryRef.current.value,
+      capacity:
+        currentTab !== 0
+          ? jamCapacityRef.current.value
+          : capacityRef.current.value,
+      jamFrom: currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
+      jamTo: currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
+      realtime: currentTab !== 0,
+      chatLink: chatLinkRef.current.value,
+      location: locationText,
+      image,
+      longitude,
+      latitude,
+      address,
+    };
+
     const formData = new FormData();
     formData.append(
       'title',
@@ -238,35 +266,11 @@ const JamMake = ({ isEdit }) => {
     );
     formData.append('realtime', currentTab !== 0);
     formData.append('chatLink', chatLinkRef.current.value);
-    formData.append('location', address);
+    formData.append('location', locationText);
     formData.append('jamImg', image.previewURL); // (수정필요) 서버에 업로드후 돌려받는 이미지 주소를 넣어줘야 함
-
-    // eslint-disable-next-line
-    // console.log(typeof CURRENT_DATE_TIME);
-    // eslint-disable-next-line
-    // console.log(typeof TODAY_MIDNIGHT_TIME);
-    // eslint-disable-next-line
-
-    // submit 데이터 콘솔 확인
-    console.log({
-      title:
-        currentTab !== 0 ? jamTitleRef.current.value : titleRef.current.value,
-      content: descRef.current.value,
-      category:
-        currentTab !== 0
-          ? jamCategoryRef.current.value
-          : categoryRef.current.value,
-      capacity:
-        currentTab !== 0
-          ? jamCapacityRef.current.value
-          : capacityRef.current.value,
-      jamFrom: currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
-      jamTo: currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
-      realtime: currentTab !== 0,
-      chatLink: chatLinkRef.current.value,
-      location: address,
-      image,
-    });
+    formData.append('longitude', longitude);
+    formData.append('latitude', latitude);
+    formData.append('address', address);
 
     // FormData의 key 확인
     // for (const key of formData.keys()) {
@@ -284,6 +288,16 @@ const JamMake = ({ isEdit }) => {
     // for (const key of formData.keys()) {
     //   console.log(key, ':', formData.get(key));
     // }
+
+    // eslint-disable-next-line
+    // console.log(typeof CURRENT_DATE_TIME);
+    // eslint-disable-next-line
+    // console.log(typeof TODAY_MIDNIGHT_TIME);
+    // eslint-disable-next-line
+
+    // submit 데이터 콘솔 확인
+    // eslint-disable-next-line no-console
+    console.log(mainData);
 
     // await axios
     //   .post(`/jams/write`, formData, {
@@ -359,7 +373,10 @@ const JamMake = ({ isEdit }) => {
                   // periodRef={periodRef}
                   period={period}
                   setPeriod={setPeriod}
-                  address={address}
+                  locationText={locationText}
+                  setLocationText={setLocationText}
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
                   setAddress={setAddress}
                 />
               ) : (
@@ -367,7 +384,10 @@ const JamMake = ({ isEdit }) => {
                   jamTitleRef={jamTitleRef}
                   jamCategoryRef={jamCategoryRef}
                   jamCapacityRef={jamCapacityRef}
-                  address={address}
+                  locationText={locationText}
+                  setLocationText={setLocationText}
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
                   setAddress={setAddress}
                 />
               )}

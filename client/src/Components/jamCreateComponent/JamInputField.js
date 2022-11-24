@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
-import AddressModal from './AddressModal';
+import KewordAddressModal from './KewordAddressModal';
 
 const Container = css`
   width: 100%;
@@ -53,12 +53,19 @@ const JamInputField = ({
   jamTitleRef,
   jamCategoryRef,
   jamCapacityRef,
-  address,
+  locationText,
+  setLocationText,
+  setLatitude,
+  setLongitude,
   setAddress,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleLocationText = e => {
+    setLocationText(e.target.value);
+  };
 
   return (
     <div css={Container}>
@@ -116,7 +123,8 @@ const JamInputField = ({
             label="잼 위치"
             variant="standard"
             placeholder="클릭하면 주소 검색창이 나와요"
-            value={address}
+            value={locationText}
+            onChange={handleLocationText}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -127,11 +135,14 @@ const JamInputField = ({
             }}
           />
           {open && (
-            <AddressModal
+            <KewordAddressModal
               open={open}
               handleClose={handleClose}
               setOpen={setOpen}
-              address={address}
+              locationText={locationText}
+              setLocationText={setLocationText}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
               setAddress={setAddress}
             />
           )}
