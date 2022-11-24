@@ -52,15 +52,16 @@ export default function AddressDialog() {
   }
   // 선택한 시(cityCode) 소속의 모든 구 반환
   function getGuData(cityCode) {
-    const code = cityCode.slice(0, 2).concat('*000000');
+    const code = cityCode.slice(0, 2).concat('*00000');
     const apiLocation = getJuso(code);
     apiLocation.then(data => {
+      console.log(data.regcodes);
       setGuList(data.regcodes.slice(1));
     });
   }
   // 선택한 구(guCode)의 모든 동 반환
   function getDongData(guCode) {
-    const code = guCode.slice(0, 4).concat('*&is_ignore_zero=true');
+    const code = guCode.slice(0, 5).concat('*&is_ignore_zero=true');
     const apiLocation = getJuso(code);
     apiLocation.then(data => {
       setDongList(data.regcodes);
@@ -76,18 +77,16 @@ export default function AddressDialog() {
   const handleGuClick = e => {
     console.log(e.target.value); // 입력받은 시/군/구 이름
     const guCode = guList.filter(
-      el => el.name.split(' ')[1] === e.target.value,
+      el => el.name.slice(city.length) === e.target.value,
     )[0].code;
     console.log(guCode);
     getDongData(guCode); // 구 이름에 맞는 읍/면/동 코드 찾아서 요청받아오기
   };
   const handleDongClick = e => {
     console.log(e.target.value); // 입력받은 동 이름
-    const target = e.target.value;
+    // const target = e.target.value;
     const dongCode = dongList.filter(
-      target[target.length - 1] === '리'
-        ? el => el.name.split(' ')[3] === e.target.value
-        : el => el.name.split(' ')[2] === e.target.value,
+      el => el.name.slice(city.length + gu.length) === e.target.value,
     )[0].code;
     console.log(dongCode);
     getDongData(dongCode); // 구 이름에 맞는 동 코드 찾아서 요청받아오기
@@ -122,6 +121,13 @@ export default function AddressDialog() {
   useEffect(() => {
     getCityData('*00000000'); // 대한민국의 모든 특별/광역시, 도 반환
   }, []);
+
+  useEffect(() => {
+    console.log(guList);
+  }, [guList]);
+  useEffect(() => {
+    console.log(dongList);
+  }, [dongList]);
 
   // useEffect(() => {
   //   console.log(currentLocation);
@@ -163,46 +169,28 @@ export default function AddressDialog() {
                 input={<OutlinedInput label="시/군/구" />}
               >
                 {guList.map(el => (
-                  <MenuItem key={el.code} value={el.name.split(' ')[1]}>
-                    {el.name.split(' ')[1]}
+                  <MenuItem key={el.code} value={el.name.slice(city.length)}>
+                    {el.name.slice(city.length)}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">읍/면/동</InputLabel>
+              <InputLabel id="demo-dialog-select-label">읍/면/동/리</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
                 defaultValue=""
                 value={dong}
                 onChange={handleDongChange}
-                input={<OutlinedInput label="동/면/읍" />}
+                input={<OutlinedInput label="읍/면/동/리" />}
               >
                 {dongList.map(el => (
                   <MenuItem
                     key={el.code}
-                    value={
-                      (el.name.split(' ')[2][
-                        el.name.split(' ')[2].length - 1
-                      ] === '면' ||
-                        el.name.split(' ')[2][
-                          el.name.split(' ')[2].length - 1
-                        ] === '읍') &&
-                      el.name.split(' ')[3]
-                        ? el.name.split(' ')[3]
-                        : el.name.split(' ')[2]
-                    }
+                    value={el.name.slice(city.length + gu.length)}
                   >
-                    {(el.name.split(' ')[2][
-                      el.name.split(' ')[2].length - 1
-                    ] === '면' ||
-                      el.name.split(' ')[2][
-                        el.name.split(' ')[2].length - 1
-                      ] === '읍') &&
-                    el.name.split(' ')[3]
-                      ? el.name.split(' ')[3]
-                      : el.name.split(' ')[2]}
+                    {el.name.slice(city.length + gu.length)}
                   </MenuItem>
                 ))}
               </Select>

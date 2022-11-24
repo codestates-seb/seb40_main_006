@@ -50,8 +50,10 @@ const Home = () => {
       <Sidebar />
       <div className={home}>
         <h1>
-          {currentLocation ? currentLocation.split(' ')[2] : '마곡동'} 주변의
-          잼이에요!
+          {currentLocation
+            ? currentLocation.split(' ')[currentLocation.split(' ').length - 1]
+            : '마곡동'}{' '}
+          주변의 잼이에요!
         </h1>
         <div className={mainArea}>
           <div className={map}>
