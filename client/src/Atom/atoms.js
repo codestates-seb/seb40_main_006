@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+const location = atom({
+  key: 'location',
+  default: '서울특별시 강서구 마곡동',
+});
+
 const loginUserInfoState = atom({
   key: 'loginUserInfo',
   default: {
@@ -50,4 +55,4 @@ const myPageInfoState = atom({
   },
 });
 
-export { loginUserInfoState, myPageInfoState };
+export { location, loginUserInfoState, myPageInfoState };

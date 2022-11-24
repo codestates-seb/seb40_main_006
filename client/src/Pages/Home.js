@@ -4,9 +4,11 @@
 import { css } from '@emotion/css';
 import React from 'react';
 // import palette from '../Styles/theme';
+import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Category/LongJamCard';
 import Map from '../Components/Map/Map';
+import { location } from '../Atom/atoms';
 
 const pagewithSidebar = css`
   display: flex;
@@ -28,8 +30,10 @@ const mainArea = css`
 `;
 
 const map = css`
-  width: 800px;
-  height: 700px;
+  width: 50vw;
+  height: 70vh;
+  max-width: 1200px;
+  max-height: 1000px;
   display: flex;
   background-color: cadetblue;
 `;
@@ -39,12 +43,20 @@ const list = css`
   flex-direction: column;
   margin-left: 20px;
 `;
+
 const Home = () => {
+  const [currentLocation] = useRecoilState(location);
+
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
       <div className={home}>
-        <h1>마곡동 주변의 잼이에요!</h1>
+        <h1>
+          {currentLocation
+            ? currentLocation.split(' ')[currentLocation.split(' ').length - 1]
+            : '마곡동'}{' '}
+          주변의 잼이에요!
+        </h1>
         <div className={mainArea}>
           <div className={map}>
             <Map />
