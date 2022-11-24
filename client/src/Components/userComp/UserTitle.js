@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
@@ -39,7 +39,7 @@ const userTitleContainer = css`
 `;
 
 const userGiveJam = css`
-  button {
+  Button {
     width: 100px;
     height: 40px;
     border-radius: 40px;
@@ -50,17 +50,13 @@ const userGiveJam = css`
     cursor: pointer;
     :hover {
       background: ${palette.colorGrade3};
+      border: 1px solid ${palette.colorGrade3};
     }
   }
 `;
 
 const UserTitle = () => {
   const [userInfo] = useRecoilState(myPageInfoState);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <div className={userTitle}>
@@ -80,11 +76,8 @@ const UserTitle = () => {
         </div>
       </div>
       <div className={userGiveJam}>
-        <button type="button" onClick={openModalHandler}>
-          잼 주기
-        </button>
+        <GiveJam />
       </div>
-      {isOpen ? <GiveJam /> : ''}
     </div>
   );
 };
