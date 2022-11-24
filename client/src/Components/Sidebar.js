@@ -3,7 +3,9 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import { palette } from '../Styles/theme';
+import { selectedCategory } from '../Atom/atoms';
 
 const sidebar = css`
   width: 220px;
@@ -36,7 +38,6 @@ const sidebar = css`
     }
   }
 `;
-
 const categoryDummy = [
   {
     name: '내 주변',
@@ -86,8 +87,11 @@ const categoryDummy = [
 ];
 
 const Sidebar = () => {
+  const [, setCurrentCategory] = useRecoilState(selectedCategory);
+
   const onCategoryClick = e => {
     console.log(e.target.innerText);
+    setCurrentCategory(e.target.innerText);
   };
   return (
     <div className={sidebar}>
