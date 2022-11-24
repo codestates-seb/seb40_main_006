@@ -7,7 +7,7 @@ import com.jamit.global.dto.SingleResponseDto;
 import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.mapper.MemberMapper;
-import com.jamit.member.profile.ProfileResponse;
+import com.jamit.member.dto.ProfileDto;
 import com.jamit.member.service.MemberService;
 import java.security.Principal;
 import javax.validation.Valid;
@@ -81,7 +81,7 @@ public class MemberController {
     @GetMapping("/profile/{member-id}")
     public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
         Member member = memberService.findVerifiedMember(memberId);
-        ProfileResponse response = mapper.memberToProfileResponse(member);
+        ProfileDto.Response response = mapper.memberToProfileResponse(member);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
