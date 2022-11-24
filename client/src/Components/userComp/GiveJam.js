@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import axios from 'axios';
 import { css } from '@emotion/css';
 import { palette } from '../../Styles/theme';
+import { myPageInfoState } from '../../Atom/atoms';
+import { getCookie } from '../SignComp/Cookie';
 
 const modalContainer = css`
   position: fixed;
@@ -43,7 +47,8 @@ const modalContainer = css`
 const GiveJam = () => {
   const array = [0, 1, 2, 3, 4];
   const [jam, setJam] = useState([false, false, false, false, false]);
-  const grade = jam.filter(el => el).length;
+  // 서버에 넘겨주는 memberId는 로그인된 유저의 것이 아니라, 해당 페이지 유저
+  const [user] = useRecoilState(myPageInfoState);
 
   const jamClickHandler = idx => {
     let copy = [...jam];
@@ -51,8 +56,24 @@ const GiveJam = () => {
     setJam(copy);
   };
 
+  const jamGradeSubmitHandler = () => {
+    const grade = jam.filter(el => el).length;
+    const accessToken = getCookie('is_login');
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/user/${user.memberId}/grade`,
+        { memberId: user.memberId, grade },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        },
+      )
+      .then(res => console.log(res));
+  };
+
   return (
-    <div className={modalContainer}>
+    <form className={modalContainer} onSubmit={jamGradeSubmitHandler}>
       <h3>감자님에게 잼을 주세요!</h3>
       <div className="jam">
         {array.map((el, idx) => (
@@ -66,10 +87,8 @@ const GiveJam = () => {
           />
         ))}
       </div>
-      <button type="button" onClick={() => console.log(grade)}>
-        전달
-      </button>
-    </div>
+      <button type="submit">전달</button>
+    </form>
   );
 };
 
