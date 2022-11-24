@@ -42,7 +42,7 @@ public class Member extends Auditable {
     private String nickname;
 
     @Column
-    private String image;
+    private String profileImage;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

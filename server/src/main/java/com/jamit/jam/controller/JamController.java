@@ -72,8 +72,8 @@ public class JamController {
         Jam findJam = jamService.findVerifiedJam(jamId);
 
         if (member.getEmail().equals(findJam.getMember().getEmail())) {
+            jamPatchDto.setId(jamId);
             Jam jam = mapper.jamPatchDtoToJam(jamPatchDto);
-            jam.setId(jamId);
             Jam updateJam = jamService.updateJam(jam);
             ResponseSpecificJamDto response = mapper.jamToResponseSpecificJamDto(updateJam);
 

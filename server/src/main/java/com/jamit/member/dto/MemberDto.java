@@ -1,6 +1,10 @@
 package com.jamit.member.dto;
 
+import com.jamit.jam.entity.Jam;
+import com.jamit.jam.entity.JamParticipant;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -39,20 +43,8 @@ public class MemberDto {
         @NotBlank
         private String password;
 
-        private String image;
+        private String profileImage;
 
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class MemberInfoResponse {
-
-        private Long memberId;
-        private String email;
-        private String nickname;
-        private String password;
-        private String image;
-        private List<String> roles;
     }
 
     @Getter
@@ -62,16 +54,8 @@ public class MemberDto {
         private Long memberId;
         private String email;
         private String nickname;
-        private String image;
+        private String profileImage;
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class ProfileResponse {
-        private Long memberId;
-        private String email;
-        private String nickname;
-        private String image;
-    }
 
 }
