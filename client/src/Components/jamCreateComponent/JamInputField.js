@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
+import KewordAddressModal from './KewordAddressModal';
 
 const Container = css`
   width: 100%;
@@ -47,17 +49,27 @@ const categories = [
   { value: 'development', label: '개발' },
 ];
 
-const StudyInputField = () => {
-  const [category, setCategory] = useState('health');
+const JamInputField = ({
+  jamTitleRef,
+  jamCategoryRef,
+  jamCapacityRef,
+  locationText,
+  setLocationText,
+  setLatitude,
+  setLongitude,
+  setAddress,
+}) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleChange = e => {
-    setCategory(e.target.value);
+  const handleLocationText = e => {
+    setLocationText(e.target.value);
   };
 
   return (
     <div css={Container}>
       <Box
-        component="form"
         sx={{
           '& > :not(style)': { m: 1, width: '280px' },
         }}
@@ -70,6 +82,8 @@ const StudyInputField = () => {
             label="잼 이름"
             variant="standard"
             placeholder="실시간 잼의 이름을 지어주세요"
+            defaultValue=""
+            inputRef={jamTitleRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -84,9 +98,9 @@ const StudyInputField = () => {
             select
             label="카테고리"
             variant="standard"
-            value={category}
-            defaultValue="클릭해서 선택해주세요"
-            onChange={handleChange}
+            name="category"
+            defaultValue=""
+            inputRef={jamCategoryRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -104,9 +118,13 @@ const StudyInputField = () => {
           </TextField>
           <TextField
             id="study-location"
+            type="button"
+            onClick={handleOpen}
             label="잼 위치"
             variant="standard"
             placeholder="클릭하면 주소 검색창이 나와요"
+            value={locationText}
+            onChange={handleLocationText}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -116,13 +134,28 @@ const StudyInputField = () => {
               },
             }}
           />
+          {open && (
+            <KewordAddressModal
+              open={open}
+              handleClose={handleClose}
+              setOpen={setOpen}
+              locationText={locationText}
+              setLocationText={setLocationText}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+              setAddress={setAddress}
+            />
+          )}
           <TextField
             id="study-peopleNumber"
             label="모집인원"
             type="number"
             variant="standard"
+            name="numberOfPeople"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             placeholder="숫자를 입력해주세요"
+            defaultValue=""
+            inputRef={jamCapacityRef}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -142,4 +175,4 @@ const StudyInputField = () => {
   );
 };
 
-export default StudyInputField;
+export default JamInputField;

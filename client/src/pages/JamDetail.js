@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
@@ -72,7 +73,7 @@ const CommentContainer = css`
   border-radius: 3px;
 `;
 
-const JamDetail = () => {
+const JamDetail = ({ isEdit, setIsEdit }) => {
   const [host, setHost] = useState('김코딩'); // eslint-disable-line no-unused-vars
   const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
 
@@ -83,7 +84,12 @@ const JamDetail = () => {
         <div css={SectionContainer}>
           <ThemeProvider theme={palette}>
             <div css={JamContainer}>
-              <JamInfo host={host} loginUser={loginUser} />
+              <JamInfo
+                host={host}
+                loginUser={loginUser}
+                isEdit={isEdit}
+                setIsEdit={setIsEdit}
+              />
             </div>
           </ThemeProvider>
           <div css={MainCommentContainer}>

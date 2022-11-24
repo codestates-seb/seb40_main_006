@@ -16,9 +16,7 @@ const box = css`
 
 const topArea = css`
   display: flex;
-
-  /* justify-content: space-between; */
-  & div {
+  div {
     background-color: blueviolet;
     border-radius: 10px;
     padding: 5px 15px;
@@ -44,21 +42,22 @@ const bottomArea = css`
   display: flex;
   flex-flow: column wrap;
 
-  & h2 {
+  > p {
     font-size: 20px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-
-  & p {
-    padding-left: 5px;
+    font-weight: bold;
+    margin: 5px 0px;
   }
 `;
 
 const info = css`
-  & div {
+  div {
     display: flex;
     margin-right: 10px;
+    p {
+      font-size: medium;
+      font-weight: normal;
+      padding-left: 5px;
+    }
   }
 `;
 
@@ -75,7 +74,7 @@ const JamCard = () => {
     <div className={box}>
       <div className={coverImage} />
       <div className={bottomArea}>
-        <h2>토익스터디하실분</h2>
+        <p>토익스터디하실분</p>
         <div className={topArea}>
           <div>모집중</div>
           <div>실시간</div>

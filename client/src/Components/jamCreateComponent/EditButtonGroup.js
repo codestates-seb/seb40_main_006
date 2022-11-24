@@ -3,6 +3,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 
 const ButtonContainer = css`
@@ -34,7 +35,9 @@ const DeleteEdit = css`
   background-color: ${palette.colorBtn2};
 `;
 
-const EditButtonGroup = ({ isCreated, setIsCreated }) => {
+const EditButtonGroup = () => {
+  const navigate = useNavigate();
+
   return (
     <div css={ButtonContainer}>
       <ThemeProvider theme={palette}>
@@ -42,7 +45,7 @@ const EditButtonGroup = ({ isCreated, setIsCreated }) => {
           css={CancleEdit}
           type="submit"
           form="test"
-          onClick={() => setIsCreated(!isCreated)}
+          onClick={() => navigate('/')}
         >
           수정취소
         </button>

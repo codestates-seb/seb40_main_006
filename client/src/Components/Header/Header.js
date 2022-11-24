@@ -111,7 +111,7 @@ const SearchBar = () => {
         <StyledInputBase
           onChange={handleSearch}
           // value={searchText}
-          placeholder="제목이나 내용, 유저이름으로 검색해보세요!"
+          placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
         />
       </Search>

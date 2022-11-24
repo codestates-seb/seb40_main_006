@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Profile from './Pages/Profile';
@@ -8,10 +8,12 @@ import Home from './Pages/Home';
 import Category from './Components/Category/CategoryResult';
 import Header from './Components/Header/Header';
 import JamDetail from './Pages/JamDetail';
-import JamCreate from './Pages/JamCreate';
+import JamMake from './Pages/JamMake';
 import PageNotFound from './Pages/NotFound';
 
 function App() {
+  const [isEdit, setIsEdit] = useState(false);
+
   return (
     <div>
       <BrowserRouter>
@@ -23,8 +25,14 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage/*" element={<Mypage />} />
           <Route path="/profile/*" element={<Profile />} />
-          <Route path="/jamcreate" element={<JamCreate />} />
-          <Route path="/jamdetail" element={<JamDetail />} />
+          <Route
+            path="/jammake"
+            element={<JamMake isEdit={isEdit} setIsEdit={setIsEdit} />}
+          />
+          <Route
+            path="/jamdetail"
+            element={<JamDetail isEdit={isEdit} setIsEdit={setIsEdit} />}
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

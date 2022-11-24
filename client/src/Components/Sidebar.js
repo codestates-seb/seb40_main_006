@@ -3,7 +3,9 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import { palette } from '../Styles/theme';
+import { selectedCategory } from '../Atom/atoms';
 
 const sidebar = css`
   width: 220px;

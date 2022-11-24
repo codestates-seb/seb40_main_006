@@ -5,7 +5,11 @@ const location = atom({
   default: '서울특별시 강서구 마곡동',
 });
 
-// 로그인된 유저의 정보
+const selectedCategory = atom({
+  key: 'selectedCategory',
+  default: '내 주변',
+});
+
 const loginUserInfoState = atom({
   key: 'loginUserInfo',
   default: {
@@ -57,4 +61,4 @@ const myPageInfoState = atom({
   },
 });
 
-export { location, loginUserInfoState, myPageInfoState };
+export { location, selectedCategory, loginUserInfoState, myPageInfoState };
