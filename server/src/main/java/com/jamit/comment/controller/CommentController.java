@@ -33,6 +33,10 @@ public class CommentController {
     private final JamService jamService;
     private final MemberService memberService;
 
+    /**
+     * COMMENT-01: Comment 작성
+     * Authorized:
+     */
     @PostMapping
     public ResponseEntity postComment(@Positive @PathVariable("jam_id") Long jamId,
         @Valid @RequestBody CommentPostDto commentPostDto, @AuthenticationPrincipal String email) {
@@ -47,6 +51,10 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * COMMENT-02: Comment 수정
+     * Authorized:
+     */
     @PatchMapping("/{comment_id}")
     public ResponseEntity patchComment(@Positive @PathVariable("comment_id") Long commentId,
         @Valid @RequestBody CommentPatchDto commentPatchDto,
@@ -65,6 +73,10 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * COMMENT-03: Comment 삭제
+     * Authorized:
+     */
     @DeleteMapping("/{comment_id}")
     public ResponseEntity deleteComment(@Positive @PathVariable("comment_id") Long commentId,
         @AuthenticationPrincipal String email) {
@@ -86,7 +98,7 @@ public class CommentController {
             .build();
 
         comment.setJam(jamService.findJam(jamId));
-        comment.setMember(memberService.findMemberByEmail(email));
+        comment.setMember(memberService.findVerifiedMemberEmail(email));
 
         return comment;
     }
