@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { css } from '@emotion/css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -11,7 +12,26 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { palette } from '../../Styles/theme';
 import getJuso from './getJuso';
+import { location } from '../../Atom/atoms';
+
+const addressContainer = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 10px;
+  padding: 20px;
+`;
+const addressBtn = css`
+  background-color: ${palette.gray_4};
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+  padding: 15px 30px;
+`;
 
 export default function AddressDialog() {
   const [open, setOpen] = React.useState(false);
@@ -63,8 +83,11 @@ export default function AddressDialog() {
   };
   const handleDongClick = e => {
     console.log(e.target.value); // 입력받은 동 이름
+    const target = e.target.value;
     const dongCode = dongList.filter(
-      el => el.name.split(' ')[2] === e.target.value,
+      target[target.length - 1] === '리'
+        ? el => el.name.split(' ')[3] === e.target.value
+        : el => el.name.split(' ')[2] === e.target.value,
     )[0].code;
     console.log(dongCode);
     getDongData(dongCode); // 구 이름에 맞는 동 코드 찾아서 요청받아오기
@@ -85,39 +108,30 @@ export default function AddressDialog() {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  // 체크용 콘솔로그
-  useEffect(() => {
-    console.log(cityList);
-  }, [cityList]);
-  useEffect(() => {
-    console.log(guList);
-  }, [guList]);
-  useEffect(() => {
-    console.log(dongList);
-  }, [dongList]);
-
-  useEffect(() => {
-    console.log(city);
-  }, [city]);
-
-  const handleClose = (event, reason) => {
-    if (reason !== 'backdropClick') {
-      setOpen(false);
-    }
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  const onSubmit = e => {
-    console.log(e);
+  const [, setCurrentLocation] = useRecoilState(location);
+
+  const onSubmit = () => {
+    setCurrentLocation(`${city} ${gu} ${dong}`);
+    handleClose();
   };
 
   useEffect(() => {
     getCityData('*00000000'); // 대한민국의 모든 특별/광역시, 도 반환
   }, []);
+
+  // useEffect(() => {
+  //   console.log(currentLocation);
+  // }, [currentLocation]);
   return (
-    <div>
-      <Button onClick={handleClickOpen}>동네 선택</Button>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+    <div className={addressContainer}>
+      <button className={addressBtn} onClick={handleClickOpen} type="button">
+        동네 선택
+      </button>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>동네를 선택해주세요!</DialogTitle>
         <DialogContent>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -196,8 +210,8 @@ export default function AddressDialog() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={onSubmit}>Ok</Button>
+          <Button onClick={handleClose}>취소</Button>
+          <Button onClick={onSubmit}>변경</Button>
         </DialogActions>
       </Dialog>
     </div>
