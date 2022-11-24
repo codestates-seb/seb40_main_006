@@ -15,7 +15,7 @@ public interface ReplyMapper {
     @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "comment.id", target = "commentId")
     @Mapping(source = "member.nickname", target = "nickname")
-    @Mapping(source = "member.image", target = "image")
+    @Mapping(source = "member.profileImage", target = "image")
     ResponseReplyDto replyToResponseReplyDto(Reply reply);
 
     ReplyResponseDto replyToReplyResponseDto(Reply reply);
