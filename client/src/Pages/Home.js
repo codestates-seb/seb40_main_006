@@ -30,8 +30,10 @@ const mainArea = css`
 `;
 
 const map = css`
-  width: 800px;
-  height: 700px;
+  width: 50vw;
+  height: 70vh;
+  max-width: 1200px;
+  max-height: 1000px;
   display: flex;
   background-color: cadetblue;
 `;
