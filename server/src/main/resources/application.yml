@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://jamit-db.cotjzvo3ezku.ap-northeast-2.rds.amazonaws.com:13306/jamit?serverTimezone=Asia/Seoul
-    username: sky
-    password: hellojamit
+    url: jdbc:mysql://main-jamit.cscxy6ew2wuk.ap-northeast-2.rds.amazonaws.com:13306/jamitdb?serverTimezone=Asia/Seoul
+    username: admin
+    password: asdf1234
   jpa:
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.MySQL5Dialect
