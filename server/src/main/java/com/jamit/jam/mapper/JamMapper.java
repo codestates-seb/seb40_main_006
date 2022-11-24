@@ -1,5 +1,6 @@
 package com.jamit.jam.mapper;
 
+import com.jamit.comment.mapper.CommentMapper;
 import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
@@ -11,8 +12,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CommentMapper.class,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface JamMapper {
 
     Jam jamPostDtoToJam(JamPostDto jamPostDto);

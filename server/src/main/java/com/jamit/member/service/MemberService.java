@@ -37,7 +37,6 @@ public class MemberService {
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
-
         Optional.ofNullable(member.getNickname())
             .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
@@ -53,10 +52,8 @@ public class MemberService {
      */
     public Member findVerifiedMember(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
-
         Member findMember = optionalMember.orElseThrow(
             () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
         return findMember;
     }
 
@@ -105,6 +102,4 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.SIGNUP_EXISTS_NICKNAME);
         }
     }
-
-
 }
