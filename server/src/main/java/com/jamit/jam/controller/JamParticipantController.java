@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/participation/{jam_id}")
+@RequestMapping("/jams/{jam_id}/participation")
 @RequiredArgsConstructor
 @Validated
 public class JamParticipantController {
