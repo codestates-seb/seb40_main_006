@@ -1,16 +1,17 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import { Grid } from '@mui/material/';
-import JamCard from './JamCard';
+import JoinJamCard from './JoinJamCard';
+import { myPageInfoState } from '../../Atom/atoms';
 
 const JoinJams = () => {
-  const joinJams = [1, 2, 3, 4, 5];
-
+  const [userInfo] = useRecoilState(myPageInfoState);
   return (
     <div>
       참여한 잼
-      {joinJams.map(jam => (
+      {userInfo.myJamList.map(jam => (
         <Grid item key={jam}>
-          <JamCard />
+          <JoinJamCard />
         </Grid>
       ))}
     </div>
