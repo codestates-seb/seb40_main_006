@@ -12,7 +12,6 @@ import org.hibernate.annotations.Parameter;
 @AllArgsConstructor
 public class JamPostDto {
 
-    private String nickname;
     private Category category;
     private String title;
     private String content;
@@ -27,9 +26,4 @@ public class JamPostDto {
     private String longitude;   // 경도
     private String openChatLink;
 
-    public Member getMember() {
-        Member member = new Member();
-        member.setNickname(nickname);
-        return member;
-    }
 }

@@ -1,36 +1,43 @@
 package com.jamit.auth.userdetails;
 
-import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.member.entity.Member;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
-public class MemberDetails extends Member implements UserDetails {
+public class MemberDetails implements UserDetails {
+
+    private Member member;
 
     public MemberDetails(Member member) {
-        setMemberId(member.getMemberId());
-        setEmail(member.getEmail());
-        setPassword(member.getPassword());
-        setRoles(member.getRoles());
+        this.member = member;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return CustomAuthorityUtils.createAuthorities(this.getRoles());
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(
+            new GrantedAuthority() {
+                @Override
+                public String getAuthority() {
+                    return member.getRoles().getStatus();
+                }
+            }
+        );
+        return collection;
+    }
+
+    @Override
+    public String getPassword() {
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return getEmail();
+        return member.getEmail();
     }
 
     @Override

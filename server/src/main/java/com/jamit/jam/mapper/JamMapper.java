@@ -4,6 +4,8 @@ import com.jamit.comment.mapper.CommentMapper;
 import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
+import com.jamit.member.entity.Member;
+import java.time.LocalDateTime;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

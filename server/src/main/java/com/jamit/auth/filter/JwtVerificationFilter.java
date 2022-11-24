@@ -1,31 +1,40 @@
 package com.jamit.auth.filter;
 
 import com.jamit.auth.jwt.JwtTokenizer;
-import com.jamit.auth.utils.CustomAuthorityUtils;
+import com.jamit.auth.userdetails.MemberDetails;
+import com.jamit.exception.BusinessLogicException;
+import com.jamit.exception.ExceptionCode;
+import com.jamit.member.entity.Member;
+import com.jamit.member.repository.MemberRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * JWT 검증을 위한 request 당 한번만 실행되는 Security Filter
  */
-@RequiredArgsConstructor
-public class JwtVerificationFilter extends OncePerRequestFilter {
+public class JwtVerificationFilter extends BasicAuthenticationFilter {
 
     private final JwtTokenizer jwtTokenizer;
-    private final CustomAuthorityUtils authorityUtils;
+    private final MemberRepository memberRepository;
+
+    public JwtVerificationFilter(
+        AuthenticationManager authenticationManager,
+        JwtTokenizer jwtTokenizer, MemberRepository memberRepository) {
+        super(authenticationManager);
+        this.jwtTokenizer = jwtTokenizer;
+        this.memberRepository = memberRepository;
+    }
 
     /**
      * JWT 를 검증하는 메서드
@@ -49,8 +58,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Authorization header 값이 null 이거나 Bearer 로 시작하지 않는다면 다음 Filter 호출
-     * 즉, JWT 자격증명이 필요하지 않은 리소스에 대한 요청이라고 판단
+     * Authorization header 값이 null 이거나 Bearer 로 시작하지 않는다면 다음 Filter 호출 즉, JWT 자격증명이 필요하지 않은 리소스에 대한
+     * 요청이라고 판단
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -60,8 +69,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     /**
-     * request header 에서 JWT 를 얻는 메서드
-     * Bearer 를 제거한 claims 리턴
+     * request header 에서 JWT 를 얻는 메서드 Bearer 를 제거한 claims 리턴
      */
     private Map<String, Object> verifyJws(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
@@ -77,10 +85,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
      */
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities(
-            (List) claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
-            authorities);
+
+        Member member = null;
+
+        member = memberRepository.findByEmail(username).orElseThrow(
+            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
+        );
+
+        MemberDetails memberDetails = new MemberDetails(member);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails,
+            memberDetails.getPassword(), memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
