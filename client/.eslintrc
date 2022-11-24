@@ -15,7 +15,9 @@
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "react/jsx-props-no-spreading": "off",
     "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "react/no-array-index-key": "off",
+    "no-use-before-define": ["error", {"functions": false, "classes": false, "variables": false, "allowNamedExports": false }]
   },
   "env": {
     "browser": true,
