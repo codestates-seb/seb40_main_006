@@ -7,8 +7,8 @@ import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
 import { ThemeProvider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
-import Button from '../Button';
 import JamCarousel from './JamCarousel';
 
 const Container = css`
@@ -95,16 +95,32 @@ const LocationMap = css`
   border: 1px solid ${palette.border};
 `;
 
-const JamInfo = ({ host, loginUser }) => {
+const EditButton = css`
+  min-width: 60px;
+  min-height: 40px;
+  padding: 10px;
+  background-color: ${palette.border};
+  border-radius: 3px;
+`;
+
+const JamInfo = ({ host, loginUser, isEdit, setIsEdit }) => {
+  const navigate = useNavigate();
+
+  const handleIsEdit = () => {
+    setIsEdit(true);
+    navigate('/jamMake');
+  };
+  console.log(isEdit);
+
   return (
     <div css={Container}>
       <div css={HeaderContainer}>
         <div css={TitleContainer}>
           <h2 css={Title}>토익스터디 하실 분!!</h2>
           {host === loginUser && (
-            <Button size="xs" variant="cancel">
+            <button css={EditButton} type="button" onClick={handleIsEdit}>
               수정
-            </Button>
+            </button>
           )}
         </div>
         <div css={InfoIcons}>
