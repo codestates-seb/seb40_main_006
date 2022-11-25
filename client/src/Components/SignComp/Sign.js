@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
 import * as React from 'react';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import axios from 'axios';
 import {
@@ -21,6 +22,7 @@ import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
 import AvatarImg from '../userComp/AvatarImg';
 import { setCookie } from './Cookie';
+import { isLoginState } from '../../Atom/atoms';
 
 const validateText = css`
   width: 100%;
@@ -29,6 +31,8 @@ const validateText = css`
 `;
 
 const Sign = () => {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
   const navigate = useNavigate();
   const location = useLocation();
   const page = location.pathname.slice(1);
@@ -99,32 +103,45 @@ const Sign = () => {
     e.preventDefault();
 
     const handlePost = async () => {
+      const a = new Date();
       if (page === 'login') {
         await axios
-          .post(`${process.env.REACT_APP_URL}/user/login`, {
+          .post(`/user/login`, {
             username: userInput.email,
             password: userInput.password,
           })
           .then(res => {
-            console.log(res.data);
-            if (res.data.status === 500) {
+            const accessToken = res.headers.get('Authorization').slice(7);
+            const refreshToken = res.headers.refresh;
+            setIsLogin(true);
+            setCookie('accessToken', accessToken, {
+              path: '/',
+              expires: a.setMinutes(a.getMinutes() + 30),
+              httpOnly: true,
+              // secure: true,
+            });
+            setCookie('refreshToken', refreshToken, {
+              path: '/',
+              expires: a.setDate(a.getDate() + 14),
+              httpOnly: true,
+              // secure: true,
+            });
+            setError({ ...error, password: '' });
+            navigate('/');
+          })
+          .catch(err => {
+            if (err.response.status === 401) {
               setError({
                 ...error,
                 password: '이메일 또는 비밀번호가 올바르지 않습니다',
               });
-            } else {
-              // const { accessToken } = res.data;
-              // setCookie('is_login', accessToken);
-              setCookie('is_login', '액세스토큰입니다');
-              setError({ ...error, password: '' });
-              navigate('/');
             }
           });
       }
       if (page === 'signup') {
         await axios
           .post(
-            `${process.env.REACT_APP_URL}/user/signup`,
+            `/user/signup`,
             {
               email: userInput.email,
               password: userInput.password,
@@ -132,17 +149,17 @@ const Sign = () => {
             },
             { withCredentials: true },
           )
-          .then(res => {
-            console.log(res.data);
-            if (res.data.status === 500) {
+          .then(() => {
+            setError({ ...error, email: '' });
+            alert('회원가입이 완료되었습니다');
+            navigate('/login');
+          })
+          .catch(err => {
+            if (err.response.status === 409) {
               setError({
                 ...error,
                 email: '이미 존재하는 이메일입니다',
               });
-            } else {
-              setError({ ...error, email: '' });
-              alert('회원가입이 완료되었습니다');
-              navigate('/login');
             }
           });
       }
@@ -176,6 +193,7 @@ const Sign = () => {
 
   return (
     <ThemeProvider theme={themeUserPage}>
+      {console.log(isLogin)}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <BackgroundImage />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
