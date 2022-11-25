@@ -5,6 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import { ThemeProvider } from '@mui/material';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const Container = css`
   width: 100%;
@@ -16,11 +17,16 @@ const Container = css`
 
 const UserBox = css`
   display: flex;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
   padding: 3px;
   margin-bottom: 5px;
+`;
+
+const Time = css`
+  margin-left: auto;
 `;
 
 const JamIcon = css`
@@ -52,6 +58,7 @@ const ReplyComment = () => {
             <AiOutlineTwitter size={16} />
           </div>
         </ThemeProvider>
+        <p css={Time}>{jamElapsedTime('2022-11-25T00:25:42')}</p>
       </div>
       <div css={WrittenComment}>
         저희 잼 하고나서 얘기하는 시간이 따로 있을까요?

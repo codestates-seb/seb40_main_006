@@ -16,18 +16,15 @@ const MergeContainer = css`
 `;
 
 const Container = css`
-  margin: 0 20px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 10px;
-  max-width: 800px;
-  background-color: white;
   gap: 20px;
 `;
 
 const SectionContainer = css`
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -35,14 +32,12 @@ const SectionContainer = css`
 `;
 
 const JamContainer = css`
-  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  /* background-color: ${palette.gray_5}; */
   /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
   /* border: 2px solid ${palette.gray_5}; */
   border-radius: 3px;

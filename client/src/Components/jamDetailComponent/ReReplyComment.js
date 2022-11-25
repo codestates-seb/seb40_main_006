@@ -6,6 +6,7 @@ import { BiReply } from 'react-icons/bi';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import { ThemeProvider } from '@mui/material';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const RootContainer = css`
   width: 100%;
@@ -32,11 +33,16 @@ const Container = css`
 
 const UserBox = css`
   display: flex;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   padding: 3px;
   margin-bottom: 5px;
+`;
+
+const Time = css`
+  margin-left: auto;
 `;
 
 const JamIcon = css`
@@ -72,7 +78,9 @@ const ReReplyComment = () => {
               <AiOutlineTwitter size={16} />
             </div>
           </ThemeProvider>
+          <p css={Time}>{jamElapsedTime('2022-11-25T14:25:42')}</p>
         </div>
+
         <div css={WrittenComment}>
           각공한거 공유하는 시간 30분정도 갖는거 어떠신가요?
         </div>

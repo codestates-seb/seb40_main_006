@@ -9,9 +9,12 @@ import { FaUserCircle } from 'react-icons/fa';
 import RecruitState from './RecruitState';
 
 const JamSideContainer = css`
-  width: 35%;
-  min-width: 200px;
+  width: 200px;
+  /* min-width: 200px; */
   display: flex;
+  position: sticky;
+  left: 20px;
+  top: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;

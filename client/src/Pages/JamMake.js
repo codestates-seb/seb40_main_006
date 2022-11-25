@@ -31,11 +31,11 @@ const Container = css`
   justify-content: center;
   align-items: center;
   padding: 5px;
-  max-width: 800px;
 `;
 
 const Header = css`
-  width: 100%;
+  width: 800px;
+  min-width: 300px;
   background-color: white;
   display: flex;
   flex-direction: column;
