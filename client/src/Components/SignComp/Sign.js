@@ -101,7 +101,7 @@ const Sign = () => {
     const handlePost = async () => {
       if (page === 'login') {
         await axios
-          .post(`${process.env.REACT_APP_URL}/user/login`, {
+          .post(`/user/login`, {
             username: userInput.email,
             password: userInput.password,
           })
@@ -132,17 +132,17 @@ const Sign = () => {
             },
             { withCredentials: true },
           )
-          .then(res => {
-            console.log(res.data);
-            if (res.data.status === 500) {
+          .then(() => {
+            setError({ ...error, email: '' });
+            alert('회원가입이 완료되었습니다');
+            navigate('/login');
+          })
+          .catch(err => {
+            if (err.response.status === 409) {
               setError({
                 ...error,
                 email: '이미 존재하는 이메일입니다',
               });
-            } else {
-              setError({ ...error, email: '' });
-              alert('회원가입이 완료되었습니다');
-              // navigate('/login');
             }
           });
       }
