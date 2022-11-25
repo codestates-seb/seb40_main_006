@@ -19,10 +19,11 @@ const loginUserInfoState = atom({
   },
 });
 
+// 해당 마이페이지 유저의 정보 (로그인된 유저 아님)
 const myPageInfoState = atom({
   key: 'mypageInfo',
   default: {
-    memberId: loginUserInfoState.memberId,
+    memberId: 1,
     img: './img/orangeJam.png',
     nickname: '홍길동',
     grade: '5',

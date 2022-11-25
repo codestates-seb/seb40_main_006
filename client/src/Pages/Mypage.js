@@ -73,7 +73,7 @@ const Mypage = () => {
 
   useEffect(() => {
     // axios.get(
-    //   '/',
+    //   `${process.env.REACT_APP_URL}/user/profile/${userInfo.memberId}`,
     //   { memberId: userInfo.memberId },
     //   {
     //     headers: {
