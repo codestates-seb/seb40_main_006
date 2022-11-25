@@ -21,11 +21,14 @@ public interface JamRepository extends JpaRepository<Jam, Long> {
     Page<Jam> jamPage(Pageable pageable);
 
     // 제목 or 내용 검색
-    List<Jam> findByTitleContainingOrContentContaining(String title, String content);
+//    List<Jam> findByTitleContainingOrContentContaining(String title, String content);
+    Page<Jam> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+
 
     // 작성자 검색
     @Query(value = "SELECT * FROM jam WHERE member_id = :memberId ORDER BY created_At DESC", nativeQuery = true)
-    List<Jam> findByJamMemberId(@Param("memberId") Long memberId);
+//    List<Jam> findByJamMemberId(@Param("memberId") Long memberId);
+    Page<Jam> findByJamMemberId(@Param("memberId") Long memberId, Pageable pageable);
 
 
 }

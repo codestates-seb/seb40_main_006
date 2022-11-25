@@ -4,7 +4,6 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-//@Data   // 원래는 setter 때문에 막 쓰면 안 되는데 우리팀은 setter 쓰기로 했으니까 일단 Data 어노테이션으로 만들자
 @Getter
 @Setter
 public class LocationRequestDto {
