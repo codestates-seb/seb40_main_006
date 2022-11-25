@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
 import * as React from 'react';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import axios from 'axios';
 import {
@@ -21,6 +22,7 @@ import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
 import AvatarImg from '../userComp/AvatarImg';
 import { setCookie } from './Cookie';
+import { loginState } from '../../Atom/atoms';
 
 const validateText = css`
   width: 100%;
@@ -29,6 +31,8 @@ const validateText = css`
 `;
 
 const Sign = () => {
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+
   const navigate = useNavigate();
   const location = useLocation();
   const page = location.pathname.slice(1);
@@ -108,7 +112,7 @@ const Sign = () => {
           .then(res => {
             const accessToken = res.headers.get('Authorization').slice(7);
             const refreshToken = res.headers.refresh;
-            setCookie('accessToken', accessToken);
+            setIsLogin({ isLogin: true, accessToken });
             setCookie('refreshToken', refreshToken);
             setError({ ...error, password: '' });
             navigate('/');
@@ -177,6 +181,7 @@ const Sign = () => {
 
   return (
     <ThemeProvider theme={themeUserPage}>
+      {console.log(isLogin)}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <BackgroundImage />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

@@ -19,6 +19,14 @@ const loginUserInfoState = atom({
   },
 });
 
+const loginState = atom({
+  key: 'login',
+  default: {
+    isLogin: false,
+    accessToken: '',
+  },
+});
+
 // 해당 마이페이지 유저의 정보 (로그인된 유저 아님)
 const myPageInfoState = atom({
   key: 'mypageInfo',
@@ -61,4 +69,10 @@ const myPageInfoState = atom({
   },
 });
 
-export { location, selectedCategory, loginUserInfoState, myPageInfoState };
+export {
+  location,
+  selectedCategory,
+  loginState,
+  loginUserInfoState,
+  myPageInfoState,
+};
