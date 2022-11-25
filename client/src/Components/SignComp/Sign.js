@@ -106,18 +106,19 @@ const Sign = () => {
             password: userInput.password,
           })
           .then(res => {
-            console.log(res.data);
-            if (res.data.status === 500) {
+            const accessToken = res.headers.get('Authorization').slice(7);
+            const refreshToken = res.headers.refresh;
+            setCookie('accessToken', accessToken);
+            setCookie('refreshToken', refreshToken);
+            setError({ ...error, password: '' });
+            navigate('/');
+          })
+          .catch(err => {
+            if (err.response.status === 401) {
               setError({
                 ...error,
                 password: '이메일 또는 비밀번호가 올바르지 않습니다',
               });
-            } else {
-              // const { accessToken } = res.data;
-              // setCookie('is_login', accessToken);
-              setCookie('is_login', '액세스토큰입니다');
-              setError({ ...error, password: '' });
-              navigate('/');
             }
           });
       }
