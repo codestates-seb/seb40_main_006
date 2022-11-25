@@ -4,6 +4,7 @@ import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
 import { myPageInfoState } from '../../Atom/atoms';
+import GiveJam from './GiveJam';
 
 const userTitle = css`
   display: flex;
@@ -38,7 +39,7 @@ const userTitleContainer = css`
 `;
 
 const userGiveJam = css`
-  button {
+  Button {
     width: 100px;
     height: 40px;
     border-radius: 40px;
@@ -49,6 +50,7 @@ const userGiveJam = css`
     cursor: pointer;
     :hover {
       background: ${palette.colorGrade3};
+      border: 1px solid ${palette.colorGrade3};
     }
   }
 `;
@@ -74,7 +76,7 @@ const UserTitle = () => {
         </div>
       </div>
       <div className={userGiveJam}>
-        <button type="button">잼 주기</button>
+        <GiveJam />
       </div>
     </div>
   );
