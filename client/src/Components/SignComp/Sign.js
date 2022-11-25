@@ -124,7 +124,7 @@ const Sign = () => {
       if (page === 'signup') {
         await axios
           .post(
-            `${process.env.REACT_APP_URL}/user/signup`,
+            `/user/signup`,
             {
               email: userInput.email,
               password: userInput.password,
@@ -142,7 +142,7 @@ const Sign = () => {
             } else {
               setError({ ...error, email: '' });
               alert('회원가입이 완료되었습니다');
-              navigate('/login');
+              // navigate('/login');
             }
           });
       }
