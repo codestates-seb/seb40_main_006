@@ -22,7 +22,7 @@ import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
 import AvatarImg from '../userComp/AvatarImg';
 import { setCookie } from './Cookie';
-import { loginState } from '../../Atom/atoms';
+import { isLoginState } from '../../Atom/atoms';
 
 const validateText = css`
   width: 100%;
@@ -31,7 +31,7 @@ const validateText = css`
 `;
 
 const Sign = () => {
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -103,6 +103,7 @@ const Sign = () => {
     e.preventDefault();
 
     const handlePost = async () => {
+      const a = new Date();
       if (page === 'login') {
         await axios
           .post(`/user/login`, {
@@ -112,8 +113,19 @@ const Sign = () => {
           .then(res => {
             const accessToken = res.headers.get('Authorization').slice(7);
             const refreshToken = res.headers.refresh;
-            setIsLogin({ isLogin: true, accessToken });
-            setCookie('refreshToken', refreshToken);
+            setIsLogin(true);
+            setCookie('accessToken', accessToken, {
+              path: '/',
+              expires: a.setMinutes(a.getMinutes() + 30),
+              httpOnly: true,
+              // secure: true,
+            });
+            setCookie('refreshToken', refreshToken, {
+              path: '/',
+              expires: a.setDate(a.getDate() + 14),
+              httpOnly: true,
+              // secure: true,
+            });
             setError({ ...error, password: '' });
             navigate('/');
           })
