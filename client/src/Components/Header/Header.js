@@ -14,12 +14,13 @@ const header = css`
   padding: 10px 40px 10px 30px;
   display: flex;
   background-color: white;
-  width: 100%;
+  width: 100vw;
   height: 100px;
   border-bottom: 0.5px ${palette.border} solid;
 `;
 // logo
 const logo = css`
+  margin-left: 10px;
   width: 130px;
   cursor: pointer;
 `;
@@ -40,6 +41,12 @@ const rightHeader = css`
   align-items: center;
   justify-content: center;
   margin-left: 40px;
+`;
+const loginBtn = css`
+  border-radius: 10px;
+  padding: 15px 40px;
+  background-color: ${palette.gray_5};
+  cursor: pointer;
 `;
 
 // logout
@@ -116,13 +123,15 @@ const SearchBar = () => {
   );
 };
 
-// eslint-disable-next-line react/prop-types
-const LoginArea = ({ clickHandler }) => {
+const LoginArea = () => {
   return (
     <div className={rightHeader}>
-      <button type="button" className={clickHandler} onClick={clickHandler}>
-        로그인
-      </button>
+      <Link to="/login">
+        {' '}
+        <button type="button" className={loginBtn}>
+          로그인{' '}
+        </button>
+      </Link>
     </div>
   );
 };
@@ -142,8 +151,10 @@ const LogoutArea = () => {
 const Header = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   // const [isAddressClick, setIsAddressClick] = useState(false);
-  const clickHandler = () => {
-    setIsLogin(true);
+  const onLoginBtnClick = () => {
+    console.log('버튼클릭');
+    setIsLogin(!isLogin);
+    console.log(isLogin);
   };
 
   return (
@@ -152,8 +163,14 @@ const Header = () => {
         <img className={logo} alt="logo_jamit" src={logoImage} />
       </Link>
       <AddressDialog />
+      <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
+        임시로그인토글{' '}
+      </button>
       <SearchBar />
-      {!isLogin ? <LoginArea clickHandler={clickHandler} /> : <LogoutArea />}
+
+      {/* <LoginArea /> */}
+      {/* <LogoutArea /> */}
+      {!isLogin ? <LoginArea /> : <LogoutArea />}
     </div>
   );
 };

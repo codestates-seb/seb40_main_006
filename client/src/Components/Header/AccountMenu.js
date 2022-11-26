@@ -10,16 +10,28 @@ import {
 } from '@mui/material/';
 import { Settings, Logout } from '@mui/icons-material/';
 import { Person } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../../Atom/atoms';
+import { removeCookie } from '../SignComp/Cookie';
 
 export default function AccountMenu() {
+  const [, setIsLogin] = useRecoilState(isLoginState);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleLogout = () => {
+    setIsLogin(false);
+    removeCookie('accessToken');
+    removeCookie('refreshToken');
+    navigate('/');
   };
   return (
     <>
@@ -28,7 +40,6 @@ export default function AccountMenu() {
           <IconButton
             onClick={handleClick}
             size="small"
-            sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
@@ -88,7 +99,7 @@ export default function AccountMenu() {
             프로필수정
           </MenuItem>
         </Link>
-        <MenuItem onClick={() => console.log('zz')}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
