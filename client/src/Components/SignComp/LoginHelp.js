@@ -1,13 +1,13 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Grid, Link } from '@mui/material/';
+import ForgetPassword from './ForgetPassword';
 
 const LoginHelp = () => {
   return (
     <Grid container>
       <Grid item xs>
-        <Link href="/" variant="body2">
-          비밀번호를 잊으셨나요?
-        </Link>
+        <ForgetPassword />
       </Grid>
       <Grid item>
         <Link href="/signup" variant="body2">
