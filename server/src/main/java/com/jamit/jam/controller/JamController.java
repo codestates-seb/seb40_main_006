@@ -8,6 +8,7 @@ import com.jamit.jam.dto.JamPatchDto;
 import com.jamit.jam.dto.JamPostDto;
 import com.jamit.jam.dto.ResponseAllJamsDto;
 import com.jamit.jam.dto.ResponseSpecificJamDto;
+import com.jamit.jam.entity.Category;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.mapper.JamMapper;
 import com.jamit.jam.repository.JamRepository;
@@ -20,6 +21,8 @@ import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -106,6 +109,32 @@ public class JamController {
         Page<Jam> pageJams = jamRepository.jamPage(pageable);
 
         Page<ResponseAllJamsDto> response = pageJams.map(mapper::jamToResponseAllJamsDto);
+
+        return response;
+    }
+
+    /**
+     * JAM-05: 분야 별 Jam 전체 조회
+     * Authorized: ALL
+     */
+    @GetMapping("/category")
+    public Page<ResponseAllJamsDto> categoryJams(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable, @RequestParam Category category) {
+        Page<Jam> pageJams = jamRepository.findJamByCategory(pageable, category);
+
+        Page<ResponseAllJamsDto> response = pageJams.map(mapper::jamToResponseCategoryJamsDto);
+
+        return response;
+    }
+
+    /**
+     * JAM-06: 지역 별 Jam 전체 조회
+     * Authorized: ALL
+     */
+    @GetMapping("/address")
+    public Page<ResponseAllJamsDto> addressJams(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable, @RequestParam String address) {
+        Page<Jam> pageJams = jamRepository.findJamByAddressContains(pageable, address);
+
+        Page<ResponseAllJamsDto> response = pageJams.map(mapper::jamToResponseAddressJamsDto);
 
         return response;
     }
