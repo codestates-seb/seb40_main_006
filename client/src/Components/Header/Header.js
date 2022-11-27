@@ -2,23 +2,27 @@ import { css } from '@emotion/css';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { Link } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
+import AccountMenu from './AccountMenu';
+import { isLoginState } from '../../Atom/atoms';
 
 const header = css`
   padding: 10px 40px 10px 30px;
   display: flex;
   background-color: white;
-  width: 100%;
+  width: 100vw;
   height: 100px;
   border-bottom: 0.5px ${palette.border} solid;
 `;
 // logo
 const logo = css`
   margin-left: 10px;
+  width: 130px;
+  cursor: pointer;
 `;
 
 // search
@@ -122,9 +126,12 @@ const SearchBar = () => {
 const LoginArea = () => {
   return (
     <div className={rightHeader}>
-      <button type="button" className={loginBtn}>
-        로그인{' '}
-      </button>
+      <Link to="/login">
+        {' '}
+        <button type="button" className={loginBtn}>
+          로그인{' '}
+        </button>
+      </Link>
     </div>
   );
 };
@@ -136,13 +143,13 @@ const LogoutArea = () => {
         잼 만들기{' '}
       </button>
       <div className={username}>유저이름님</div>
-      <AccountCircleIcon fontSize="large" />
+      <AccountMenu />
     </div>
   );
 };
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   // const [isAddressClick, setIsAddressClick] = useState(false);
   const onLoginBtnClick = () => {
     console.log('버튼클릭');
@@ -152,7 +159,9 @@ const Header = () => {
 
   return (
     <div className={header}>
-      <img className={logo} alt="logo_jamit" src={logoImage} />
+      <Link to="/">
+        <img className={logo} alt="logo_jamit" src={logoImage} />
+      </Link>
       <AddressDialog />
       <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
         임시로그인토글{' '}
