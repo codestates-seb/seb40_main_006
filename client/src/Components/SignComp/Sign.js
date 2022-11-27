@@ -103,7 +103,6 @@ const Sign = () => {
     e.preventDefault();
 
     const handlePost = async () => {
-      const a = new Date();
       if (page === 'login') {
         await axios
           .post(`/user/login`, {
@@ -114,18 +113,8 @@ const Sign = () => {
             const accessToken = res.headers.get('Authorization').slice(7);
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
-            setCookie('accessToken', accessToken, {
-              path: '/',
-              expires: a.setMinutes(a.getMinutes() + 30),
-              httpOnly: true,
-              // secure: true,
-            });
-            setCookie('refreshToken', refreshToken, {
-              path: '/',
-              expires: a.setDate(a.getDate() + 14),
-              httpOnly: true,
-              // secure: true,
-            });
+            setCookie('accessToken', accessToken);
+            setCookie('refreshToken', refreshToken);
             setError({ ...error, password: '' });
             navigate('/');
           })
