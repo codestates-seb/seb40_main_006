@@ -3,15 +3,14 @@ import Btn from './Btn';
 import Typography from './Typography';
 import ProductHeroLayout from './HeroLayout';
 
-const backgroundImage =
-  'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400';
+const backgroundImage = './img/back2.jpg';
 
 export default function Hero() {
   return (
     <ProductHeroLayout
       sxBackground={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundColor: '#7fc7d9', // Average color of the background image.
+        // backgroundColor: palette.colorMain,
         backgroundPosition: 'center',
       }}
     >
@@ -21,30 +20,28 @@ export default function Hero() {
         src={backgroundImage}
         alt="increase priority"
       />
-      <Typography color="inherit" align="center" variant="h2" marked="center">
-        Upgrade your Sundays
+      <Typography color="inherit" align="center" variant="h3">
+        위치기반 스터디, 잼잇
       </Typography>
       <Typography
         color="inherit"
         align="center"
-        variant="h5"
-        sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
+        variant="h6"
+        sx={{ mb: 10, mt: { sx: 4, sm: 4 } }}
       >
-        Enjoy secret offers up to -70% off the best luxury hotels every Sunday.
+        강의실을 떠나 함께 학습하고 교류하는 경험을 통해 새로운 가치를
+        찾아보세요
       </Typography>
       <Btn
-        color="secondary"
+        color="warning"
         variant="contained"
         size="large"
         component="a"
-        href="/premium-themes/onepirate/sign-up/"
-        sx={{ minWidth: 200 }}
+        href="/home"
+        sx={{ minWidth: 150 }}
       >
-        Register
+        시작하기
       </Btn>
-      <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
-        Discover the experience
-      </Typography>
     </ProductHeroLayout>
   );
 }
