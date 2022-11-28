@@ -9,6 +9,7 @@ public enum ExceptionCode {
     SIGNUP_EXISTS_NICKNAME(409, "This is a registered nickname"),
     NO_AUTHORITY(403, "You don’t have Authority"),
     LOGIN_REQUIRED(401, "You need to login"),
+    INVALID_AUTHCODE(403, "Invaild authentication Code"),
     JAM_NOT_FOUND(404, "Jam not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     NO_PERMISSION(403, "No permission to edit");

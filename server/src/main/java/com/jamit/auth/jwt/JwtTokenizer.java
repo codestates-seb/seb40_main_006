@@ -21,10 +21,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenizer {
 
-//    @Getter
-//    @Value("${jwt.secret-key}")
-//    private String secretKey;
-//
+    @Getter
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+
 //    @Getter
 //    @Value("${jwt.access-token-expiration-minutes}")
 //    private int accessTokenExpirationMinutes;
@@ -32,12 +32,12 @@ public class JwtTokenizer {
 //    @Getter
 //    @Value("${jwt.refresh-token-expiration-minutes}")
 //    private int refreshTokenExpirationMinutes;
+//
+//    @Getter
+//    private String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
     @Getter
-    private String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-
-    @Getter
-    private int accessTokenExpirationMinutes = 60 * 60;
+    private int accessTokenExpirationMinutes = 1;
 
     @Getter
     private int refreshTokenExpirationMinutes = 60 * 60 * 24 * 30;
@@ -110,7 +110,7 @@ public class JwtTokenizer {
      */
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, expirationMinutes);
+        calendar.add(Calendar.SECOND, expirationMinutes);
         Date expiration = calendar.getTime();
 
         return expiration;

@@ -81,7 +81,7 @@ public class JamParticipantController {
             .build();
 
         jamParticipant.setJam(jamService.findVerifiedJam(jamId));
-        jamParticipant.setMember(memberService.findVerifiedMemberEmail(email));
+        jamParticipant.setMember(memberService.findVerifiedMemberByEmail(email));
 
         return jamParticipant;
     }
