@@ -55,57 +55,72 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
 
 const images = [
   {
-    url: 'https://images.unsplash.com/photo-1534081333815-ae5019106622?auto=format&fit=crop&w=400',
-    title: 'Snorkeling',
-    width: '40%',
+    url: './img/category/exercise.jpg',
+    title: '운동/건강',
+    width: '35%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?auto=format&fit=crop&w=400',
-    title: 'Massage',
-    width: '20%',
+    url: './img/category/lifestyle.jpg',
+    title: '라이프스타일',
+    width: '30%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400',
-    title: 'Hiking',
-    width: '40%',
+    url: './img/category/cooking.jpg',
+    title: '요리',
+    width: '35%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1453747063559-36695c8771bd?auto=format&fit=crop&w=400',
-    title: 'Tour',
+    url: './img/category/art.jpg',
+    title: '미술',
     width: '38%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1523309996740-d5315f9cc28b?auto=format&fit=crop&w=400',
-    title: 'Gastronomy',
+    url: './img/category/career.jpg',
+    title: '커리어',
     width: '38%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=400',
-    title: 'Shopping',
+    url: './img/category/crafts.jpg',
+    title: '공예',
     width: '24%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1506941433945-99a2aa4bd50a?auto=format&fit=crop&w=400',
-    title: 'Walking',
+    url: './img/category/photo.jpg',
+    title: '사진/영상',
     width: '40%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1533727937480-da3a97967e95?auto=format&fit=crop&w=400',
-    title: 'Fitness',
+    url: './img/category/language.jpg',
+    title: '외국어',
     width: '20%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1518136247453-74e7b5265980?auto=format&fit=crop&w=400',
-    title: 'Reading',
+    url: './img/category/music.jpg',
+    title: '음악',
     width: '40%',
+  },
+  {
+    url: './img/category/investment.jpg',
+    title: '재테크',
+    width: '38%',
+  },
+  {
+    url: './img/category/business.jpg',
+    title: '비즈니스',
+    width: '38%',
+  },
+  {
+    url: './img/category/development.jpg',
+    title: '개발',
+    width: '24%',
   },
 ];
 
 export default function Categories() {
   return (
     <Container component="section" sx={{ mt: 8, mb: 4 }}>
-      <Typography variant="h4" marked="center" align="center" component="h2">
-        For all tastes and all desires
+      <Typography variant="h4" align="center" component="h2">
+        카테고리
       </Typography>
       <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
         {images.map(image => (
@@ -148,7 +163,6 @@ export default function Categories() {
                 className="imageTitle"
               >
                 {image.title}
-                <div className="imageMarked" />
               </Typography>
             </Box>
           </ImageIconButton>
