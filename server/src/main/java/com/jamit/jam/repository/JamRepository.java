@@ -1,5 +1,6 @@
 package com.jamit.jam.repository;
 
+import com.jamit.jam.entity.Category;
 import com.jamit.jam.entity.Jam;
 
 import com.jamit.jam.status.CompleteStatus;
@@ -18,6 +19,8 @@ public interface JamRepository extends JpaRepository<Jam, Long> {
 
     @Query("select jam from Jam jam order by jam.createdAt desc")
     Page<Jam> jamPage(Pageable pageable);
+
+    Page<Jam> findJamByCategory(Pageable pageable, Category category);
 
     List<Jam> findByCreatedAtAfterAndCompleteStatus(LocalDateTime localDateTime,
         CompleteStatus status);
