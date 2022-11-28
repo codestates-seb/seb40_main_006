@@ -2,6 +2,7 @@ package com.jamit.jam.entity;
 
 import static javax.persistence.FetchType.LAZY;
 
+import com.jamit.jam.status.CompleteStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +61,7 @@ public class Jam extends Auditable {
 	private Integer capacity;
 
 	@Column(nullable = false)
-	private boolean realTime;
-
-	@Column(nullable = false)
-	private boolean complete = false;
+	private Boolean realTime;
 
 	private int views = 0;
 
@@ -76,13 +74,17 @@ public class Jam extends Auditable {
 	private Point point;
 
 	@Column(nullable = false)
-	private String latitude;    // 위도
+	private String latitude;
 
 	@Column(nullable = false)
-    private String longitude;   // 경도
+	private String longitude;
 
 	@Column
 	private String openChatLink;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private CompleteStatus completeStatus = CompleteStatus.FALSE;
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "member_id")
