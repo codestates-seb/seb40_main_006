@@ -5,7 +5,6 @@ import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.global.dto.SingleResponseDto;
 import com.jamit.member.dto.MemberDto;
-import com.jamit.member.dto.MemberDto.findPassword;
 import com.jamit.member.entity.Member;
 import com.jamit.member.mapper.MemberMapper;
 import com.jamit.member.dto.ProfileDto;
