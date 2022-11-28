@@ -45,6 +45,9 @@ public class Member {
     private String profileImage;
 
     @Column
+    private int grade;
+
+    @Column
     private String refreshToken;
 
     @Enumerated(value = EnumType.STRING)
