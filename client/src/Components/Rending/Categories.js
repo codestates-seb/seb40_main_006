@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
@@ -162,7 +165,7 @@ export default function Categories() {
                 color="inherit"
                 className="imageTitle"
               >
-                {image.title}
+                <Link to="/category">{image.title}</Link>
               </Typography>
             </Box>
           </ImageIconButton>

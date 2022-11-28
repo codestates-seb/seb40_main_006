@@ -10,6 +10,7 @@ import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
 import { selectedCategory } from '../../Atom/atoms';
+import ScrollToTop from '../../ScrollToTop';
 
 // import NoData from '../Search/NoData';
 
@@ -59,6 +60,7 @@ const Category = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <ScrollToTop />
       <div className={category}>
         <div className={topContainer}>
           <p>카테고리 - {currentCategory}</p>
