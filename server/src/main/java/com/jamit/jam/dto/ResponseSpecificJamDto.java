@@ -2,6 +2,7 @@ package com.jamit.jam.dto;
 
 import com.jamit.comment.dto.ResponseCommentDto;
 import com.jamit.jam.entity.Category;
+import com.jamit.jam.status.CompleteStatus;
 import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ResponseSpecificJamDto {
     private int currentPpl;
     private int capacity;
     private boolean realTime;
-    private boolean complete;
+    private CompleteStatus completeStatus;
     private int views;
     private String address;
     private String location;
