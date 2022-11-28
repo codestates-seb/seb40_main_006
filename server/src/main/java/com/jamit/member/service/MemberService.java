@@ -65,7 +65,7 @@ public class MemberService {
     /**
      * member nickname 찾기
      */
-    public Member findVerifiedMemberByMemberId(String nickname) {
+    public Member findVerifiedMemberByNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
         Member existsNickname = optionalMember.orElseThrow(
