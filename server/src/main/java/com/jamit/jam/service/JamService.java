@@ -96,7 +96,7 @@ public class JamService {
     }
 
     public List<Jam> searchNickname(String nickname) {
-        Member member = memberService.findVerifiedNickname(nickname);
+        Member member = memberService.findVerifiedMemberByMemberId(nickname);
         Long memberId = member.getMemberId();
         return jamRepository.findByJamMemberId(memberId);
     }
