@@ -29,6 +29,14 @@ public interface JamMapper {
 
     @Mapping(source = "id", target = "jamId")
     @Mapping(source = "member.nickname", target = "nickname")
+    ResponseAllJamsDto jamToResponseCategoryJamsDto(Jam jam);
+
+    @Mapping(source = "id", target = "jamId")
+    @Mapping(source = "member.nickname", target = "nickname")
+    ResponseAllJamsDto jamToResponseAddressJamsDto(Jam jam);
+
+    @Mapping(source = "id", target = "jamId")
+    @Mapping(source = "member.nickname", target = "nickname")
     ResponseSpecificJamDto jamToResponseSpecificJamDto(Jam jam);
 
     @Mapping(source = "member.memberId", target = "memberId")
