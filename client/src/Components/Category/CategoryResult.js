@@ -6,11 +6,11 @@ import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { fetchJamRead } from '../../Utils/fetchJam';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
 import { selectedCategory } from '../../Atom/atoms';
-
 // import NoData from '../Search/NoData';
 
 const pagewithSidebar = css`
@@ -55,6 +55,12 @@ const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
 
   useEffect(() => {}, [currentCategory]);
+  useEffect(() => {
+    const Jams = fetchJamRead();
+    Jams.then(data => {
+      console.log(data.content);
+    });
+  }, []);
 
   return (
     <div className={pagewithSidebar}>
