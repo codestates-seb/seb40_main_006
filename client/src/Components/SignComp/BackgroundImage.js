@@ -20,9 +20,7 @@ const BackgroundImage = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
-      >
-        <div>z</div>
-      </Grid>
+      />
     </>
   );
 };
