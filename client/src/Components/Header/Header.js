@@ -10,6 +10,9 @@ import AddressDialog from './AddressDialog';
 import AccountMenu from './AccountMenu';
 import { isLoginState } from '../../Atom/atoms';
 
+const headerBox = css`
+  height: 100px;
+`;
 const header = css`
   padding: 10px 40px 10px 30px;
   display: flex;
@@ -18,7 +21,7 @@ const header = css`
   height: 100px;
   border-bottom: 0.5px ${palette.border} solid;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
 `;
 // logo
 const logo = css`
@@ -160,19 +163,25 @@ const Header = () => {
   };
 
   return (
-    <div className={header}>
-      <Link to="/">
-        <img className={logo} alt="logo_jamit" src={logoImage} />
-      </Link>
-      <AddressDialog />
-      <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
-        임시로그인토글{' '}
-      </button>
-      <SearchBar />
+    <div className={headerBox}>
+      <div className={header}>
+        <Link to="/">
+          <img className={logo} alt="logo_jamit" src={logoImage} />
+        </Link>
+        <AddressDialog />
+        <button
+          type="button"
+          className={createJamBtn}
+          onClick={onLoginBtnClick}
+        >
+          임시로그인토글{' '}
+        </button>
+        <SearchBar />
 
-      {/* <LoginArea /> */}
-      {/* <LogoutArea /> */}
-      {!isLogin ? <LoginArea /> : <LogoutArea />}
+        {/* <LoginArea /> */}
+        {/* <LogoutArea /> */}
+        {!isLogin ? <LoginArea /> : <LogoutArea />}
+      </div>
     </div>
   );
 };

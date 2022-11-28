@@ -86,7 +86,7 @@ function HowItWorks() {
                   sx={image}
                 /> */}
                 <Typography variant="h6" align="center">
-                  당일 자정이 지나면 자동으로 종료됩니다.
+                  g당일 자정이 지나면 자동으로 종료됩니다.
                 </Typography>
               </Box>
             </Grid>

@@ -12,6 +12,7 @@ export default function Hero() {
         backgroundImage: `url(${backgroundImage})`,
         // backgroundColor: palette.colorMain,
         backgroundPosition: 'center',
+        height: '100%',
       }}
     >
       {/* Increase the network loading priority of the background image. */}
