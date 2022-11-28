@@ -26,7 +26,7 @@ public class JamService {
     public Jam createJam(Jam jam, Member member) {
         JamParticipant participant = new JamParticipant(ParticipantStatus.TRUE, member, jam);
 
-        if (jam.isRealTime()) {
+        if (jam.getRealTime()) {
             jam.setJamTo(LocalDateTime.now());
             jam.setJamFrom(LocalDateTime.now());
         }
@@ -34,7 +34,9 @@ public class JamService {
         jam.setMember(member);
         jam.addParticipant(participant);
 
-        return jamRepository.save(jam);
+        jamRepository.save(jam);
+
+        return jam;
     }
 
     public Jam updateJam(Jam jam) {
@@ -46,8 +48,8 @@ public class JamService {
         Optional.ofNullable(jam.getImage()).ifPresent(verifiedJam::setImage);
         Optional.ofNullable(jam.getJamFrom()).ifPresent(verifiedJam::setJamFrom);
         Optional.ofNullable(jam.getJamTo()).ifPresent(verifiedJam::setJamTo);
-        Optional.of(jam.getCapacity()).ifPresent(verifiedJam::setCapacity);
-        Optional.of(jam.isRealTime()).ifPresent(verifiedJam::setRealTime);
+        Optional.ofNullable(jam.getCapacity()).ifPresent(verifiedJam::setCapacity);
+        Optional.ofNullable(jam.getRealTime()).ifPresent(verifiedJam::setRealTime);
         Optional.ofNullable(jam.getAddress()).ifPresent(verifiedJam::setAddress);
         Optional.ofNullable(jam.getLocation()).ifPresent(verifiedJam::setLocation);
         Optional.ofNullable(jam.getLatitude()).ifPresent(verifiedJam::setLatitude);
