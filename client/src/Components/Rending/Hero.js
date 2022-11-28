@@ -28,7 +28,7 @@ export default function Hero() {
         color="inherit"
         align="center"
         variant="h6"
-        sx={{ mb: 10, mt: { sx: 4, sm: 4 } }}
+        sx={{ mb: 10, mt: 5 }}
       >
         강의실을 떠나 함께 학습하고 교류하는 경험을 통해 새로운 가치를
         찾아보세요

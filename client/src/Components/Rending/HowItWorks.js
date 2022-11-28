@@ -57,9 +57,7 @@ function HowItWorks() {
           variant="h4"
           component="h2"
           sx={{ color: palette.colorTitle, mb: 10 }}
-        >
-          규칙
-        </Typography>
+        />
         <div>
           <Grid container spacing={5}>
             <Grid item xs={12} md={4}>
@@ -86,7 +84,7 @@ function HowItWorks() {
                   sx={image}
                 /> */}
                 <Typography variant="h6" align="center">
-                  g당일 자정이 지나면 자동으로 종료됩니다.
+                  당일 자정이 지나면 자동으로 종료됩니다.
                 </Typography>
               </Box>
             </Grid>

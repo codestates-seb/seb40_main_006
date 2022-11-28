@@ -119,9 +119,9 @@ const images = [
 export default function Categories() {
   return (
     <Container component="section" sx={{ mt: 8, mb: 4 }}>
-      <Typography variant="h4" align="center" component="h2">
+      {/* <Typography variant="h4" align="center" component="h2">
         카테고리
-      </Typography>
+      </Typography> */}
       <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
         {images.map(image => (
           <ImageIconButton
