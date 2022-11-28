@@ -8,10 +8,10 @@ const BackgroundImage = () => {
       <Grid
         item
         xs={false}
-        sm={4}
+        sm={3}
         md={7}
         sx={{
-          backgroundImage: 'url(https://source.unsplash.com/random)',
+          backgroundImage: 'url(./img/back1.jpg)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: t =>
             t.palette.mode === 'light'
@@ -20,7 +20,9 @@ const BackgroundImage = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
-      />
+      >
+        <div>z</div>
+      </Grid>
     </>
   );
 };

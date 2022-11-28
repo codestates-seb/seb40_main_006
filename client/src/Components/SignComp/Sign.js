@@ -185,6 +185,7 @@ const Sign = () => {
       {console.log(isLogin)}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <BackgroundImage />
+        {/* <Background /> */}
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -227,7 +228,6 @@ const Sign = () => {
                 id="email"
                 label="이메일"
                 name="email"
-                // autoFocus
                 size="small"
                 onBlur={e => validationCheck(e)}
                 error={error.email !== '' || false}
