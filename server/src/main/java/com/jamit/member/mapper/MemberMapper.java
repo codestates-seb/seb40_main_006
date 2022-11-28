@@ -66,7 +66,7 @@ public interface MemberMapper {
         location = jam.getLocation();
         currentPpl = jam.getCurrentPpl();
         capacity = jam.getCapacity();
-        realTime = jam.isRealTime();
+        realTime = jam.getRealTime();
 
         Long memberId = null;
 
@@ -111,7 +111,7 @@ public interface MemberMapper {
         location = jamParticipant.getJam().getLocation();
         currentPpl = jamParticipant.getJam().getCurrentPpl();
         capacity = jamParticipant.getJam().getCapacity();
-        realTime = jamParticipant.getJam().isRealTime();
+        realTime = jamParticipant.getJam().getRealTime();
 
         Long memberId = null;
 

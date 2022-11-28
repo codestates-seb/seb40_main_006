@@ -4,8 +4,6 @@ import com.jamit.comment.mapper.CommentMapper;
 import com.jamit.jam.dto.*;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
-import com.jamit.member.entity.Member;
-import java.time.LocalDateTime;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,10 +28,6 @@ public interface JamMapper {
     @Mapping(source = "id", target = "jamId")
     @Mapping(source = "member.nickname", target = "nickname")
     ResponseAllJamsDto jamToResponseCategoryJamsDto(Jam jam);
-
-    @Mapping(source = "id", target = "jamId")
-    @Mapping(source = "member.nickname", target = "nickname")
-    ResponseAllJamsDto jamToResponseAddressJamsDto(Jam jam);
 
     @Mapping(source = "id", target = "jamId")
     @Mapping(source = "member.nickname", target = "nickname")

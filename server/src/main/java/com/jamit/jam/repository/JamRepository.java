@@ -3,8 +3,9 @@ package com.jamit.jam.repository;
 import com.jamit.jam.entity.Category;
 import com.jamit.jam.entity.Jam;
 
+import com.jamit.jam.status.CompleteStatus;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,8 @@ public interface JamRepository extends JpaRepository<Jam, Long> {
 
     Page<Jam> findJamByCategory(Pageable pageable, Category category);
 
-    Page<Jam> findJamByAddressContains(Pageable pageable, String address);
+    List<Jam> findByCreatedAtAfterAndCompleteStatus(LocalDateTime localDateTime,
+        CompleteStatus status);
 
     // 제목 or 내용 검색
     List<Jam> findByTitleContainingOrContentContaining(String title, String content);

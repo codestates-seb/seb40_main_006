@@ -1,12 +1,9 @@
 package com.jamit.jam.dto;
 
 import com.jamit.jam.entity.Category;
-import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
-import javax.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.hibernate.annotations.Parameter;
 
 @Getter
 @AllArgsConstructor
@@ -22,8 +19,7 @@ public class JamPostDto {
     private boolean realTime;
     private String address;
     private String location;
-    private String latitude;    // 위도
-    private String longitude;   // 경도
+    private String latitude;
+    private String longitude;
     private String openChatLink;
-
 }

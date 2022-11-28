@@ -127,19 +127,6 @@ public class JamController {
     }
 
     /**
-     * JAM-06: 지역 별 Jam 전체 조회
-     * Authorized: ALL
-     */
-    @GetMapping("/address")
-    public Page<ResponseAllJamsDto> addressJams(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable, @RequestParam String address) {
-        Page<Jam> pageJams = jamRepository.findJamByAddressContains(pageable, address);
-
-        Page<ResponseAllJamsDto> response = pageJams.map(mapper::jamToResponseAddressJamsDto);
-
-        return response;
-    }
-
-    /**
      * JAM-11: Jam 삭제
      * Authorized: USER(Writer)
      */

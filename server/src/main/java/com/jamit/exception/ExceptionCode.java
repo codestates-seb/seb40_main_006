@@ -10,8 +10,7 @@ public enum ExceptionCode {
     NO_AUTHORITY(403, "You don’t have Authority"),
     LOGIN_REQUIRED(401, "You need to login"),
     JAM_NOT_FOUND(404, "Jam not found"),
-    COMMENT_NOT_FOUND(404, "Comment not found"),
-    NO_PERMISSION(403, "No permission to edit");
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
     @Getter
     private int status;

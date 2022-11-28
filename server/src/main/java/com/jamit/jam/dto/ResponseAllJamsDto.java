@@ -1,16 +1,16 @@
 package com.jamit.jam.dto;
 
 import com.jamit.jam.entity.Category;
-import com.jamit.jam.entity.Jam;
+import com.jamit.jam.status.CompleteStatus;
 import com.jamit.member.entity.Member;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class ResponseAllJamsDto {
+
     private Long jamId;
     private String nickname;
     private String title;
@@ -20,7 +20,7 @@ public class ResponseAllJamsDto {
     private int currentPpl;
     private int capacity;
     private boolean realTime;
-    private boolean complete;
+    private CompleteStatus completeStatus;
     private String address;
     private String location;
     private LocalDateTime createdAt;

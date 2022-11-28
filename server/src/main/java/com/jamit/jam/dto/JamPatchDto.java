@@ -1,6 +1,7 @@
 package com.jamit.jam.dto;
 
 import com.jamit.jam.entity.Category;
+import com.jamit.jam.status.CompleteStatus;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +21,10 @@ public class JamPatchDto {
     private LocalDateTime jamTo;
     private Integer capacity;
     private boolean realTime;
+    private CompleteStatus completeStatus;
     private String address;
     private String location;
-    private String latitude;    // 위도
-    private String longitude;   // 경도
+    private String latitude;
+    private String longitude;
     private String openChatLink;
 }
