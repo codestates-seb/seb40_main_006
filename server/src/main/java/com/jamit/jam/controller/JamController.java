@@ -19,8 +19,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.io.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -48,7 +50,7 @@ public class JamController {
      */
     @PostMapping("/write")
     public ResponseEntity postJam(@Valid @RequestBody JamPostDto jamPostDto,
-        Authentication authentication) {
+        Authentication authentication) throws ParseException {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
         Member member = memberDetails.getMember();
 
@@ -68,7 +70,7 @@ public class JamController {
      */
     @PatchMapping("/{jam_id}")
     public ResponseEntity patchJam(@Valid @PathVariable("jam_id") @Positive Long jamId,
-        @RequestBody JamPatchDto jamPatchDto, Authentication authentication) {
+        @RequestBody JamPatchDto jamPatchDto, Authentication authentication) throws ParseException {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
         Member member = memberDetails.getMember();
 
@@ -153,10 +155,9 @@ public class JamController {
      * Authorized: ALL
      */
     @GetMapping("/search")
-    public ResponseEntity searchTitleOrContent(@RequestParam String keyword) {
-        List<Jam> jams = jamService.searchTitleOrContent(keyword);
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.jamToResponseAllJamsDto(jams)),
-            HttpStatus.OK);
+    public Page<ResponseAllJamsDto> searchTitleOrContent(@RequestParam String keyword, @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Jam> jams = jamService.searchTitleOrContent(keyword, pageable);
+        return jams.map(mapper::jamToResponseAllJamsDto);
     }
 
     /**

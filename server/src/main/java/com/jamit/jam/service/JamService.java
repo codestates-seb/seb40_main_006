@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +28,11 @@ public class JamService {
     private final JamRepository jamRepository;
     private final MemberService memberService;
 
-    public Jam createJam(Jam jam, Member member) {
+    public Jam createJam(Jam jam, Member member) throws ParseException {
         JamParticipant participant = new JamParticipant(ParticipantStatus.TRUE, member, jam);
+
+        String pointWKT = String.format("POINT(%s %s)", jam.getLatitude(), jam.getLongitude());
+        Point point = (Point) new WKTReader().read(pointWKT);
 
         if (jam.getRealTime()) {
             jam.setJamTo(LocalDateTime.now());
@@ -33,13 +41,14 @@ public class JamService {
 
         jam.setMember(member);
         jam.addParticipant(participant);
+        jam.setPoint(point);
 
         jamRepository.save(jam);
 
         return jam;
     }
 
-    public Jam updateJam(Jam jam) {
+    public Jam updateJam(Jam jam) throws ParseException {
         Jam verifiedJam = findVerifiedJam(jam.getId());
 
         Optional.ofNullable(jam.getCategory()).ifPresent(verifiedJam::setCategory);
@@ -54,6 +63,10 @@ public class JamService {
         Optional.ofNullable(jam.getLocation()).ifPresent(verifiedJam::setLocation);
         Optional.ofNullable(jam.getLatitude()).ifPresent(verifiedJam::setLatitude);
         Optional.ofNullable(jam.getLongitude()).ifPresent(verifiedJam::setLongitude);
+
+        String pointWKT = String.format("POINT(%s %s)", verifiedJam.getLatitude(), verifiedJam.getLongitude());
+        Point point = (Point) new WKTReader().read(pointWKT);
+        verifiedJam.setPoint(point);
 
         return jamRepository.save(verifiedJam);
     }
@@ -76,10 +89,9 @@ public class JamService {
         return getJam.orElseThrow(() -> new BusinessLogicException(ExceptionCode.JAM_NOT_FOUND));
     }
 
-    public List<Jam> searchTitleOrContent(String keyword) {
-        List<Jam> jams = Optional.ofNullable(
-                jamRepository.findByTitleContainingOrContentContaining(keyword, keyword))
-            .orElseThrow(IllegalAccessError::new);
+    public Page<Jam> searchTitleOrContent(String keyword, Pageable pageable) {
+        Page<Jam> jams = Optional.ofNullable(jamRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable))
+                .orElseThrow(IllegalAccessError::new);
         return jams;
     }
 
