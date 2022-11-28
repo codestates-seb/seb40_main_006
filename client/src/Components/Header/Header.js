@@ -17,6 +17,8 @@ const header = css`
   width: 100vw;
   height: 100px;
   border-bottom: 0.5px ${palette.border} solid;
+  position: fixed;
+  z-index: 1;
 `;
 // logo
 const logo = css`
