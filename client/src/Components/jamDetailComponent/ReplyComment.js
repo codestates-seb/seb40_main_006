@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-// import { FaUserCircle } from 'react-icons/fa';
-// import { AiOutlineTwitter } from 'react-icons/ai';
-// import { ThemeProvider } from '@mui/material';
+import { FaUserCircle } from 'react-icons/fa';
+import { AiOutlineTwitter } from 'react-icons/ai';
+import { ThemeProvider } from '@mui/material';
 import jamElapsedTime from '../userComp/JamElapsedTime';
-// import { palette } from '../../Styles/theme';
-import UserName from '../userComp/UserName';
+import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -30,13 +29,13 @@ const Time = css`
   margin-left: auto;
 `;
 
-// const JamIcon = css`
-//   color: ${palette.colorGrade5};
-// `;
+const JamIcon = css`
+  color: ${palette.colorGrade5};
+`;
 
-// const UserName = css`
-//   font-size: 13px;
-// `;
+const UserName = css`
+  font-size: 13px;
+`;
 
 const WrittenComment = css`
   width: 100%;
@@ -50,7 +49,7 @@ const ReplyComment = () => {
   return (
     <div css={Container}>
       <div css={UserBox}>
-        {/* <div>
+        <div>
           <FaUserCircle size={15} />
         </div>
         <div css={UserName}>포도쨈</div>
@@ -58,8 +57,7 @@ const ReplyComment = () => {
           <div css={JamIcon}>
             <AiOutlineTwitter size={16} />
           </div>
-        </ThemeProvider> */}
-        <UserName />
+        </ThemeProvider>
         <p css={Time}>{jamElapsedTime('2022-11-25T00:25:42')}</p>
       </div>
       <div css={WrittenComment}>

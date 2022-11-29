@@ -35,7 +35,6 @@ const userJamInfo = css`
     width: 390px;
     height: 100px;
     display: flex;
-    justify-content: space-between;
     margin: 10px 0;
     border: 1px solid ${palette.colorBorder2};
     box-shadow: inherit;

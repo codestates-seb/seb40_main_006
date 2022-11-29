@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { FaUserCircle } from 'react-icons/fa';
-import { TextField, Box, ThemeProvider } from '@mui/material';
-import { AiOutlineTwitter } from 'react-icons/ai';
+import { TextField, Box } from '@mui/material';
 import Button from '../Button';
-import { palette } from '../../Styles/theme';
+import UserName from '../userComp/UserName';
+// import { FaUserCircle } from 'react-icons/fa';
+// import { AiOutlineTwitter } from 'react-icons/ai';
+// import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -24,9 +25,9 @@ const UserBox = css`
   margin-bottom: 5px;
 `;
 
-const JamIcon = css`
-  color: ${palette.colorGrade2};
-`;
+// const JamIcon = css`
+//   color: ${palette.colorGrade2};
+// `;
 
 const InputBox = css`
   margin-bottom: 10px;
@@ -42,7 +43,7 @@ const WriteComment = () => {
   return (
     <div css={Container}>
       <div css={UserBox}>
-        <div>
+        {/* <div>
           <FaUserCircle size={15} />
         </div>
         <div>딸기쨈(화면을 보고있는 로그인 유저 네임)</div>
@@ -50,7 +51,8 @@ const WriteComment = () => {
           <div css={JamIcon}>
             <AiOutlineTwitter size={16} />
           </div>
-        </ThemeProvider>
+        </ThemeProvider> */}
+        <UserName />
       </div>
       <div css={InputBox}>
         <Box
