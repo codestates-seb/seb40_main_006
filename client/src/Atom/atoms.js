@@ -13,7 +13,7 @@ const selectedCategory = atom({
 const loginUserInfoState = atom({
   key: 'loginUserInfo',
   default: {
-    memberId: 1,
+    memberId: '',
     nickname: '',
     img: '',
   },

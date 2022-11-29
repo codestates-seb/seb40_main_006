@@ -8,7 +8,7 @@ import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
 import AccountMenu from './AccountMenu';
-import { isLoginState } from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
 const headerBox = css`
   height: 100px;
@@ -142,12 +142,14 @@ const LoginArea = () => {
 };
 
 const LogoutArea = () => {
+  const [user] = useRecoilState(loginUserInfoState);
+
   return (
     <div className={rightHeader}>
       <button type="button" className={createJamBtn}>
         잼 만들기{' '}
       </button>
-      <div className={username}>유저이름님</div>
+      <div className={username}>{user.nickname}님</div>
       <AccountMenu />
     </div>
   );

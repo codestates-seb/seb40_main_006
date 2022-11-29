@@ -22,7 +22,7 @@ import SocialLogin from './SocialLogin';
 import LoginHelp from './LoginHelp';
 import AvatarImg from '../userComp/AvatarImg';
 import { setCookie } from './Cookie';
-import { isLoginState } from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
 const validateText = css`
   width: 100%;
@@ -31,7 +31,8 @@ const validateText = css`
 `;
 
 const Sign = () => {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [, setIsLogin] = useRecoilState(isLoginState);
+  const [, setUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -113,6 +114,7 @@ const Sign = () => {
             const accessToken = res.headers.get('Authorization').slice(7);
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
+            setUser(res.data);
             setCookie('accessToken', accessToken);
             setCookie('refreshToken', refreshToken);
             setError({ ...error, password: '' });
@@ -182,7 +184,6 @@ const Sign = () => {
 
   return (
     <ThemeProvider theme={themeUserPage}>
-      {console.log(isLogin)}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <BackgroundImage />
         {/* <Background /> */}
