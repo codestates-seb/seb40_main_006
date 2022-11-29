@@ -33,6 +33,13 @@ const topArea = css`
   }
 `;
 
+const openedJam = css`
+  background-color: ${palette.colorJamOpen};
+`;
+const closedJam = css`
+  background-color: ${palette.colorJamClose};
+`;
+
 const coverImage = css`
   width: 100%;
   height: 200px;
@@ -72,30 +79,34 @@ const infoBottom = css`
   margin-top: 10px;
 `;
 
-const JamCard = ({ item }) => {
+const JamCard = ({ jam }) => {
   return (
     <div className={box}>
       <div className={coverImage} />
       <div className={bottomArea}>
-        <p>{item.title}</p>
+        <p>{jam.title}</p>
         <div className={topArea}>
-          <div>{item.complete ? '모집중' : '마감'}</div>
-          {item.realTime ? <div>실시간</div> : null}
+          {jam.completeStatus === 'FALSE' ? (
+            <div className={openedJam}>모집중</div>
+          ) : (
+            <div className={closedJam}>마감</div>
+          )}
+          {jam.realTime ? <div>실시간</div> : null}
         </div>
         <div className={info}>
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              <p>{jamElapsedTime(item.createdAt)}</p>
+              <p>{jamElapsedTime(jam.createdAt)}</p>
             </div>
             <div>
               <BsPeopleFill />
-              <p>{item.currentPpl}명</p>
+              <p>{jam.currentPpl}명</p>
             </div>
           </div>
           <div className={infoBottom}>
             <ImLocation />
-            <p>{item.location}</p>
+            <p>{jam.location}</p>
           </div>
         </div>
       </div>

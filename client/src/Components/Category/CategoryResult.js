@@ -57,7 +57,8 @@ const noDataContainer = css`
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
   const [jamData, setJamData] = useState([]);
-
+  const [filteredData, setFilteredData] = useState('');
+  const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
   useEffect(() => {
     const endpoint =
       currentCategory.label === '전체'
@@ -66,9 +67,18 @@ const Category = () => {
     const Jams = fetchJamRead(endpoint);
     Jams.then(data => {
       setJamData(data.content);
+      setFilteredData(data.content);
       console.log(data.content);
     });
   }, [currentCategory]);
+
+  const handleFilterClick = (_, label) => {
+    if (label === '실시간 잼')
+      setFilteredData(jamData.filter(el => el.realTime));
+    else if (label === '스터디 잼')
+      setFilteredData(jamData.filter(el => !el.realTime));
+    else setFilteredData(jamData);
+  };
 
   return (
     <div className={pagewithSidebar}>
@@ -82,17 +92,21 @@ const Category = () => {
               color="primary"
               aria-label="outlined primary button group"
             >
-              <Button>전체</Button>
-              <Button>실시간 잼</Button>
-              <Button>스터디 잼</Button>
+              {filterButtonGroup.map(el => {
+                return (
+                  <Button key={el} onClick={e => handleFilterClick(e, el)}>
+                    {el}
+                  </Button>
+                );
+              })}
             </ButtonGroup>
           </ThemeProvider>
         </div>
-        {jamData.length ? (
+        {filteredData.length ? (
           <div className={cardContainer}>
-            {jamData &&
-              jamData.map(jam => {
-                return <JamCard key={jam.jamId} item={jam} />;
+            {filteredData &&
+              filteredData.map(jam => {
+                return <JamCard key={jam.jamId} jam={jam} />;
               })}
           </div>
         ) : (
