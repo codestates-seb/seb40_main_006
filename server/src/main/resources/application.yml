@@ -27,11 +27,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
   sql:
     init:
       data-locations: classpath*:static.db/data.sql
       mode: always
+      security:
+        oauth2:
+          client:
+            registration:
+              google:
+                clientId: ${GOOGLE_OAUTH2_ID}
+                clientSecret: ${GOOGLE_OAUTH2_PASSWORD}
+                scope:
+                  - email
+                  - profile
   data:
     web:
       pageable:

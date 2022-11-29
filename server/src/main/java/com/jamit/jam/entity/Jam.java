@@ -71,7 +71,6 @@ public class Jam extends Auditable {
 	@Column(nullable = false)
 	private String location;
 
-	@Column(length = 1000)
 	private Point point;
 
 	@Column(nullable = false)

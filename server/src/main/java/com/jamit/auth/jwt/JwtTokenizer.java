@@ -11,6 +11,7 @@ import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,7 @@ public class JwtTokenizer {
 //    private String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
     @Getter
-    private int accessTokenExpirationMinutes = 60 * 60 * 60;
+    private int accessTokenExpirationMinutes = 1;
 
     @Getter
     private int refreshTokenExpirationMinutes = 60 * 60 * 24 * 30;
@@ -94,15 +95,10 @@ public class JwtTokenizer {
     }
 
     /**
-     * JWT 검증 메서드
+     * Access Token 가져오기
      */
-    public void verifySignature(String jws, String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(jws);
+    public String resolveAccessToken(HttpServletRequest request) {
+        return request.getHeader("Authorization").replace("Bearer ", "");
     }
 
     /**

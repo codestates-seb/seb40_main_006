@@ -2,6 +2,7 @@ package com.jamit.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+//import com.jamit.auth.filter.ExceptionHandlerFilter;
 import com.jamit.auth.filter.JwtAuthenticationFilter;
 import com.jamit.auth.filter.JwtVerificationFilter;
 import com.jamit.auth.handler.MemberAccessDeniedHandler;
@@ -9,7 +10,6 @@ import com.jamit.auth.handler.MemberAuthenticationEntryPoint;
 import com.jamit.auth.handler.MemberAuthenticationFailureHandler;
 import com.jamit.auth.handler.MemberAuthenticationSuccessHandler;
 import com.jamit.auth.jwt.JwtTokenizer;
-import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.member.repository.MemberRepository;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,8 +34,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
-
     private final MemberRepository memberRepository;
+//    private final ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,10 +57,12 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorize -> authorize
                 .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
+                .antMatchers("/login/oauth2/code/google").permitAll()
                 .antMatchers(HttpMethod.POST, "/*/user/**").hasRole("USER")
 //                .antMatchers("/**").authenticated()
                 .anyRequest().permitAll()
             );
+
         return http.build();
     }
 
@@ -104,7 +107,10 @@ public class SecurityConfiguration {
 
             builder // Security Filter Chain 에 추가
                 .addFilter(jwtAuthenticationFilter) // JWT 인증 필터
+//                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class); // JWT 검증 필터
+//                .addFilterBefore(exceptionHandlerFilter, BasicAuthenticationFilter.class)
+
         }
     }
 
