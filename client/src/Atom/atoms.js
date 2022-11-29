@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 const location = atom({
   key: 'location',
@@ -17,11 +20,13 @@ const loginUserInfoState = atom({
     nickname: '',
     img: '',
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 const isLoginState = atom({
   key: 'login',
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 해당 마이페이지 유저의 정보 (로그인된 유저 아님)

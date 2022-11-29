@@ -32,6 +32,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "recoil": "^0.7.6",
+    "recoil-persist": "^4.2.0",
     "rsuite": "^5.22.1",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
