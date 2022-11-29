@@ -11,29 +11,29 @@ const OpenJamCard = () => {
     <Card className="card">
       <CardMedia
         component="img"
-        image="https://source.unsplash.com/random"
+        image="../img/back2.jpg"
         alt="random"
-        sx={{ width: '30%' }}
+        sx={{ width: '25%' }}
       />
       <CardActions className="cardActions">
-        <div className="title">{jamInfo[0].participationList[0].title}</div>
+        <div className="title">{jamInfo[0].createJamList[0].title}</div>
         <div className="info">
           <div>
-            <img src="./img/userTime.png" alt="시간" />
-            {jamElapsedTime(jamInfo[0].participationList[0].createdTime)}
+            <img src="../img/userTime.png" alt="시간" />
+            {jamElapsedTime(jamInfo[0].createJamList[0].createdTime)}
           </div>
           <div>
-            <img src="./img/userInitImg.png" alt="모집인원" />
-            {jamInfo[0].participationList[0].capacity}
+            <img src="../img/userInitImg.png" alt="모집인원" />
+            {jamInfo[0].createJamList[0].capacity}
           </div>
           <div>
-            <img src="./img/userLocation.png" alt="위치" />
-            {jamInfo[0].participationList[0].location}
+            <img src="../img/userLocation.png" alt="위치" />
+            {jamInfo[0].createJamList[0].location}
           </div>
         </div>
       </CardActions>
       <Button size="small" className="cardBtn">
-        {!jamInfo[0].participationList[0].complete ? '모집완료' : '모집중'}
+        {!jamInfo[0].createJamList[0].complete ? '모집완료' : '모집중'}
       </Button>
     </Card>
   );

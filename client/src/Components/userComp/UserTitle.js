@@ -1,9 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
-import { myPageInfoState } from '../../Atom/atoms';
+import { loginUserInfoState, myPageInfoState } from '../../Atom/atoms';
 import GiveJam from './GiveJam';
 
 const userTitle = css`
@@ -56,7 +57,8 @@ const userGiveJam = css`
 `;
 
 const UserTitle = () => {
-  const [userInfo] = useRecoilState(myPageInfoState);
+  const [pageUser] = useRecoilState(myPageInfoState);
+  const [user] = useRecoilState(loginUserInfoState);
 
   return (
     <div className={userTitle}>
@@ -64,19 +66,25 @@ const UserTitle = () => {
         <Avatar
           sx={{ width: 96, height: 96 }}
           alt="Jaehoon"
-          src={userInfo.img}
+          src={pageUser.img}
         />
         <div className="userTitleInfo">
-          <div>{userInfo.nickname}</div>
+          <div>{pageUser.nickname}</div>
           <div className="userTitleJam">
-            <img src="./img/orangeJam.png" alt="jam" />
-            <div>{userInfo.grade}</div>
-            <div>{`(${userInfo.평가수})`}</div>
+            <img src="../img/orangeJam.png" alt="jam" />
+            <div>{pageUser.grade}</div>
+            <div>{`(${pageUser.평가수})`}</div>
           </div>
         </div>
       </div>
       <div className={userGiveJam}>
-        <GiveJam />
+        {pageUser.memberId === user.memberId ? (
+          <Link to="/profile">
+            <button type="button">수정</button>
+          </Link>
+        ) : (
+          <GiveJam />
+        )}
       </div>
     </div>
   );

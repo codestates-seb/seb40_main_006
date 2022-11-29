@@ -9,7 +9,7 @@ const JoinJams = () => {
   return (
     <div>
       참여한 잼
-      {userInfo.myJamList.map(jam => (
+      {userInfo.joinJamList.map(jam => (
         <Grid item key={jam}>
           <JoinJamCard />
         </Grid>

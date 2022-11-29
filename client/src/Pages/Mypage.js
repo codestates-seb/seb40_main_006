@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-// import { useRecoilState } from 'recoil';
-// import axios from 'axios';
-// import { myPageInfoState } from '../Atom/atoms';
+import { useRecoilState } from 'recoil';
+import axios from 'axios';
 import { css } from '@emotion/css';
+import { useLocation } from 'react-router-dom';
 import { palette } from '../Styles/theme';
 import UserTitle from '../Components/userComp/UserTitle';
 import JoinJams from '../Components/userComp/JoinJams';
 import OpenJams from '../Components/userComp/OpenJams';
 import Sidebar from '../Components/Sidebar';
 import { getCookie } from '../Components/SignComp/Cookie';
+import { myPageInfoState } from '../Atom/atoms';
 
 const pageContainer = css`
   display: flex;
@@ -66,36 +67,33 @@ const userJamInfo = css`
 `;
 
 const Mypage = () => {
-  // const [userInfo] = useRecoilState(myPageInfoState);
+  const [user, setUser] = useRecoilState(myPageInfoState);
+  const location = useLocation().pathname.slice(8);
 
   const accessToken = getCookie('is_login');
-  console.log(accessToken);
-
   useEffect(() => {
-    // axios.get(
-    //   `${process.env.REACT_APP_URL}/user/profile/${userInfo.memberId}`,
-    //   { memberId: userInfo.memberId },
-    //   {
-    //     headers: {
-    //       Authorization: accessToken,
-    //     },
-    //   },
-    // );
-    // .then(res => {
-    //   setUserInfo({
-    //     memberId: userInfo.memberId,
-    //     img: res.data.img,
-    //     nickname: res.data.nickname,
-    //     grade: res.data.grade,
-    //     평가수: res.data.평가수,
-    //     myJamList: res.data.myJamList,
-    //     participationList: res.data.participationList,
-    //   });
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    // });
-  });
+    axios
+      .get(`/user/profile/${location}`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then(res => {
+        setUser({
+          memberId: res.data.data.memberId,
+          img: res.data.data.profileImage,
+          nickname: res.data.data.nickname,
+          grade: user.grade,
+          평가수: user.평가수,
+          joinJamList: res.data.data.joinJams,
+          createJamList: res.data.data.createJams,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div className={pageContainer}>
       <Sidebar />

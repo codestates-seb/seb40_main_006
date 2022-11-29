@@ -33,12 +33,12 @@ const isLoginState = atom({
 const myPageInfoState = atom({
   key: 'mypageInfo',
   default: {
-    memberId: 1,
-    img: './img/orangeJam.png',
-    nickname: '홍길동',
+    memberId: '',
+    img: '',
+    nickname: '',
     grade: '5',
     평가수: '6',
-    myJamList: [
+    joinJamList: [
       {
         jamId: 1,
         nickname: '홍길동',
@@ -53,7 +53,7 @@ const myPageInfoState = atom({
         realTime: true,
       },
     ],
-    participationList: [
+    createJamList: [
       {
         jamId: 1,
         nickname: '홍길동',

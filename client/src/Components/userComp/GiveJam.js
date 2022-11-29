@@ -145,7 +145,7 @@ export default function GiveJam() {
           <Typography className={jamImage}>
             {array.map((el, idx) => (
               <img
-                src="./img/whiteJam.png"
+                src="../img/whiteJam.png"
                 alt="jam"
                 role="presentation"
                 className={jam[idx] ? selectJam : ''}

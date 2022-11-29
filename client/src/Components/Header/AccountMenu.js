@@ -17,7 +17,7 @@ import { removeCookie } from '../SignComp/Cookie';
 
 export default function AccountMenu() {
   const [, setIsLogin] = useRecoilState(isLoginState);
-  const [, setUser] = useRecoilState(loginUserInfoState);
+  const [user, setUser] = useRecoilState(loginUserInfoState);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -85,7 +85,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Link to="/mypage">
+        <Link to={`/mypage/${user.memberId}`}>
           <MenuItem>
             <ListItemIcon>
               <Person fontSize="small" />

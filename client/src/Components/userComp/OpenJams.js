@@ -10,7 +10,7 @@ const OpenJams = () => {
   return (
     <div>
       개설한 잼
-      {userInfo.participationList?.map(jam => (
+      {userInfo.createJamList.map(jam => (
         <Grid item key={jam}>
           <OpenJamCard />
         </Grid>
