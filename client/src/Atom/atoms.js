@@ -7,7 +7,7 @@ const location = atom({
 
 const selectedCategory = atom({
   key: 'selectedCategory',
-  default: '내 주변',
+  default: { value: 'nearby', label: '내주변', param: 'NEARBY' },
 });
 
 const loginUserInfoState = atom({

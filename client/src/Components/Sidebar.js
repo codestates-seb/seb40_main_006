@@ -6,6 +6,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import { palette } from '../Styles/theme';
 import { selectedCategory } from '../Atom/atoms';
+import categories from '../Static/categories';
 
 const sidebar = css`
   width: 220px;
@@ -38,68 +39,23 @@ const sidebar = css`
     }
   }
 `;
-const categoryDummy = [
-  {
-    name: '내 주변',
-  },
-  {
-    name: '전체',
-  },
-  {
-    name: '운동/건강',
-  },
-  {
-    name: '라이프스타일',
-  },
-  {
-    name: '요리',
-  },
-  {
-    name: '미술',
-  },
-  {
-    name: '커리어',
-  },
-  {
-    name: '공예',
-  },
-  {
-    name: '사진/영상',
-  },
-  {
-    name: '음악',
-  },
-  {
-    name: '외국어',
-  },
-  {
-    name: '교육',
-  },
-  {
-    name: '재테크',
-  },
-  {
-    name: '비즈니스',
-  },
-  {
-    name: '개발',
-  },
-];
 
 const Sidebar = () => {
   const [, setCurrentCategory] = useRecoilState(selectedCategory);
 
   const onCategoryClick = e => {
     console.log(e.target.innerText);
-    setCurrentCategory(e.target.innerText);
+    setCurrentCategory(
+      categories.filter(el => el.label === e.target.innerText)[0],
+    );
   };
   return (
     <div className={sidebar}>
       <div>카테고리</div>
       <ul>
-        {categoryDummy.map(el => (
-          <li onClick={onCategoryClick} key={el.name}>
-            {el.name}
+        {categories.map(el => (
+          <li onClick={onCategoryClick} key={el.value}>
+            {el.label}
           </li>
         ))}
       </ul>

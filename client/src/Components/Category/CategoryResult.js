@@ -12,8 +12,7 @@ import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
 import { selectedCategory } from '../../Atom/atoms';
 import ScrollToTop from '../../ScrollToTop';
-
-// import NoData from '../Search/NoData';
+import { NoCategoryData } from '../NoData';
 
 const pagewithSidebar = css`
   display: flex;
@@ -47,25 +46,29 @@ const cardContainer = css`
   padding: 20px;
 `;
 
-// const noDataContainer = css`
-//   display: flex;
-//   height: 100px;
-//   justify-content: center;
-//   padding: 20px;
-// `;
+const noDataContainer = css`
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
   const [jamData, setJamData] = useState([]);
 
-  useEffect(() => {}, [currentCategory]);
   useEffect(() => {
-    const Jams = fetchJamRead('/jams');
+    const endpoint =
+      currentCategory.label === '전체'
+        ? '/jams'
+        : `/jams/category?category=${currentCategory.param}&page=1&size=5`;
+    const Jams = fetchJamRead(endpoint);
     Jams.then(data => {
       setJamData(data.content);
       console.log(data.content);
-      console.log(jamData);
     });
-  }, []);
+  }, [currentCategory]);
 
   return (
     <div className={pagewithSidebar}>
@@ -73,7 +76,7 @@ const Category = () => {
       <ScrollToTop />
       <div className={category}>
         <div className={topContainer}>
-          <p>카테고리 - {currentCategory}</p>
+          <p>카테고리 - {currentCategory.label}</p>
           <ThemeProvider theme={theme}>
             <ButtonGroup
               color="primary"
@@ -85,17 +88,18 @@ const Category = () => {
             </ButtonGroup>
           </ThemeProvider>
         </div>
-        <div className={cardContainer}>
-          {jamData && console.log(jamData)}
-          {jamData &&
-            jamData.map(jam => {
-              console.log(jam);
-              return <JamCard key={jam.jamId} item={jam} />;
-            })}
-        </div>
-        {/* <div className={noDataContainer}>
-          <NoData />
-        </div> */}
+        {jamData.length ? (
+          <div className={cardContainer}>
+            {jamData &&
+              jamData.map(jam => {
+                return <JamCard key={jam.jamId} item={jam} />;
+              })}
+          </div>
+        ) : (
+          <div className={noDataContainer}>
+            <NoCategoryData />
+          </div>
+        )}
       </div>
     </div>
   );

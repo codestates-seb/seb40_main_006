@@ -1,18 +1,17 @@
 import React from 'react';
 import { css } from '@emotion/css';
-import { palette } from '../../Styles/theme';
+import { palette } from '../Styles/theme';
 
 const container = css`
   display: flex;
   flex-direction: column;
-  width: 80%;
   height: 140px;
   overflow: hidden;
   align-items: center;
   justify-content: center;
   border: 1px solid ${palette.border};
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 100px;
 `;
 const text1 = css`
   text-align: center;
@@ -25,7 +24,7 @@ const text2 = css`
   font-size: large;
   margin: 15px;
 `;
-const NoData = () => {
+export const NoSearchData = () => {
   return (
     <div className={container}>
       <div className={text1}>000의</div>
@@ -34,4 +33,12 @@ const NoData = () => {
     </div>
   );
 };
-export default NoData;
+
+export const NoCategoryData = () => {
+  return (
+    <div className={container}>
+      <div className={text1}>현재 카테고리의 잼이 없습니다.</div>
+    </div>
+  );
+};
+// export default NoData;
