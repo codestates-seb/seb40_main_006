@@ -10,6 +10,7 @@ import Header from './Components/Header/Header';
 import JamDetail from './Pages/JamDetail';
 import JamMake from './Pages/JamMake';
 import PageNotFound from './Pages/NotFound';
+import Rending from './Pages/Rending';
 
 function App() {
   const [isEdit, setIsEdit] = useState(false);
@@ -19,7 +20,8 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Rending />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/category" element={<Category />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
