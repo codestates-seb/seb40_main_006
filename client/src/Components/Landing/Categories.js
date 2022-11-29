@@ -39,7 +39,7 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
     opacity: 0,
   },
   '&:hover .imageTitle': {
-    border: '4px solid currentColor',
+    // border: '4px solid currentColor',
   },
   '& .imageTitle': {
     position: 'relative',
@@ -122,9 +122,6 @@ const images = [
 export default function Categories() {
   return (
     <Container component="section" sx={{ mt: 8, mb: 4 }}>
-      {/* <Typography variant="h4" align="center" component="h2">
-        카테고리
-      </Typography> */}
       <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
         {images.map(image => (
           <ImageIconButton
@@ -160,12 +157,14 @@ export default function Categories() {
               }}
             >
               <Typography
-                component="h3"
+                component="h5"
                 variant="h6"
                 color="inherit"
                 className="imageTitle"
               >
-                <Link to="/category">{image.title}</Link>
+                <Link to="/category" style={{ color: 'white' }}>
+                  {image.title}
+                </Link>
               </Typography>
             </Box>
           </ImageIconButton>
