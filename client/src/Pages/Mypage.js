@@ -28,7 +28,7 @@ const userJamInfo = css`
   font-size: 18px;
   color: ${palette.colorTitle};
   .card {
-    width: 400px;
+    width: 390px;
     height: 100px;
     display: flex;
     justify-content: space-between;
@@ -40,7 +40,6 @@ const userJamInfo = css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     font-size: 13px;
     .title {
       padding-left: 3px;
@@ -63,6 +62,9 @@ const userJamInfo = css`
   }
   .cardBtn {
     margin-bottom: 60px;
+    position: relative;
+    bottom: 100px;
+    left: 320px;
   }
 `;
 
