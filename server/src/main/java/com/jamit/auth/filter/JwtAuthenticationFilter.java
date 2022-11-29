@@ -6,6 +6,7 @@ import com.jamit.auth.dto.LoginResponseDto;
 import com.jamit.auth.jwt.JwtTokenizer;
 import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.member.entity.Member;
+import com.jamit.member.repository.MemberRepository;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // 로그인 인증 정보를 전달 받아 UserDetailsService 와 인터렉션 후 인증 여부 판단
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+    private final MemberRepository memberRepository;
 
     /**
      * HttpServletRequest 에서 받은 로그인 정보를 인터셉트해서 AuthenticationManager 에게 넘겨준다.
@@ -62,12 +64,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member); // Access Token 생성
         String refreshToken = delegateRefreshToken(member); // Refresh Token 생성
 
+        // response header 에 토큰 값 담아주기
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
+        // DB에 refreshToken 저장
+        member.setRefreshToken(refreshToken);
+        memberRepository.save(member);
+
+        // response body 에 멤버 정보 담아주기
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         LoginResponseDto memberInfo = new LoginResponseDto();
         memberInfo.setMemberId(member.getMemberId());
         memberInfo.setNickname(member.getNickname());

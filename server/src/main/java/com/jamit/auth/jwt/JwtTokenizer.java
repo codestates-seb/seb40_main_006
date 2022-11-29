@@ -37,7 +37,7 @@ public class JwtTokenizer {
 //    private String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
     @Getter
-    private int accessTokenExpirationMinutes = 1;
+    private int accessTokenExpirationMinutes = 60 * 60 * 60;
 
     @Getter
     private int refreshTokenExpirationMinutes = 60 * 60 * 24 * 30;

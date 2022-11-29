@@ -92,7 +92,7 @@ public class SecurityConfiguration {
 
             // JwtAuthenticationFilter 를 생성하며 필요한 AuthenticationManager 와 jwtTokenizer 를 DI
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
-                authenticationManager, jwtTokenizer);
+                authenticationManager, jwtTokenizer, memberRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/user/login"); // default URL 지정
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(
                 new MemberAuthenticationSuccessHandler());

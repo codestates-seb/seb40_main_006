@@ -44,8 +44,8 @@ public class Member {
     @Column
     private String profileImage;
 
-    @Column
-    private int grade;
+//    @Column
+//    private int grade;
 
     @Column
     private String refreshToken;
