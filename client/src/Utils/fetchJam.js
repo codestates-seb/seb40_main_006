@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-export const fetchJamRead = async () => {
+export const fetchJamRead = async endPoint => {
   return axios
-    .get(`/jams?page=0&size=5`)
+    .get(endPoint)
     .then(res => {
       if (!res.ok) {
         // console.log(res);

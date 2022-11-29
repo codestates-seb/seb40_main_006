@@ -4,7 +4,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { fetchJamRead } from '../../Utils/fetchJam';
 import { theme } from '../../Styles/theme';
@@ -53,12 +53,15 @@ const cardContainer = css`
 // `;
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
+  const [jamData, setJamData] = useState([]);
 
   useEffect(() => {}, [currentCategory]);
   useEffect(() => {
-    const Jams = fetchJamRead();
+    const Jams = fetchJamRead('/jams');
     Jams.then(data => {
+      setJamData(data.content);
       console.log(data.content);
+      console.log(jamData);
     });
   }, []);
 
@@ -80,11 +83,12 @@ const Category = () => {
           </ThemeProvider>
         </div>
         <div className={cardContainer}>
-          <JamCard />
-          <JamCard />
-          <JamCard />
-          <JamCard />
-          <JamCard />
+          {jamData && console.log(jamData)}
+          {jamData &&
+            jamData.map(jam => {
+              console.log(jam);
+              return <JamCard key={jam.jamId} item={jam} />;
+            })}
         </div>
         {/* <div className={noDataContainer}>
           <NoData />

@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 // import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const box = css`
   width: 300px;
@@ -69,30 +71,31 @@ const infoBottom = css`
   display: flex;
   margin-top: 10px;
 `;
-const JamCard = () => {
+
+const JamCard = ({ item }) => {
   return (
     <div className={box}>
       <div className={coverImage} />
       <div className={bottomArea}>
-        <p>토익스터디하실분</p>
+        <p>{item.title}</p>
         <div className={topArea}>
-          <div>모집중</div>
-          <div>실시간</div>
+          <div>{item.complete ? '모집중' : '마감'}</div>
+          {item.realTime ? <div>실시간</div> : null}
         </div>
         <div className={info}>
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              <p>1분전</p>
+              <p>{jamElapsedTime(item.createdAt)}</p>
             </div>
             <div>
               <BsPeopleFill />
-              <p>1분전</p>
+              <p>{item.currentPpl}명</p>
             </div>
           </div>
           <div className={infoBottom}>
             <ImLocation />
-            <p>스타벅스 마곡역점</p>
+            <p>{item.location}</p>
           </div>
         </div>
       </div>
