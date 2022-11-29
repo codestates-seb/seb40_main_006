@@ -20,7 +20,7 @@ spring:
     password: ${MYSQL_PASSWORD}
   jpa:
     defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL8SpatialDialect
     hibernate:
       ddl-auto: create
     show-sql: true
