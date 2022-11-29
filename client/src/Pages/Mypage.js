@@ -18,7 +18,7 @@ const pageContainer = css`
 const userContainer = css`
   width: 800px;
   min-width: 400px;
-  // margin: 40px auto;
+  margin: 40px auto;
 `;
 
 const userJamInfo = css`
@@ -27,6 +27,10 @@ const userJamInfo = css`
   padding: 40px 0;
   font-size: 18px;
   color: ${palette.colorTitle};
+  width: 800px;
+  .container {
+    width: 390px;
+  }
   .card {
     width: 390px;
     height: 100px;
