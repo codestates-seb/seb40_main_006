@@ -5,9 +5,17 @@ const location = atom({
   default: '서울특별시 강서구 마곡동',
 });
 
+const coordinate = atom({
+  key: 'coordinate',
+  default: {
+    latitude: 37.5602098,
+    longitude: 126.825479,
+  },
+});
+
 const selectedCategory = atom({
   key: 'selectedCategory',
-  default: { value: 'nearby', label: '내주변', param: 'NEARBY' },
+  default: { value: 'all', label: '전체', param: 'ALL' },
 });
 
 const loginUserInfoState = atom({
@@ -68,6 +76,7 @@ const myPageInfoState = atom({
 
 export {
   location,
+  coordinate,
   selectedCategory,
   isLoginState,
   loginUserInfoState,
