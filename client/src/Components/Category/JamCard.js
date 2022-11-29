@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 // import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const box = css`
   width: 300px;
@@ -29,6 +31,13 @@ const topArea = css`
   div:nth-child(2) {
     background-color: ${palette.colorJamRealtime};
   }
+`;
+
+const openedJam = css`
+  background-color: ${palette.colorJamOpen};
+`;
+const closedJam = css`
+  background-color: ${palette.colorJamClose};
 `;
 
 const coverImage = css`
@@ -69,30 +78,35 @@ const infoBottom = css`
   display: flex;
   margin-top: 10px;
 `;
-const JamCard = () => {
+
+const JamCard = ({ jam }) => {
   return (
     <div className={box}>
       <div className={coverImage} />
       <div className={bottomArea}>
-        <p>토익스터디하실분</p>
+        <p>{jam.title}</p>
         <div className={topArea}>
-          <div>모집중</div>
-          <div>실시간</div>
+          {jam.completeStatus === 'FALSE' ? (
+            <div className={openedJam}>모집중</div>
+          ) : (
+            <div className={closedJam}>마감</div>
+          )}
+          {jam.realTime ? <div>실시간</div> : null}
         </div>
         <div className={info}>
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              <p>1분전</p>
+              <p>{jamElapsedTime(jam.createdAt)}</p>
             </div>
             <div>
               <BsPeopleFill />
-              <p>1분전</p>
+              <p>{jam.currentPpl}명</p>
             </div>
           </div>
           <div className={infoBottom}>
             <ImLocation />
-            <p>스타벅스 마곡역점</p>
+            <p>{jam.location}</p>
           </div>
         </div>
       </div>
