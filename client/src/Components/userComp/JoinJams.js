@@ -7,9 +7,9 @@ import { myPageInfoState } from '../../Atom/atoms';
 const JoinJams = () => {
   const [userInfo] = useRecoilState(myPageInfoState);
   return (
-    <div>
+    <div className="container">
       참여한 잼
-      {userInfo.myJamList.map(jam => (
+      {userInfo.joinJamList.map(jam => (
         <Grid item key={jam}>
           <JoinJamCard />
         </Grid>

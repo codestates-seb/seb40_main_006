@@ -4,8 +4,8 @@ import { css } from '@emotion/react';
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import { ThemeProvider } from '@mui/material';
-import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
+import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;

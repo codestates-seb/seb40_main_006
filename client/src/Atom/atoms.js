@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 const location = atom({
   key: 'location',
@@ -21,27 +24,29 @@ const selectedCategory = atom({
 const loginUserInfoState = atom({
   key: 'loginUserInfo',
   default: {
-    memberId: 1,
+    memberId: '',
     nickname: '',
     img: '',
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 const isLoginState = atom({
   key: 'login',
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 해당 마이페이지 유저의 정보 (로그인된 유저 아님)
 const myPageInfoState = atom({
   key: 'mypageInfo',
   default: {
-    memberId: 1,
-    img: './img/orangeJam.png',
-    nickname: '홍길동',
+    memberId: '',
+    img: '',
+    nickname: '',
     grade: '5',
     평가수: '6',
-    myJamList: [
+    joinJamList: [
       {
         jamId: 1,
         nickname: '홍길동',
@@ -56,7 +61,7 @@ const myPageInfoState = atom({
         realTime: true,
       },
     ],
-    participationList: [
+    createJamList: [
       {
         jamId: 1,
         nickname: '홍길동',

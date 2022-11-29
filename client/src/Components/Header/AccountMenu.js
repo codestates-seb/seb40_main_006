@@ -12,11 +12,12 @@ import { Settings, Logout } from '@mui/icons-material/';
 import { Person } from '@material-ui/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { isLoginState } from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 import { removeCookie } from '../SignComp/Cookie';
 
 export default function AccountMenu() {
   const [, setIsLogin] = useRecoilState(isLoginState);
+  const [user, setUser] = useRecoilState(loginUserInfoState);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -29,6 +30,7 @@ export default function AccountMenu() {
   };
   const handleLogout = () => {
     setIsLogin(false);
+    setUser({ memberId: '', nickname: '', img: '' });
     removeCookie('accessToken');
     removeCookie('refreshToken');
     navigate('/');
@@ -83,7 +85,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Link to="/mypage">
+        <Link to={`/mypage/${user.memberId}`}>
           <MenuItem>
             <ListItemIcon>
               <Person fontSize="small" />
