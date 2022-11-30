@@ -146,9 +146,11 @@ const LogoutArea = () => {
 
   return (
     <div className={rightHeader}>
-      <button type="button" className={createJamBtn}>
-        잼 만들기{' '}
-      </button>
+      <Link to="/jammake">
+        <button type="button" className={createJamBtn}>
+          잼 만들기{' '}
+        </button>
+      </Link>
       <div className={username}>{user.nickname}님</div>
       <AccountMenu />
     </div>
