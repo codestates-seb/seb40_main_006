@@ -86,7 +86,10 @@ const Profile = () => {
     profileImage: '',
   });
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState({
+    nickname: '',
+    password: '',
+  });
 
   const [user, setUser] = useRecoilState(loginUserInfoState);
   const navigate = useNavigate();
@@ -107,14 +110,18 @@ const Profile = () => {
     e.preventDefault();
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    if (!passwordRegex.test(userInput.password)) {
-      setErrorMessage(
-        '비밀번호는 숫자,영문,특수문자를 포함해 8자리 이상이어야 합니다',
-      );
+    if (!userInput.nickname) {
+      setErrorMessage({ ...errorMessage, nickname: '닉네임을 입력해주세요' });
+    } else if (!passwordRegex.test(userInput.password)) {
+      setErrorMessage({
+        nickname: '',
+        password:
+          '비밀번호는 숫자,영문,특수문자를 포함해 8자리 이상이어야 합니다',
+      });
     } else if (userInput.password !== userInput.rePassword) {
-      setErrorMessage('비밀번호를 확인해주세요');
+      setErrorMessage({ nickname: '', password: '비밀번호를 확인해주세요' });
     } else if (userInput.nickname && userInput.password) {
-      setErrorMessage('');
+      setErrorMessage({ nickname: '', password: '' });
       await axios
         .patch(
           `/user/change/${user.memberId}`,
@@ -138,8 +145,6 @@ const Profile = () => {
           alert('수정이 완료되었습니다');
           navigate(-1);
         });
-    } else {
-      setErrorMessage('닉네임을 입력해주세요');
     }
   };
 
@@ -219,6 +224,7 @@ const Profile = () => {
                 onChange={handleChange}
               />
             </div>
+            <div className={validateText}>{errorMessage.nickname}</div>
             <div>
               비밀번호
               <TextField
@@ -234,6 +240,7 @@ const Profile = () => {
                 onChange={handleChange}
               />
             </div>
+            <div className={validateText}> </div>
             <div>
               비밀번호 확인
               <TextField
@@ -250,7 +257,7 @@ const Profile = () => {
                 // error={errorMessage !== '' || false}
               />
             </div>
-            <div className={validateText}>{errorMessage}</div>
+            <div className={validateText}>{errorMessage.password}</div>
           </div>
 
           <div className={userBtn}>
