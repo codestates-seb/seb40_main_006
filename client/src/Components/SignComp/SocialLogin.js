@@ -19,9 +19,8 @@ const SocialLogin = () => {
   function handleCallbackResponse(response) {
     const encodedJwtIdToken = response.credential;
     const userObject = jwtDecode(encodedJwtIdToken);
-    // setUser(userObject);
     setUser({
-      memberId: user.memberId + 1,
+      memberId: 100 + user.memberId,
       nickname: userObject.name,
       img: userObject.picture,
     });

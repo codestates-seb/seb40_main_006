@@ -1,9 +1,12 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { css } from '@emotion/css';
 import { useRecoilState } from 'recoil';
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { loginUserInfoState } from '../../Atom/atoms';
+import JamColor from '../JamColor';
 
 const userName = css`
   display: flex;
@@ -20,14 +23,14 @@ const userName = css`
   }
 `;
 
-const UserName = () => {
+const UserName = props => {
   const [user] = useRecoilState(loginUserInfoState);
 
   return (
     <Link to={`/mypage/${user.memberId}`} className={userName}>
       <FaUserCircle size={15} />
-      {user.nickname}
-      <img src="./img/orangeJam.png" alt="jam" />
+      {props.name}
+      <JamColor />
     </Link>
   );
 };

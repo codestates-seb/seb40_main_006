@@ -32,7 +32,7 @@ const validateText = css`
 
 const Sign = () => {
   const [, setIsLogin] = useRecoilState(isLoginState);
-  const [, setUser] = useRecoilState(loginUserInfoState);
+  const [user, setUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -106,16 +106,21 @@ const Sign = () => {
     const handlePost = async () => {
       if (page === 'login') {
         await axios
-          .post(`/user/login`, {
-            username: userInput.email,
-            password: userInput.password,
-          })
+          .post(
+            `/user/login`,
+            {
+              username: userInput.email,
+              password: userInput.password,
+            },
+            { withCredentials: true },
+          )
           .then(res => {
             // const accessToken = res.headers.get('Authorization').slice(7);
             const accessToken = res.headers.get('Authorization');
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
             setUser(res.data);
+            setUser({ ...user, grade: 2 });
             setCookie('accessToken', accessToken);
             setCookie('refreshToken', refreshToken);
             setError({ ...error, password: '' });

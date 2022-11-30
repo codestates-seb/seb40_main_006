@@ -27,6 +27,7 @@ const loginUserInfoState = atom({
     memberId: '',
     nickname: '',
     img: '',
+    grade: '',
   },
   effects_UNSTABLE: [persistAtom],
 });

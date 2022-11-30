@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
 import Button from '../Button';
 import UserName from '../userComp/UserName';
+import { loginUserInfoState } from '../../Atom/atoms';
+
 // import { FaUserCircle } from 'react-icons/fa';
 // import { AiOutlineTwitter } from 'react-icons/ai';
 // import { palette } from '../../Styles/theme';
@@ -40,6 +43,8 @@ const RegisterComment = css`
 `;
 
 const WriteComment = () => {
+  const [user] = useRecoilState(loginUserInfoState);
+
   return (
     <div css={Container}>
       <div css={UserBox}>
@@ -52,7 +57,7 @@ const WriteComment = () => {
             <AiOutlineTwitter size={16} />
           </div>
         </ThemeProvider> */}
-        <UserName />
+        <UserName name={user.nickname} />
       </div>
       <div css={InputBox}>
         <Box
