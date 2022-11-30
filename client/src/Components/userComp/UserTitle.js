@@ -6,6 +6,7 @@ import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
 import { loginUserInfoState, myPageInfoState } from '../../Atom/atoms';
 import GiveJam from './GiveJam';
+import JamColor from '../JamColor';
 
 const userTitle = css`
   display: flex;
@@ -71,7 +72,7 @@ const UserTitle = () => {
         <div className="userTitleInfo">
           <div>{pageUser.nickname}</div>
           <div className="userTitleJam">
-            <img src="../img/orangeJam.png" alt="jam" />
+            <JamColor />
             <div>{pageUser.grade}</div>
             <div>{`(${pageUser.평가수})`}</div>
           </div>

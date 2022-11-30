@@ -10,7 +10,7 @@ const JoinJamCard = () => {
   const jamInfo = useRecoilState(myPageInfoState);
 
   return (
-    <>
+    <div className="jamContainer">
       <Card className="card">
         <CardMedia
           component="img"
@@ -42,7 +42,7 @@ const JoinJamCard = () => {
       <Button size="small" className="cardBtn">
         {!jamInfo[0].joinJamList[0].complete ? '모집완료' : '모집중'}
       </Button>
-    </>
+    </div>
   );
 };
 

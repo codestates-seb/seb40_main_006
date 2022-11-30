@@ -31,6 +31,9 @@ const userJamInfo = css`
   .container {
     width: 390px;
   }
+  .jamContainer {
+    height: 100px;
+  }
   .card {
     width: 390px;
     height: 100px;

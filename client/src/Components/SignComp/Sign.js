@@ -106,16 +106,26 @@ const Sign = () => {
     const handlePost = async () => {
       if (page === 'login') {
         await axios
-          .post(`/user/login`, {
-            username: userInput.email,
-            password: userInput.password,
-          })
+          .post(
+            `/user/login`,
+            {
+              username: userInput.email,
+              password: userInput.password,
+            },
+            { withCredentials: true },
+          )
           .then(res => {
             // const accessToken = res.headers.get('Authorization').slice(7);
             const accessToken = res.headers.get('Authorization');
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
-            setUser(res.data);
+            // setUser(res.data);
+            setUser({
+              memberId: res.data.memberId,
+              nickname: res.data.nickname,
+              img: res.data.profileImage,
+              grade: 2,
+            });
             setCookie('accessToken', accessToken);
             setCookie('refreshToken', refreshToken);
             setError({ ...error, password: '' });

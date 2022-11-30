@@ -3,7 +3,8 @@ import jwtDecode from 'jwt-decode';
 import { css } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { loginUserInfoState } from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
+import { setCookie } from './Cookie';
 
 const loginContainer = css`
   display: flex;
@@ -12,18 +13,19 @@ const loginContainer = css`
 
 const SocialLogin = () => {
   const [user, setUser] = useRecoilState(loginUserInfoState);
+  const [, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
 
   function handleCallbackResponse(response) {
     const encodedJwtIdToken = response.credential;
     const userObject = jwtDecode(encodedJwtIdToken);
-    setUser(userObject);
     setUser({
-      memberId: user.memberId + 1,
+      memberId: 100 + user.memberId,
       nickname: userObject.name,
       img: userObject.picture,
     });
-
+    setIsLogin(true);
+    setCookie('accessToken', encodedJwtIdToken);
     document.getElementById('signInDiv').hidden = true;
     navigate('/');
   }
