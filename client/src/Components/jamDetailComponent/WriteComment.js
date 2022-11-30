@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { css } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
-import Button from '../Button';
+// import Button from '../Button';
 import UserName from '../userComp/UserName';
 import { loginUserInfoState } from '../../Atom/atoms';
 
@@ -42,8 +43,12 @@ const RegisterComment = css`
   justify-content: flex-end;
 `;
 
-const WriteComment = () => {
+const WriteComment = ({ text, setText, handleSubmit }) => {
   const [user] = useRecoilState(loginUserInfoState);
+
+  const handleTextChange = e => {
+    setText(e.target.value);
+  };
 
   return (
     <div css={Container}>
@@ -75,6 +80,8 @@ const WriteComment = () => {
             placeholder="댓글을 남겨주세요"
             multiline
             rows={2}
+            value={text || ''}
+            onChange={handleTextChange}
             sx={{
               backgroundColor: '#fff',
               borderRadius: 1,
@@ -96,9 +103,9 @@ const WriteComment = () => {
         </Box>
       </div>
       <div css={RegisterComment}>
-        <Button size="xs" variant="cancel">
+        <button type="submit" onClick={handleSubmit}>
           등록
-        </Button>
+        </button>
       </div>
     </div>
   );
