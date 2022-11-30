@@ -1,10 +1,12 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-expressions */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState, useRef } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
-// import axios from 'axios';
+import axios from 'axios';
 import { palette } from '../Styles/theme';
 // import Button from '../components/Button';
 import StudyInputField from '../Components/jamCreateComponent/StudyInputField';
@@ -14,6 +16,7 @@ import EditButtonGroup from '../Components/jamCreateComponent/EditButtonGroup';
 import Sidebar from '../Components/Sidebar';
 import Uploader from '../Components/jamCreateComponent/Uploader';
 // import FileUploader from '../Components/jamCreateComponent/FileUploader';
+import { getCookie } from '../Components/SignComp/Cookie';
 
 const MergeContainer = css`
   width: 100%;
@@ -157,8 +160,15 @@ const ChatlinkBox = css`
   }
 `;
 
+const CURRENT_DATE_TIME = new Date();
+const TODAY_MIDNIGHT_TIME = new Date();
+// const TODAY_MIDNIGHT_TIME = new Date(
+//   new Date().setHours(24, 0, 0, 0),
+// ).toLocaleString();
+
 const JamMake = ({ isEdit }) => {
-  const [currentTab, setCurrentTab] = useState(0);
+  const [jamData, setJamData] = useState([]);
+  const [currentTab, setCurrentTab] = useState(false);
   // const [isCreated, setIsCreated] = useState(false);
 
   const [image, setImage] = useState({
@@ -170,29 +180,27 @@ const JamMake = ({ isEdit }) => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const [address, setAddress] = useState('');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('');
+  const [capacity, setCapacity] = useState('');
 
-  // const periodRef = useRef([new Date(), new Date()]);
-  const titleRef = useRef(null);
-  const categoryRef = useRef(null);
-  const capacityRef = useRef(null);
+  const [jamTitle, setJamTitle] = useState('');
+  const [jamCategory, setJamCategory] = useState('');
+  const [jamCapacity, setJamCapacity] = useState('');
 
-  const jamTitleRef = useRef(null);
-  const jamCategoryRef = useRef(null);
-  const jamCapacityRef = useRef(null);
+  const [desc, setDesc] = useState('');
+  const [chatLink, setChatLink] = useState('');
 
-  const descRef = useRef(null);
-  const chatLinkRef = useRef(null);
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const tapArr = [
-    { id: 0, name: '스터디 잼', content: '스터디 잼 내용' },
-    { id: 1, name: '실시간 잼', content: '실시간 잼 내용' },
+    { id: false, name: '스터디 잼', content: '스터디 잼 내용' },
+    { id: true, name: '실시간 잼', content: '실시간 잼 내용' },
   ];
 
-  // 토큰의 세션 저장 키값 확인 필요
-  // const token = sessionStorage.getItem('jwt-token');
-  // const loginState = 리코일 아톰에서 가져오기
+  // const loginState = 리코일 아톰에서 가져오기?
+  const accessToken = getCookie('accessToken');
 
   const selectTapHandler = el => {
     setCurrentTab(el.id);
@@ -201,118 +209,134 @@ const JamMake = ({ isEdit }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    // if (!token) {
-    //   alert('토큰이 만료 되었습니다');
-    //   navigate('/login');
-    //   window.location.reload();
-    // }
-
-    // eslint-disable-next-line
-    // const now = new Date()
-    const CURRENT_DATE_TIME = new Date();
-    const TODAY_MIDNIGHT_TIME = new Date(
-      new Date().setHours(24, 0, 0, 0),
-    ).toLocaleString();
+    if (!accessToken) {
+      alert('토큰이 만료 되었습니다');
+      navigate('/login');
+      window.location.reload();
+    }
 
     // eslint-disable-next-line no-console
     const mainData = {
-      title:
-        currentTab !== 0 ? jamTitleRef.current.value : titleRef.current.value,
-      content: descRef.current.value,
-      category:
-        currentTab !== 0
-          ? jamCategoryRef.current.value
-          : categoryRef.current.value,
-      capacity:
-        currentTab !== 0
-          ? jamCapacityRef.current.value
-          : capacityRef.current.value,
-      jamFrom: currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
-      jamTo: currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
-      realtime: currentTab !== 0,
-      chatLink: chatLinkRef.current.value,
+      title: currentTab ? jamTitle : title,
+      content: desc,
+      capacity: currentTab ? Number(jamCapacity) : Number(capacity),
+      category: currentTab ? jamCategory : category,
+      jamFrom: currentTab ? CURRENT_DATE_TIME : period[0],
+      jamTo: currentTab ? TODAY_MIDNIGHT_TIME : period[1],
+      realTime: currentTab,
+      openChatLink: chatLink,
       location: locationText,
-      image,
+      image: image.previewURL,
       longitude,
       latitude,
       address,
     };
 
     const formData = new FormData();
-    formData.append(
-      'title',
-      currentTab !== 0 ? jamTitleRef.current.value : titleRef.current.value,
-    );
-    formData.append('content', descRef.current.value);
-    formData.append(
-      'category',
-      currentTab !== 0
-        ? jamCategoryRef.current.value
-        : categoryRef.current.value,
-    );
+    formData.append('title', currentTab ? jamTitle : title);
+    formData.append('content', desc);
+    formData.append('category', currentTab ? jamCategory : category);
     formData.append(
       'capacity',
-      currentTab !== 0
-        ? jamCapacityRef.current.value
-        : capacityRef.current.value,
+      currentTab ? Number(jamCapacity) : Number(capacity),
     );
-    formData.append(
-      'jamFrom',
-      currentTab !== 0 ? CURRENT_DATE_TIME : period[0],
-    );
+    formData.append('jamFrom', currentTab ? CURRENT_DATE_TIME : period[0]);
     formData.append(
       'jamTo',
       currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
     );
-    formData.append('realtime', currentTab !== 0);
-    formData.append('chatLink', chatLinkRef.current.value);
+    formData.append('realTime', currentTab);
+    formData.append('openChatLink', chatLink);
     formData.append('location', locationText);
     formData.append('jamImg', image.previewURL); // (수정필요) 서버에 업로드후 돌려받는 이미지 주소를 넣어줘야 함
     formData.append('longitude', longitude);
     formData.append('latitude', latitude);
     formData.append('address', address);
 
-    // FormData의 key 확인
-    // for (const key of formData.keys()) {
-    //   console.log(key);
-    // }
-    // // FormData의 value 확인
-    // for (const value of formData.values()) {
-    //   console.log(value);
-    // }
-    // 한꺼번에 확인방법 1
-    // for (const [key, value] of formData.entries()) {
-    //   console.log([key, value]);
-    // }
-    // 한꺼번에 확인방법 2
-    // for (const key of formData.keys()) {
-    //   console.log(key, ':', formData.get(key));
-    // }
+    await axios
+      .post(`/jams/write`, mainData, {
+        headers: {
+          // 'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(res => {
+        // console.log('res.data: ', res.data);
+        navigate(`/jamdetail/${res.data.jamId}`);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 
-    // eslint-disable-next-line
-    // console.log(typeof CURRENT_DATE_TIME);
-    // eslint-disable-next-line
-    // console.log(typeof TODAY_MIDNIGHT_TIME);
-    // eslint-disable-next-line
+  const getJamForEdit = async () => {
+    // eslint-disable-next-line no-return-await
+    return await axios
+      .get(`/jams/${id}`)
+      .then(res => {
+        // console.log('res.data: ', res.data);
+        // setJamData({ ...res.data });
+        return res.data;
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 
-    // submit 데이터 콘솔 확인
-    // eslint-disable-next-line no-console
-    console.log(mainData);
+  // eslint-disable-next-line no-console
+  const patchData = {
+    title: currentTab ? jamTitle : title,
+    content: desc,
+    capacity: currentTab ? Number(jamCapacity) : Number(capacity),
+    category: currentTab ? jamCategory : category,
+    jamFrom: currentTab ? CURRENT_DATE_TIME : period[0],
+    jamTo: currentTab ? TODAY_MIDNIGHT_TIME : period[1],
+    realTime: currentTab,
+    openChatLink: chatLink,
+    location: locationText,
+    image: image.previewURL,
+    longitude,
+    latitude,
+    address,
+  };
 
-    // await axios
-    //   .post(`/jams/write`, formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       // 'Content-Type': 'application/json',
-    //       Authorization: token,
-    //     },
-    //   })
-    //   .then(res => {
-    //     console.log(res.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.message);
-    //   });
+  useEffect(() => {
+    getJamForEdit().then(data => {
+      if (data) {
+        setJamData(data);
+        setCurrentTab(data.realTime);
+        setLocationText(data.location);
+        setTitle(data.title);
+        setCategory(data.category);
+        setCapacity(data.capacity);
+
+        setLongitude(data.longitude);
+        setLatitude(data.latitude);
+        setAddress(data.address);
+        setPeriod([new Date(data.jamFrom), new Date(data.jamTo)]);
+
+        setJamTitle(data.title);
+        setJamCategory(data.category);
+        setJamCapacity(data.capacity);
+
+        setDesc(data.content);
+        setChatLink(data.openChatLink);
+        setImage({
+          image_file: '',
+          previewURL: data.image,
+        });
+      }
+    });
+  }, []);
+
+  // console.log('jamDataaaa: ', jamData);
+
+  // setLocationText(jamData.location);
+  // setPeriod([new Date(jamFrom), new Date(jamTo)]);
+
+  const handleChatLink = e => {
+    setChatLink(e.target.value);
   };
 
   return (
@@ -340,7 +364,7 @@ const JamMake = ({ isEdit }) => {
               </div>
             </ThemeProvider>
             {isEdit ? (
-              <EditButtonGroup />
+              <EditButtonGroup patchData={patchData} />
             ) : (
               <button css={OpenStudyButton} type="submit" form="makeStudy">
                 개설하기
@@ -357,7 +381,8 @@ const JamMake = ({ isEdit }) => {
               </div>
               <div css={ChatlinkBox}>
                 <input
-                  ref={chatLinkRef}
+                  value={chatLink}
+                  onChange={handleChatLink}
                   type="text"
                   name="chatLink"
                   placeholder="잼 그룹원과 소통할 채팅 채널을 기재해주세요(카카오 오픈채팅 등)"
@@ -365,12 +390,11 @@ const JamMake = ({ isEdit }) => {
               </div>
             </div>
             <div css={ArticleRight}>
-              {currentTab === 0 ? (
+              {!currentTab ? (
                 <StudyInputField
-                  titleRef={titleRef}
-                  categoryRef={categoryRef}
-                  capacityRef={capacityRef}
-                  // periodRef={periodRef}
+                  title={title}
+                  category={category}
+                  capacity={capacity}
                   period={period}
                   setPeriod={setPeriod}
                   locationText={locationText}
@@ -378,22 +402,28 @@ const JamMake = ({ isEdit }) => {
                   setLatitude={setLatitude}
                   setLongitude={setLongitude}
                   setAddress={setAddress}
+                  setTitle={setTitle}
+                  setCategory={setCategory}
+                  setCapacity={setCapacity}
                 />
               ) : (
                 <JamInputField
-                  jamTitleRef={jamTitleRef}
-                  jamCategoryRef={jamCategoryRef}
-                  jamCapacityRef={jamCapacityRef}
+                  jamTitle={jamTitle}
+                  jamCategory={jamCategory}
+                  jamCapacity={jamCapacity}
                   locationText={locationText}
                   setLocationText={setLocationText}
                   setLatitude={setLatitude}
                   setLongitude={setLongitude}
                   setAddress={setAddress}
+                  setJamTitle={setJamTitle}
+                  setJamCategory={setJamCategory}
+                  setJamCapacity={setJamCapacity}
                 />
               )}
             </div>
           </main>
-          <Description descRef={descRef} />
+          <Description desc={desc} setDesc={setDesc} />
         </form>
       </div>
     </div>
