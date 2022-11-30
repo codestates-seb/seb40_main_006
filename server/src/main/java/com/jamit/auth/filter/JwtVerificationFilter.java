@@ -48,7 +48,7 @@ public class JwtVerificationFilter extends BasicAuthenticationFilter {
         try {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
-        } catch (SignatureException se) { //exception catch 되면 HttpServletRequest 의 Attribute 로 추가
+        } catch (SignatureException se) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
