@@ -32,7 +32,11 @@ function App() {
             element={<JamMake isEdit={isEdit} setIsEdit={setIsEdit} />}
           />
           <Route
-            path="/jamdetail"
+            path="/jammake/edit/:id"
+            element={<JamMake isEdit={isEdit} setIsEdit={setIsEdit} />}
+          />
+          <Route
+            path="/jamdetail/:id"
             element={<JamDetail isEdit={isEdit} setIsEdit={setIsEdit} />}
           />
           <Route path="*" element={<PageNotFound />} />
