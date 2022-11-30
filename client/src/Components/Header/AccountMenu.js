@@ -18,9 +18,9 @@ import { removeCookie } from '../SignComp/Cookie';
 export default function AccountMenu() {
   const [, setIsLogin] = useRecoilState(isLoginState);
   const [user, setUser] = useRecoilState(loginUserInfoState);
-  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -33,7 +33,7 @@ export default function AccountMenu() {
     setUser({ memberId: '', nickname: '', img: '' });
     removeCookie('accessToken');
     removeCookie('refreshToken');
-    navigate('/');
+    navigate('/login');
   };
   return (
     <>
@@ -93,7 +93,7 @@ export default function AccountMenu() {
             마이페이지
           </MenuItem>
         </Link>
-        <Link to="/profile">
+        <Link to={`/profile/${user.memberId}`}>
           <MenuItem>
             <ListItemIcon>
               <Settings fontSize="small" />

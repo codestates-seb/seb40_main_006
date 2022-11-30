@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { css } from '@emotion/css';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
 import { ThemeProvider } from '@mui/material/styles';
 import { useRecoilState } from 'recoil';
@@ -64,40 +65,87 @@ const userBtn = css`
   gap: 20px;
 `;
 
+const validateText = css`
+  width: 100%;
+  font-weight: 600;
+  color: #d32f2f;
+  display: flex;
+  padding-left: 190px;
+  min-width: 300px;
+`;
+
 const Profile = () => {
   const [image, setImage] = useState({
     image_file: '',
     preview_URL: '',
   });
+  const [userInput, setUserInput] = useState({
+    nickname: '',
+    password: '',
+    rePassword: '',
+    profileImage: '',
+  });
 
-  const [user] = useRecoilState(loginUserInfoState);
+  const [errorMessage, setErrorMessage] = useState({
+    nickname: '',
+    password: '',
+  });
 
-  const accessToken = getCookie('is_login');
-  console.log(accessToken);
+  const [user, setUser] = useRecoilState(loginUserInfoState);
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    if (e.target.name === 'nickname') {
+      setUserInput({ ...userInput, nickname: e.target.value });
+    }
+    if (e.target.name === 'password') {
+      setUserInput({ ...userInput, password: e.target.value });
+    }
+    if (e.target.name === 'rePassword') {
+      setUserInput({ ...userInput, rePassword: e.target.value });
+    }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    formData.append(
-      'image',
-      new Blob([JSON.stringify(image.image_file.name)], {
-        // type: 'application/json',
-        type: 'multipart/form-data',
-      }),
-    );
-
-    // 로그인 된 유저만 가능해야하기에 토큰을 함께 헤더에 담아주기 and 비밀번호 유효성 검사 후 통신
-    await axios.patch(
-      `${process.env.REACT_APP_URL}/user/change/${user.memberId}`,
-      formData,
-      {
-        headers: {
-          'Content-Type': `application/json`,
-          // 'Content-Type': 'multipart/form-data',
-          Authorization: accessToken,
-        },
-      },
-    );
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if (!userInput.nickname) {
+      setErrorMessage({ ...errorMessage, nickname: '닉네임을 입력해주세요' });
+    } else if (!passwordRegex.test(userInput.password)) {
+      setErrorMessage({
+        nickname: '',
+        password:
+          '비밀번호는 숫자,영문,특수문자를 포함해 8자리 이상이어야 합니다',
+      });
+    } else if (userInput.password !== userInput.rePassword) {
+      setErrorMessage({ nickname: '', password: '비밀번호를 확인해주세요' });
+    } else if (userInput.nickname && userInput.password) {
+      setErrorMessage({ nickname: '', password: '' });
+      await axios
+        .patch(
+          `/user/change/${user.memberId}`,
+          {
+            nickname: userInput.nickname,
+            password: userInput.password,
+            profileImage: userInput.profileImage,
+          },
+          {
+            headers: {
+              Authorization: getCookie('accessToken'),
+            },
+          },
+        )
+        .then(res => {
+          setUser({
+            memberId: res.data.data.memberId,
+            nickname: res.data.data.nickname,
+            img: res.data.data.profileImage,
+          });
+          alert('수정이 완료되었습니다');
+          navigate(-1);
+        });
+    }
   };
 
   const saveImg = e => {
@@ -173,8 +221,10 @@ const Profile = () => {
                 autoComplete="nickname"
                 autoFocus
                 size="small"
+                onChange={handleChange}
               />
             </div>
+            <div className={validateText}>{errorMessage.nickname}</div>
             <div>
               비밀번호
               <TextField
@@ -187,8 +237,10 @@ const Profile = () => {
                 id="password"
                 autoComplete="current-password"
                 size="small"
+                onChange={handleChange}
               />
             </div>
+            <div className={validateText}> </div>
             <div>
               비밀번호 확인
               <TextField
@@ -196,13 +248,16 @@ const Profile = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="passwordCheck"
+                name="rePassword"
                 type="password"
-                id="passwordCheck"
+                id="rePassword"
                 autoComplete="current-password"
                 size="small"
+                onChange={handleChange}
+                // error={errorMessage !== '' || false}
               />
             </div>
+            <div className={validateText}>{errorMessage.password}</div>
           </div>
 
           <div className={userBtn}>
@@ -219,6 +274,7 @@ const Profile = () => {
               color="false"
               variant="outlined"
               sx={{ boxShadow: 0 }}
+              onClick={() => navigate(-1)}
             >
               취소
             </Button>

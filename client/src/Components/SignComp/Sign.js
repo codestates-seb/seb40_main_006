@@ -111,7 +111,8 @@ const Sign = () => {
             password: userInput.password,
           })
           .then(res => {
-            const accessToken = res.headers.get('Authorization').slice(7);
+            // const accessToken = res.headers.get('Authorization').slice(7);
+            const accessToken = res.headers.get('Authorization');
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
             setUser(res.data);
@@ -149,7 +150,7 @@ const Sign = () => {
             if (err.response.status === 409) {
               setError({
                 ...error,
-                email: '이미 존재하는 이메일입니다',
+                email: '이름과 이메일 정보를 확인해주세요',
               });
             }
           });

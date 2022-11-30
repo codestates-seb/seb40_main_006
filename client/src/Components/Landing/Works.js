@@ -53,8 +53,7 @@ function Works() {
                 스터디 잼
               </Typography>
               <Typography variant="h6">
-                정기 스터디를 모집할 수 있습니다. 모집 기간이 지나면 자동으로
-                종료됩니다
+                정기 스터디를 모집할 수 있습니다
               </Typography>
             </Box>
           </Grid>
@@ -70,8 +69,7 @@ function Works() {
                 실시간 잼
               </Typography>
               <Typography variant="h6">
-                당일 스터디를 모집할 수 있습니다. 자정이 지나면 자동으로
-                종료됩니다
+                유저 신고 기능은 추후 도입 예정입니다.
               </Typography>
             </Box>
           </Grid>
