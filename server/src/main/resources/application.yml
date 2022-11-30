@@ -15,15 +15,9 @@ spring:
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
-
-    # h2 -> MySQL
-    #  datasource:
-    #    driver-class-name: com.mysql.cj.jdbc.Driver
-    #    url: jdbc:mysql://stackoverflowdb.crjurjpi0fc7.ap-northeast-2.rds.amazonaws.com:13306/stackoverflowdb?serverTimezone=Asia/Seoul
-    #    username: admin
-    #    password: qwerty!!
-
-    # OAuth2
+  profiles:
+    include:
+      - aws
 logging:
   level:
     org:
@@ -37,7 +31,7 @@ server:
 mail:
   address:
     admin: admin@gmail.com
-#jwt:
-#  secret-key: ${JWT_SECRET_KEY}           # 민감한 정보는 시스템 환경 변수에서 로드한다.
-#  access-token-expiration-minutes: 30
-#  refresh-token-expiration-minutes: 420
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
