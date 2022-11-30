@@ -37,7 +37,7 @@ function Works() {
                 위치기반서비스
               </Typography>
               <Typography variant="h6">
-                내가 원하는 동네를 선택할 수 있습니다
+                내가 원하는 위치를 선택할 수 있습니다
               </Typography>
             </Box>
           </Grid>
@@ -69,7 +69,7 @@ function Works() {
                 실시간 잼
               </Typography>
               <Typography variant="h6">
-                유저 신고 기능은 추후 도입 예정입니다.
+                당일 스터디를 모집할 수 있습니다
               </Typography>
             </Box>
           </Grid>

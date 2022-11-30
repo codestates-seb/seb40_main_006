@@ -75,7 +75,7 @@ function Values() {
                 잼을 선물하세요
               </Typography>
               <Typography variant="h6">
-                잼을 선물해 유저를 평가하세요
+                점수가 높을수록 색이 진해집니다. 잼을 선물해 유저를 평가하세요
               </Typography>
             </Box>
           </Grid>
