@@ -25,7 +25,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Member extends Auditable {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +43,9 @@ public class Member extends Auditable {
 
     @Column
     private String profileImage;
+
+    @Column
+    private String refreshToken;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

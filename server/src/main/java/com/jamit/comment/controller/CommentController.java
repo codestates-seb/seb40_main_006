@@ -109,7 +109,7 @@ public class CommentController {
             .build();
 
         comment.setJam(jamService.findJam(jamId));
-        comment.setMember(memberService.findVerifiedMemberEmail(email));
+        comment.setMember(memberService.findVerifiedMemberByEmail(email));
 
         return comment;
     }

@@ -1,19 +1,16 @@
 package com.jamit.member.dto;
 
-import com.jamit.jam.entity.Jam;
-import com.jamit.jam.entity.JamParticipant;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class MemberDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Signup {
 
         @NotBlank
@@ -25,6 +22,32 @@ public class MemberDto {
 
         @NotBlank
         private String nickname;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class findPassword {
+
+        @NotBlank
+        @Email
+        private String email;
+
+        @NotBlank
+        private String tempPassword;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class sendTempPassword {
+
+        @NotBlank
+        @Email
+        private String email;
+
+        @NotBlank
+        private String nickname;
+
     }
 
     @Getter

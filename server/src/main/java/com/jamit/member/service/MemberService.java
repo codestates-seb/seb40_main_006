@@ -6,7 +6,11 @@ import com.jamit.member.entity.Member;
 import com.jamit.member.entity.Member.Role;
 import com.jamit.member.repository.MemberRepository;
 import java.util.Optional;
+import java.util.Random;
+import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JavaMailSenderImpl mailSender;
 
     public Member signupMember(Member member) {
         verifyExistsEmail(member.getEmail());
@@ -36,7 +41,7 @@ public class MemberService {
     }
 
     public Member updateMember(Member member) {
-        Member findMember = findVerifiedMember(member.getMemberId());
+        Member findMember = findVerifiedMemberByMemberId(member.getMemberId());
         Optional.ofNullable(member.getNickname())
             .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
@@ -50,7 +55,7 @@ public class MemberService {
     /**
      * member id 찾기
      */
-    public Member findVerifiedMember(Long MemberId) {
+    public Member findVerifiedMemberByMemberId(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
         Member findMember = optionalMember.orElseThrow(
             () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -60,7 +65,7 @@ public class MemberService {
     /**
      * member nickname 찾기
      */
-    public Member findVerifiedNickname(String nickname) {
+    public Member findVerifiedMemberByNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
         Member existsNickname = optionalMember.orElseThrow(
@@ -72,13 +77,56 @@ public class MemberService {
     /**
      * member email 찾기
      */
-    public Member findVerifiedMemberEmail(String email) {
+    public Member findVerifiedMemberByEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         Member findMember = optionalMember.orElseThrow(
             () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return findMember;
+    }
+
+    /**
+     * 비밀번호 찾기
+     */
+    public Member findPassword(String email, String nickname) {
+        Member findMember = memberRepository.findByEmailAndNickname(email, nickname)
+            .orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.INVALID_AUTHCODE));
+
+        return findMember;
+    }
+
+    /**
+     * 인증 mail 전송
+     */
+    public void sendTempPassword(Member member) {
+        Random random = new Random();
+        int randomInt = random.nextInt(99999999);
+        String tempPassword = String.valueOf(randomInt);
+
+        String title = "Jam it 임시 비밀번호 입니다.";
+        String content =
+            "<h1> Jam it 임시 비밀번호입니다. </h1>" +
+                "<br>" +
+                "임시 비밀번호: " + tempPassword +
+                "<br>" +
+                "임시 비밀번호로 로그인 후 비밀번호를 변경해주세요.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom("vbcutm427@gmail.com");
+            helper.setTo(member.getEmail());
+            helper.setSubject(title);
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+
+        member.setPassword(passwordEncoder.encode(tempPassword));
+        memberRepository.save(member);
     }
 
     /**

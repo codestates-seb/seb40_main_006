@@ -8,6 +8,7 @@ import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.mapper.MemberMapper;
 import com.jamit.member.dto.ProfileDto;
+import com.jamit.member.repository.MemberRepository;
 import com.jamit.member.service.MemberService;
 import java.security.Principal;
 import javax.validation.Valid;
@@ -36,6 +37,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
+    private final MemberRepository memberRepository;
 
     /**
      * USER-01: Local User 회원가입
@@ -51,6 +53,40 @@ public class MemberController {
     }
 
     /**
+     * USER-06: 이메일 중복 체크
+     * Authorized: ALL
+     */
+    @PostMapping("/signup/existsemail")
+    public ResponseEntity checkEmailDuplicate(@RequestBody String email) {
+
+
+        return new ResponseEntity(new SingleResponseDto<>(memberRepository.existsByEmail(email)), HttpStatus.OK);
+    }
+
+    /**
+     * USER-07: User 비밀번호 찾기 - 비밀번호 찾기 페이지
+     * Authorized: ALL
+     */
+    @PostMapping("/findpassword")
+    public ResponseEntity findPassword(@RequestBody MemberDto.findPassword requestBody) {
+        Member member = memberService.findVerifiedMemberByEmail(requestBody.getEmail());
+
+        return new ResponseEntity(new SingleResponseDto<>(member), HttpStatus.OK);
+    }
+
+    /**
+     * USER-07: User 비밀번호 찾기 - 이메일로 임시 비밀번호 보내기
+     * Authorized: ALL
+     */
+    @PostMapping("/findpassword/send")
+    public ResponseEntity sendTempPassword(@RequestBody MemberDto.sendTempPassword requestBody) {
+        Member member = memberService.findPassword(requestBody.getEmail(), requestBody.getNickname());
+        memberService.sendTempPassword(member);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
      * USER-08: Local User 정보 수정
      * Authorized: Writer
      */
@@ -60,7 +96,7 @@ public class MemberController {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
         Member member = memberDetails.getMember();
 
-        Member findMember = memberService.findVerifiedMember(memberId);
+        Member findMember = memberService.findVerifiedMemberByMemberId(memberId);
 
         if (member.getEmail().equals(findMember.getEmail())) {
             requestBody.setMemberId(memberId);
@@ -80,7 +116,7 @@ public class MemberController {
      */
     @GetMapping("/profile/{member-id}")
     public ResponseEntity userProfile(@PathVariable("member-id") @Positive Long memberId) {
-        Member member = memberService.findVerifiedMember(memberId);
+        Member member = memberService.findVerifiedMemberByMemberId(memberId);
         ProfileDto.Response response = mapper.memberToProfileResponse(member);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);

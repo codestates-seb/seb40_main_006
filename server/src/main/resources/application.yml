@@ -1,13 +1,28 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jamitdb?serverTimezone=Asia/Seoul
+    username: root
+    password: ${MYSQL_PASSWORD}
   jpa:
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
@@ -15,9 +30,27 @@ spring:
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
+      mode: always
   profiles:
     include:
       - aws
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_NAME}
+    password: ${GOOGLE_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    address:
+      admin: admin@gmail.com
 logging:
   level:
     org:
@@ -28,9 +61,6 @@ server:
   servlet:
     encoding:
       force-response: true
-mail:
-  address:
-    admin: admin@gmail.com
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30

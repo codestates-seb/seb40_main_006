@@ -47,9 +47,9 @@ public class JwtVerificationFilter extends BasicAuthenticationFilter {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
         } catch (SignatureException se) { //exception catch 되면 HttpServletRequest 의 Attribute 로 추가
-            request.setAttribute("exception", se);
+            request.setAttribute("SignatureException exception", se);
         } catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
+            request.setAttribute("ExpiredJwtException exception", ee);
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
