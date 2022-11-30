@@ -27,11 +27,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
   sql:
     init:
-      data-locations: classpath*:static.db/data.sql
+      data-locations: classpath*:db/h2/data.sql
       mode: always
+  profiles:
+    include:
+      - aws
   data:
     web:
       pageable:
