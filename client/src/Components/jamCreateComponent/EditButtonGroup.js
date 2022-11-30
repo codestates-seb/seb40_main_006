@@ -60,6 +60,7 @@ const EditButtonGroup = ({ patchData }) => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
+      // eslint-disable-next-line no-unused-vars
       .then(res => {
         // console.log('res.data: ', res.data);
         alert('수정이 완료되었습니다.');

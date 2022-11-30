@@ -167,6 +167,7 @@ const TODAY_MIDNIGHT_TIME = new Date();
 // ).toLocaleString();
 
 const JamMake = ({ isEdit }) => {
+  // eslint-disable-next-line no-unused-vars
   const [jamData, setJamData] = useState([]);
   const [currentTab, setCurrentTab] = useState(false);
   // const [isCreated, setIsCreated] = useState(false);
