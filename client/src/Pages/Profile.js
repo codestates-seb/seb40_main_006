@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { css } from '@emotion/css';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Stack, Box, TextField } from '@mui/material/';
 import { ThemeProvider } from '@mui/material/styles';
 import { useRecoilState } from 'recoil';
@@ -64,6 +65,15 @@ const userBtn = css`
   gap: 20px;
 `;
 
+const validateText = css`
+  width: 100%;
+  font-weight: 600;
+  color: #d32f2f;
+  display: flex;
+  padding-left: 190px;
+  min-width: 300px;
+`;
+
 const Profile = () => {
   const [image, setImage] = useState({
     image_file: '',
@@ -76,7 +86,10 @@ const Profile = () => {
     profileImage: '',
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [user, setUser] = useRecoilState(loginUserInfoState);
+  const navigate = useNavigate();
 
   const handleChange = e => {
     if (e.target.name === 'nickname') {
@@ -92,27 +105,42 @@ const Profile = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await axios
-      .patch(
-        `/user/change/${user.memberId}`,
-        {
-          nickname: userInput.nickname,
-          password: userInput.password,
-          profileImage: userInput.profileImage,
-        },
-        {
-          headers: {
-            Authorization: getCookie('accessToken'),
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if (!passwordRegex.test(userInput.password)) {
+      setErrorMessage(
+        '비밀번호는 숫자,영문,특수문자를 포함해 8자리 이상이어야 합니다',
+      );
+    } else if (userInput.password !== userInput.rePassword) {
+      setErrorMessage('비밀번호를 확인해주세요');
+    } else if (userInput.nickname && userInput.password) {
+      setErrorMessage('');
+      await axios
+        .patch(
+          `/user/change/${user.memberId}`,
+          {
+            nickname: userInput.nickname,
+            password: userInput.password,
+            profileImage: userInput.profileImage,
           },
-        },
-      )
-      .then(res => {
-        setUser({
-          memberId: res.data.data.memberId,
-          nickname: res.data.data.nickname,
-          img: res.data.data.profileImage,
+          {
+            headers: {
+              Authorization: getCookie('accessToken'),
+            },
+          },
+        )
+        .then(res => {
+          setUser({
+            memberId: res.data.data.memberId,
+            nickname: res.data.data.nickname,
+            img: res.data.data.profileImage,
+          });
+          alert('수정이 완료되었습니다');
+          navigate(-1);
         });
-      });
+    } else {
+      setErrorMessage('닉네임을 입력해주세요');
+    }
   };
 
   const saveImg = e => {
@@ -219,8 +247,10 @@ const Profile = () => {
                 autoComplete="current-password"
                 size="small"
                 onChange={handleChange}
+                // error={errorMessage !== '' || false}
               />
             </div>
+            <div className={validateText}>{errorMessage}</div>
           </div>
 
           <div className={userBtn}>
@@ -237,6 +267,7 @@ const Profile = () => {
               color="false"
               variant="outlined"
               sx={{ boxShadow: 0 }}
+              onClick={() => navigate(-1)}
             >
               취소
             </Button>
