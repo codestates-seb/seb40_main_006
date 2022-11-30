@@ -7,9 +7,11 @@ import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
 import { ThemeProvider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 import JamCarousel from './JamCarousel';
+import jamElapsedTime from '../userComp/JamElapsedTime';
+import { categories } from '../jamCreateComponent/StudyInputField';
 
 const Container = css`
   margin: 0 auto;
@@ -103,20 +105,37 @@ const EditButton = css`
   border-radius: 3px;
 `;
 
-const JamInfo = ({ host, loginUser, isEdit, setIsEdit }) => {
+const JamInfo = ({ host, loginUser, setIsEdit, jamData }) => {
+  // const [filteredCategory, setFilteredCategory] = useState([])
+
   const navigate = useNavigate();
+  const { id } = useParams();
+  // console.log('id: ', id);
+
+  const {
+    title,
+    location,
+    nickname,
+    currentPpl,
+    capacity,
+    createdAt,
+    category,
+  } = jamData;
+
+  const filteredCategory = categories.filter(el => el.value === category)[0];
+  // console.log('filteredCategory: ', filteredCategory);
 
   const handleIsEdit = () => {
     setIsEdit(true);
-    navigate('/jamMake');
+    navigate(`/jammake/edit/${id}`);
   };
-  console.log(isEdit);
+  // console.log(isEdit);
 
   return (
     <div css={Container}>
       <div css={HeaderContainer}>
         <div css={TitleContainer}>
-          <h2 css={Title}>토익스터디 하실 분!!</h2>
+          <h2 css={Title}>{title}</h2>
           {host === loginUser && (
             <button css={EditButton} type="button" onClick={handleIsEdit}>
               수정
@@ -126,23 +145,25 @@ const JamInfo = ({ host, loginUser, isEdit, setIsEdit }) => {
         <div css={InfoIcons}>
           <div className="categoryIcons">
             <BiCategory />
-            <span>외국어</span>
+            {filteredCategory && <span>{filteredCategory.label}</span>}
           </div>
           <div className="categoryIcons">
             <BsClockFill />
-            <span>1분전</span>
+            <span>{jamElapsedTime(createdAt)}</span>
           </div>
           <div className="categoryIcons">
             <BsPeopleFill />
-            <span>0/4명</span>
+            <span>
+              {currentPpl}/{capacity}명
+            </span>
           </div>
           <div className="categoryIcons">
             <ImLocation />
-            <span>스타벅스 마곡역점</span>
+            <span>{location}</span>
           </div>
           <div className="categoryIcons">
             <FaUserCircle />
-            <span>김코딩(잼개설자)</span>
+            <span>{nickname}</span>
           </div>
         </div>
       </div>
@@ -150,7 +171,7 @@ const JamInfo = ({ host, loginUser, isEdit, setIsEdit }) => {
         <div css={JamDescTitle}>
           <span>우리 잼을 소개합니다</span>
         </div>
-        <JamCarousel />
+        <JamCarousel jamData={jamData} />
       </div>
       <div css={LocationContainer}>
         <div css={LocationText}>
