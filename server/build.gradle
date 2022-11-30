@@ -41,7 +41,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation group: 'com.jhlabs', name: 'javaproj', version: '1.0'
 	implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.12.Final'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.google.code.gson:gson'
 }
 

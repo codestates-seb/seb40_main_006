@@ -10,7 +10,9 @@ import com.jamit.auth.handler.MemberAuthenticationFailureHandler;
 import com.jamit.auth.handler.MemberAuthenticationSuccessHandler;
 import com.jamit.auth.jwt.JwtTokenizer;
 import com.jamit.member.repository.MemberRepository;
+import com.jamit.oauth2.service.Oauth2UserService;
 import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -21,6 +23,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -32,6 +35,7 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
+    private final Oauth2UserService oauth2UserService;
 //    private final ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Bean
@@ -39,26 +43,29 @@ public class SecurityConfiguration {
         http
             .headers().frameOptions().sameOrigin()
             .and()
-            .csrf().disable()
-            .cors(withDefaults())
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 무상태
+                .csrf().disable()
+                .cors(withDefaults())
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 무상태
             .and()
-            .formLogin().disable()
-            .httpBasic().disable()
-            .exceptionHandling() // 예외 처리 지정
-            .authenticationEntryPoint(new MemberAuthenticationEntryPoint()) // 401 unauthorized error
-            .accessDeniedHandler(new MemberAccessDeniedHandler()) // 403 Forbidden error
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling() // 예외 처리 지정
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint()) // 401 unauthorized error
+                .accessDeniedHandler(new MemberAccessDeniedHandler()) // 403 Forbidden error
             .and()
-            .apply(new CustomFilterConfigurer()) // Custom Configurer 추가
+                .apply(new CustomFilterConfigurer()) // Custom Configurer 추가
             .and()
-            .authorizeHttpRequests(authorize -> authorize
-                .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
-                .antMatchers("/login/oauth2/code/google").permitAll()
-                .antMatchers(HttpMethod.POST, "/*/user/**").hasRole("USER")
-//                .antMatchers("/**").authenticated()
-                .anyRequest().permitAll()
-            );
+                .authorizeHttpRequests(authorize -> authorize
+                    .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
+                    .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
+                    .antMatchers("/login/oauth2/code/google").permitAll()
+                    .antMatchers(HttpMethod.POST, "/*/user/**").hasRole("USER")
+//                    .antMatchers("/**").authenticated()
+                    .anyRequest().permitAll()
+                )
+            .oauth2Login()
+                .userInfoEndpoint()
+                .userService(oauth2UserService);
 
         return http.build();
     }
@@ -73,6 +80,8 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -105,7 +114,8 @@ public class SecurityConfiguration {
             builder // Security Filter Chain 에 추가
                 .addFilter(jwtAuthenticationFilter) // JWT 인증 필터
 //                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class); // JWT 검증 필터
+                .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class) // JWT 검증 필터
+                .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class); // JWT 검증 필터
 //                .addFilterBefore(exceptionHandlerFilter, BasicAuthenticationFilter.class)
 
         }

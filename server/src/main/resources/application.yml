@@ -31,16 +31,18 @@ spring:
     init:
       data-locations: classpath*:static.db/data.sql
       mode: always
-      security:
-        oauth2:
-          client:
-            registration:
-              google:
-                clientId: ${GOOGLE_OAUTH2_ID}
-                clientSecret: ${GOOGLE_OAUTH2_PASSWORD}
-                scope:
-                  - email
-                  - profile
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH2_ID}
+            client-secret: ${GOOGLE_OAUTH2_PASSWORD}
+            scope:
+              - email
+              - profile
+#  profiles:
+#    include: oauth
   data:
     web:
       pageable:

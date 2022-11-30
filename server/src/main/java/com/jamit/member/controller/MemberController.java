@@ -52,6 +52,15 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
+//    @PostMapping("/signup")
+//    public ResponseEntity signup(@Valid @RequestBody MemberDto.Signup requestBody) {
+//        Member member = mapper.memberSignupToMember(requestBody);
+//        Member signupMember = memberService.signupMember(member);
+//        MemberDto.UpdateResponse response = mapper.memberToUpdateResponse(signupMember);
+//
+//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+//    }
+
     /**
      * USER-06: 이메일 중복 체크
      * Authorized: ALL

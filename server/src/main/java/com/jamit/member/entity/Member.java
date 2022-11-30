@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +26,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Member {
+public class Member extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +51,10 @@ public class Member {
     @Column
     private String refreshToken;
 
+    private String provider;
+
+    private String providerId;
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Role roles;
@@ -66,16 +71,21 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
 
-    public enum Role {
-        USER("ROLE_USER"),
-        ADMIN("ROLE_ADMIN");
+//    @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
+//    public Member(String username, String password, String email, Role roles) {
+//        this.password = password;
+//        this.email = email;
+//        this.roles = roles;
+//    }
 
-        @Getter
-        private String status;
-
-        Role(String status) {
-            this.status = status;
-        }
+    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
+    public Member(String nickname, String password, String email, Role role, String provider, String providerId) {
+        this.nickname = nickname;
+        this.password = password;
+        this.email = email;
+        this.roles = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public void addJam(Jam jam) {
