@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import {
   getCookie,
@@ -46,30 +48,30 @@ api.interceptors.response.use(
 );
 
 api.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response;
-  }
+  },
   async function (error) {
-    if(error.response && error.response.status === '토큰만료시 받게될 에러') {
+    if (error.response && error.response.status === '토큰만료시 받게될 에러') {
       try {
         const originalRequest = error.config;
-        const data = await api.get('토큰 재발급 api')
-        if(data) {
-          const {access, refresh} = data.data
+        const data = await api.get('토큰 재발급 api');
+        if (data) {
+          const { access, refresh } = data.data;
           removeCookie('accessToken');
           removeCookie('refreshToken');
           setCookie('accessToken', access);
           setCookie('refreshToken', refresh);
-          originalRequest.headers['access'] = access;
-          originalRequest.headers['refresh'] = refresh;
+          originalRequest.headers.access = access;
+          originalRequest.headers.refresh = refresh;
           return await api.request(originalRequest);
         }
       } catch (error) {
         // 토큰 재발급에 실패한 경우
         console.log(error);
       }
-      return Promise.reject(error)
+      return Promise.reject(error);
     }
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
