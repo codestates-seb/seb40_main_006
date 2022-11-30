@@ -2,7 +2,6 @@ package com.jamit.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-//import com.jamit.auth.filter.ExceptionHandlerFilter;
 import com.jamit.auth.filter.JwtAuthenticationFilter;
 import com.jamit.auth.filter.JwtVerificationFilter;
 import com.jamit.auth.handler.MemberAccessDeniedHandler;
@@ -14,7 +13,6 @@ import com.jamit.member.repository.MemberRepository;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +22,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
