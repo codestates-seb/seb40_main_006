@@ -79,7 +79,7 @@ const UserTitle = () => {
       </div>
       <div className={userGiveJam}>
         {pageUser.memberId === user.memberId ? (
-          <Link to="/profile">
+          <Link to={`/profile/${user.memberId}`}>
             <button type="button">수정</button>
           </Link>
         ) : (

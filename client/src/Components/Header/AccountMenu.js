@@ -93,7 +93,7 @@ export default function AccountMenu() {
             마이페이지
           </MenuItem>
         </Link>
-        <Link to="/profile">
+        <Link to={`/profile/${user.memberId}`}>
           <MenuItem>
             <ListItemIcon>
               <Settings fontSize="small" />

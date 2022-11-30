@@ -69,35 +69,50 @@ const Profile = () => {
     image_file: '',
     preview_URL: '',
   });
+  const [userInput, setUserInput] = useState({
+    nickname: '',
+    password: '',
+    rePassword: '',
+    profileImage: '',
+  });
 
-  const [user] = useRecoilState(loginUserInfoState);
+  const [user, setUser] = useRecoilState(loginUserInfoState);
 
-  const accessToken = getCookie('is_login');
-  console.log(accessToken);
+  const handleChange = e => {
+    if (e.target.name === 'nickname') {
+      setUserInput({ ...userInput, nickname: e.target.value });
+    }
+    if (e.target.name === 'password') {
+      setUserInput({ ...userInput, password: e.target.value });
+    }
+    if (e.target.name === 'rePassword') {
+      setUserInput({ ...userInput, rePassword: e.target.value });
+    }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    formData.append(
-      'image',
-      new Blob([JSON.stringify(image.image_file.name)], {
-        // type: 'application/json',
-        type: 'multipart/form-data',
-      }),
-    );
-
-    // 로그인 된 유저만 가능해야하기에 토큰을 함께 헤더에 담아주기 and 비밀번호 유효성 검사 후 통신
-    await axios.patch(
-      `${process.env.REACT_APP_URL}/user/change/${user.memberId}`,
-      formData,
-      {
-        headers: {
-          'Content-Type': `application/json`,
-          // 'Content-Type': 'multipart/form-data',
-          Authorization: accessToken,
+    await axios
+      .patch(
+        `/user/change/${user.memberId}`,
+        {
+          nickname: userInput.nickname,
+          password: userInput.password,
+          profileImage: userInput.profileImage,
         },
-      },
-    );
+        {
+          headers: {
+            Authorization: getCookie('accessToken'),
+          },
+        },
+      )
+      .then(res => {
+        setUser({
+          memberId: res.data.data.memberId,
+          nickname: res.data.data.nickname,
+          img: res.data.data.profileImage,
+        });
+      });
   };
 
   const saveImg = e => {
@@ -173,6 +188,7 @@ const Profile = () => {
                 autoComplete="nickname"
                 autoFocus
                 size="small"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -187,6 +203,7 @@ const Profile = () => {
                 id="password"
                 autoComplete="current-password"
                 size="small"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -196,11 +213,12 @@ const Profile = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="passwordCheck"
+                name="rePassword"
                 type="password"
-                id="passwordCheck"
+                id="rePassword"
                 autoComplete="current-password"
                 size="small"
+                onChange={handleChange}
               />
             </div>
           </div>
