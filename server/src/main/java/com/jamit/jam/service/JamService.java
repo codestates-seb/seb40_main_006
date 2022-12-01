@@ -63,6 +63,7 @@ public class JamService {
         Optional.ofNullable(jam.getLocation()).ifPresent(verifiedJam::setLocation);
         Optional.ofNullable(jam.getLatitude()).ifPresent(verifiedJam::setLatitude);
         Optional.ofNullable(jam.getLongitude()).ifPresent(verifiedJam::setLongitude);
+        Optional.ofNullable(jam.getOpenChatLink()).ifPresent(verifiedJam::setOpenChatLink);
 
         String pointWKT = String.format("POINT(%s %s)", verifiedJam.getLatitude(), verifiedJam.getLongitude());
         Point point = (Point) new WKTReader().read(pointWKT);
