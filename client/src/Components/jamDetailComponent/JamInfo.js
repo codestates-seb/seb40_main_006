@@ -12,6 +12,7 @@ import { palette } from '../../Styles/theme';
 import JamCarousel from './JamCarousel';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
+import JamLocationMap from './JamLocationMap';
 
 const Container = css`
   margin: 0 auto;
@@ -93,7 +94,6 @@ const LocationMap = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #fff; */
   border: 1px solid ${palette.border};
 `;
 
@@ -179,7 +179,7 @@ const JamInfo = ({ host, loginUser, setIsEdit, jamData }) => {
         </div>
         <ThemeProvider theme={palette}>
           <div css={LocationMap}>
-            <span>지도 들어갈 곳</span>
+            {jamData && <JamLocationMap jamData={jamData} />}
           </div>
         </ThemeProvider>
       </div>
