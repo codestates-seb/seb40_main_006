@@ -14,6 +14,7 @@ import com.jamit.comment.entity.Comment;
 import com.jamit.global.audit.Auditable;
 import com.jamit.jam.entity.Jam;
 import com.jamit.member.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +43,16 @@ public class Reply extends Auditable {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    @Builder
+    public Reply(Long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 
     public void setMember(Member member) {
         this.member = member;
