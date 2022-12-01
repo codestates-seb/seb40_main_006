@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 const replyContainer = css`
   min-width: 510px;
@@ -65,13 +67,17 @@ const editForm = css`
 const Reply = ({ replyList }) => {
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
+  const [user] = useRecoilState(loginUserInfoState);
+  const [clickIndex, setClickIndex] = useState('');
+
+  console.log(replyList);
 
   const editHandleChange = e => {
     setEditVal(e.target.value);
   };
 
-  const editHandler = (jamId, commentId) => {
-    console.log(jamId, commentId);
+  const editHandler = (jamId, commentId, idx) => {
+    setClickIndex(idx);
     setEdit(!edit);
     if (edit) {
       axios
@@ -89,7 +95,6 @@ const Reply = ({ replyList }) => {
   };
 
   const deleteHandler = (jamId, commentId) => {
-    console.log(jamId, commentId);
     if (window.confirm('정말 삭제하시겠습니까?')) {
       axios
         .delete(`/jams/${jamId}/comments/${commentId}`, {
@@ -103,15 +108,14 @@ const Reply = ({ replyList }) => {
 
   return (
     <div>
-      {console.log(replyList)}
-      {replyList?.map(reply => (
+      {replyList?.map((reply, idx) => (
         <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
             <UserName name={reply.nickname} id={reply.memberId} />
             <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>
-            {edit ? (
+            {edit && user.nickname === reply.nickname && idx === clickIndex ? (
               <div className={editForm}>
                 <input
                   type="text"
@@ -123,25 +127,28 @@ const Reply = ({ replyList }) => {
             ) : (
               <div className="content">{reply.content}</div>
             )}
-
-            <div className="img">
-              <button
-                type="submit"
-                onClick={() => editHandler(reply.jamId, reply.commentId)}
-              >
-                {!edit ? (
-                  <img src="../img/edit.png" alt="edit" />
-                ) : (
-                  <img src="../img/edit_move.gif" alt="edit" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => deleteHandler(reply.jamId, reply.commentId)}
-              >
-                <img src="../img/delete.png" alt="delete" />
-              </button>
-            </div>
+            {user.nickname === reply.nickname && (
+              <div className="img">
+                <button
+                  type="submit"
+                  onClick={() => editHandler(reply.jamId, reply.commentId, idx)}
+                >
+                  {edit && idx === clickIndex ? (
+                    <img src="../img/edit_move.gif" alt="edit" />
+                  ) : (
+                    <img src="../img/edit.png" alt="edit" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={(e, i) =>
+                    deleteHandler(e, i, reply.jamId, reply.commentId)
+                  }
+                >
+                  <img src="../img/delete.png" alt="delete" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ))}
