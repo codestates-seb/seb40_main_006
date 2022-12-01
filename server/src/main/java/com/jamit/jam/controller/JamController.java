@@ -99,6 +99,8 @@ public class JamController {
 
         ResponseSpecificJamDto response = mapper.jamToResponseSpecificJamDto(jam);
 
+        jamService.updateView(jamId);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
