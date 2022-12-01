@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-01T20:36:15+0900",
+    date = "2022-12-01T21:01:44+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component
@@ -103,6 +103,8 @@ public class JamMapperImpl implements JamMapper {
         String location = null;
         LocalDateTime createdAt = null;
         LocalDateTime modifiedAt = null;
+        String latitude = null;
+        String longitude = null;
 
         jamId = jam.getId();
         nickname = jamMemberNickname( jam );
@@ -124,8 +126,10 @@ public class JamMapperImpl implements JamMapper {
         location = jam.getLocation();
         createdAt = jam.getCreatedAt();
         modifiedAt = jam.getModifiedAt();
+        latitude = jam.getLatitude();
+        longitude = jam.getLongitude();
 
-        ResponseAllJamsDto responseAllJamsDto = new ResponseAllJamsDto( jamId, nickname, title, jamFrom, jamTo, category, currentPpl, capacity, realTime, completeStatus, address, location, createdAt, modifiedAt );
+        ResponseAllJamsDto responseAllJamsDto = new ResponseAllJamsDto( jamId, nickname, title, jamFrom, jamTo, category, currentPpl, capacity, realTime, completeStatus, address, location, createdAt, modifiedAt, latitude, longitude );
 
         responseAllJamsDto.setMember( jam.getMember() );
 
@@ -152,6 +156,8 @@ public class JamMapperImpl implements JamMapper {
         String location = null;
         LocalDateTime createdAt = null;
         LocalDateTime modifiedAt = null;
+        String latitude = null;
+        String longitude = null;
 
         jamId = jam.getId();
         nickname = jamMemberNickname( jam );
@@ -173,8 +179,10 @@ public class JamMapperImpl implements JamMapper {
         location = jam.getLocation();
         createdAt = jam.getCreatedAt();
         modifiedAt = jam.getModifiedAt();
+        latitude = jam.getLatitude();
+        longitude = jam.getLongitude();
 
-        ResponseAllJamsDto responseAllJamsDto = new ResponseAllJamsDto( jamId, nickname, title, jamFrom, jamTo, category, currentPpl, capacity, realTime, completeStatus, address, location, createdAt, modifiedAt );
+        ResponseAllJamsDto responseAllJamsDto = new ResponseAllJamsDto( jamId, nickname, title, jamFrom, jamTo, category, currentPpl, capacity, realTime, completeStatus, address, location, createdAt, modifiedAt, latitude, longitude );
 
         responseAllJamsDto.setMember( jam.getMember() );
 
@@ -263,20 +271,6 @@ public class JamMapperImpl implements JamMapper {
         ResponseParticipantDto responseParticipantDto = new ResponseParticipantDto( memberId, nickname, image );
 
         return responseParticipantDto;
-    }
-
-    @Override
-    public List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams) {
-        if ( jams == null ) {
-            return null;
-        }
-
-        List<ResponseAllJamsDto> list = new ArrayList<ResponseAllJamsDto>( jams.size() );
-        for ( Jam jam : jams ) {
-            list.add( jamToResponseAllJamsDto( jam ) );
-        }
-
-        return list;
     }
 
     private String jamMemberNickname(Jam jam) {

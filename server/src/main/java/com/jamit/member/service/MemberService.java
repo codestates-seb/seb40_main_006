@@ -177,7 +177,7 @@ public class MemberService {
             } else {
                 updateGrade = (((double) gradeCount * currentGrade) + grade.getGrade()) / (double) (gradeCount + 1);
             }
-            verifiedMember.setGrade(updateGrade);
+            verifiedMember.setGrade((double) Math.round(updateGrade));
             verifiedMember.setGradeCount(gradeCount + 1);
             memberRepository.save(verifiedMember);
         }
