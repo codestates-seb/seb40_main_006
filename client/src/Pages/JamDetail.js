@@ -11,6 +11,10 @@ import JamSideBar from '../Components/jamDetailComponent/JamSideBar';
 // import Button from '../components/Button';
 import Sidebar from '../Components/Sidebar';
 import { palette } from '../Styles/theme';
+import { getCookie } from '../Components/SignComp/Cookie';
+import Reply from '../Components/jamDetailComponent/Reply';
+// import ReplyComment from '../Components/jamDetailComponent/ReplyComment';
+// import ReReplyComment from '../Components/jamDetailComponent/ReReplyComment';
 
 const MergeContainer = css`
   width: 100%;
@@ -105,11 +109,22 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     if (text === '') {
       alert('댓글 내용을 입력해주세요');
       return;
     }
+    axios
+      .post(
+        `/jams/${jamData.jamId}/comments`,
+        { content: text },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie('accessToken')}`,
+          },
+        },
+      )
+      .then(res => console.log(res));
+    // .catch(err => console.log(err));
 
     const body = {
       postId: nextId.current,
@@ -163,7 +178,9 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 comments={comments}
                 setComments={setComments}
                 handleSubmit={handleSubmit}
+                jamData={jamData}
               />
+              <Reply replyList={jamData.commentList} />
             </div>
           </div>
         </div>

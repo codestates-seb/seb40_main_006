@@ -132,7 +132,7 @@ const Profile = () => {
           },
           {
             headers: {
-              Authorization: getCookie('accessToken'),
+              Authorization: `Bearer ${getCookie('accessToken')}`,
             },
           },
         )

@@ -125,7 +125,7 @@ export default function GiveJam() {
         { grade },
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       )
