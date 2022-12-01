@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
@@ -8,10 +8,12 @@ import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
 import RecruitState from './RecruitState';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import { getCookie } from '../SignComp/Cookie';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 const JamSideContainer = css`
   width: 220px;
@@ -118,6 +120,8 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
   const [isRegisterd, setIsRegistered] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [isClosed, setIsClosed] = useState(false);
+  const [jamCompleteStatus, setJamCompleteStatus] = useState('FALSE');
+  const [user] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -132,7 +136,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     capacity,
     createdAt,
     category,
-    completeStatus,
+    // completeStatus,
     openChatLink,
     // participantList,
   } = jamData;
@@ -164,7 +168,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         .then(res => {
           console.log('res.status: ', res.status);
           if (res.status === 200) {
-            setIsClosed(true);
+            setJamCompleteStatus('TRUE');
           }
         })
         .catch(error => {
@@ -173,7 +177,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     }
   };
 
-  const handleOpen = async () => {
+  const handleCancelClose = async () => {
     // eslint-disable-next-line no-restricted-globals, no-alert
     const confirmData = confirm('모집완료를 취소하시겠습니까?');
 
@@ -193,7 +197,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         .then(res => {
           console.log('res.status: ', res.status);
           if (res.status === 200) {
-            setIsClosed(false);
+            setJamCompleteStatus('FALSE');
           }
         })
         .catch(error => {
@@ -261,7 +265,12 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     }
   };
 
+  // useEffect(() => {
+
+  // }, [jamData.completeStatus]);
+
   console.log(jamData);
+  console.log('user.nickname: ', user.nickname);
 
   return (
     <div css={JamSideContainer}>
@@ -271,7 +280,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
             <FaUserCircle />
             <span>{nickname}</span>
           </div>
-          {completeStatus === 'FALSE' ? (
+          {jamCompleteStatus === 'FALSE' ? (
             <RecruitState state="open" variant="colorJamOpen">
               모집중
             </RecruitState>
@@ -346,7 +355,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         </div>
       ) : (
         <div css={ButtonContainer}>
-          {completeStatus === 'FALSE' ? (
+          {jamCompleteStatus === 'FALSE' ? (
             <button
               type="button"
               css={[RegisterButton, CloseJamButton]}
@@ -358,7 +367,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
             <button
               type="button"
               css={[RegisterButton, CloseJamButton, CancleButton]}
-              onClick={handleOpen}
+              onClick={handleCancelClose}
             >
               모집완료 취소
             </button>
