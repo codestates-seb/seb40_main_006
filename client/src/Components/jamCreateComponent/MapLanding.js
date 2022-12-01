@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
@@ -82,7 +84,7 @@ function MapLanding({
         setAddress={setAddress}
       />
       {inputWindow && (
-        <form className={inputForm} onSubmit="return false;">
+        <div className={inputForm}>
           <input
             type="text"
             placeholder="키워드를 입력해주세요"
@@ -92,7 +94,7 @@ function MapLanding({
           <button type="button" onClick={handleSubmit}>
             검색
           </button>
-        </form>
+        </div>
       )}
     </div>
   );
