@@ -4,6 +4,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Slider from 'react-slick';
+import { palette } from '../../Styles/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 // import { TfiArrowCircleLeft, TfiArrowCircleRight } from 'react-icons/tfi';
@@ -32,7 +33,12 @@ const SliderStyle = styled(Slider)`
   .slick-slide div {
     outline: none;
     width: 560px;
-    height: 150px;
+    height: 450px;
+    /* background-color: ${palette.gray_5}; */
+
+    span {
+      padding: 10px;
+    }
   }
   .slick-slide img {
     width: 100%;
@@ -117,7 +123,9 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
   </button>
 );
 
-const JamCarousel = () => {
+const JamCarousel = ({ jamData }) => {
+  const { content } = jamData;
+
   const settings = {
     dots: true,
     infinite: true,
@@ -134,10 +142,7 @@ const JamCarousel = () => {
     <div css={Container}>
       <SliderStyle {...settings}>
         <div>
-          <img
-            src="https://cdn.pixabay.com/photo/2022/11/02/04/07/deer-7563934_640.jpg"
-            alt="deer"
-          />
+          <span>{content}</span>
         </div>
         <div>
           <img
@@ -145,12 +150,12 @@ const JamCarousel = () => {
             alt="cat"
           />
         </div>
-        <div>
+        {/* <div>
           <img
             src="https://cdn.pixabay.com/photo/2022/11/13/20/29/town-7590138__340.jpg"
             alt="nightfestival"
           />
-        </div>
+        </div> */}
       </SliderStyle>
     </div>
   );

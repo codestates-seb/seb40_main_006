@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
 import { css } from '@emotion/react';
 import { DateRangePicker } from 'rsuite';
-// import AddressModal from './AddressModal';
 import KewordAddressModal from './KewordAddressModal';
 
 const Container = css`
@@ -32,26 +31,24 @@ const PeriodContainer = css`
   gap: 8px;
 `;
 
-const categories = [
-  { value: 'health', label: '운동/건강' },
-  { value: 'lifestyle', label: '라이프스타일' },
-  { value: 'cooking', label: '요리' },
-  { value: 'art', label: '미술' },
-  { value: 'career', label: '커리어' },
-  { value: 'craft', label: '공예' },
-  { value: 'photography', label: '사진/영상' },
-  { value: 'music', label: '음악' },
-  { value: 'language', label: '외국어' },
-  { value: 'education', label: '교육' },
-  { value: 'investment', label: '재테크' },
-  { value: 'business', label: '비즈니스' },
-  { value: 'development', label: '개발' },
+export const categories = [
+  { value: 'HEALTH', label: '운동/건강' },
+  { value: 'LIFESTYLE', label: '라이프스타일' },
+  { value: 'COOK', label: '요리' },
+  { value: 'ART', label: '미술' },
+  { value: 'CAREER', label: '커리어' },
+  { value: 'HANDCRAFT', label: '공예' },
+  { value: 'MEDIA', label: '사진/영상' },
+  { value: 'MUSIC', label: '음악' },
+  { value: 'LANGUAGE', label: '외국어' },
+  { value: 'EDUCATION', label: '교육' },
+  { value: 'FINANCE', label: '재테크' },
+  { value: 'BUSINESS', label: '비즈니스' },
+  { value: 'DEVELOPMENT', label: '개발' },
 ];
 
 const StudyInputField = ({
-  titleRef,
-  categoryRef,
-  capacityRef,
+  title,
   period,
   setPeriod,
   locationText,
@@ -59,6 +56,11 @@ const StudyInputField = ({
   setLatitude,
   setLongitude,
   setAddress,
+  setTitle,
+  setCategory,
+  category,
+  capacity,
+  setCapacity,
 }) => {
   // const [period, setPeriod] = useState([new Date(), new Date()]);
   const [open, setOpen] = useState(false);
@@ -66,22 +68,29 @@ const StudyInputField = ({
   const handleClose = () => setOpen(false);
 
   const handlePeriodChange = pickDate => {
-    //   // console.log(value);
-    //   // console.log('e: ', e[0]);
     setPeriod([pickDate[0], pickDate[1]]);
+    // setPeriod([new Date(pickDate[0]), new Date(pickDate[1])]);
     //   // console.log('From: ', period[0]);
     //   // console.log('To: ', period[1]);
   };
 
   // console.log('From: ', period[0]);
   // console.log('To: ', period[1]);
-  // console.log('period: ', period);
-
-  // console.log(periodRef.current);
-  // console.log(periodRef);
 
   const handleLocationText = e => {
     setLocationText(e.target.value);
+  };
+
+  const handleTitle = e => {
+    setTitle(e.target.value);
+  };
+
+  const handleCategory = e => {
+    setCategory(e.target.value);
+  };
+
+  const handleCapacity = e => {
+    setCapacity(e.target.value);
   };
 
   return (
@@ -100,8 +109,8 @@ const StudyInputField = ({
             variant="standard"
             name="title"
             placeholder="스터디 이름을 지어주세요"
-            defaultValue=""
-            inputRef={titleRef}
+            value={title || ''}
+            onChange={handleTitle}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -117,8 +126,8 @@ const StudyInputField = ({
             label="카테고리"
             variant="standard"
             name="category"
-            defaultValue=""
-            inputRef={categoryRef}
+            value={category || ''}
+            onChange={handleCategory}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -129,7 +138,7 @@ const StudyInputField = ({
             }}
           >
             {categories.map(option => (
-              <MenuItem key={option.value} value={option.value}>
+              <MenuItem key={option.value} value={option.value || ''}>
                 {option.label}
               </MenuItem>
             ))}
@@ -140,7 +149,7 @@ const StudyInputField = ({
             onClick={handleOpen}
             label="스터디 위치"
             variant="standard"
-            value={locationText}
+            value={locationText || ''}
             onChange={handleLocationText}
             // name=""
             placeholder="클릭하면 주소 검색창이 나와요"
@@ -164,13 +173,6 @@ const StudyInputField = ({
               setLongitude={setLongitude}
               setAddress={setAddress}
             />
-            // <AddressModal
-            //   open={open}
-            //   handleClose={handleClose}
-            //   setOpen={setOpen}
-            //   address={address}
-            //   setAddress={setAddress}
-            // />
           )}
           <TextField
             id="study-peopleNumber"
@@ -180,8 +182,8 @@ const StudyInputField = ({
             name="numberOfPeople"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             placeholder="숫자를 입력해주세요"
-            defaultValue=""
-            inputRef={capacityRef}
+            value={capacity || ''}
+            onChange={handleCapacity}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -197,7 +199,7 @@ const StudyInputField = ({
               format="yyyy-MM-dd hh:mm aa"
               showMeridian
               style={{ color: 'black' }}
-              defaultCalendarValue={[new Date(), new Date()]}
+              // defaultCalendarValue={[new Date(), new Date()]}
               name="period"
               // value={periodRef.current}
               value={period}

@@ -34,30 +34,33 @@ const JamNotice = css`
 `;
 
 const categories = [
-  { value: 'health', label: '운동/건강' },
-  { value: 'lifestyle', label: '라이프스타일' },
-  { value: 'cooking', label: '요리' },
-  { value: 'art', label: '미술' },
-  { value: 'career', label: '커리어' },
-  { value: 'craft', label: '공예' },
-  { value: 'photography', label: '사진/영상' },
-  { value: 'music', label: '음악' },
-  { value: 'language', label: '외국어' },
-  { value: 'education', label: '교육' },
-  { value: 'investment', label: '재테크' },
-  { value: 'business', label: '비즈니스' },
-  { value: 'development', label: '개발' },
+  { value: 'HEALTH', label: '운동/건강' },
+  { value: 'LIFESTYLE', label: '라이프스타일' },
+  { value: 'COOK', label: '요리' },
+  { value: 'ART', label: '미술' },
+  { value: 'CAREER', label: '커리어' },
+  { value: 'HANDCRAFT', label: '공예' },
+  { value: 'MEDIA', label: '사진/영상' },
+  { value: 'MUSIC', label: '음악' },
+  { value: 'LANGUAGE', label: '외국어' },
+  { value: 'EDUCATION', label: '교육' },
+  { value: 'FINANCE', label: '재테크' },
+  { value: 'BUSINESS', label: '비즈니스' },
+  { value: 'DEVELOPMENT', label: '개발' },
 ];
 
 const JamInputField = ({
-  jamTitleRef,
-  jamCategoryRef,
-  jamCapacityRef,
+  jamTitle,
+  jamCategory,
+  jamCapacity,
   locationText,
   setLocationText,
   setLatitude,
   setLongitude,
   setAddress,
+  setJamTitle,
+  setJamCategory,
+  setJamCapacity,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -65,6 +68,18 @@ const JamInputField = ({
 
   const handleLocationText = e => {
     setLocationText(e.target.value);
+  };
+
+  const handleJamTitle = e => {
+    setJamTitle(e.target.value);
+  };
+
+  const handleJamCategory = e => {
+    setJamCategory(e.target.value);
+  };
+
+  const handleJamCapacity = e => {
+    setJamCapacity(e.target.value);
   };
 
   return (
@@ -82,8 +97,8 @@ const JamInputField = ({
             label="잼 이름"
             variant="standard"
             placeholder="실시간 잼의 이름을 지어주세요"
-            defaultValue=""
-            inputRef={jamTitleRef}
+            value={jamTitle || ''}
+            onChange={handleJamTitle}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -99,8 +114,8 @@ const JamInputField = ({
             label="카테고리"
             variant="standard"
             name="category"
-            defaultValue=""
-            inputRef={jamCategoryRef}
+            value={jamCategory || ''}
+            onChange={handleJamCategory}
             sx={{
               width: 300,
               maxWidth: '100%',
@@ -111,7 +126,7 @@ const JamInputField = ({
             }}
           >
             {categories.map(option => (
-              <MenuItem key={option.value} value={option.value}>
+              <MenuItem key={option.value} value={option.value || ''}>
                 {option.label}
               </MenuItem>
             ))}
@@ -123,7 +138,7 @@ const JamInputField = ({
             label="잼 위치"
             variant="standard"
             placeholder="클릭하면 주소 검색창이 나와요"
-            value={locationText}
+            value={locationText || ''}
             onChange={handleLocationText}
             sx={{
               width: 300,
@@ -154,8 +169,8 @@ const JamInputField = ({
             name="numberOfPeople"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             placeholder="숫자를 입력해주세요"
-            defaultValue=""
-            inputRef={jamCapacityRef}
+            value={jamCapacity || ''}
+            onChange={handleJamCapacity}
             sx={{
               width: 300,
               maxWidth: '100%',

@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
 import JamInfo from '../Components/jamDetailComponent/JamInfo';
-import JamComents from '../Components/jamDetailComponent/JamComments';
+import JamComments from '../Components/jamDetailComponent/JamComments';
 import JamSideBar from '../Components/jamDetailComponent/JamSideBar';
 // import Button from '../components/Button';
 import Sidebar from '../Components/Sidebar';
@@ -72,6 +74,70 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const [host, setHost] = useState('김코딩'); // eslint-disable-line no-unused-vars
   const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
 
+  const [text, setText] = useState('');
+  const [comments, setComments] = useState([]);
+
+  const nextId = useRef(0);
+
+  const [jamData, setJamData] = useState([]);
+
+  const { id } = useParams();
+
+  // eslint-disable-next-line no-shadow
+  const getJamData = async () => {
+    // eslint-disable-next-line no-return-await
+    await axios
+      .get(`/jams/${id}`)
+      .then(res => {
+        // console.log('res.data: ', res.data);
+        setJamData({ ...res.data });
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    getJamData();
+  }, [comments]);
+
+  // console.log('jamData: ', jamData);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (text === '') {
+      alert('댓글 내용을 입력해주세요');
+      return;
+    }
+
+    const body = {
+      postId: nextId.current,
+      contents: text,
+      // writer_id: userData._id,
+      // writer_nickname: userData.nickname,
+      // writer_image: userData.userImage,
+      // responseTo: comments,
+      // responseTo: 'root',
+      isRoot: true,
+      isEdit: false,
+    };
+
+    const addComments = () => {
+      // setComments([...comments, body]);
+      setComments(comments.concat(body));
+      nextId.current += 1;
+    };
+
+    // eslint-disable-next-line no-unused-expressions
+    text && addComments(text);
+    setText('');
+  };
+
+  // useEffect(() => {
+  //   setComments(comments.filter(comment => !comment.responseTo));
+  // }, [comments]);
+
   return (
     <div css={MergeContainer}>
       <Sidebar />
@@ -84,17 +150,24 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 loginUser={loginUser}
                 isEdit={isEdit}
                 setIsEdit={setIsEdit}
+                jamData={jamData}
               />
             </div>
           </ThemeProvider>
           <div css={MainCommentContainer}>
             <span>댓글</span>
             <div css={CommentContainer}>
-              <JamComents />
+              <JamComments
+                text={text}
+                setText={setText}
+                comments={comments}
+                setComments={setComments}
+                handleSubmit={handleSubmit}
+              />
             </div>
           </div>
         </div>
-        <JamSideBar host={host} loginUser={loginUser} />
+        <JamSideBar host={host} loginUser={loginUser} jamData={jamData} />
       </main>
     </div>
   );
