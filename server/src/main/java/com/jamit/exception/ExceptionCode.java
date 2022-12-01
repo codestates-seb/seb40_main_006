@@ -11,7 +11,8 @@ public enum ExceptionCode {
     LOGIN_REQUIRED(401, "You need to login"),
     INVALID_AUTHCODE(403, "Invaild authentication Code"),
     JAM_NOT_FOUND(404, "Jam not found"),
-    COMMENT_NOT_FOUND(404, "Comment not found");
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    REPLY_NOT_FOUND(404, "Reply not found");
 
     @Getter
     private int status;

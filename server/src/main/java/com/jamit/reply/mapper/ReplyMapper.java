@@ -1,6 +1,5 @@
 package com.jamit.reply.mapper;
 
-import com.jamit.reply.dto.ReplyResponseDto;
 import com.jamit.reply.dto.ResponseReplyDto;
 import com.jamit.reply.entity.Reply;
 import org.mapstruct.Mapper;
@@ -17,6 +16,4 @@ public interface ReplyMapper {
     @Mapping(source = "member.nickname", target = "nickname")
     @Mapping(source = "member.profileImage", target = "image")
     ResponseReplyDto replyToResponseReplyDto(Reply reply);
-
-    ReplyResponseDto replyToReplyResponseDto(Reply reply);
 }
