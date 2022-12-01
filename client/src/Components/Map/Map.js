@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { location } from '../../Atom/atoms';
+import { coordinate, location } from '../../Atom/atoms';
 
 // 33.450701, 126.570667
 const { kakao } = window;
 const Map = () => {
   // 마곡
-  // const [latitude] = useState(37.5602098);
-  // const [longitude] = useState(126.825479);
+  const [latitude] = useState(37.5602098);
+  const [longitude] = useState(126.825479);
 
   // 제주
-  const [latitude] = useState(33.450701);
-  const [longitude] = useState(126.570667);
+  // const [latitude] = useState(33.450701);
+  // const [longitude] = useState(126.570667);
 
   // 장소 검색 객체를 생성합니다
   // const ps = new kakao.maps.services.Places();
   const [currentLocation] = useRecoilState(location);
+  const [currentCoordinate, setCurrentCoordinate] = useRecoilState(coordinate);
   // 좌표로 주소 얻기
   function getMap() {
     const container = document.getElementById('map'); // 지도를 표시할 div
@@ -28,16 +29,24 @@ const Map = () => {
     // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     kakao.maps.event.addListener(map, 'center_changed', function () {
       // 지도의  레벨을 얻어옵니다
-      const level = map.getLevel();
+      // const level = map.getLevel();
 
       // 지도의 중심좌표를 얻어옵니다
       const latlng = map.getCenter();
+      setCurrentCoordinate({
+        latitude: latlng.getLat(),
+        longitude: latlng.getLng(),
+      });
 
-      const message = `지도 레벨은 ${level} 이고 중심 좌표는 위도 ${latlng.getLat()}, 경도 ${latlng.getLng()}입니다`;
-      console.log(message);
+      // const message = `지도 레벨은 ${level} 이고 중심 좌표는 위도 ${latlng.getLat()}, 경도 ${latlng.getLng()}입니다`;
+      // console.log(message);
     });
     return map;
   }
+
+  useState(() => {
+    console.log('currentCoordinate', currentCoordinate);
+  }, [currentCoordinate]);
 
   // 키워드 검색 완료 시 호출되는 콜백함수 입니다
   // function placesSearchCB(data, status) {
