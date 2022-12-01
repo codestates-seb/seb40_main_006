@@ -90,6 +90,11 @@ public class JamService {
         return getJam.orElseThrow(() -> new BusinessLogicException(ExceptionCode.JAM_NOT_FOUND));
     }
 
+    @Transactional
+    public void updateView(Long id) {
+        this.jamRepository.updateView(id);
+    }
+
     public Page<Jam> searchTitleOrContent(String keyword, Pageable pageable) {
         Page<Jam> jams = Optional.ofNullable(jamRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable))
                 .orElseThrow(IllegalAccessError::new);

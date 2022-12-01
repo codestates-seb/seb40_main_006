@@ -12,7 +12,8 @@ public enum ExceptionCode {
     INVALID_AUTHCODE(403, "Invaild authentication Code"),
     JAM_NOT_FOUND(404, "Jam not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
-    REPLY_NOT_FOUND(404, "Reply not found");
+    REPLY_NOT_FOUND(404, "Reply not found"),
+    CAN_NOT_GRADE(404, "Can not grade");
 
     @Getter
     private int status;

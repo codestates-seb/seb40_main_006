@@ -5,8 +5,10 @@ import com.jamit.jam.entity.JamParticipant;
 import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.dto.ProfileDto;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -29,11 +31,13 @@ public interface MemberMapper {
         String email = null;
         String nickname = null;
         String profileImage = null;
+        Double grade = null;
 
         memberId = member.getMemberId();
         email = member.getEmail();
         nickname = member.getNickname();
         profileImage = member.getProfileImage();
+        grade = member.getGrade();
 
         List<ProfileDto.CreateJam> createJams = null;
         createJams = createJamList(member.getJamList());
@@ -42,7 +46,7 @@ public interface MemberMapper {
         joinJams = joinJamList(member.getJamParticipantList());
 
         ProfileDto.Response profileDto = new ProfileDto.Response(memberId, email, nickname,
-            profileImage, createJams, joinJams);
+                profileImage, grade, createJams, joinJams);
 
         return profileDto;
     }
@@ -71,7 +75,7 @@ public interface MemberMapper {
         Long memberId = null;
 
         ProfileDto.CreateJam createJam = new ProfileDto.CreateJam(memberId, jamId, title, image, location, currentPpl,
-            capacity, realTime);
+                capacity, realTime);
 
         createJam.setMember(jam.getMember());
 
@@ -116,7 +120,7 @@ public interface MemberMapper {
         Long memberId = null;
 
         ProfileDto.JoinJam joinJam = new ProfileDto.JoinJam(memberId, jamId, title, image, location, currentPpl,
-            capacity, realTime);
+                capacity, realTime);
 
         joinJam.setMember(jamParticipant.getMember());
 
