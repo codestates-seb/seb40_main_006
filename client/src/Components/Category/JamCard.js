@@ -19,17 +19,10 @@ const box = css`
 const topArea = css`
   display: flex;
   div {
-    background-color: blueviolet;
     border-radius: 10px;
     padding: 5px 15px;
     font-size: 12px;
     margin-right: 5px;
-  }
-  div:nth-child(1) {
-    background-color: ${palette.colorJamOpen};
-  }
-  div:nth-child(2) {
-    background-color: ${palette.colorJamRealtime};
   }
 `;
 
@@ -80,16 +73,22 @@ const infoBottom = css`
 `;
 
 const JamCard = ({ jam }) => {
+  let isCompleteJam;
+  if (jam.completeStatus === 'FALSE') {
+    isCompleteJam = false;
+  } else if (jam.completeStatus === 'TRUE') {
+    isCompleteJam = true;
+  }
   return (
     <div className={box}>
       <div className={coverImage} />
       <div className={bottomArea}>
         <p>{jam.title}</p>
         <div className={topArea}>
-          {jam.completeStatus === 'FALSE' ? (
-            <div className={openedJam}>모집중</div>
-          ) : (
+          {isCompleteJam ? (
             <div className={closedJam}>마감</div>
+          ) : (
+            <div className={openedJam}>모집중</div>
           )}
           {jam.realTime ? <div>실시간</div> : null}
         </div>
