@@ -25,6 +25,8 @@ public class ResponseAllJamsDto {
     private String location;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String latitude;
+    private String longitude;
 
     public void setMember(Member member) {
         this.nickname = member.getNickname();

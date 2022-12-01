@@ -9,11 +9,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", uses = CommentMapper.class,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface JamMapper {
 
     Jam jamPostDtoToJam(JamPostDto jamPostDto);
@@ -37,6 +40,20 @@ public interface JamMapper {
     @Mapping(source = "member.nickname", target = "nickname")
     ResponseParticipantDto participantToParticipantListDto(JamParticipant jamParticipant);
 
-    @IterableMapping(qualifiedByName = "jamList")
-    List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams);
+//    @IterableMapping(qualifiedByName = "jamList")
+//    List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams);
+
+    default  List<ResponseAllJamsDto> jamToResponseAllJamsDto(List<Jam> jams) {
+        if (jams == null) {
+            return null;
+        }
+        List<ResponseAllJamsDto> list = new ArrayList((jams.size()));
+        Iterator<Jam> iterator = jams.iterator();
+        while (iterator.hasNext()) {
+            Jam jam = iterator.next();
+            list.add(this.jamToResponseAllJamsDto(jam));
+        }
+        return list;
+    }
+
 }
