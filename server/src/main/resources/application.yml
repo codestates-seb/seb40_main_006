@@ -15,7 +15,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://jamit-db.cezdqxoe5jlq.ap-northeast-2.rds.amazonaws.com:3306/jamitdb?useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://${MYSQL_URL}/jamitdb?useUnicode=true&serverTimezone=Asia/Seoul
     username: admin
     password: ${MYSQL_PASSWORD}
   jpa:
