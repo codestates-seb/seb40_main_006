@@ -11,6 +11,10 @@ import JamSideBar from '../Components/jamDetailComponent/JamSideBar';
 // import Button from '../components/Button';
 import Sidebar from '../Components/Sidebar';
 import { palette } from '../Styles/theme';
+import { getCookie } from '../Components/SignComp/Cookie';
+import Reply from '../Components/jamDetailComponent/Reply';
+// import ReplyComment from '../Components/jamDetailComponent/ReplyComment';
+// import ReReplyComment from '../Components/jamDetailComponent/ReReplyComment';
 
 const MergeContainer = css`
   width: 100%;
@@ -86,30 +90,34 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios
-      .get(`/jams/${id}`)
-      .then(res => {
-        // console.log('res.data: ', res.data);
-        setJamData({ ...res.data });
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    await axios.get(`/jams/${id}`).then(res => {
+      setJamData({ ...res.data });
+    });
   };
 
   useEffect(() => {
     getJamData();
-  }, [comments]);
+  }, []);
 
-  // console.log('jamData: ', jamData);
+  // .log('jamData: ', jamData);
 
   const handleSubmit = e => {
     e.preventDefault();
-
     if (text === '') {
       alert('댓글 내용을 입력해주세요');
       return;
     }
+    axios
+      .post(
+        `/jams/${jamData.jamId}/comments`,
+        { content: text },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie('accessToken')}`,
+          },
+        },
+      )
+      .then(window.location.reload());
 
     const body = {
       postId: nextId.current,
@@ -163,7 +171,9 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 comments={comments}
                 setComments={setComments}
                 handleSubmit={handleSubmit}
+                jamData={jamData}
               />
+              <Reply replyList={jamData.commentList} />
             </div>
           </div>
         </div>

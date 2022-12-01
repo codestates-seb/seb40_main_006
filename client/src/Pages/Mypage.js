@@ -83,7 +83,7 @@ const Mypage = () => {
     axios
       .get(`/user/profile/${location}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then(res => {
