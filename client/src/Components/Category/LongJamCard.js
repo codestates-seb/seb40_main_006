@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 // import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const box = css`
   display: flex;
@@ -16,6 +18,16 @@ const box = css`
   align-items: center;
   padding: 10px 15px;
   margin: 10px;
+`;
+
+const openedJam = css`
+  background-color: ${palette.colorJamOpen};
+`;
+const closedJam = css`
+  background-color: ${palette.colorJamClose};
+`;
+const realTimeJam = css`
+  background-color: ${palette.colorJamRealtime};
 `;
 
 const coverImage = css`
@@ -41,7 +53,6 @@ const topInfo = css`
   }
   div {
     border-radius: 10px;
-    background-color: ${palette.colorJamOpen};
     padding: 3px 20px;
     margin: 0px 5px;
     font-size: 12px;
@@ -64,28 +75,39 @@ const bottomInfo = css`
   }
 `;
 
-const LongJamCard = () => {
+const LongJamCard = ({ jam }) => {
+  let isCompleteJam;
+  if (jam.completeStatus === 'FALSE') {
+    isCompleteJam = false;
+  } else if (jam.completeStatus === 'TRUE') {
+    isCompleteJam = true;
+  }
   return (
     <div className={box}>
       <div className={coverImage} />
       <div className={info}>
         <div className={topInfo}>
-          <p>토익스터디하실분</p>
-          <div>모집중</div>
+          <p>{jam.title}</p>
+          {isCompleteJam ? (
+            <div className={closedJam}>마감</div>
+          ) : (
+            <div className={openedJam}>모집중</div>
+          )}
+          {jam.realTime ? <div className={realTimeJam}>실시간</div> : null}
         </div>
 
         <div className={bottomInfo}>
           <div>
             <BsClockFill />
-            <p>1분전</p>
+            <p>{jamElapsedTime(jam.createdAt)}</p>
           </div>
           <div>
             <BsPeopleFill />
-            <p>1분전</p>
+            <p>{jam.currentPpl}명</p>
           </div>
           <div>
             <ImLocation />
-            <p>스타벅스 마곡역점</p>
+            <p>{jam.location}</p>
           </div>
         </div>
       </div>
