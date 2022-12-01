@@ -9,7 +9,6 @@ import com.jamit.auth.handler.MemberAuthenticationEntryPoint;
 import com.jamit.auth.handler.MemberAuthenticationFailureHandler;
 import com.jamit.auth.handler.MemberAuthenticationSuccessHandler;
 import com.jamit.auth.jwt.JwtTokenizer;
-import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.auth.handler.OAuth2MemberSuccessHandler;
 import java.util.Arrays;
@@ -35,7 +34,6 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
-    private final CustomAuthorityUtils authorityUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
