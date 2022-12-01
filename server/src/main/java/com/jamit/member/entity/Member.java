@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +25,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Member {
+public class Member extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +48,10 @@ public class Member {
 
     @Column
     private String refreshToken;
+
+    private String provider;
+
+    private String providerId;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -69,16 +75,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
 
-    public enum Role {
-        USER("ROLE_USER"),
-        ADMIN("ROLE_ADMIN");
-
-        @Getter
-        private String status;
-
-        Role(String status) {
-            this.status = status;
-        }
+    public Member(String email, String nickname, String password) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
     }
 
     public void addJam(Jam jam) {

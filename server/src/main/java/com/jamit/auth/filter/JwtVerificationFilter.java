@@ -1,11 +1,13 @@
 package com.jamit.auth.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jamit.auth.jwt.JwtTokenizer;
 import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
 import com.jamit.member.repository.MemberRepository;
+import com.jamit.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
@@ -46,12 +48,24 @@ public class JwtVerificationFilter extends BasicAuthenticationFilter {
         try {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
-        } catch (SignatureException se) { //exception catch 되면 HttpServletRequest 의 Attribute 로 추가
-            request.setAttribute("SignatureException exception", se);
+        } catch (SignatureException se) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ErrorResponse errorResponse = new ErrorResponse(403, "Signature unauthorized");
+            new ObjectMapper().writeValue(response.getWriter(), errorResponse);
         } catch (ExpiredJwtException ee) {
-            request.setAttribute("ExpiredJwtException exception", ee);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ErrorResponse errorResponse = new ErrorResponse(401, "Expired JWT");
+            new ObjectMapper().writeValue(response.getWriter(), errorResponse);
         } catch (Exception e) {
-            request.setAttribute("exception", e);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ErrorResponse errorResponse = new ErrorResponse(400, "Bad request");
+            new ObjectMapper().writeValue(response.getWriter(), errorResponse);
         }
 
         filterChain.doFilter(request, response); // 서명 검증에 성공하면 다음 필터 호출

@@ -1,0 +1,76 @@
+spring:
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jamitdb?serverTimezone=Asia/Seoul
+    username: root
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      data-locations: classpath*:static.db/data.sql
+      mode: always
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH2_ID}
+            client-secret: ${GOOGLE_OAUTH2_PASSWORD}
+            scope:
+              - email
+              - profile
+#  profiles:
+#    include: oauth
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_NAME}
+    password: ${GOOGLE_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    address:
+      admin: admin@gmail.com
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
