@@ -4,15 +4,18 @@ import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.global.dto.SingleResponseDto;
+import com.jamit.member.dto.GradePostDto;
 import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.mapper.MemberMapper;
 import com.jamit.member.dto.ProfileDto;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.member.service.MemberService;
+
 import java.security.Principal;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -92,7 +95,7 @@ public class MemberController {
      */
     @PatchMapping("/change/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
-        @Valid @RequestBody MemberDto.UpdateMember requestBody, Authentication authentication) {
+                                       @Valid @RequestBody MemberDto.UpdateMember requestBody, Authentication authentication) {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
         Member member = memberDetails.getMember();
 
@@ -173,6 +176,24 @@ public class MemberController {
         System.out.println("인증 객체 : " + member.getNickname());
 
         return new ResponseEntity(member, HttpStatus.OK);
+    }
+
+    @PostMapping("/profile/{member-id}/grade")
+    public ResponseEntity postGrades(@Positive @PathVariable("member-id") Long memberId,
+                                     Authentication authentication,
+                                     @Valid @RequestBody GradePostDto gradePostDto) {
+
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Member member = memberDetails.getMember();
+        Long loggedOnId = member.getMemberId();
+
+        if (member == null) {
+            throw new BusinessLogicException(ExceptionCode.LOGIN_REQUIRED);
+        } else {
+            memberService.giveGrades(gradePostDto, memberId, loggedOnId);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 }

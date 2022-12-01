@@ -33,7 +33,7 @@ public class LocationService {
         System.out.println("pointFormat : " + pointFormat);
 
         Query query = em.createNativeQuery("SELECT * "
-                + "FROM Jam AS j "
+                + "FROM jam AS j "
                 + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", j.point)"
                 + "order by j.created_At desc"
                 , Jam.class);

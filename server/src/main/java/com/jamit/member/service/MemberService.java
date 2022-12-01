@@ -2,9 +2,12 @@ package com.jamit.member.service;
 
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
+import com.jamit.member.dto.GradePostDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.entity.Member.Role;
 import com.jamit.member.repository.MemberRepository;
+
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import javax.mail.internet.MimeMessage;
@@ -148,6 +151,35 @@ public class MemberService {
 
         if (optionalMember.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.SIGNUP_EXISTS_NICKNAME);
+        }
+    }
+
+    /*
+     * 유저 평점 주기
+     * */
+    public void giveGrades(GradePostDto grade, Long memberId, Long loggedOnId) {
+
+        Member verifiedMember = findVerifiedMemberByMemberId(memberId);
+
+        System.out.println("멤버 아이디 : " + verifiedMember.getMemberId());
+        System.out.println("현재 로그인한 아이디 : " + loggedOnId);
+
+        if (Objects.equals(memberId, loggedOnId)) {
+            throw new BusinessLogicException(ExceptionCode.CAN_NOT_GRADE);
+        } else {
+
+            int gradeCount = verifiedMember.getGradeCount();
+            double currentGrade = verifiedMember.getGrade();
+            double updateGrade;
+
+            if (gradeCount == 0) {
+                updateGrade = grade.getGrade();
+            } else {
+                updateGrade = (((double) gradeCount * currentGrade) + grade.getGrade()) / (double) (gradeCount + 1);
+            }
+            verifiedMember.setGrade(updateGrade);
+            verifiedMember.setGradeCount(gradeCount + 1);
+            memberRepository.save(verifiedMember);
         }
     }
 }

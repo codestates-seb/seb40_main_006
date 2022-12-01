@@ -51,6 +51,12 @@ public class Member {
     @Column(nullable = false)
     private Role roles;
 
+    @Column
+    private Double grade = 0.0;
+
+    @Column
+    private int gradeCount = 0;
+
     @OneToMany(mappedBy = "member")
     private List<Jam> jamList = new ArrayList<>();
 
