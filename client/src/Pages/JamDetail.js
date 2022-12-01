@@ -173,6 +173,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 handleSubmit={handleSubmit}
                 jamData={jamData}
               />
+              {/* 댓글 */}
               <Reply replyList={jamData.commentList} />
             </div>
           </div>

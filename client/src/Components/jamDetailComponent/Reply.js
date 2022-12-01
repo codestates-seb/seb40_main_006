@@ -8,6 +8,7 @@ import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
 import { loginUserInfoState } from '../../Atom/atoms';
+import ReReply from './ReReply';
 
 const replyContainer = css`
   min-width: 510px;
@@ -65,6 +66,7 @@ const editForm = css`
 `;
 
 const Reply = ({ replyList }) => {
+  // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
   const [user] = useRecoilState(loginUserInfoState);
@@ -103,6 +105,11 @@ const Reply = ({ replyList }) => {
         .then(window.location.reload());
     }
   };
+
+  // 대댓글
+  const [Re] = useState([1, 2, 3]);
+  const [isRe] = useState(true);
+  const [openRe, setOpenRe] = useState(false);
 
   return (
     <div>
@@ -146,6 +153,7 @@ const Reply = ({ replyList }) => {
               </div>
             )}
           </div>
+          {isRe && <ReReply Re={Re} openRe={openRe} setOpenRe={setOpenRe} />}
         </div>
       ))}
     </div>
