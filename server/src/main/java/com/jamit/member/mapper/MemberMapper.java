@@ -31,13 +31,16 @@ public interface MemberMapper {
         String email = null;
         String nickname = null;
         String profileImage = null;
-        Double grade = null;
+        Double grade = 0.0;
+        int gradeCount = 0;
+
 
         memberId = member.getMemberId();
         email = member.getEmail();
         nickname = member.getNickname();
         profileImage = member.getProfileImage();
         grade = member.getGrade();
+        gradeCount = member.getGradeCount();
 
         List<ProfileDto.CreateJam> createJams = null;
         createJams = createJamList(member.getJamList());
@@ -46,7 +49,7 @@ public interface MemberMapper {
         joinJams = joinJamList(member.getJamParticipantList());
 
         ProfileDto.Response profileDto = new ProfileDto.Response(memberId, email, nickname,
-                profileImage, grade, createJams, joinJams);
+                profileImage, grade, gradeCount, createJams, joinJams);
 
         return profileDto;
     }

@@ -79,6 +79,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         memberInfo.setMemberId(member.getMemberId());
         memberInfo.setNickname(member.getNickname());
         memberInfo.setProfileImage(member.getProfileImage());
+        memberInfo.setGrade(member.getGrade());
+        memberInfo.setGradeCount(member.getGradeCount());
 
         ObjectMapper objectMapper = new ObjectMapper(); // 인증 정보를 DTO 클래스로 역직렬화하기 위한 인스턴스
         String result = objectMapper.writeValueAsString(memberInfo);

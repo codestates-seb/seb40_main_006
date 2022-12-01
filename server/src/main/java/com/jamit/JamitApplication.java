@@ -24,7 +24,7 @@ public class JamitApplication extends SpringBootServletInitializer {
     }
 
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-        + "classpath:application-local.yml,"
+        + "classpath:application.yml,"
         + "classpath:aws.yml";
 
 }
