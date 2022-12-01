@@ -26,6 +26,9 @@ const openedJam = css`
 const closedJam = css`
   background-color: ${palette.colorJamClose};
 `;
+const realTimeJam = css`
+  background-color: ${palette.colorJamRealtime};
+`;
 
 const coverImage = css`
   width: 60px;
@@ -90,7 +93,7 @@ const LongJamCard = ({ jam }) => {
           ) : (
             <div className={openedJam}>모집중</div>
           )}
-          {jam.realTime ? <div>실시간</div> : null}
+          {jam.realTime ? <div className={realTimeJam}>실시간</div> : null}
         </div>
 
         <div className={bottomInfo}>
