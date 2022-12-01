@@ -90,22 +90,16 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios
-      .get(`/jams/${id}`)
-      .then(res => {
-        // console.log('res.data: ', res.data);
-        setJamData({ ...res.data });
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    await axios.get(`/jams/${id}`).then(res => {
+      setJamData({ ...res.data });
+    });
   };
 
   useEffect(() => {
     getJamData();
   }, []);
 
-  // console.log('jamData: ', jamData);
+  // .log('jamData: ', jamData);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -123,8 +117,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
           },
         },
       )
-      .then(res => console.log(res));
-    // .catch(err => console.log(err));
+      .then(window.location.reload());
 
     const body = {
       postId: nextId.current,

@@ -70,8 +70,6 @@ const Reply = ({ replyList }) => {
   const [user] = useRecoilState(loginUserInfoState);
   const [clickIndex, setClickIndex] = useState('');
 
-  console.log(replyList);
-
   const editHandleChange = e => {
     setEditVal(e.target.value);
   };
@@ -95,7 +93,7 @@ const Reply = ({ replyList }) => {
   };
 
   const deleteHandler = (jamId, commentId) => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
+    if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
         .delete(`/jams/${jamId}/comments/${commentId}`, {
           headers: {
@@ -141,9 +139,7 @@ const Reply = ({ replyList }) => {
                 </button>
                 <button
                   type="button"
-                  onClick={(e, i) =>
-                    deleteHandler(e, i, reply.jamId, reply.commentId)
-                  }
+                  onClick={() => deleteHandler(reply.jamId, reply.commentId)}
                 >
                   <img src="../img/delete.png" alt="delete" />
                 </button>
