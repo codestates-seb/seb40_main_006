@@ -18,6 +18,7 @@ public class ProfileDto {
         private String nickname;
         private String profileImage;
         private Double grade;
+        private int gradeCount;
         private List<CreateJam> createJams;
         private List<JoinJam> joinJams;
     }

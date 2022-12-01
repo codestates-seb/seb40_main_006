@@ -60,10 +60,8 @@ public class MemberDto {
             this.memberId = memberId;
         }
 
-        @NotBlank
         private String nickname;
 
-        @NotBlank
         private String password;
 
         private String profileImage;
