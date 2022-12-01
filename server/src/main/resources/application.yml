@@ -1,17 +1,17 @@
 spring:
-  #  h2:
-  #    console:
-  #      enabled: true
-  #      path: /h2
-  #  datasource:
-  #    url: jdbc:h2:mem:test
-  #  jpa:
-  #    hibernate:
-  #      ddl-auto: create
-  #    show-sql: true
-  #    properties:
-  #      hibernate:
-  #        format_sql: true
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,11 +29,20 @@ spring:
         format_sql: true
   sql:
     init:
-      data-locations: classpath*:db/h2/data.sql
+      data-locations: classpath*:static.db/data.sql
       mode: always
-  profiles:
-    include:
-      - aws
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH2_ID}
+            client-secret: ${GOOGLE_OAUTH2_PASSWORD}
+            scope:
+              - email
+              - profile
+#  profiles:
+#    include: oauth
   data:
     web:
       pageable:

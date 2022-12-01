@@ -17,7 +17,7 @@ public class ErrorResponse {
     private List<FieldError> fieldErrors;
     private List<ConstraintViolationError> violationErrors;
 
-    private ErrorResponse(int status, String message) {
+    public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }

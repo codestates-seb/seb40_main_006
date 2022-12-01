@@ -4,7 +4,7 @@ import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.dto.GradePostDto;
 import com.jamit.member.entity.Member;
-import com.jamit.member.entity.Member.Role;
+import com.jamit.member.entity.Role;
 import com.jamit.member.repository.MemberRepository;
 
 import java.util.Objects;
