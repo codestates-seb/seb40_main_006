@@ -137,10 +137,12 @@ const Profile = () => {
           },
         )
         .then(res => {
+          console.log(user);
           setUser({
             memberId: res.data.data.memberId,
             nickname: res.data.data.nickname,
             img: res.data.data.profileImage,
+            grade: 2,
           });
           alert('수정이 완료되었습니다');
           navigate(-1);
