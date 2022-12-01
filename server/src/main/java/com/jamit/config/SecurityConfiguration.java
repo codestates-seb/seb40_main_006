@@ -9,13 +9,13 @@ import com.jamit.auth.handler.MemberAuthenticationEntryPoint;
 import com.jamit.auth.handler.MemberAuthenticationFailureHandler;
 import com.jamit.auth.handler.MemberAuthenticationSuccessHandler;
 import com.jamit.auth.jwt.JwtTokenizer;
+import com.jamit.auth.utils.CustomAuthorityUtils;
 import com.jamit.member.repository.MemberRepository;
-import com.jamit.oauth2.service.Oauth2UserService;
+import com.jamit.auth.handler.OAuth2MemberSuccessHandler;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,8 +35,7 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
-    private final Oauth2UserService oauth2UserService;
-//    private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final CustomAuthorityUtils authorityUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,16 +55,16 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer()) // Custom Configurer 추가
             .and()
                 .authorizeHttpRequests(authorize -> authorize
-                    .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
-                    .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
-                    .antMatchers("/login/oauth2/code/google").permitAll()
-                    .antMatchers(HttpMethod.POST, "/*/user/**").hasRole("USER")
+//                    .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
+//                    .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
+//                    .antMatchers("/login/oauth2/code/google").permitAll()
+//                    .antMatchers(HttpMethod.POST, "/*/user/**").hasRole("USER")
 //                    .antMatchers("/**").authenticated()
                     .anyRequest().permitAll()
                 )
-            .oauth2Login()
-                .userInfoEndpoint()
-                .userService(oauth2UserService);
+            .oauth2Login(oauth2 -> oauth2
+                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberRepository))
+            );
 
         return http.build();
     }
@@ -79,9 +78,10 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -113,10 +113,8 @@ public class SecurityConfiguration {
 
             builder // Security Filter Chain 에 추가
                 .addFilter(jwtAuthenticationFilter) // JWT 인증 필터
-//                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class) // JWT 검증 필터
                 .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class); // JWT 검증 필터
-//                .addFilterBefore(exceptionHandlerFilter, BasicAuthenticationFilter.class)
 
         }
     }

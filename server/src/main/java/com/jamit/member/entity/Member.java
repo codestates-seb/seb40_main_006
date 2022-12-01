@@ -17,7 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member extends Auditable{
 
@@ -44,9 +45,6 @@ public class Member extends Auditable{
 
     @Column
     private String profileImage;
-
-//    @Column
-//    private int grade;
 
     @Column
     private String refreshToken;
@@ -71,21 +69,10 @@ public class Member extends Auditable{
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
 
-//    @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
-//    public Member(String username, String password, String email, Role roles) {
-//        this.password = password;
-//        this.email = email;
-//        this.roles = roles;
-//    }
-
-    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-    public Member(String nickname, String password, String email, Role role, String provider, String providerId) {
+    public Member(String email, String nickname, String password) {
+        this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.email = email;
-        this.roles = role;
-        this.provider = provider;
-        this.providerId = providerId;
     }
 
     public void addJam(Jam jam) {
