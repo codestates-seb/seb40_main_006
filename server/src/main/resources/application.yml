@@ -41,8 +41,9 @@ spring:
             scope:
               - email
               - profile
-#  profiles:
-#    include: oauth
+  profiles:
+    include:
+      - aws
   data:
     web:
       pageable:
