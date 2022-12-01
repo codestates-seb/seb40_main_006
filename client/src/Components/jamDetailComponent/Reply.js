@@ -2,15 +2,18 @@
 import { css } from '@emotion/css';
 import React from 'react';
 import UserName from '../userComp/UserName';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const replyContainer = css`
-  min-width: 500px;
+  min-width: 510px;
   margin-bottom: 20px;
 `;
 
 const replyUser = css`
-  // background: black;
   font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const replyContent = css`
@@ -28,9 +31,10 @@ const Reply = ({ replyList }) => {
     <div>
       {console.log(replyList)}
       {replyList?.map(reply => (
-        <div className={replyContainer}>
+        <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
-            <UserName name={reply.nickname} />
+            <UserName name={reply.nickname} id={reply.memberId} />
+            <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>
             <div className="content">{reply.content}</div>
