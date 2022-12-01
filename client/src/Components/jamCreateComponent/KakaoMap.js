@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-no-comment-textnodes */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-plusplus */
@@ -203,9 +206,12 @@ const KakaoMap = ({
                   <div className={resultNumber}>{i + 1}</div>
                   <div className={resultTextBox}>
                     {/* <h5>{item.place_name}</h5> */}
-                    <button type="button" onClick={() => handleTextInput(item)}>
+                    <div onClick={() => handleTextInput(item)}>
                       {item.place_name}
-                    </button>
+                    </div>
+                    {/* <button type="button" onClick={() => handleTextInput(item)}>
+                      {item.place_name}
+                    </button> */}
                     {item.road_address_name ? (
                       <div>
                         <span>{item.road_address_name}</span>

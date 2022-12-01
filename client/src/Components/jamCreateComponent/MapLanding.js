@@ -66,7 +66,7 @@ function MapLanding({
   const handleSubmit = e => {
     e.preventDefault();
     setKeyword(InputText);
-    setInputText('');
+    // setInputText('');
   };
 
   return (
@@ -82,13 +82,16 @@ function MapLanding({
         setAddress={setAddress}
       />
       {inputWindow && (
-        <form className={inputForm} onSubmit={handleSubmit}>
+        <form className={inputForm} onSubmit="return false;">
           <input
+            type="text"
             placeholder="키워드를 입력해주세요"
             onChange={onChange}
             value={InputText}
           />
-          <button type="submit">검색</button>
+          <button type="button" onClick={handleSubmit}>
+            검색
+          </button>
         </form>
       )}
     </div>
