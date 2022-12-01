@@ -76,27 +76,6 @@ const JamComments = ({
                     comments={comments}
                     comment={comment}
                   /> */}
-
-                  {/* {jamData.commentList &&
-                    jamData.commentList.map(el => (
-                      <div key={el.commentId}>
-                        {console.log('zzz: ', el)};
-                        <ReplyComment
-                          key={el.commentId}
-                          postId={el.commentId}
-                          comment={el.content}
-                          comments={el}
-                          setComments={setComments}
-                          handleSubmit={handleSubmit}
-                        />
-                        <ReReplyComment
-                          key={comment.contents}
-                          postId={comment.postId}
-                          comments={comments}
-                          comment={comment}
-                        /> */}
-                  {/* </div> */}
-                  {/* ))} */}
                 </div>
               )
             );

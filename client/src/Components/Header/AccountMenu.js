@@ -34,6 +34,7 @@ export default function AccountMenu() {
     removeCookie('accessToken');
     removeCookie('refreshToken');
     navigate('/login');
+    window.location.reload();
   };
   return (
     <>

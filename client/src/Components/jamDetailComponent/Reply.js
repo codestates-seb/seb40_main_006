@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { css } from '@emotion/css';
+import React, { useState } from 'react';
 import axios from 'axios';
-import React from 'react';
+import { css } from '@emotion/css';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
+import { palette } from '../../Styles/theme';
 
 const replyContainer = css`
   min-width: 510px;
@@ -28,6 +29,9 @@ const replyContent = css`
   .content {
     font-size: 13px;
     padding: 5px 14px;
+    border: none;
+    outline: none;
+    width: 60%;
   }
   .img {
     margin-right: 5px;
@@ -39,9 +43,49 @@ const replyContent = css`
   }
 `;
 
+const editForm = css`
+  min-width: 300px;
+  display: flex;
+  gap: 20px;
+  padding: 0 10px;
+  > input {
+    width: 70%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid ${palette.gray_5};
+    font-size: 13px;
+    padding: 3px 0;
+  }
+  > button {
+    margin-left: 200px;
+    font-size: 10px;
+  }
+`;
+
 const Reply = ({ replyList }) => {
+  const [edit, setEdit] = useState(false);
+  const [editVal, setEditVal] = useState('');
+
+  const editHandleChange = e => {
+    setEditVal(e.target.value);
+  };
+
   const editHandler = (jamId, commentId) => {
     console.log(jamId, commentId);
+    setEdit(!edit);
+    if (edit) {
+      axios
+        .patch(
+          `/jams/${jamId}/comments/${commentId}`,
+          { content: editVal },
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie('accessToken')}`,
+            },
+          },
+        )
+        .then(window.location.reload());
+    }
   };
 
   const deleteHandler = (jamId, commentId) => {
@@ -67,13 +111,29 @@ const Reply = ({ replyList }) => {
             <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>
-            <div className="content">{reply.content}</div>
+            {edit ? (
+              <div className={editForm}>
+                <input
+                  type="text"
+                  name="edit"
+                  value={editVal}
+                  onChange={editHandleChange}
+                />
+              </div>
+            ) : (
+              <div className="content">{reply.content}</div>
+            )}
+
             <div className="img">
               <button
-                type="button"
+                type="submit"
                 onClick={() => editHandler(reply.jamId, reply.commentId)}
               >
-                <img src="../img/edit.png" alt="edit" />
+                {!edit ? (
+                  <img src="../img/edit.png" alt="edit" />
+                ) : (
+                  <img src="../img/edit_move.gif" alt="edit" />
+                )}
               </button>
               <button
                 type="button"

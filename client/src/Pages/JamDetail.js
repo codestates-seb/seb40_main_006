@@ -103,7 +103,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   useEffect(() => {
     getJamData();
-  }, [comments]);
+  }, []);
 
   // console.log('jamData: ', jamData);
 
