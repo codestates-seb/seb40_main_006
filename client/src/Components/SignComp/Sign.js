@@ -115,8 +115,8 @@ const Sign = () => {
             { withCredentials: true },
           )
           .then(res => {
-            // const accessToken = res.headers.get('Authorization').slice(7);
-            const accessToken = res.headers.get('Authorization');
+            const accessToken = res.headers.get('Authorization').slice(7);
+            // const accessToken = res.headers.get('Authorization');
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
             // setUser(res.data);

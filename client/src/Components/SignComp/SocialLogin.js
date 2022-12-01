@@ -23,6 +23,7 @@ const SocialLogin = () => {
       memberId: 100 + user.memberId,
       nickname: userObject.name,
       img: userObject.picture,
+      grade: '2',
     });
     setIsLogin(true);
     setCookie('accessToken', encodedJwtIdToken);

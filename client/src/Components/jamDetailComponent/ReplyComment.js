@@ -127,21 +127,17 @@ const ReplyComment = ({ postId, comment, comments, setComments }) => {
           <div>
             <FaUserCircle size={15} />
           </div>
-          <div css={UserName}>포도쨈</div>
+          <div css={UserName}>{comments.nickname}</div>
           <ThemeProvider theme={palette}>
             <div css={JamIcon}>
               <AiOutlineTwitter size={16} />
             </div>
           </ThemeProvider>
-          <p css={Time}>{jamElapsedTime('2022-11-25T00:25:42')}</p>
+          <p css={Time}>{jamElapsedTime(comments.createdAt)}</p>
         </div>
-        <div css={WrittenComment}>
-          {comment.contents}
-          {/* 저희 잼 하고나서 얘기하는 시간이 따로 있을까요? */}
-        </div>
+        <div css={WrittenComment}>{comments.content}</div>
       </div>
       <div css={WriteReplyContainer}>
-        {/* {!comments.responseTo && ( */}
         {comment.isRoot && (
           <button css={replyHandler} type="button" onClick={replyInputHandler}>
             댓글작성(누르면 작성창 열림)
