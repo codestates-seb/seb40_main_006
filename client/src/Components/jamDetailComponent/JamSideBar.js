@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
@@ -117,10 +117,16 @@ const CancleButton = css`
 `;
 
 // eslint-disable-next-line no-unused-vars
-const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
+const JamSideBar = ({
+  jamData,
+  isComplete,
+  setIsComplete,
+  joiner,
+  setJoiner,
+}) => {
   // const [isJoin, setIsJoin] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [isJoin, setIsJoin] = useState(false);
+  // const [isJoin, setIsJoin] = useState(false);
   const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
@@ -138,7 +144,7 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
     category,
     // completeStatus,
     openChatLink,
-    participantList,
+    // participantList,
   } = jamData;
 
   const filteredCategory = categories.filter(el => el.value === category)[0];
@@ -146,13 +152,16 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
   // 로그인 유저가 잼에 참여한 리스트에 있는지 확인
   // 리턴값 true => 참여한 상태 => 참여취소 버튼 렌더
   // 리턴값 false => 미참여 상태 => 참여하기 버튼 렌더
-  const isJoiner = user => {
-    // eslint-disable-next-line no-unused-expressions
-    return (
-      jamData.participantList &&
-      participantList.filter(el => el.nickname === user.nickname).length === 1
-    );
-  };
+  // const isJoiner = user => {
+  //   // eslint-disable-next-line no-unused-expressions
+  //   return (
+  //     joiner && joiner.filter(el => el.nickname === user.nickname).length === 1
+  //   );
+  // };
+
+  const isJoiner =
+    joiner &&
+    joiner.filter(el => el.nickname === currentUser.nickname).length === 1;
 
   const handleClose = async () => {
     // eslint-disable-next-line no-restricted-globals
@@ -241,7 +250,7 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
       .then(res => {
         console.log('res.status: ', res.status);
         if (res.status === 200) {
-          setIsJoin(true);
+          setJoiner([...joiner, currentUser]);
         }
       })
       .catch(error => {
@@ -269,7 +278,10 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
         .then(res => {
           console.log('res.status: ', res.status);
           if (res.status === 200) {
-            setIsJoin(false);
+            // setJoiner(false);
+            setJoiner(
+              joiner.filter(el => el.nickname !== currentUser.nickname),
+            );
           }
         })
         .catch(error => {
@@ -283,11 +295,13 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
   // console.log('isJoin: ', isJoin);
   // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
   // console.log('isComplete: ', isComplete);
-  // console.log('currentUser: ', currentUser);
+  console.log('currentUser: ', currentUser);
   // console.log('participantList: ', jamData.participantList);
   // console.log('currentUser.nickname: ', currentUser.nickname);
   // console.log('isJoiner: ', isJoiner(currentUser)); // 문제 지점
   // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
+  console.log('isJoiner: ', isJoiner);
+  console.log('joiner: ', joiner);
   // console.log('확인: ', isJoiner !== currentUser.nickname);
   // console.log(
   //   '확인',
@@ -337,7 +351,8 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
         </div>
       </div>
       {/* 참여했거나 스터디 개설자와 로그인유저가 같으면 렌더  */}
-      {(isJoiner(currentUser) || nickname === currentUser.nickname) && (
+      {/* {(isJoiner(currentUser) || nickname === currentUser.nickname) && ( */}
+      {(isJoiner || nickname === currentUser.nickname) && (
         <>
           <div css={AvatarContainer}>
             <FaUserCircle size={25} />
@@ -367,7 +382,8 @@ const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
           {/* { 로그인 유저가 participantList에 있는지로 수정 예정 ( */}
           {/* {isJoiner(currentUser)} */}
           {/* {isJoiner(currentUser) !== currentUser.nickname ? ( */}
-          {!isJoiner(currentUser) ? (
+          {/* {!isJoiner(currentUser) ? ( */}
+          {!isJoiner ? (
             <button type="button" css={RegisterButton} onClick={handleJoin}>
               참여하기
             </button>

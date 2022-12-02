@@ -84,7 +84,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const nextId = useRef(0);
 
   const [jamData, setJamData] = useState([]);
-  const [isComplete, setIsComplete] = useState(); // 추가
+  const [isComplete, setIsComplete] = useState('');
+  const [joiner, setJoiner] = useState([]);
 
   const { id } = useParams();
 
@@ -96,7 +97,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
       .then(res => {
         // console.log('res.data: ', res.data);
         setJamData({ ...res.data });
-        setIsComplete({ ...res.data }.completeStatus); // 추가
+        setIsComplete({ ...res.data }.completeStatus);
+        setJoiner({ ...res.data }.participantList);
       })
       .catch(error => {
         console.log(error.message);
@@ -154,6 +156,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   //   setComments(comments.filter(comment => !comment.responseTo));
   // }, [comments]);
 
+  console.log('joiner: ', joiner);
+
   return (
     <div css={MergeContainer}>
       <Sidebar />
@@ -188,8 +192,10 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
         </div>
         <JamSideBar
           jamData={jamData}
-          isComplete={isComplete} // 추가
-          setIsComplete={setIsComplete} // 추가
+          isComplete={isComplete}
+          setIsComplete={setIsComplete}
+          joiner={joiner}
+          setJoiner={setJoiner}
         />
       </main>
     </div>
