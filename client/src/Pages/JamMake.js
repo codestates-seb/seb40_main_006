@@ -335,12 +335,6 @@ const JamMake = ({ isEdit }) => {
     });
   }, []);
 
-  // console.log('jamDataaaa: ', jamData);
-
-  // setLocationText(jamData.location);
-  // setPeriod([new Date(jamFrom), new Date(jamTo)]);
-  console.log('image in JamMake: ', image);
-
   const handleChatLink = e => {
     setChatLink(e.target.value);
   };
