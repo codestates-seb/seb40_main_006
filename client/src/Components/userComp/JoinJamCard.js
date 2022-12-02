@@ -1,16 +1,24 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 import React from 'react';
 import { Card, CardMedia, CardActions, Button } from '@mui/material/';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { myPageInfoState } from '../../Atom/atoms';
 import jamElapsedTime from './JamElapsedTime';
 
-const JoinJamCard = () => {
+const JoinJamCard = ({ jamId }) => {
   const jamInfo = useRecoilState(myPageInfoState);
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    navigate(`/jamdetail/${jamId}`);
+  };
 
   return (
-    <div className="jamContainer">
+    <div className="jamContainer" onClick={clickHandler}>
       <Card className="card">
         <CardMedia
           component="img"

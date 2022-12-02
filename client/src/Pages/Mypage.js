@@ -33,6 +33,7 @@ const userJamInfo = css`
   }
   .jamContainer {
     height: 100px;
+    cursor: pointer;
   }
   .card {
     width: 390px;
@@ -87,7 +88,7 @@ const Mypage = () => {
         },
       })
       .then(res => {
-        console.log(res.data.data.grade);
+        console.log(res.data);
         setUser({
           memberId: res.data.data.memberId,
           img: res.data.data.profileImage,

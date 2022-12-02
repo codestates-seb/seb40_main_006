@@ -12,7 +12,7 @@ const OpenJams = () => {
       개설한 잼
       {userInfo.createJamList.map(jam => (
         <Grid item key={jam}>
-          <OpenJamCard />
+          <OpenJamCard jamId={jam.jamId} />
         </Grid>
       ))}
     </div>
