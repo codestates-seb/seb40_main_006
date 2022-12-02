@@ -44,10 +44,16 @@ export default function ForgetPassword() {
       setError('이름과 이메일을 전부 입력해주세요.');
     } else {
       setError('');
-      axios.post('user/password', userInput).then(() => {
-        alert('제출 완료되었습니다.');
-        setOpen(false);
-      });
+      axios
+        .post('/user/findpassword/send', {
+          email: userInput.email,
+          nickname: userInput.name,
+        })
+        .then(res => {
+          console.log(res);
+          alert('제출 완료되었습니다.');
+          setOpen(false);
+        });
     }
   };
 
