@@ -84,15 +84,23 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const nextId = useRef(0);
 
   const [jamData, setJamData] = useState([]);
+  const [isComplete, setIsComplete] = useState(); // 추가
 
   const { id } = useParams();
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios.get(`/jams/${id}`).then(res => {
-      setJamData({ ...res.data });
-    });
+    await axios
+      .get(`/jams/${id}`)
+      .then(res => {
+        // console.log('res.data: ', res.data);
+        setJamData({ ...res.data });
+        setIsComplete({ ...res.data }.completeStatus); // 추가
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
   };
 
   useEffect(() => {
@@ -178,7 +186,11 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
             </div>
           </div>
         </div>
-        <JamSideBar host={host} loginUser={loginUser} jamData={jamData} />
+        <JamSideBar
+          jamData={jamData}
+          isComplete={isComplete} // 추가
+          setIsComplete={setIsComplete} // 추가
+        />
       </main>
     </div>
   );

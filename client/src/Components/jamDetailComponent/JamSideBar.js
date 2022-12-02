@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
@@ -116,12 +116,12 @@ const CancleButton = css`
   }
 `;
 
-const JamSideBar = ({ host, loginUser, jamData }) => {
-  const [isRegisterd, setIsRegistered] = useState(false);
+// eslint-disable-next-line no-unused-vars
+const JamSideBar = ({ jamData, isComplete, setIsComplete }) => {
+  // const [isJoin, setIsJoin] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [isClosed, setIsClosed] = useState(false);
-  const [jamCompleteStatus, setJamCompleteStatus] = useState('FALSE');
-  const [user] = useRecoilState(loginUserInfoState);
+  const [isJoin, setIsJoin] = useState(false);
+  const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -138,10 +138,21 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     category,
     // completeStatus,
     openChatLink,
-    // participantList,
+    participantList,
   } = jamData;
 
   const filteredCategory = categories.filter(el => el.value === category)[0];
+
+  // 로그인 유저가 잼에 참여한 리스트에 있는지 확인
+  // 리턴값 true => 참여한 상태 => 참여취소 버튼 렌더
+  // 리턴값 false => 미참여 상태 => 참여하기 버튼 렌더
+  const isJoiner = user => {
+    // eslint-disable-next-line no-unused-expressions
+    return (
+      jamData.participantList &&
+      participantList.filter(el => el.nickname === user.nickname).length === 1
+    );
+  };
 
   const handleClose = async () => {
     // eslint-disable-next-line no-restricted-globals
@@ -154,26 +165,28 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     }
 
     if (confirmData && accessToken) {
-      await axios
-        .post(
-          `/jams/${id}/complete/true`,
-          {},
-          {
-            headers: {
-              // 'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
+      if (accessToken) {
+        await axios
+          .post(
+            `/jams/${id}/complete/true`,
+            {},
+            {
+              headers: {
+                // 'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+              },
             },
-          },
-        )
-        .then(res => {
-          console.log('res.status: ', res.status);
-          if (res.status === 200) {
-            setJamCompleteStatus('TRUE');
-          }
-        })
-        .catch(error => {
-          console.log(error.message);
-        });
+          )
+          .then(res => {
+            console.log('res.status: ', res.status);
+            if (res.status === 200) {
+              setIsComplete('TRUE');
+            }
+          })
+          .catch(error => {
+            console.log(error.message);
+          });
+      }
     }
   };
 
@@ -197,7 +210,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         .then(res => {
           console.log('res.status: ', res.status);
           if (res.status === 200) {
-            setJamCompleteStatus('FALSE');
+            setIsComplete('FALSE');
           }
         })
         .catch(error => {
@@ -228,14 +241,14 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
       .then(res => {
         console.log('res.status: ', res.status);
         if (res.status === 200) {
-          setIsRegistered(true);
+          setIsJoin(true);
         }
       })
       .catch(error => {
         console.log(error.message);
       });
   };
-  // console.log(isRegisterd);
+
   const handleWithdraw = async () => {
     // eslint-disable-next-line no-restricted-globals, no-alert
     const confirmData = confirm('참여를 취소하시겠습니까?');
@@ -256,7 +269,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         .then(res => {
           console.log('res.status: ', res.status);
           if (res.status === 200) {
-            setIsRegistered(false);
+            setIsJoin(false);
           }
         })
         .catch(error => {
@@ -265,12 +278,23 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
     }
   };
 
-  // useEffect(() => {
-
-  // }, [jamData.completeStatus]);
-
   console.log(jamData);
-  console.log('user.nickname: ', user.nickname);
+  // console.log('completeStatus: ', completeStatus);
+  // console.log('isJoin: ', isJoin);
+  // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
+  // console.log('isComplete: ', isComplete);
+  // console.log('currentUser: ', currentUser);
+  // console.log('participantList: ', jamData.participantList);
+  // console.log('currentUser.nickname: ', currentUser.nickname);
+  // console.log('isJoiner: ', isJoiner(currentUser)); // 문제 지점
+  // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
+  // console.log('확인: ', isJoiner !== currentUser.nickname);
+  // console.log(
+  //   '확인',
+  //   jamData.participantList &&
+  //     participantList.filter(el => el.nickname === currentUser.nickname)[0]
+  //       .nickname,
+  // );
 
   return (
     <div css={JamSideContainer}>
@@ -280,7 +304,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
             <FaUserCircle />
             <span>{nickname}</span>
           </div>
-          {jamCompleteStatus === 'FALSE' ? (
+          {isComplete === 'FALSE' ? (
             <RecruitState state="open" variant="colorJamOpen">
               모집중
             </RecruitState>
@@ -312,7 +336,8 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
           <span>{location}</span>
         </div>
       </div>
-      {(isRegisterd || host === loginUser) && (
+      {/* 참여했거나 스터디 개설자와 로그인유저가 같으면 렌더  */}
+      {(isJoiner(currentUser) || nickname === currentUser.nickname) && (
         <>
           <div css={AvatarContainer}>
             <FaUserCircle size={25} />
@@ -336,10 +361,13 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
           </div>
         </>
       )}
-      {host !== loginUser ? (
+      {/* 스터디 개설 유저가 로그인 유저와 같지 않으면 참여 부분, 같으면 모집 부분 렌더 */}
+      {nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
           {/* { 로그인 유저가 participantList에 있는지로 수정 예정 ( */}
-          {!isRegisterd ? (
+          {/* {isJoiner(currentUser)} */}
+          {/* {isJoiner(currentUser) !== currentUser.nickname ? ( */}
+          {!isJoiner(currentUser) ? (
             <button type="button" css={RegisterButton} onClick={handleJoin}>
               참여하기
             </button>
@@ -355,7 +383,7 @@ const JamSideBar = ({ host, loginUser, jamData }) => {
         </div>
       ) : (
         <div css={ButtonContainer}>
-          {jamCompleteStatus === 'FALSE' ? (
+          {isComplete === 'FALSE' ? (
             <button
               type="button"
               css={[RegisterButton, CloseJamButton]}
