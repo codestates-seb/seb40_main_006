@@ -35,7 +35,7 @@ public class JwtTokenizer {
 //    private int refreshTokenExpirationMinutes;
 
     @Getter
-    private int accessTokenExpirationMinutes = 60 * 60;
+    private int accessTokenExpirationMinutes = 60 * 60 * 24;
 
     @Getter
     private int refreshTokenExpirationMinutes = 60 * 60 * 24 * 30;
