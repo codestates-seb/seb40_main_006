@@ -70,7 +70,7 @@ const UserTitle = () => {
         {!user.img ? (
           <Avatar sx={{ width: 96, height: 96 }} alt="Jaehoon" src={user.img} />
         ) : (
-          <img src={user.img} alt="userimage" />
+          <img src={pageUser.img} alt="이미지를 설정해주세요" />
         )}
         <div className="userTitleInfo">
           <div className="nickname">{pageUser.nickname}</div>
