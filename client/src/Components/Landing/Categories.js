@@ -123,15 +123,10 @@ const images = [
 ];
 
 export default function Categories() {
-  const [category, setCategory] = useRecoilState(selectedCategory);
+  const [, setCategory] = useRecoilState(selectedCategory);
   const handleCategoryClick = title => {
-    console.log(title);
     setCategory(categories.find(el => el.label === title));
   };
-
-  React.useEffect(() => {
-    console.log(category);
-  }, [category]);
 
   return (
     <Container component="section" sx={{ mt: 8, mb: 4 }}>

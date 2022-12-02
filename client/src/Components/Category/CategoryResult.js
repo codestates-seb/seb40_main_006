@@ -58,17 +58,13 @@ const noDataContainer = css`
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
   const searchText = sessionStorage.getItem('searchText');
-  console.log(searchText);
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(currentCategory);
     if (currentCategory.label === '내주변') navigate('/home');
-  }, [currentCategory]);
-  useEffect(() => {
     if (searchText) {
       const Jams = fetchJamSearch(searchText);
       Jams.then(data => {
