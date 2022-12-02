@@ -61,6 +61,13 @@ const rereply = css`
     align-items: center;
     background: white;
     border-radius: 4px;
+    > input {
+      width: 80%;
+      border: none;
+      outline: none;
+      height: 30px;
+      padding: 14px;
+    }
   }
   .content {
     height: 30px;
@@ -86,6 +93,9 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     new Array(jamData.commentList.length).fill([]),
   );
   const [user] = useRecoilState(loginUserInfoState);
+  const [reEdit, setReEdit] = useState(false);
+  const [reEditVal, setReEditVal] = useState('');
+  const [clickIdx, setClickIdx] = useState('');
 
   const reValChange = e => {
     setReVal(e.target.value);
@@ -103,6 +113,10 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
       setReValList([]);
       setReValIdx('');
     }
+  };
+
+  const changeHandler = e => {
+    setReEditVal(e.target.value);
   };
 
   const submitHandler = e => {
@@ -125,13 +139,27 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
 
   const editHandler = (e, idx) => {
     e.preventDefault();
-    console.log(jamData.commentList[btnIdx].replyList[idx]);
+    setClickIdx(idx);
+    setReEdit(!reEdit);
+    if (reEdit) {
+      axios
+        .patch(
+          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          {
+            replyId: jamData.commentList[btnIdx].replyList[idx].replyId,
+            content: reEditVal,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie('accessToken')}`,
+            },
+          },
+        )
+        .then(window.location.reload());
+    }
   };
 
   const deleteHandler = (e, idx) => {
-    console.log(
-      `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
-    );
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
         .delete(
@@ -168,19 +196,38 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
             {reValList[btnIdx]?.map((el, idx) => (
               <div key={el.replyId} className={rereply}>
                 <div className="title">
-                  <UserName name={user.nickname} id={user.memberId} />
+                  <UserName name={el.nickname} id={user.memberId} />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
                 </div>
                 <div className="container">
-                  <div className="content">{el.content}</div>
-                  <div className="reImg">
-                    <button type="submit" onClick={e => editHandler(e, idx)}>
-                      <img src="../img/edit.png" alt="edit" />
-                    </button>
-                    <button type="button" onClick={e => deleteHandler(e, idx)}>
-                      <img src="../img/delete.png" alt="delete" />
-                    </button>
-                  </div>
+                  {reEdit && idx === clickIdx ? (
+                    <input
+                      type="text"
+                      name="edit"
+                      value={reEditVal}
+                      onChange={e => changeHandler(e)}
+                    />
+                  ) : (
+                    <div className="content">{el.content}</div>
+                  )}
+
+                  {el.nickname === user.nickname && (
+                    <div className="reImg">
+                      <button type="button" onClick={e => editHandler(e, idx)}>
+                        {reEdit && idx === clickIdx ? (
+                          <img src="../img/edit_move.gif" alt="edit" />
+                        ) : (
+                          <img src="../img/edit.png" alt="edit" />
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={e => deleteHandler(e, idx)}
+                      >
+                        <img src="../img/delete.png" alt="delete" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
