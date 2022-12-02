@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/css';
-import { Avatar } from '@mui/material/';
+// import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
 import { loginUserInfoState, myPageInfoState } from '../../Atom/atoms';
 import GiveJam from './GiveJam';
@@ -35,7 +35,8 @@ const userTitleContainer = css`
     font-size: 18px;
   }
   img {
-    width: 18px;
+    width: 100px;
+    border-radius: 100px;
     padding-bottom: 1px;
   }
 `;
@@ -64,11 +65,12 @@ const UserTitle = () => {
   return (
     <div className={userTitle}>
       <div className={userTitleContainer}>
-        <Avatar
+        {/* <Avatar
           sx={{ width: 96, height: 96 }}
           alt="Jaehoon"
           src={pageUser.img}
-        />
+        /> */}
+        <img src={pageUser.img} alt="userimage" />
         <div className="userTitleInfo">
           <div>{pageUser.nickname}</div>
           <div className="userTitleJam">
