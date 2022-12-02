@@ -302,32 +302,33 @@ const JamMake = ({ isEdit }) => {
   };
 
   useEffect(() => {
-    getJamForEdit().then(data => {
-      if (data) {
-        setJamData(data);
-        setCurrentTab(data.realTime);
-        setLocationText(data.location);
-        setTitle(data.title);
-        setCategory(data.category);
-        setCapacity(data.capacity);
+    isEdit &&
+      getJamForEdit().then(data => {
+        if (data) {
+          setJamData(data);
+          setCurrentTab(data.realTime);
+          setLocationText(data.location);
+          setTitle(data.title);
+          setCategory(data.category);
+          setCapacity(data.capacity);
 
-        setLongitude(data.longitude);
-        setLatitude(data.latitude);
-        setAddress(data.address);
-        setPeriod([new Date(data.jamFrom), new Date(data.jamTo)]);
+          setLongitude(data.longitude);
+          setLatitude(data.latitude);
+          setAddress(data.address);
+          setPeriod([new Date(data.jamFrom), new Date(data.jamTo)]);
 
-        setJamTitle(data.title);
-        setJamCategory(data.category);
-        setJamCapacity(data.capacity);
+          setJamTitle(data.title);
+          setJamCategory(data.category);
+          setJamCapacity(data.capacity);
 
-        setDesc(data.content);
-        setChatLink(data.openChatLink);
-        setImage({
-          image_file: '',
-          previewURL: data.image,
-        });
-      }
-    });
+          setDesc(data.content);
+          setChatLink(data.openChatLink);
+          setImage({
+            image_file: '',
+            previewURL: data.image,
+          });
+        }
+      });
   }, []);
 
   const handleChatLink = e => {
