@@ -35,7 +35,7 @@ public class JamParticipantController {
     private final JamService jamService;
 
     /**
-     * JAM-07: Jam 참여
+     * JAM-06: Jam 참여
      * Authorized: USER
      */
     @PostMapping("/true")
@@ -56,7 +56,7 @@ public class JamParticipantController {
     }
 
     /**
-     * JAM-08: Jam 참여 취소
+     * JAM-07: Jam 참여 취소
      * Authorized: USER(Jam Member)
      */
     @DeleteMapping("/false")
