@@ -68,8 +68,8 @@ export default function ForgetPassword() {
         <DialogTitle>비밀번호를 잊으셨나요?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            회원가입시 입력했던 이름과 이메일 주소를 입력하십시오. 정보가 일치할
-            경우, 이메일로 임시 비밀번호가 발급됩니다
+            회원가입시 입력했던 이름과 이메일 주소를 입력해주세요. 정보가 일치할
+            경우, 이메일로 임시 비밀번호가 발급됩니다.
           </DialogContentText>
           <TextField
             autoFocus
