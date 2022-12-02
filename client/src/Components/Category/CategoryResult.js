@@ -6,6 +6,7 @@ import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { fetchJamRead, fetchJamSearch } from '../../Utils/fetchJam';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
@@ -61,7 +62,12 @@ const Category = () => {
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(currentCategory);
+    if (currentCategory.label === '내주변') navigate('/home');
+  }, [currentCategory]);
   useEffect(() => {
     if (searchText) {
       const Jams = fetchJamSearch(searchText);
