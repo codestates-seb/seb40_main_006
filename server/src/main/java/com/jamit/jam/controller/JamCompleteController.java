@@ -24,8 +24,8 @@ public class JamCompleteController {
     private final JamCompleteService jamCompleteService;
 
     /**
-     * JAM-10: Jam 모집 완료
-     * Authorized:
+     * JAM-09: Jam 모집 완료
+     * Authorized: USER(Writer)
      */
     @PostMapping("/true")
     public ResponseEntity postComplete(Authentication authentication,
@@ -41,7 +41,7 @@ public class JamCompleteController {
 
     /**
      * JAM-10: Jam 모집 완료 취소
-     * Authorized:
+     * Authorized: USER(Writer)
      */
     @DeleteMapping("/false")
     public ResponseEntity deleteComplete(Authentication authentication,
