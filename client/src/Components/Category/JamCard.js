@@ -90,6 +90,18 @@ const JamCard = ({ jam }) => {
   const handleCardClick = jamId => {
     navigate(`/jamdetail/${jamId}`);
   };
+
+  // createdAt을 UTC기준시로부터 한국시간으로(9시간이후) 맞춰주는 작업
+  const years = new Date(jam.createdAt).getFullYear();
+  const months = new Date(jam.createdAt).getMonth() + 1;
+  const dates = new Date(jam.createdAt).getDate();
+  const hours = new Date(jam.createdAt).getHours() + 9;
+  const minutes = new Date(jam.createdAt).getMinutes();
+  const seconds = new Date(jam.createdAt).getSeconds();
+  const newDate = new Date(
+    `${years}-${months}-${dates} ${hours}:${minutes}:${seconds}`,
+  );
+
   return (
     <div className={box} onClick={() => handleCardClick(jam.jamId)}>
       <div className={coverImage} />
@@ -107,7 +119,8 @@ const JamCard = ({ jam }) => {
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              <p>{jamElapsedTime(jam.createdAt)}</p>
+              {/* <p>{jamElapsedTime(jam.createdAt)}</p> */}
+              <p>{jamElapsedTime(newDate)}</p>
             </div>
             <div>
               <BsPeopleFill />
