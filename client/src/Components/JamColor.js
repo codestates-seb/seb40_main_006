@@ -1,7 +1,5 @@
 import { css } from '@emotion/css';
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { loginUserInfoState } from '../Atom/atoms';
 
 const imgColor = css`
   .grade0 {
@@ -30,13 +28,15 @@ const imgColor = css`
   }
 `;
 
-const JamColor = () => {
-  const [user] = useRecoilState(loginUserInfoState);
-  const grade = Math.floor(user.grade);
+// eslint-disable-next-line react/prop-types
+const JamColor = ({ color }) => {
+  // const [user] = useRecoilState(loginUserInfoState);
+  // const [user] = useRecoilState(myPageInfoState);
+  // const grade = Math.floor(user.grade);
 
   return (
     <div className={imgColor}>
-      <img src="../img/jam.png" alt="jam" className={`grade${grade}`} />
+      <img src="../img/jam.png" alt="jam" className={`grade${color}`} />
     </div>
   );
 };

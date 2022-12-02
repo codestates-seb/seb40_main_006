@@ -26,7 +26,7 @@ const UserName = props => {
     <Link to={`/mypage/${props.id}`} className={userName}>
       <FaUserCircle size={15} />
       {props.name}
-      <JamColor />
+      <JamColor color={props.grade} />
     </Link>
   );
 };

@@ -23,9 +23,12 @@ const userTitleContainer = css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
     gap: 10px;
     font-size: 18px;
+    > .nickname {
+      margin-left: 3px;
+    }
   }
   .userTitleJam {
     display: flex;
@@ -70,11 +73,11 @@ const UserTitle = () => {
           src={pageUser.img}
         />
         <div className="userTitleInfo">
-          <div>{pageUser.nickname}</div>
+          <div className="nickname">{pageUser.nickname}</div>
           <div className="userTitleJam">
-            <JamColor />
+            <JamColor color={pageUser.grade} />
             <div>{pageUser.grade}</div>
-            <div>{`(${pageUser.평가수})`}</div>
+            <div>{`(${pageUser.gradeCount})`}</div>
           </div>
         </div>
       </div>

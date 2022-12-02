@@ -28,6 +28,15 @@ const loginUserInfoState = atom({
     nickname: '',
     img: '',
     grade: '',
+    gradeCount: '',
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
+const jamGradeState = atom({
+  key: 'jamGrade',
+  default: {
+    name: '',
   },
   effects_UNSTABLE: [persistAtom],
 });
@@ -87,4 +96,5 @@ export {
   isLoginState,
   loginUserInfoState,
   myPageInfoState,
+  jamGradeState,
 };

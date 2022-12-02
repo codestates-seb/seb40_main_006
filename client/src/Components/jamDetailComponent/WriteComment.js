@@ -62,7 +62,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
             <AiOutlineTwitter size={16} />
           </div>
         </ThemeProvider> */}
-        <UserName name={user.nickname} id={user.memberId} />
+        <UserName name={user.nickname} id={user.memberId} grade={user.grade} />
       </div>
       <div css={InputBox}>
         <Box

@@ -75,7 +75,7 @@ const userJamInfo = css`
 `;
 
 const Mypage = () => {
-  const [user, setUser] = useRecoilState(myPageInfoState);
+  const [, setUser] = useRecoilState(myPageInfoState);
   const location = useLocation().pathname.slice(8);
 
   const accessToken = getCookie('is_login');
@@ -87,19 +87,16 @@ const Mypage = () => {
         },
       })
       .then(res => {
-        console.log(res.data);
+        console.log(res.data.data.grade);
         setUser({
           memberId: res.data.data.memberId,
           img: res.data.data.profileImage,
           nickname: res.data.data.nickname,
-          grade: user.grade,
-          평가수: user.평가수,
+          grade: res.data.data.grade,
+          gradeCount: res.data.data.gradeCount,
           joinJamList: res.data.data.joinJams,
           createJamList: res.data.data.createJams,
         });
-      })
-      .catch(err => {
-        console.log(err);
       });
   }, []);
 
