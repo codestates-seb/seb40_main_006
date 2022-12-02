@@ -6,6 +6,7 @@ import com.jamit.global.audit.Auditable;
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
 import com.jamit.reply.entity.Reply;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Member extends Auditable{
+public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +76,9 @@ public class Member extends Auditable{
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Grade> gradeList = new ArrayList<>();
 
     public Member(String email, String nickname, String password) {
         this.email = email;

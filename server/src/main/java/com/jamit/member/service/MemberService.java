@@ -3,14 +3,17 @@ package com.jamit.member.service;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.dto.GradePostDto;
+import com.jamit.member.entity.Grade;
 import com.jamit.member.entity.Member;
 import com.jamit.member.entity.Role;
+import com.jamit.member.repository.GradeRepository;
 import com.jamit.member.repository.MemberRepository;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import javax.mail.internet.MimeMessage;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final GradeRepository gradeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSenderImpl mailSender;
 
@@ -46,11 +50,11 @@ public class MemberService {
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMemberByMemberId(member.getMemberId());
         Optional.ofNullable(member.getNickname())
-            .ifPresent(nickname -> findMember.setNickname(nickname));
+                .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getPassword())
-            .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
         Optional.ofNullable(member.getProfileImage())
-            .ifPresent(image -> findMember.setProfileImage(image));
+                .ifPresent(image -> findMember.setProfileImage(image));
 
         return memberRepository.save(findMember);
     }
@@ -61,7 +65,7 @@ public class MemberService {
     public Member findVerifiedMemberByMemberId(Long MemberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(MemberId);
         Member findMember = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
     }
 
@@ -72,7 +76,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
 
         Member existsNickname = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return existsNickname;
     }
@@ -84,7 +88,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         Member findMember = optionalMember.orElseThrow(
-            () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return findMember;
     }
@@ -94,8 +98,8 @@ public class MemberService {
      */
     public Member findPassword(String email, String nickname) {
         Member findMember = memberRepository.findByEmailAndNickname(email, nickname)
-            .orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.INVALID_AUTHCODE));
+                .orElseThrow(
+                        () -> new BusinessLogicException(ExceptionCode.INVALID_AUTHCODE));
 
         return findMember;
     }
@@ -110,11 +114,11 @@ public class MemberService {
 
         String title = "Jam it 임시 비밀번호 입니다.";
         String content =
-            "<h1> Jam it 임시 비밀번호입니다. </h1>" +
-                "<br>" +
-                "임시 비밀번호: " + tempPassword +
-                "<br>" +
-                "임시 비밀번호로 로그인 후 비밀번호를 변경해주세요.";
+                "<h1> Jam it 임시 비밀번호입니다. </h1>" +
+                        "<br>" +
+                        "임시 비밀번호: " + tempPassword +
+                        "<br>" +
+                        "임시 비밀번호로 로그인 후 비밀번호를 변경해주세요.";
 
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -157,7 +161,7 @@ public class MemberService {
     /*
      * 유저 평점 주기
      * */
-    public void giveGrades(GradePostDto grade, Long memberId, Long loggedOnId) {
+    /*public void giveGrades(GradePostDto grade, Long memberId, Long loggedOnId) {
 
         Member verifiedMember = findVerifiedMemberByMemberId(memberId);
 
@@ -181,5 +185,40 @@ public class MemberService {
             verifiedMember.setGradeCount(gradeCount + 1);
             memberRepository.save(verifiedMember);
         }
+    }*/
+
+    public void giveGrades(GradePostDto gradePostDto, Long memberId, Long loggedOnId) {
+
+        Member verifiedMember = findVerifiedMemberByMemberId(memberId);
+        Optional<Grade> optionalGrade = gradeRepository.findByGaveGradeIdAndMember_MemberId(loggedOnId, memberId);
+        Grade grade = optionalGrade.orElse(new Grade());
+
+        System.out.println("멤버 아이디 : " + verifiedMember.getMemberId());
+        System.out.println("현재 로그인한 아이디 : " + loggedOnId);
+
+        if (Objects.equals(memberId, loggedOnId)) {     // 로그인한 아이디랑 마이페이지 주인이랑 같은 사람이면 -> 근데 애초에 프론트 단에서 잼 주기 버튼 안 보임
+            throw new BusinessLogicException(ExceptionCode.CAN_NOT_GRADE);
+        }
+
+        int gradeCount = verifiedMember.getGradeCount();
+        double currentGrade = verifiedMember.getGrade();
+        double updateGrade;
+
+        if (optionalGrade.isPresent()) {
+            updateGrade = (((double) gradeCount * currentGrade) + gradePostDto.getGrade()) / (double) (gradeCount + 1);
+        } else {
+            updateGrade = gradePostDto.getGrade();
+        }
+
+        grade.setMember(verifiedMember);
+        grade.setGaveGradeId(loggedOnId);
+
+        verifiedMember.setGradeCount(gradeCount + 1);
+        verifiedMember.setGrade((double) Math.round(updateGrade));
+
+        gradeRepository.save(grade);
+        memberRepository.save(verifiedMember);
+
     }
+
 }
