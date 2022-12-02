@@ -79,16 +79,15 @@ const Mypage = () => {
   const [, setUser] = useRecoilState(myPageInfoState);
   const location = useLocation().pathname.slice(8);
 
-  const accessToken = getCookie('is_login');
+  const accessToken = getCookie('accessToken');
   useEffect(() => {
     axios
       .get(`/user/profile/${location}`, {
         headers: {
-          Authorization: `${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then(res => {
-        console.log(res.data);
         setUser({
           memberId: res.data.data.memberId,
           img: res.data.data.profileImage,
