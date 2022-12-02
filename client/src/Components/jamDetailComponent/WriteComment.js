@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
 // import Button from '../Button';
 import UserName from '../userComp/UserName';
-import { loginUserInfoState } from '../../Atom/atoms';
+import { imgUrlState, loginUserInfoState } from '../../Atom/atoms';
 
 // import { FaUserCircle } from 'react-icons/fa';
 // import { AiOutlineTwitter } from 'react-icons/ai';
@@ -45,6 +45,7 @@ const RegisterComment = css`
 
 const WriteComment = ({ text, setText, handleSubmit }) => {
   const [user] = useRecoilState(loginUserInfoState);
+  const [imgUrl] = useRecoilState(imgUrlState);
 
   const handleTextChange = e => {
     setText(e.target.value);
@@ -62,7 +63,12 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
             <AiOutlineTwitter size={16} />
           </div>
         </ThemeProvider> */}
-        <UserName name={user.nickname} id={user.memberId} grade={user.grade} />
+        <UserName
+          name={user.nickname}
+          id={user.memberId}
+          grade={user.grade}
+          img={imgUrl[user.nickname]}
+        />
       </div>
       <div css={InputBox}>
         <Box

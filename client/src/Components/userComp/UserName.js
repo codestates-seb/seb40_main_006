@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { css } from '@emotion/css';
-import { FaUserCircle } from 'react-icons/fa';
+// import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import JamColor from '../JamColor';
 
@@ -24,7 +24,8 @@ const userName = css`
 const UserName = props => {
   return (
     <Link to={`/mypage/${props.id}`} className={userName}>
-      <FaUserCircle size={15} />
+      {/* <FaUserCircle size={15} /> */}
+      <img src={props.img} alt="img" />
       {props.name}
       <JamColor color={props.grade} />
     </Link>

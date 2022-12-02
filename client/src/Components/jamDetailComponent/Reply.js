@@ -7,7 +7,11 @@ import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
-import { jamGradeState, loginUserInfoState } from '../../Atom/atoms';
+import {
+  imgUrlState,
+  jamGradeState,
+  loginUserInfoState,
+} from '../../Atom/atoms';
 import ReReply from './ReReply';
 
 const replyContainer = css`
@@ -72,11 +76,16 @@ const Reply = ({ replyList, jamData }) => {
   const [user] = useRecoilState(loginUserInfoState);
   const [clickIndex, setClickIndex] = useState('');
   const [grade, setGrade] = useRecoilState(jamGradeState);
+  const [imgUrl, setImgUrl] = useRecoilState(imgUrlState);
 
   useEffect(() => {
     const copy = { ...grade };
     copy[user.nickname] = user.grade;
     setGrade(copy);
+
+    const copy2 = { ...imgUrl };
+    copy2[user.nickname] = user.img;
+    setImgUrl(copy2);
   }, []);
 
   const editHandleChange = e => {
@@ -127,6 +136,7 @@ const Reply = ({ replyList, jamData }) => {
               name={reply.nickname}
               id={reply.memberId}
               grade={grade[reply.nickname]}
+              img={imgUrl[reply.nickname]}
             />
             {console.log(reply.createdAt)}
             <p>{jamElapsedTime(reply.createdAt)}</p>

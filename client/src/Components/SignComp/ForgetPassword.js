@@ -49,10 +49,14 @@ export default function ForgetPassword() {
           email: userInput.email,
           nickname: userInput.name,
         })
-        .then(res => {
-          console.log(res);
+        .then(() => {
           alert('제출 완료되었습니다.');
           setOpen(false);
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            setError('닉네임과 이메일을 확인해주세요');
+          }
         });
     }
   };
@@ -101,7 +105,7 @@ export default function ForgetPassword() {
           <div className={validateText}>{error}</div>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" onClick={clickSubmitHandler}>
+          <Button type="button" onClick={clickSubmitHandler}>
             제출
           </Button>
           <Button onClick={handleClose}>취소</Button>

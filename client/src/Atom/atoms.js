@@ -41,6 +41,14 @@ const jamGradeState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const imgUrlState = atom({
+  key: 'imgUrl',
+  default: {
+    name: '',
+  },
+  effects_UNSTABLE: [persistAtom],
+});
+
 const isLoginState = atom({
   key: 'login',
   default: false,
@@ -97,4 +105,5 @@ export {
   loginUserInfoState,
   myPageInfoState,
   jamGradeState,
+  imgUrlState,
 };
