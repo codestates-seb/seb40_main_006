@@ -40,7 +40,7 @@ public class ReplyController {
 
     /**
      * REPLY-01: Reply 작성
-     * Authorized: USER(Writer)
+     * Authorized: USER
      */
     @PostMapping
     public ResponseEntity postReply(@Positive @PathVariable("comment_id") Long commentId,
