@@ -11,8 +11,8 @@ const JoinJams = () => {
     <div className="container">
       참여한 잼
       {userInfo.joinJamList.map(jam => (
-        <Grid item key={jam}>
-          <JoinJamCard jamId={jam.jamId} />
+        <Grid item key={jam.jamId}>
+          <JoinJamCard jamId={jam.jamId} jam={jam} />
         </Grid>
       ))}
     </div>

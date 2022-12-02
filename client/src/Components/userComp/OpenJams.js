@@ -11,8 +11,8 @@ const OpenJams = () => {
     <div className="container">
       개설한 잼
       {userInfo.createJamList.map(jam => (
-        <Grid item key={jam}>
-          <OpenJamCard jamId={jam.jamId} />
+        <Grid item key={jam.jamId}>
+          <OpenJamCard jamId={jam.jamId} jam={jam} />
         </Grid>
       ))}
     </div>
