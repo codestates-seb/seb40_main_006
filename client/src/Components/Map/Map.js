@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { coordinate, location } from '../../Atom/atoms';
 
 // 33.450701, 126.570667
 const { kakao } = window;
-const Map = () => {
+const Map = ({ jamData }) => {
   // 마곡
   const [latitude] = useState(37.5602098);
   const [longitude] = useState(126.825479);
@@ -22,7 +23,7 @@ const Map = () => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-      level: 3, // 지도 확대 레벨
+      level: 4, // 지도 확대 레벨
     };
 
     const map = new kakao.maps.Map(container, options);
@@ -43,10 +44,6 @@ const Map = () => {
     });
     return map;
   }
-
-  useState(() => {
-    console.log('currentCoordinate', currentCoordinate);
-  }, [currentCoordinate]);
 
   // 키워드 검색 완료 시 호출되는 콜백함수 입니다
   // function placesSearchCB(data, status) {
@@ -70,35 +67,24 @@ const Map = () => {
 
   const MapPin = () => {
     // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
-    const positions = [
-      {
-        content: '<div>마곡</div>',
-        latlng: new kakao.maps.LatLng(37.5602098, 126.825479),
-      },
-      {
-        content: '<div>생태연못</div>',
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477),
-      },
-      {
-        content: '<div>텃밭</div>',
-        latlng: new kakao.maps.LatLng(33.450879, 126.56994),
-      },
-      {
-        content: '<div>근린공원</div>',
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
-      },
-    ];
+    const mapPoints = [];
     const map = getMap();
-    for (let i = 0; i < positions.length; i += 1) {
+    jamData.forEach(jam => {
+      mapPoints.push({
+        content: `<p>${jam.title}</p>`,
+        latlng: new kakao.maps.LatLng(jam.latitude, jam.longitude),
+      });
+    });
+    for (let i = 0; i < mapPoints.length; i += 1) {
       // 마커를 생성합니다
       const marker = new kakao.maps.Marker({
         map, // 마커를 표시할 지도
-        position: positions[i].latlng, // 마커의 위치
+        position: mapPoints[i].latlng, // 마커의 위치
       });
 
       // 마커에 표시할 인포윈도우를 생성합니다
       const infowindow = new kakao.maps.InfoWindow({
-        content: positions[i].content, // 인포윈도우에 표시할 내용
+        content: mapPoints[i].content, // 인포윈도우에 표시할 내용
       });
 
       // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
@@ -122,6 +108,11 @@ const Map = () => {
     // getMap();
     MapPin();
   }, [currentLocation]);
+
+  useState(() => {
+    console.log('currentCoordinate', currentCoordinate);
+    MapPin();
+  }, [currentCoordinate]);
 
   return (
     <div
