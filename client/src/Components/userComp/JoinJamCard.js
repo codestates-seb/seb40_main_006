@@ -6,13 +6,15 @@
 import React from 'react';
 import { Card, CardMedia, CardActions, Button } from '@mui/material/';
 import { useNavigate } from 'react-router-dom';
-import jamElapsedTime from './JamElapsedTime';
+// import jamElapsedTime from './JamElapsedTime';
 
 const JoinJamCard = ({ jamId, jam }) => {
   const navigate = useNavigate();
   const clickHandler = () => {
     navigate(`/jamdetail/${jamId}`);
   };
+
+  console.log(jam);
 
   return (
     <div className="jamContainer" onClick={clickHandler}>
@@ -29,11 +31,14 @@ const JoinJamCard = ({ jamId, jam }) => {
           <div className="info">
             <div>
               <img src="../img/userTime.png" alt="시간" />
-              <span>{jamElapsedTime(jam.createdTime)}</span>
+              {/* <span>{jamElapsedTime(jam.createdTime)}</span> */}
+              <span>{jam.realTime ? '실시간' : '스터디'}</span>
             </div>
             <div>
               <img src="../img/userInitImg.png" alt="모집인원" />
-              <span>{jam.capacity}</span>
+              <span>
+                {jam.currentPpl}/{jam.capacity}
+              </span>
             </div>
             <div>
               <img src="../img/userLocation.png" alt="위치" />
