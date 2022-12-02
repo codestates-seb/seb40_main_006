@@ -8,11 +8,13 @@ import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
 import { ThemeProvider } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { palette } from '../../Styles/theme';
 import JamCarousel from './JamCarousel';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import JamLocationMap from './JamLocationMap';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 const Container = css`
   margin: 0 auto;
@@ -105,12 +107,12 @@ const EditButton = css`
   border-radius: 3px;
 `;
 
-const JamInfo = ({ host, loginUser, setIsEdit, jamData }) => {
+const JamInfo = ({ setIsEdit, jamData }) => {
   // const [filteredCategory, setFilteredCategory] = useState([])
+  const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
   const { id } = useParams();
-  // console.log('id: ', id);
 
   const {
     title,
@@ -136,7 +138,7 @@ const JamInfo = ({ host, loginUser, setIsEdit, jamData }) => {
       <div css={HeaderContainer}>
         <div css={TitleContainer}>
           <h2 css={Title}>{title}</h2>
-          {host === loginUser && (
+          {nickname === currentUser.nickname && (
             <button css={EditButton} type="button" onClick={handleIsEdit}>
               수정
             </button>

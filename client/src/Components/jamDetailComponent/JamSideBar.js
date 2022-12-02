@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React from 'react';
@@ -78,7 +79,19 @@ const EtcInfo = css`
   }
 `;
 
-const AvatarContainer = css``;
+const AvatarContainer = css`
+  width: 100%;
+  height: fit-content;
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+  }
+  /* .imgContainer {
+    display: flex;
+    justify-content: flex;
+  } */
+`;
 
 const ButtonContainer = css`
   width: 100%;
@@ -290,26 +303,6 @@ const JamSideBar = ({
     }
   };
 
-  console.log(jamData);
-  // console.log('completeStatus: ', completeStatus);
-  // console.log('isJoin: ', isJoin);
-  // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
-  // console.log('isComplete: ', isComplete);
-  console.log('currentUser: ', currentUser);
-  // console.log('participantList: ', jamData.participantList);
-  // console.log('currentUser.nickname: ', currentUser.nickname);
-  // console.log('isJoiner: ', isJoiner(currentUser)); // 문제 지점
-  // console.log('isJoiner(currentUser): ', isJoiner(currentUser));
-  console.log('isJoiner: ', isJoiner);
-  console.log('joiner: ', joiner);
-  // console.log('확인: ', isJoiner !== currentUser.nickname);
-  // console.log(
-  //   '확인',
-  //   jamData.participantList &&
-  //     participantList.filter(el => el.nickname === currentUser.nickname)[0]
-  //       .nickname,
-  // );
-
   return (
     <div css={JamSideContainer}>
       <div css={Header}>
@@ -355,6 +348,14 @@ const JamSideBar = ({
       {(isJoiner || nickname === currentUser.nickname) && (
         <>
           <div css={AvatarContainer}>
+            {jamData &&
+              jamData.participantList.map(el => {
+                return (
+                  <div key={el.memberId} className="imgContainer">
+                    <img src={el.image} alt={el.nickname} />
+                  </div>
+                );
+              })}
             <FaUserCircle size={25} />
             <FaUserCircle size={25} />
             <FaUserCircle size={25} />
@@ -379,10 +380,6 @@ const JamSideBar = ({
       {/* 스터디 개설 유저가 로그인 유저와 같지 않으면 참여 부분, 같으면 모집 부분 렌더 */}
       {nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
-          {/* { 로그인 유저가 participantList에 있는지로 수정 예정 ( */}
-          {/* {isJoiner(currentUser)} */}
-          {/* {isJoiner(currentUser) !== currentUser.nickname ? ( */}
-          {/* {!isJoiner(currentUser) ? ( */}
           {!isJoiner ? (
             <button type="button" css={RegisterButton} onClick={handleJoin}>
               참여하기
