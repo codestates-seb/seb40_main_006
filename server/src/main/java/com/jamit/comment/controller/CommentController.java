@@ -37,7 +37,7 @@ public class CommentController {
 
     /**
      * COMMENT-01: Comment 작성
-     * Authorized:
+     * Authorized: USER
      */
     @PostMapping
     public ResponseEntity postComment(@Positive @PathVariable("jam_id") Long jamId,
