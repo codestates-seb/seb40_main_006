@@ -128,6 +128,7 @@ const Reply = ({ replyList, jamData }) => {
               id={reply.memberId}
               grade={grade[reply.nickname]}
             />
+            {console.log(reply.createdAt)}
             <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>

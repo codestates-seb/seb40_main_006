@@ -203,7 +203,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                 <div className="title">
                   <UserName
                     name={el.nickname}
-                    id={user.memberId}
+                    id={el.memberId}
                     grade={grade[el.nickname]}
                   />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
