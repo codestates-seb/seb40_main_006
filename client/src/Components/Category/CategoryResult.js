@@ -6,7 +6,7 @@ import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { fetchJamRead } from '../../Utils/fetchJam';
+import { fetchJamRead, fetchJamSearch } from '../../Utils/fetchJam';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
 import JamCard from './JamCard';
@@ -56,20 +56,30 @@ const noDataContainer = css`
 `;
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
+  const searchText = sessionStorage.getItem('searchText');
+  console.log(searchText);
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
+
   useEffect(() => {
-    const endpoint =
-      currentCategory.label === '전체'
-        ? '/jams'
-        : `/jams/category?category=${currentCategory.param}&page=1&size=5`;
-    const Jams = fetchJamRead(endpoint);
-    Jams.then(data => {
-      setJamData(data.content);
-      setFilteredData(data.content);
-      console.log(data.content);
-    });
+    if (searchText) {
+      const Jams = fetchJamSearch(searchText);
+      Jams.then(data => {
+        setJamData(data.content);
+        setFilteredData(data.content);
+      });
+    } else {
+      const endpoint =
+        currentCategory.label === '전체'
+          ? '/jams'
+          : `/jams/category?category=${currentCategory.param}&page=1&size=5`;
+      const searchJams = fetchJamRead(endpoint);
+      searchJams.then(data => {
+        setJamData(data.content);
+        setFilteredData(data.content);
+      });
+    }
   }, [currentCategory]);
 
   const handleFilterClick = (_, label) => {

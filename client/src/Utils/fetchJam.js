@@ -16,4 +16,18 @@ export const fetchJamRead = async endPoint => {
     });
 };
 
-export default fetchJamRead;
+export const fetchJamSearch = async param => {
+  return axios({
+    method: 'get',
+    url: `${BASE_URL}/jams/search?keyword=${param}`,
+  })
+    .then(res => {
+      if (!res.ok) {
+        // console.log(res);
+      }
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};

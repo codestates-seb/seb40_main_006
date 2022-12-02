@@ -3,7 +3,8 @@ import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
@@ -104,15 +105,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// const [searchText, setSearchText] = useState('');
-const handleSearch = e => {
-  console.log(e.target.value);
-  // setSearchText(e.target.value);
-  // console.log(searchText);
-};
 const SearchBar = () => {
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState('');
+  const handleSearch = e => {
+    // console.log(e.target.value);
+    setSearchText(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    sessionStorage.setItem('searchText', searchText);
+    navigate('/category');
+  };
   return (
-    <form className={searchBar}>
+    <form className={searchBar} onSubmit={handleSubmit}>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
