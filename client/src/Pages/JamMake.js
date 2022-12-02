@@ -172,6 +172,10 @@ const JamMake = ({ isEdit }) => {
   const [currentTab, setCurrentTab] = useState(false);
   // const [isCreated, setIsCreated] = useState(false);
 
+  // const [image, setImage] = useState({
+  //   image_file: '',
+  //   previewURL: null,
+  // });
   const [image, setImage] = useState({
     image_file: '',
     previewURL: null,
@@ -335,6 +339,7 @@ const JamMake = ({ isEdit }) => {
 
   // setLocationText(jamData.location);
   // setPeriod([new Date(jamFrom), new Date(jamTo)]);
+  console.log('image in JamMake: ', image);
 
   const handleChatLink = e => {
     setChatLink(e.target.value);
