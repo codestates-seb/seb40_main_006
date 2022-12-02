@@ -78,7 +78,7 @@ const Home = () => {
         </h1>
         <div className={mainArea}>
           <div className={map}>
-            <Map />
+            <Map jamData={jamData} />
           </div>
           {jamData.length ? (
             <div className={list}>
