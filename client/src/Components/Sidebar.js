@@ -52,6 +52,7 @@ const Sidebar = () => {
       categories.filter(el => el.label === e.target.innerText)[0],
     );
     navigate('/category');
+    sessionStorage.clear();
   };
 
   useEffect(() => {

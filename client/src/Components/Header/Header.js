@@ -128,6 +128,7 @@ const SearchBar = () => {
           // value={searchText}
           placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
+          onClick={() => sessionStorage.clear()}
         />
       </Search>
     </form>
@@ -175,7 +176,7 @@ const Header = () => {
   return (
     <div className={headerBox}>
       <div className={header}>
-        <Link to="/">
+        <Link to="/" onClick={() => sessionStorage.clear}>
           <img className={logo} alt="logo_jamit" src={logoImage} />
         </Link>
         <AddressDialog />
