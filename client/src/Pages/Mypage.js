@@ -88,7 +88,6 @@ const Mypage = () => {
         },
       })
       .then(res => {
-        console.log(res.data);
         setUser({
           memberId: res.data.data.memberId,
           img: res.data.data.profileImage,

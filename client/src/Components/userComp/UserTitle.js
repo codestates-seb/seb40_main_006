@@ -23,7 +23,6 @@ const userTitleContainer = css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // align-items: center;
     gap: 10px;
     font-size: 18px;
     > .nickname {
@@ -64,8 +63,6 @@ const userGiveJam = css`
 const UserTitle = () => {
   const [pageUser] = useRecoilState(myPageInfoState);
   const [user] = useRecoilState(loginUserInfoState);
-
-  console.log('user', user);
 
   return (
     <div className={userTitle}>

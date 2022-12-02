@@ -8,7 +8,7 @@ import JamColor from '../JamColor';
 
 const userName = css`
   display: flex;
-  // align-items: center;
+  align-items: center;
   gap: 5px;
   height: 20px;
   padding: 3px;
