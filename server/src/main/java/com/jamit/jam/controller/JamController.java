@@ -45,7 +45,7 @@ public class JamController {
 
 
     /**
-     * JAM-01: Jam 생성
+     * JAM-01: Jam 작성
      * Authorized: USER
      */
     @PostMapping("/write")
