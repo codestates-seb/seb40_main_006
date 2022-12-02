@@ -174,7 +174,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 jamData={jamData}
               />
               {/* 댓글 */}
-              <Reply replyList={jamData.commentList} />
+              <Reply replyList={jamData.commentList} jamData={jamData} />
             </div>
           </div>
         </div>

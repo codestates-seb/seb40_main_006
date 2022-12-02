@@ -40,7 +40,7 @@ const replyContent = css`
     margin-right: 5px;
     img {
       width: 15px;
-      margin-right: 7px;
+      margin-right: 10px;
       cursor: pointer;
     }
   }
@@ -65,7 +65,7 @@ const editForm = css`
   }
 `;
 
-const Reply = ({ replyList }) => {
+const Reply = ({ replyList, jamData }) => {
   // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -153,7 +153,16 @@ const Reply = ({ replyList }) => {
               </div>
             )}
           </div>
-          {isRe && <ReReply Re={Re} openRe={openRe} setOpenRe={setOpenRe} />}
+          {isRe && (
+            <ReReply
+              Re={Re}
+              openRe={openRe}
+              setOpenRe={setOpenRe}
+              jamData={jamData}
+              commentId={reply.commentId}
+              btnIdx={idx}
+            />
+          )}
         </div>
       ))}
     </div>
