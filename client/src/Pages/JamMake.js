@@ -44,12 +44,7 @@ const Header = css`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5px;
-`;
-
-const HeaderText = css`
-  font-size: 15px;
-  padding: 10px 0;
-  margin-left: 5px;
+  margin-top: 10px;
 `;
 
 const HeaderTap = css`
@@ -344,7 +339,6 @@ const JamMake = ({ isEdit }) => {
       <Sidebar />
       <div css={Container}>
         <header css={Header}>
-          <div css={HeaderText}>카테고리 &gt; 요리</div>
           <div css={HeaderTap}>
             <ThemeProvider theme={palette}>
               <div css={Tapstyle}>
