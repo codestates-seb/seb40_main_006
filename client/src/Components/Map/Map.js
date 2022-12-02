@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { coordinate, location } from '../../Atom/atoms';
 
-// 33.450701, 126.570667
 const { kakao } = window;
 const Map = ({ jamData }) => {
   const container = document.getElementById('map'); // 지도를 표시할 div
@@ -81,7 +80,7 @@ const Map = ({ jamData }) => {
   // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
   jamData.forEach(jam => {
     mapPoints.push({
-      content: `<p>${jam.title}</p>`,
+      content: `<span>${jam.title}</span>`,
       latlng: new kakao.maps.LatLng(jam.latitude, jam.longitude),
     });
   });
@@ -113,13 +112,12 @@ const Map = ({ jamData }) => {
   }
 
   useEffect(() => {
-    console.log(currentLocation);
     searchLocation();
   }, [currentLocation]);
 
-  useEffect(() => {
-    console.log(currentCoordinate);
-  }, [currentCoordinate]);
+  // useEffect(() => {
+  //   console.log(currentCoordinate);
+  // }, [currentCoordinate]);
   return (
     <div
       id="map"
