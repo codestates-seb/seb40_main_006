@@ -129,6 +129,13 @@ const Uploader = ({ image, setImage }) => {
       });
   };
 
+  const deleteImage = () => {
+    setImage({
+      image_file: '',
+      previewURL: null,
+    });
+  };
+
   // setImage(() => ({
   //   image_file: e.target.files[0],
   // }));
@@ -237,7 +244,7 @@ const Uploader = ({ image, setImage }) => {
   //   alert('사진을 등록하세요!');
   // };
 
-  console.log('image: ', image);
+  // console.log('image: ', image);
   // console.log('profileFile: ', profileFile);
 
   return (
@@ -278,9 +285,9 @@ const Uploader = ({ image, setImage }) => {
         >
           미리보기
         </Button>
-        {/* <Button color="error" variant="contained" onClick={deleteImage}>
-            삭제
-          </Button> */}
+        <Button color="error" variant="contained" onClick={deleteImage}>
+          삭제
+        </Button>
         {/* <Button color="success" variant="contained" onClick={sendImageToServer}>
           업로드
         </Button> */}
