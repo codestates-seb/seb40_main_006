@@ -82,6 +82,7 @@ const EtcInfo = css`
 const AvatarContainer = css`
   width: 100%;
   height: fit-content;
+  display: flex;
   img {
     width: 30px;
     height: 30px;
@@ -352,19 +353,10 @@ const JamSideBar = ({
               jamData.participantList.map(el => {
                 return (
                   <div key={el.memberId} className="imgContainer">
-                    <img src={el.image} alt={el.nickname} />
+                    <img src={el.profileImage} alt={el.nickname} />
                   </div>
                 );
               })}
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
-            <FaUserCircle size={25} />
           </div>
           <div>
             <span>채팅채널</span>
