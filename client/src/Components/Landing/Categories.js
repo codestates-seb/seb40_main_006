@@ -143,30 +143,30 @@ export default function Categories() {
               }}
             />
             <ImageBackdrop className="imageBackdrop" />
-            <Box
-              sx={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'common.white',
-              }}
-            >
-              <Typography
-                component="h5"
-                variant="h6"
-                color="inherit"
-                className="imageTitle"
+            <Link to="/category" style={{ color: 'white' }}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'common.white',
+                }}
               >
-                <Link to="/category" style={{ color: 'white' }}>
+                <Typography
+                  component="h5"
+                  variant="h6"
+                  color="inherit"
+                  className="imageTitle"
+                >
                   {image.title}
-                </Link>
-              </Typography>
-            </Box>
+                </Typography>
+              </Box>
+            </Link>
           </ImageIconButton>
         ))}
       </Box>
