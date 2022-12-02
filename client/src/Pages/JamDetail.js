@@ -84,15 +84,25 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const nextId = useRef(0);
 
   const [jamData, setJamData] = useState([]);
+  const [isComplete, setIsComplete] = useState('');
+  const [joiner, setJoiner] = useState([]);
 
   const { id } = useParams();
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios.get(`/jams/${id}`).then(res => {
-      setJamData({ ...res.data });
-    });
+    await axios
+      .get(`/jams/${id}`)
+      .then(res => {
+        // console.log('res.data: ', res.data);
+        setJamData({ ...res.data });
+        setIsComplete({ ...res.data }.completeStatus);
+        setJoiner({ ...res.data }.participantList);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
   };
 
   useEffect(() => {
@@ -146,6 +156,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   //   setComments(comments.filter(comment => !comment.responseTo));
   // }, [comments]);
 
+  console.log('joiner: ', joiner);
+
   return (
     <div css={MergeContainer}>
       <Sidebar />
@@ -178,7 +190,13 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
             </div>
           </div>
         </div>
-        <JamSideBar host={host} loginUser={loginUser} jamData={jamData} />
+        <JamSideBar
+          jamData={jamData}
+          isComplete={isComplete}
+          setIsComplete={setIsComplete}
+          joiner={joiner}
+          setJoiner={setJoiner}
+        />
       </main>
     </div>
   );

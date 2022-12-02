@@ -42,7 +42,7 @@ const SliderStyle = styled(Slider)`
   }
   .slick-slide img {
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     object-fit: cover;
   }
   .slick-dots {
@@ -124,7 +124,7 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
 );
 
 const JamCarousel = ({ jamData }) => {
-  const { content } = jamData;
+  const { content, image } = jamData;
 
   const settings = {
     dots: true,
@@ -145,10 +145,7 @@ const JamCarousel = ({ jamData }) => {
           <span>{content}</span>
         </div>
         <div>
-          <img
-            src="https://cdn.pixabay.com/photo/2022/10/21/08/39/cat-7536508__340.jpg"
-            alt="cat"
-          />
+          <img src={image} alt="studyimage" />
         </div>
         {/* <div>
           <img
