@@ -12,19 +12,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class JamitApplication extends SpringBootServletInitializer {
 
-  public static void main(String[] args) {
-        new SpringApplicationBuilder(JamitApplication.class)
-            .properties(APPLICATION_LOCATIONS)
-            .run(args);
+    public static void main(String[] args) {
+        SpringApplication.run(JamitApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(JamitApplication.class);
     }
-
-    public static final String APPLICATION_LOCATIONS = "spring.config.location="
-        + "classpath:application.yml,"
-        + "classpath:aws.yml";
-
 }
