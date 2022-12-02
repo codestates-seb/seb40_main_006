@@ -7,7 +7,11 @@ import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
+<<<<<<< HEAD
 import { jamGradeState, loginUserInfoState } from '../../Atom/atoms';
+=======
+import { loginUserInfoState } from '../../Atom/atoms';
+>>>>>>> 35f66e9ebbb678c291268fa7a58f1343057dd646
 import ReReply from './ReReply';
 
 const replyContainer = css`

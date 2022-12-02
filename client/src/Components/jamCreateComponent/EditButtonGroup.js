@@ -115,7 +115,7 @@ const EditButtonGroup = ({ patchData }) => {
         <button
           css={[CancleEdit, FinishEdit]}
           type="button"
-          form="makeStudy"
+          // form="makeStudy"
           onClick={handleEdit}
         >
           수정완료

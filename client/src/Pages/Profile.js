@@ -74,6 +74,8 @@ const validateText = css`
   min-width: 300px;
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const Profile = () => {
   const [image, setImage] = useState({
     image_file: '',
@@ -128,7 +130,8 @@ const Profile = () => {
           {
             nickname: userInput.nickname,
             password: userInput.password,
-            profileImage: userInput.profileImage,
+            // profileImage: userInput.profileImage,
+            profileImage: image.preview_URL,
           },
           {
             headers: {
@@ -151,27 +154,59 @@ const Profile = () => {
     }
   };
 
-  const saveImg = e => {
-    e.preventDefault();
-    const fileReader = new FileReader();
+  // const saveImg = e => {
+  //   e.preventDefault();
+  //   const fileReader = new FileReader();
 
-    if (e.target.files[0]) {
-      fileReader.readAsDataURL(e.target.files[0]);
-    }
-    fileReader.onload = () => {
-      setImage({
-        image_file: e.target.files[0],
-        preview_URL: `${fileReader.result}`,
+  //   if (e.target.files[0]) {
+  //     fileReader.readAsDataURL(e.target.files[0]);
+  //   }
+  //   fileReader.onload = () => {
+  //     setImage({
+  //       image_file: e.target.files[0],
+  //       preview_URL: `${fileReader.result}`,
+  //     });
+  //   };
+  // };
+
+  const saveImg = async e => {
+    e.preventDefault();
+    // eslint-disable-next-line no-shadow
+    // const img = e.target.files[0];
+    // console.log('img', img);
+    // setImage(e.target.files[0]);
+
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+
+    // eslint-disable-next-line no-undef
+    await axios
+      .post(`${BASE_URL}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log('res.data: ', res.data);
+        // setUser(Object.assign(user, { img: res.data }));
+        setUser(prevState => ({ ...prevState, img: res.data }));
+        setImage({ preview_URL: res.data });
+      })
+      .catch(err => {
+        console.log(err.Error);
       });
-    };
   };
 
   const deleteImg = () => {
+    setUser({ img: '' });
     setImage({
       image_file: '',
       preview_URL: '',
     });
   };
+
+  console.log('user: ', user);
+  console.log('userInput: ', userInput);
 
   return (
     <div className={pageContainer}>

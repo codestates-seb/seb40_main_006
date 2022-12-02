@@ -38,7 +38,8 @@ const userTitleContainer = css`
     font-size: 18px;
   }
   img {
-    width: 18px;
+    width: 100px;
+    border-radius: 100px;
     padding-bottom: 1px;
   }
 `;
@@ -64,14 +65,16 @@ const UserTitle = () => {
   const [pageUser] = useRecoilState(myPageInfoState);
   const [user] = useRecoilState(loginUserInfoState);
 
+  console.log('user', user);
+
   return (
     <div className={userTitle}>
       <div className={userTitleContainer}>
-        <Avatar
-          sx={{ width: 96, height: 96 }}
-          alt="Jaehoon"
-          src={pageUser.img}
-        />
+        {!user.img ? (
+          <Avatar sx={{ width: 96, height: 96 }} alt="Jaehoon" src={user.img} />
+        ) : (
+          <img src={user.img} alt="userimage" />
+        )}
         <div className="userTitleInfo">
           <div className="nickname">{pageUser.nickname}</div>
           <div className="userTitleJam">

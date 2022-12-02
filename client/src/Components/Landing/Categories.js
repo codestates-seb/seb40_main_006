@@ -6,7 +6,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Container from '@mui/material/Container';
+import { useRecoilState } from 'recoil';
 import Typography from './Typography';
+import { selectedCategory } from '../../Atom/atoms';
+import categories from '../../Static/categories';
 
 const ImageBackdrop = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -120,6 +123,11 @@ const images = [
 ];
 
 export default function Categories() {
+  const [, setCategory] = useRecoilState(selectedCategory);
+  const handleCategoryClick = title => {
+    setCategory(categories.find(el => el.label === title));
+  };
+
   return (
     <Container component="section" sx={{ mt: 8, mb: 4 }}>
       <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
@@ -129,6 +137,7 @@ export default function Categories() {
             style={{
               width: image.width,
             }}
+            onClick={() => handleCategoryClick(image.title)}
           >
             <Box
               sx={{
@@ -143,30 +152,30 @@ export default function Categories() {
               }}
             />
             <ImageBackdrop className="imageBackdrop" />
-            <Box
-              sx={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'common.white',
-              }}
-            >
-              <Typography
-                component="h5"
-                variant="h6"
-                color="inherit"
-                className="imageTitle"
+            <Link to="/category" style={{ color: 'white' }}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'common.white',
+                }}
               >
-                <Link to="/category" style={{ color: 'white' }}>
+                <Typography
+                  component="h5"
+                  variant="h6"
+                  color="inherit"
+                  className="imageTitle"
+                >
                   {image.title}
-                </Link>
-              </Typography>
-            </Box>
+                </Typography>
+              </Box>
+            </Link>
           </ImageIconButton>
         ))}
       </Box>

@@ -1,9 +1,12 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 // import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 
@@ -14,6 +17,7 @@ const box = css`
   padding: 10px 10px 20px 10px;
   margin: 10px 30px;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const topArea = css`
@@ -82,8 +86,12 @@ const JamCard = ({ jam }) => {
   } else if (jam.completeStatus === 'TRUE') {
     isCompleteJam = true;
   }
+  const navigate = useNavigate();
+  const handleCardClick = jamId => {
+    navigate(`/jamdetail/${jamId}`);
+  };
   return (
-    <div className={box}>
+    <div className={box} onClick={() => handleCardClick(jam.jamId)}>
       <div className={coverImage} />
       <div className={bottomArea}>
         <p>{jam.title}</p>
