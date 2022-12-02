@@ -4,6 +4,10 @@ import { useRecoilState } from 'recoil';
 import { loginUserInfoState } from '../Atom/atoms';
 
 const imgColor = css`
+  .grade0 {
+    filter: invert(43%) sepia(100%) saturate(374%) hue-rotate(358deg)
+      brightness(96%) contrast(101%);
+  }
   .grade1 {
     filter: invert(43%) sepia(100%) saturate(374%) hue-rotate(358deg)
       brightness(96%) contrast(101%);
