@@ -123,12 +123,27 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
       .then(window.location.reload());
   };
 
-  const editHandler = e => {
+  const editHandler = (e, idx) => {
     e.preventDefault();
-    console.log('edit');
+    console.log(jamData.commentList[btnIdx].replyList[idx]);
   };
-  const deleteHandler = () => {
-    console.log('delete');
+
+  const deleteHandler = (e, idx) => {
+    console.log(
+      `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+    );
+    if (window.confirm('정말 삭제하시겠습니까?') === true) {
+      axios
+        .delete(
+          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie('accessToken')}`,
+            },
+          },
+        )
+        .then(window.location.reload());
+    }
   };
 
   return (
@@ -150,7 +165,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
             <button type="submit">등록</button>
           </div>
           <div className={content}>
-            {reValList[btnIdx]?.map(el => (
+            {reValList[btnIdx]?.map((el, idx) => (
               <div key={el.replyId} className={rereply}>
                 <div className="title">
                   <UserName name={user.nickname} id={user.memberId} />
@@ -159,10 +174,10 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                 <div className="container">
                   <div className="content">{el.content}</div>
                   <div className="reImg">
-                    <button type="submit" onClick={editHandler}>
+                    <button type="submit" onClick={e => editHandler(e, idx)}>
                       <img src="../img/edit.png" alt="edit" />
                     </button>
-                    <button type="button" onClick={deleteHandler}>
+                    <button type="button" onClick={e => deleteHandler(e, idx)}>
                       <img src="../img/delete.png" alt="delete" />
                     </button>
                   </div>
