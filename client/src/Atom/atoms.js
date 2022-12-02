@@ -11,8 +11,8 @@ const location = atom({
 const coordinate = atom({
   key: 'coordinate',
   default: {
-    latitude: 37.56601271738172,
-    longitude: 126.82692903814433,
+    latitude: 37.5602098,
+    longitude: 126.825479,
   },
 });
 

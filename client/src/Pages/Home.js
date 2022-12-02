@@ -52,14 +52,19 @@ const Home = () => {
   const [jamData, setJamData] = useState([]);
 
   useEffect(() => {
+    console.log(currentCoordinate.latitude);
+    console.log(currentCoordinate.longitude);
     const endpoint = `/location?lat=${currentCoordinate.latitude}&lon=${currentCoordinate.longitude}`;
+    console.log(endpoint);
     const locateJams = fetchJamRead(endpoint);
     locateJams.then(data => {
       setJamData(data.data);
     });
   }, [currentCoordinate]);
 
-  useEffect(() => {}, [jamData]);
+  useEffect(() => {
+    console.log(jamData);
+  }, [jamData]);
 
   return (
     <div className={pagewithSidebar}>
@@ -73,7 +78,7 @@ const Home = () => {
         </h1>
         <div className={mainArea}>
           <div className={map}>
-            <Map jamData={jamData} />
+            <Map />
           </div>
           {jamData.length ? (
             <div className={list}>
