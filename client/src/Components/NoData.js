@@ -19,12 +19,6 @@ const text1 = css`
   font-size: 24px;
   margin: 5px;
 `;
-const text2 = css`
-  word-break: keep-all;
-  text-align: center;
-  font-size: large;
-  margin: 15px;
-`;
 
 const containerHome = css`
   display: flex;
@@ -50,20 +44,11 @@ const text2Home = css`
   font-size: large;
   margin: 15px;
 `;
-export const NoSearchData = () => {
-  return (
-    <div className={container}>
-      <div className={text1}>000의</div>
-      <div className={text1}>결과를 찾을 수 없습니다.</div>
-      <div className={text2}>비슷한 검색어로 다시 검색해보세요!</div>
-    </div>
-  );
-};
 
 export const NoCategoryData = () => {
   return (
     <div className={container}>
-      <div className={text1}>현재 카테고리의 잼이 없습니다.</div>
+      <div className={text1}>해당하는 잼이 없습니다.</div>
     </div>
   );
 };

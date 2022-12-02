@@ -128,6 +128,7 @@ const SearchBar = () => {
           // value={searchText}
           placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
+          onClick={() => sessionStorage.clear()}
         />
       </Search>
     </form>
@@ -164,28 +165,16 @@ const LogoutArea = () => {
 };
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [isLogin] = useRecoilState(isLoginState);
   // const [isAddressClick, setIsAddressClick] = useState(false);
-  const onLoginBtnClick = () => {
-    console.log('버튼클릭');
-    setIsLogin(!isLogin);
-    console.log(isLogin);
-  };
 
   return (
     <div className={headerBox}>
       <div className={header}>
-        <Link to="/">
+        <Link to="/" onClick={() => sessionStorage.clear}>
           <img className={logo} alt="logo_jamit" src={logoImage} />
         </Link>
         <AddressDialog />
-        <button
-          type="button"
-          className={createJamBtn}
-          onClick={onLoginBtnClick}
-        >
-          임시로그인토글{' '}
-        </button>
         <SearchBar />
 
         {/* <LoginArea /> */}

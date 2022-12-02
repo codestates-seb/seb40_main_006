@@ -6,6 +6,7 @@ import { css } from '@emotion/css';
 import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { fetchJamRead, fetchJamSearch } from '../../Utils/fetchJam';
 import { theme } from '../../Styles/theme';
 import Sidebar from '../Sidebar';
@@ -57,12 +58,13 @@ const noDataContainer = css`
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
   const searchText = sessionStorage.getItem('searchText');
-  console.log(searchText);
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (currentCategory.label === '내주변') navigate('/home');
     if (searchText) {
       const Jams = fetchJamSearch(searchText);
       Jams.then(data => {

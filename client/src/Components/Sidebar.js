@@ -2,8 +2,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../Styles/theme';
 import { selectedCategory } from '../Atom/atoms';
 import categories from '../Static/categories';
@@ -41,14 +42,22 @@ const sidebar = css`
 `;
 
 const Sidebar = () => {
-  const [, setCurrentCategory] = useRecoilState(selectedCategory);
+  const [currentCategory, setCurrentCategory] =
+    useRecoilState(selectedCategory);
+  const navigate = useNavigate();
 
   const onCategoryClick = e => {
     console.log(e.target.innerText);
     setCurrentCategory(
       categories.filter(el => el.label === e.target.innerText)[0],
     );
+    navigate('/category');
+    sessionStorage.clear();
   };
+
+  useEffect(() => {
+    console.log('sidebar에서 current category 변경: ', currentCategory);
+  }, [currentCategory]);
   return (
     <div className={sidebar}>
       <div>카테고리</div>
