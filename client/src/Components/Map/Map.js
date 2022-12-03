@@ -1,42 +1,46 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { location } from '../../Atom/atoms';
+import { location, coordinate } from '../../Atom/atoms';
 
 const { kakao } = window;
-const Map = () => {
+const Map = ({ jamData }) => {
+  // 마곡
   const [latitude, setLatitude] = useState(37.5602098);
   const [longitude, setLongitude] = useState(126.825479);
+  const [currentLevel, setCurrentLevel] = useState(4);
 
-  // 장소 검색 객체를 생성합니다
-  const ps = new kakao.maps.services.Places();
-  const [currentLocation] = useRecoilState(location);
+  const [currentLocation] = useRecoilState(location); // 스타벅스 마곡역점
+  const [, setCurrentCoordinate] = useRecoilState(coordinate); // 37.5602098, 126.825479
+
   // 좌표로 주소 얻기
   function getMap() {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-
-      // console.log(`위도 : ${position.coords.latitude}`);
-      // console.log(`경도 : ${position.coords.longitude}`);
-      // console.log(latitude);
-      // console.log(longitude);
-    });
-
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-      level: 3, // 지도 확대 레벨
+      level: currentLevel, // 지도 확대 레벨
     };
 
-    // eslint-disable-next-line no-unused-vars
     const map = new kakao.maps.Map(container, options);
 
+    // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'center_changed', function () {
+      // 지도의  레벨을 얻어옵니다
+      const level = map.getLevel();
+      setCurrentLevel(level);
+      // 지도의 중심좌표를 얻어옵니다
+      const latlng = map.getCenter();
+
+      setLatitude(latlng.getLat());
+      setLongitude(latlng.getLng());
+      setCurrentCoordinate({
+        latitude: latlng.getLat(),
+        longitude: latlng.getLng(),
+      });
+    });
     return map;
   }
-  useEffect(() => {
-    console.log(currentLocation);
-    getMap();
-  }, [currentLocation]);
 
   // 키워드 검색 완료 시 호출되는 콜백함수 입니다
   function placesSearchCB(data, status) {
@@ -55,8 +59,59 @@ const Map = () => {
     }
   }
 
-  // 키워드로 장소를 검색합니다
-  ps.keywordSearch(currentLocation, placesSearchCB);
+  // 장소 검색 객체를 생성합니다
+  const ps = new kakao.maps.services.Places();
+
+  const MapPin = () => {
+    console.log('MapPin 진입했습니다.');
+    // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
+    const mapPoints = [];
+
+    jamData.forEach(jam => {
+      mapPoints.push({
+        content: `<p>${jam.title}</p>`,
+        latlng: new kakao.maps.LatLng(jam.latitude, jam.longitude),
+      });
+    });
+    const map = getMap();
+    for (let i = 0; i < mapPoints.length; i += 1) {
+      // 마커를 생성합니다
+      const marker = new kakao.maps.Marker({
+        map, // 마커를 표시할 지도
+        position: mapPoints[i].latlng, // 마커의 위치
+      });
+
+      // 마커에 표시할 인포윈도우를 생성합니다
+      const infowindow = new kakao.maps.InfoWindow({
+        content: mapPoints[i].content, // 인포윈도우에 표시할 내용
+      });
+
+      // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+      // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+      (function (point, window) {
+        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
+        kakao.maps.event.addListener(point, 'mouseover', function () {
+          window.open(map, point);
+        });
+
+        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+        kakao.maps.event.addListener(point, 'mouseout', function () {
+          window.close();
+        });
+      })(marker, infowindow);
+    }
+  };
+
+  useEffect(() => {
+    // 키워드로 장소를 검색합니다
+    ps.keywordSearch(currentLocation, placesSearchCB);
+    // getMap();
+  }, [currentLocation]);
+
+  useEffect(() => {
+    MapPin();
+  }, [jamData]);
+
   return (
     <div
       id="map"

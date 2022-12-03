@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { myPageInfoState } from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import { getCookie } from '../SignComp/Cookie';
@@ -101,6 +102,7 @@ export default function GiveJam() {
   const [pageUser] = useRecoilState(myPageInfoState);
   const array = [0, 1, 2, 3, 4];
   const [jam, setJam] = useState([false, false, false, false, false]);
+  const location = useLocation().pathname.slice(8);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -115,21 +117,22 @@ export default function GiveJam() {
     setJam(copy);
   };
 
-  const jamGradeSubmitHandler = () => {
+  const jamGradeSubmitHandler = e => {
+    e.preventDefault();
     const grade = jam.filter(el => el).length;
-    const accessToken = getCookie('is_login');
+    const accessToken = getCookie('accessToken');
     console.log(grade);
     axios
       .post(
-        `${process.env.REACT_APP_URL}/user/profile/${pageUser.memberId}/grade`,
+        `/user/profile/${location}/grade`,
         { grade },
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       )
-      .then(res => console.log(res));
+      .then(window.location.reload());
   };
 
   return (
@@ -145,7 +148,7 @@ export default function GiveJam() {
           <Typography className={jamImage}>
             {array.map((el, idx) => (
               <img
-                src="./img/whiteJam.png"
+                src="../img/whiteJam.png"
                 alt="jam"
                 role="presentation"
                 className={jam[idx] ? selectJam : ''}

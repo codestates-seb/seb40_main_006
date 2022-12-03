@@ -23,7 +23,12 @@ const style = css`
 
   a {
     text-decoration: none;
+    color: black;
     cursor: pointer;
+    :hover {
+      text-decoration: none;
+      color: black;
+    }
   }
 
   table {

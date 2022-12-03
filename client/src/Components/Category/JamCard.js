@@ -1,9 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 // import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 // import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
+import jamElapsedTime from '../userComp/JamElapsedTime';
 
 const box = css`
   width: 300px;
@@ -12,23 +17,27 @@ const box = css`
   padding: 10px 10px 20px 10px;
   margin: 10px 30px;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const topArea = css`
   display: flex;
   div {
-    background-color: blueviolet;
     border-radius: 10px;
     padding: 5px 15px;
     font-size: 12px;
     margin-right: 5px;
   }
-  div:nth-child(1) {
-    background-color: ${palette.colorJamOpen};
-  }
-  div:nth-child(2) {
-    background-color: ${palette.colorJamRealtime};
-  }
+`;
+
+const openedJam = css`
+  background-color: ${palette.colorJamOpen};
+`;
+const closedJam = css`
+  background-color: ${palette.colorJamClose};
+`;
+const realTimeJam = css`
+  background-color: ${palette.colorJamRealtime};
 `;
 
 const coverImage = css`
@@ -69,30 +78,45 @@ const infoBottom = css`
   display: flex;
   margin-top: 10px;
 `;
-const JamCard = () => {
+
+const JamCard = ({ jam }) => {
+  let isCompleteJam;
+  if (jam.completeStatus === 'FALSE') {
+    isCompleteJam = false;
+  } else if (jam.completeStatus === 'TRUE') {
+    isCompleteJam = true;
+  }
+  const navigate = useNavigate();
+  const handleCardClick = jamId => {
+    navigate(`/jamdetail/${jamId}`);
+  };
   return (
-    <div className={box}>
+    <div className={box} onClick={() => handleCardClick(jam.jamId)}>
       <div className={coverImage} />
       <div className={bottomArea}>
-        <p>토익스터디하실분</p>
+        <p>{jam.title}</p>
         <div className={topArea}>
-          <div>모집중</div>
-          <div>실시간</div>
+          {isCompleteJam ? (
+            <div className={closedJam}>마감</div>
+          ) : (
+            <div className={openedJam}>모집중</div>
+          )}
+          {jam.realTime ? <div className={realTimeJam}>실시간</div> : null}
         </div>
         <div className={info}>
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              <p>1분전</p>
+              <p>{jamElapsedTime(jam.createdAt)}</p>
             </div>
             <div>
               <BsPeopleFill />
-              <p>1분전</p>
+              <p>{jam.currentPpl}명</p>
             </div>
           </div>
           <div className={infoBottom}>
             <ImLocation />
-            <p>스타벅스 마곡역점</p>
+            <p>{jam.location}</p>
           </div>
         </div>
       </div>

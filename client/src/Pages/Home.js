@@ -2,13 +2,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import palette from '../Styles/theme';
 import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Category/LongJamCard';
 import Map from '../Components/Map/Map';
-import { location } from '../Atom/atoms';
+import { location, coordinate } from '../Atom/atoms';
+import { fetchJamRead } from '../Utils/fetchJam';
+import { NoNearyByData } from '../Components/NoData';
 
 const pagewithSidebar = css`
   display: flex;
@@ -26,7 +28,7 @@ const home = css`
 const mainArea = css`
   display: flex;
   margin: 10px;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 `;
 
 const map = css`
@@ -46,6 +48,18 @@ const list = css`
 
 const Home = () => {
   const [currentLocation] = useRecoilState(location);
+  const [currentCoordinate] = useRecoilState(coordinate);
+  const [jamData, setJamData] = useState([]);
+
+  useEffect(() => {
+    const endpoint = `/location?lat=${currentCoordinate.latitude}&lon=${currentCoordinate.longitude}`;
+    const locateJams = fetchJamRead(endpoint);
+    locateJams.then(data => {
+      setJamData(data.data);
+    });
+  }, [currentCoordinate]);
+
+  useEffect(() => {}, [jamData]);
 
   return (
     <div className={pagewithSidebar}>
@@ -59,13 +73,20 @@ const Home = () => {
         </h1>
         <div className={mainArea}>
           <div className={map}>
-            <Map />
+            <Map jamData={jamData} />
           </div>
-          <div className={list}>
-            <LongJamCard />
-            <LongJamCard />
-            <LongJamCard />
-          </div>
+          {jamData.length ? (
+            <div className={list}>
+              {jamData &&
+                jamData.map(jam => {
+                  return <LongJamCard key={jam.jamId} jam={jam} />;
+                })}
+            </div>
+          ) : (
+            <div className={list}>
+              <NoNearyByData />
+            </div>
+          )}
         </div>
       </div>
     </div>

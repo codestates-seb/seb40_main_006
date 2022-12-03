@@ -1,10 +1,12 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { palette } from '../../Styles/theme';
-import { myPageInfoState } from '../../Atom/atoms';
+import { loginUserInfoState, myPageInfoState } from '../../Atom/atoms';
 import GiveJam from './GiveJam';
+import JamColor from '../JamColor';
 
 const userTitle = css`
   display: flex;
@@ -21,9 +23,11 @@ const userTitleContainer = css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     gap: 10px;
     font-size: 18px;
+    > .nickname {
+      margin-left: 3px;
+    }
   }
   .userTitleJam {
     display: flex;
@@ -33,7 +37,8 @@ const userTitleContainer = css`
     font-size: 18px;
   }
   img {
-    width: 18px;
+    width: 100px;
+    border-radius: 100px;
     padding-bottom: 1px;
   }
 `;
@@ -56,27 +61,34 @@ const userGiveJam = css`
 `;
 
 const UserTitle = () => {
-  const [userInfo] = useRecoilState(myPageInfoState);
+  const [pageUser] = useRecoilState(myPageInfoState);
+  const [user] = useRecoilState(loginUserInfoState);
 
   return (
     <div className={userTitle}>
       <div className={userTitleContainer}>
-        <Avatar
-          sx={{ width: 96, height: 96 }}
-          alt="Jaehoon"
-          src={userInfo.img}
-        />
+        {!user.img ? (
+          <Avatar sx={{ width: 96, height: 96 }} alt="Jaehoon" src={user.img} />
+        ) : (
+          <img src={pageUser.img} alt="이미지를 설정해주세요" />
+        )}
         <div className="userTitleInfo">
-          <div>{userInfo.nickname}</div>
+          <div className="nickname">{pageUser.nickname}</div>
           <div className="userTitleJam">
-            <img src="./img/orangeJam.png" alt="jam" />
-            <div>{userInfo.grade}</div>
-            <div>{`(${userInfo.평가수})`}</div>
+            <JamColor color={pageUser.grade} />
+            <div>{pageUser.grade}</div>
+            <div>{`(${pageUser.gradeCount})`}</div>
           </div>
         </div>
       </div>
       <div className={userGiveJam}>
-        <GiveJam />
+        {pageUser.memberId === user.memberId ? (
+          <Link to={`/profile/${user.memberId}`}>
+            <button type="button">수정</button>
+          </Link>
+        ) : (
+          <GiveJam />
+        )}
       </div>
     </div>
   );

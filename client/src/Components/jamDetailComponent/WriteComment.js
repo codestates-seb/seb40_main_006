@@ -1,11 +1,16 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { css } from '@emotion/react';
-import { FaUserCircle } from 'react-icons/fa';
-import { TextField, Box, ThemeProvider } from '@mui/material';
-import { AiOutlineTwitter } from 'react-icons/ai';
-import Button from '../Button';
-import { palette } from '../../Styles/theme';
+import { useRecoilState } from 'recoil';
+import { TextField, Box } from '@mui/material';
+// import Button from '../Button';
+import UserName from '../userComp/UserName';
+import { imgUrlState, loginUserInfoState } from '../../Atom/atoms';
+
+// import { FaUserCircle } from 'react-icons/fa';
+// import { AiOutlineTwitter } from 'react-icons/ai';
+// import { palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -24,9 +29,9 @@ const UserBox = css`
   margin-bottom: 5px;
 `;
 
-const JamIcon = css`
-  color: ${palette.colorGrade2};
-`;
+// const JamIcon = css`
+//   color: ${palette.colorGrade2};
+// `;
 
 const InputBox = css`
   margin-bottom: 10px;
@@ -38,11 +43,18 @@ const RegisterComment = css`
   justify-content: flex-end;
 `;
 
-const WriteComment = () => {
+const WriteComment = ({ text, setText, handleSubmit }) => {
+  const [user] = useRecoilState(loginUserInfoState);
+  const [imgUrl] = useRecoilState(imgUrlState);
+
+  const handleTextChange = e => {
+    setText(e.target.value);
+  };
+
   return (
     <div css={Container}>
       <div css={UserBox}>
-        <div>
+        {/* <div>
           <FaUserCircle size={15} />
         </div>
         <div>딸기쨈(화면을 보고있는 로그인 유저 네임)</div>
@@ -50,7 +62,13 @@ const WriteComment = () => {
           <div css={JamIcon}>
             <AiOutlineTwitter size={16} />
           </div>
-        </ThemeProvider>
+        </ThemeProvider> */}
+        <UserName
+          name={user.nickname}
+          id={user.memberId}
+          grade={user.grade}
+          img={imgUrl[user.nickname]}
+        />
       </div>
       <div css={InputBox}>
         <Box
@@ -68,6 +86,8 @@ const WriteComment = () => {
             placeholder="댓글을 남겨주세요"
             multiline
             rows={2}
+            value={text || ''}
+            onChange={handleTextChange}
             sx={{
               backgroundColor: '#fff',
               borderRadius: 1,
@@ -89,9 +109,9 @@ const WriteComment = () => {
         </Box>
       </div>
       <div css={RegisterComment}>
-        <Button size="xs" variant="cancel">
+        <button type="submit" onClick={handleSubmit}>
           등록
-        </Button>
+        </button>
       </div>
     </div>
   );

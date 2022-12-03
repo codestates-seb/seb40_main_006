@@ -1,5 +1,13 @@
 // eslint-disable-next-line consistent-return
-export default function jamElapsedTime(date) {
+export default function jamElapsedTime(createdAt) {
+  const years = new Date(createdAt).getFullYear();
+  const months = new Date(createdAt).getMonth() + 1;
+  const dates = new Date(createdAt).getDate();
+  const hours = new Date(createdAt).getHours() + 9;
+  const minutes = new Date(createdAt).getMinutes();
+  const seconds = new Date(createdAt).getSeconds();
+  const date = `${years}-${months}-${dates} ${hours}:${minutes}:${seconds}`;
+
   const start = new Date(date);
   const end = new Date();
   const diff = end - start;

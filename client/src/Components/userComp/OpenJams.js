@@ -8,11 +8,11 @@ const OpenJams = () => {
   const [userInfo] = useRecoilState(myPageInfoState);
 
   return (
-    <div>
+    <div className="container">
       개설한 잼
-      {userInfo.participationList?.map(jam => (
-        <Grid item key={jam}>
-          <OpenJamCard />
+      {userInfo.createJamList.map(jam => (
+        <Grid item key={jam.jamId}>
+          <OpenJamCard jamId={jam.jamId} jam={jam} />
         </Grid>
       ))}
     </div>

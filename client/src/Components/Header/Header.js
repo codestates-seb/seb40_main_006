@@ -2,23 +2,33 @@ import { css } from '@emotion/css';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useRecoilState } from 'recoil';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
+import AccountMenu from './AccountMenu';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
+const headerBox = css`
+  height: 100px;
+`;
 const header = css`
   padding: 10px 40px 10px 30px;
   display: flex;
   background-color: white;
-  width: 100%;
+  width: 100vw;
   height: 100px;
   border-bottom: 0.5px ${palette.border} solid;
+  position: fixed;
+  z-index: 10;
 `;
 // logo
 const logo = css`
   margin-left: 10px;
+  width: 130px;
+  cursor: pointer;
 `;
 
 // search
@@ -95,15 +105,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// const [searchText, setSearchText] = useState('');
-const handleSearch = e => {
-  console.log(e.target.value);
-  // setSearchText(e.target.value);
-  // console.log(searchText);
-};
 const SearchBar = () => {
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState('');
+  const handleSearch = e => {
+    // console.log(e.target.value);
+    setSearchText(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    sessionStorage.setItem('searchText', searchText);
+    navigate('/category');
+  };
   return (
-    <form className={searchBar}>
+    <form className={searchBar} onSubmit={handleSubmit}>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
@@ -113,6 +128,7 @@ const SearchBar = () => {
           // value={searchText}
           placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
+          onClick={() => sessionStorage.clear()}
         />
       </Search>
     </form>
@@ -122,46 +138,49 @@ const SearchBar = () => {
 const LoginArea = () => {
   return (
     <div className={rightHeader}>
-      <button type="button" className={loginBtn}>
-        로그인{' '}
-      </button>
+      <Link to="/login">
+        {' '}
+        <button type="button" className={loginBtn}>
+          로그인{' '}
+        </button>
+      </Link>
     </div>
   );
 };
 
 const LogoutArea = () => {
+  const [user] = useRecoilState(loginUserInfoState);
+
   return (
     <div className={rightHeader}>
-      <button type="button" className={createJamBtn}>
-        잼 만들기{' '}
-      </button>
-      <div className={username}>유저이름님</div>
-      <AccountCircleIcon fontSize="large" />
+      <Link to="/jammake">
+        <button type="button" className={createJamBtn}>
+          잼 만들기{' '}
+        </button>
+      </Link>
+      <div className={username}>{user.nickname}님</div>
+      <AccountMenu />
     </div>
   );
 };
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin] = useRecoilState(isLoginState);
   // const [isAddressClick, setIsAddressClick] = useState(false);
-  const onLoginBtnClick = () => {
-    console.log('버튼클릭');
-    setIsLogin(!isLogin);
-    console.log(isLogin);
-  };
 
   return (
-    <div className={header}>
-      <img className={logo} alt="logo_jamit" src={logoImage} />
-      <AddressDialog />
-      <button type="button" className={createJamBtn} onClick={onLoginBtnClick}>
-        임시로그인토글{' '}
-      </button>
-      <SearchBar />
+    <div className={headerBox}>
+      <div className={header}>
+        <Link to="/" onClick={() => sessionStorage.clear}>
+          <img className={logo} alt="logo_jamit" src={logoImage} />
+        </Link>
+        <AddressDialog />
+        <SearchBar />
 
-      {/* <LoginArea /> */}
-      {/* <LogoutArea /> */}
-      {!isLogin ? <LoginArea /> : <LogoutArea />}
+        {/* <LoginArea /> */}
+        {/* <LogoutArea /> */}
+        {!isLogin ? <LoginArea /> : <LogoutArea />}
+      </div>
     </div>
   );
 };

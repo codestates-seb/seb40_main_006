@@ -23,7 +23,11 @@ const AboutStudy = css`
   }
 `;
 
-const Description = ({ descRef }) => {
+const Description = ({ desc, setDesc }) => {
+  const handleDesc = e => {
+    setDesc(e.target.value);
+  };
+
   return (
     <div css={AboutStudy}>
       <Box
@@ -41,7 +45,8 @@ const Description = ({ descRef }) => {
             rows={10}
             variant="outlined"
             placeholder="함께할 스터디를 소개해주세요"
-            inputRef={descRef}
+            value={desc || ''}
+            onChange={handleDesc}
             // 커스텀 색상 설정
             sx={{
               '& > :not(style)': { m: 0, width: '790px' },

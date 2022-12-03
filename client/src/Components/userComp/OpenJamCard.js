@@ -1,41 +1,49 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { Card, CardMedia, CardActions, Button } from '@mui/material/';
-import { useRecoilState } from 'recoil';
-import { myPageInfoState } from '../../Atom/atoms';
-import jamElapsedTime from './JamElapsedTime';
+import { useNavigate } from 'react-router-dom';
+// import jamElapsedTime from './JamElapsedTime';
 
-const OpenJamCard = () => {
-  const jamInfo = useRecoilState(myPageInfoState);
+const OpenJamCard = ({ jamId, jam }) => {
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    navigate(`/jamdetail/${jamId}`);
+  };
 
   return (
-    <Card className="card">
-      <CardMedia
-        component="img"
-        image="https://source.unsplash.com/random"
-        alt="random"
-        sx={{ width: '30%' }}
-      />
-      <CardActions className="cardActions">
-        <div className="title">{jamInfo[0].participationList[0].title}</div>
-        <div className="info">
-          <div>
-            <img src="./img/userTime.png" alt="시간" />
-            {jamElapsedTime(jamInfo[0].participationList[0].createdTime)}
+    <div className="jamContainer" onClick={clickHandler}>
+      <Card className="card">
+        <CardMedia
+          component="img"
+          image="../img/back2.jpg"
+          alt="random"
+          sx={{ width: '25%' }}
+        />
+        <CardActions className="cardActions">
+          <div className="title">{jam.title}</div>
+          <div className="info">
+            <div>
+              <img src="../img/userTime.png" alt="시간" />
+              {/* {jamElapsedTime(jam.createdTime)} */}
+              <span>{jam.realTime ? '실시간' : '스터디'}</span>
+            </div>
+            <div>
+              <img src="../img/userInitImg.png" alt="모집인원" />
+              {jam.currentPpl}/{jam.capacity}
+            </div>
+            <div>
+              <img src="../img/userLocation.png" alt="위치" />
+              {jam.location}
+            </div>
           </div>
-          <div>
-            <img src="./img/userInitImg.png" alt="모집인원" />
-            {jamInfo[0].participationList[0].capacity}
-          </div>
-          <div>
-            <img src="./img/userLocation.png" alt="위치" />
-            {jamInfo[0].participationList[0].location}
-          </div>
-        </div>
-      </CardActions>
+        </CardActions>
+      </Card>
       <Button size="small" className="cardBtn">
-        {!jamInfo[0].participationList[0].complete ? '모집완료' : '모집중'}
+        {!jam.complete ? '모집완료' : '모집중'}
       </Button>
-    </Card>
+    </div>
   );
 };
 

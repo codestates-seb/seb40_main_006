@@ -1,17 +1,28 @@
+/* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
 import RecruitState from './RecruitState';
+import jamElapsedTime from '../userComp/JamElapsedTime';
+import { categories } from '../jamCreateComponent/StudyInputField';
+import { getCookie } from '../SignComp/Cookie';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 const JamSideContainer = css`
-  width: 35%;
-  min-width: 200px;
+  width: 220px;
+  /* min-width: 200px; */
   display: flex;
+  position: sticky;
+  left: 20px;
+  top: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -49,7 +60,7 @@ const UserBox = css`
 
 const Title = css`
   font-size: 16px;
-  margin: 5px 0;
+  /* margin: 5px 0; */
 `;
 
 const EtcInfo = css`
@@ -68,7 +79,20 @@ const EtcInfo = css`
   }
 `;
 
-const AvatarContainer = css``;
+const AvatarContainer = css`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+  }
+  /* .imgContainer {
+    display: flex;
+    justify-content: flex;
+  } */
+`;
 
 const ButtonContainer = css`
   width: 100%;
@@ -106,9 +130,181 @@ const CancleButton = css`
   }
 `;
 
-const JamSideBar = ({ host, loginUser }) => {
-  const [isRegisterd, setIsRegistered] = useState(false);
-  const [isClosed, setIsClosed] = useState(false);
+// eslint-disable-next-line no-unused-vars
+const JamSideBar = ({
+  jamData,
+  isComplete,
+  setIsComplete,
+  joiner,
+  setJoiner,
+}) => {
+  // const [isJoin, setIsJoin] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  // const [isJoin, setIsJoin] = useState(false);
+  const [currentUser] = useRecoilState(loginUserInfoState);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const accessToken = getCookie('accessToken');
+
+  const {
+    title,
+    location,
+    nickname,
+    currentPpl,
+    capacity,
+    createdAt,
+    category,
+    // completeStatus,
+    openChatLink,
+    // participantList,
+  } = jamData;
+
+  const filteredCategory = categories.filter(el => el.value === category)[0];
+
+  // 로그인 유저가 잼에 참여한 리스트에 있는지 확인
+  // 리턴값 true => 참여한 상태 => 참여취소 버튼 렌더
+  // 리턴값 false => 미참여 상태 => 참여하기 버튼 렌더
+  // const isJoiner = user => {
+  //   // eslint-disable-next-line no-unused-expressions
+  //   return (
+  //     joiner && joiner.filter(el => el.nickname === user.nickname).length === 1
+  //   );
+  // };
+
+  const isJoiner =
+    joiner &&
+    joiner.filter(el => el.nickname === currentUser.nickname).length === 1;
+
+  const handleClose = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmData = confirm('모집을 완료하시겠습니까?');
+
+    if (!accessToken) {
+      alert('토큰이 만료되었습니다');
+      navigate('/login');
+      window.location.reload();
+    }
+
+    if (confirmData && accessToken) {
+      if (accessToken) {
+        await axios
+          .post(
+            `/jams/${id}/complete/true`,
+            {},
+            {
+              headers: {
+                // 'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+          )
+          .then(res => {
+            console.log('res.status: ', res.status);
+            if (res.status === 200) {
+              setIsComplete('TRUE');
+            }
+          })
+          .catch(error => {
+            console.log(error.message);
+          });
+      }
+    }
+  };
+
+  const handleCancelClose = async () => {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    const confirmData = confirm('모집완료를 취소하시겠습니까?');
+
+    if (!accessToken) {
+      alert('토큰이 만료되었습니다');
+      navigate('/login');
+      window.location.reload();
+    }
+
+    if (confirmData && accessToken) {
+      await axios
+        .delete(`/jams/${id}/complete/false`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(res => {
+          console.log('res.status: ', res.status);
+          if (res.status === 200) {
+            setIsComplete('FALSE');
+          }
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    }
+  };
+
+  const handleJoin = async () => {
+    // eslint-disable-next-line no-restricted-globals
+
+    if (!accessToken) {
+      alert('토큰이 만료되었습니다');
+      navigate('/login');
+      window.location.reload();
+    }
+
+    await axios
+      .post(
+        `/jams/${id}/participation/true`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      .then(res => {
+        console.log('res.status: ', res.status);
+        if (res.status === 200) {
+          setJoiner([...joiner, currentUser]);
+        }
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
+  const handleWithdraw = async () => {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    const confirmData = confirm('참여를 취소하시겠습니까?');
+
+    if (!accessToken) {
+      alert('토큰이 만료되었습니다');
+      navigate('/login');
+      window.location.reload();
+    }
+
+    if (confirmData && accessToken) {
+      await axios
+        .delete(`/jams/${id}/participation/false`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(res => {
+          console.log('res.status: ', res.status);
+          window.location.reload();
+          if (res.status === 200) {
+            // setJoiner(false);
+            setJoiner(
+              joiner.filter(el => el.nickname !== currentUser.nickname),
+            );
+          }
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    }
+  };
 
   return (
     <div css={JamSideContainer}>
@@ -116,62 +312,77 @@ const JamSideBar = ({ host, loginUser }) => {
         <div css={UserAndStateBox}>
           <div css={UserBox}>
             <FaUserCircle />
-            <span>김코딩</span>
+            <span>{nickname}</span>
           </div>
-          <RecruitState state="open" variant="colorJamOpen">
-            모집중
-          </RecruitState>
+          {isComplete === 'FALSE' ? (
+            <RecruitState state="open" variant="colorJamOpen">
+              모집중
+            </RecruitState>
+          ) : (
+            <RecruitState state="close" variant="colorJamClose">
+              모집완료
+            </RecruitState>
+          )}
         </div>
       </div>
-      <h2 css={Title}>
-        <span>토익 스터디 하실분!!!</span>
-      </h2>
+      <h6 css={Title}>{title}</h6>
       <div css={EtcInfo}>
         <div className="categoryIcons">
           <BiCategory />
-          <span>외국어</span>
+          {filteredCategory && <span>{filteredCategory.label}</span>}
         </div>
         <div className="categoryIcons">
           <BsClockFill />
-          <span>1분전</span>
+          <span>{jamElapsedTime(createdAt)}</span>
         </div>
         <div className="categoryIcons">
           <BsPeopleFill />
-          <span>0/4명</span>
+          <span>
+            {currentPpl}/{capacity}명
+          </span>
         </div>
         <div className="categoryIcons">
           <ImLocation />
-          <span>스타벅스 마곡역점</span>
+          <span>{location}</span>
         </div>
       </div>
-      {(isRegisterd || host === loginUser) && (
-        <div css={AvatarContainer}>
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-          <FaUserCircle size={25} />
-        </div>
+      {/* 참여했거나 스터디 개설자와 로그인유저가 같으면 렌더  */}
+      {/* {(isJoiner(currentUser) || nickname === currentUser.nickname) && ( */}
+      {(isJoiner || nickname === currentUser.nickname) && (
+        <>
+          <div css={AvatarContainer}>
+            {jamData &&
+              jamData.participantList.map(el => {
+                return (
+                  <div key={el.memberId} className="imgContainer">
+                    <img src={el.profileImage} alt={el.nickname} />
+                  </div>
+                );
+              })}
+          </div>
+          <div>
+            <span>채팅채널</span>
+            <br />
+            <span>
+              <Link to={openChatLink} target="_blank">
+                {openChatLink}
+              </Link>
+            </span>
+          </div>
+        </>
       )}
-      {host !== loginUser ? (
+      {/* 스터디 개설 유저가 로그인 유저와 같지 않으면 참여 부분, 같으면 모집 부분 렌더 */}
+      {nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
-          {!isRegisterd ? (
-            <button
-              type="button"
-              css={RegisterButton}
-              onClick={() => setIsRegistered(!isRegisterd)}
-            >
+          {!isJoiner ? (
+            <button type="button" css={RegisterButton} onClick={handleJoin}>
               참여하기
             </button>
           ) : (
             <button
               type="button"
               css={[RegisterButton, CancleButton]}
-              onClick={() => setIsRegistered(!isRegisterd)}
+              onClick={handleWithdraw}
             >
               참여취소하기
             </button>
@@ -179,11 +390,11 @@ const JamSideBar = ({ host, loginUser }) => {
         </div>
       ) : (
         <div css={ButtonContainer}>
-          {!isClosed ? (
+          {isComplete === 'FALSE' ? (
             <button
               type="button"
               css={[RegisterButton, CloseJamButton]}
-              onClick={() => setIsClosed(!isClosed)}
+              onClick={handleClose}
             >
               모집 완료하기
             </button>
@@ -191,7 +402,7 @@ const JamSideBar = ({ host, loginUser }) => {
             <button
               type="button"
               css={[RegisterButton, CloseJamButton, CancleButton]}
-              onClick={() => setIsClosed(!isClosed)}
+              onClick={handleCancelClose}
             >
               모집완료 취소
             </button>

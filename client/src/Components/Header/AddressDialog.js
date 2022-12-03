@@ -14,6 +14,7 @@ import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { ThemeProvider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { palette, theme } from '../../Styles/theme';
 import getJuso from './getJuso';
 import { location } from '../../Atom/atoms';
@@ -43,6 +44,8 @@ export default function AddressDialog() {
   const [cityList, setCityList] = useState([]);
   const [guList, setGuList] = useState([]);
   const [dongList, setDongList] = useState([]);
+
+  const navigate = useNavigate();
 
   // 대한민국의 모든 특별/광역시, 도 반환
   function getCityData(code) {
@@ -102,6 +105,7 @@ export default function AddressDialog() {
 
   // dialog open/close 설정
   const handleClickOpen = () => {
+    navigate('/home');
     setOpen(true);
   };
   const handleClose = () => {
