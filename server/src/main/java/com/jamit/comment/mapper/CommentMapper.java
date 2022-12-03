@@ -14,7 +14,8 @@ public interface CommentMapper {
     @Mapping(source = "id", target = "commentId")
     @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "jam.id", target = "jamId")
-    @Mapping(source = "member.profileImage", target = "image")
     @Mapping(source = "member.nickname", target = "nickname")
+    @Mapping(source = "member.profileImage", target = "profileImage")
+    @Mapping(source = "member.grade", target = "grade")
     ResponseCommentDto commentToResponseCommentDto(Comment comment);
 }
