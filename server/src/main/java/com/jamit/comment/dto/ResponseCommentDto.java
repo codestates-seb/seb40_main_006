@@ -13,7 +13,8 @@ public class ResponseCommentDto {
     private Long memberId;
     private Long jamId;
     private String nickname;
-    private String image;
+    private String profileImage;
+    private double grade;
     private String content;
     private List<ResponseReplyDto> replyList;
     private LocalDateTime createdAt;
