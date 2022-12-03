@@ -5,11 +5,7 @@ import { useRecoilState } from 'recoil';
 import React, { useState } from 'react';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
-import {
-  imgUrlState,
-  jamGradeState,
-  loginUserInfoState,
-} from '../../Atom/atoms';
+import { loginUserInfoState } from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 
@@ -102,8 +98,6 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reEdit, setReEdit] = useState(false);
   const [reEditVal, setReEditVal] = useState('');
   const [clickIdx, setClickIdx] = useState('');
-  const [grade] = useRecoilState(jamGradeState);
-  const [imgUrl] = useRecoilState(imgUrlState);
 
   const reValChange = e => {
     setReVal(e.target.value);
@@ -194,8 +188,8 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
             <UserName
               name={user.nickname}
               id={user.memberId}
-              grade={grade[user.nickname]}
-              img={imgUrl[user.nickname]}
+              grade={user.grade}
+              img={user.img}
             />
             <input
               type="text"
@@ -212,8 +206,8 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                   <UserName
                     name={el.nickname}
                     id={el.memberId}
-                    grade={grade[el.nickname]}
-                    img={imgUrl[el.nickname]}
+                    grade={el.grade}
+                    img={el.image}
                   />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
                 </div>

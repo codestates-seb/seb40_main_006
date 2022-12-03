@@ -137,8 +137,8 @@ const Reply = ({ replyList, jamData }) => {
             <UserName
               name={reply.nickname}
               id={reply.memberId}
-              grade={grade[reply.nickname]}
-              img={imgUrl[reply.nickname]}
+              grade={reply.grade}
+              img={reply.profileImage}
             />
             {console.log(reply.createdAt)}
             <p>{jamElapsedTime(reply.createdAt)}</p>
