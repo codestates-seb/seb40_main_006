@@ -119,8 +119,6 @@ export default function GiveJam() {
     setJam(copy);
   };
 
-  
-
   const jamGradeSubmitHandler = e => {
     e.preventDefault();
     const grade = jam.filter(el => el).length;
