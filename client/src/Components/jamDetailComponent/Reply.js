@@ -118,14 +118,12 @@ const Reply = ({ replyList, jamData }) => {
       {replyList?.map((reply, idx) => (
         <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
-            {console.log(reply)}
             <UserName
               name={reply.nickname}
               id={reply.memberId}
               grade={reply.grade}
               img={reply.profileImage}
             />
-            {console.log(reply.createdAt)}
             <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>

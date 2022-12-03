@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import React, { useState } from 'react';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
-import { loginUserInfoState } from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 
@@ -31,6 +31,10 @@ const writeContent = css`
   width: 510px;
   padding-left: 17px;
   margin-bottom: 10px;
+  input::placeholder {
+    font-size: 12px;
+    color: #a6a6a6;
+  }
   > input {
     width: 100%;
     border-radius: 4px;
@@ -98,6 +102,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reEdit, setReEdit] = useState(false);
   const [reEditVal, setReEditVal] = useState('');
   const [clickIdx, setClickIdx] = useState('');
+  const [isLogin] = useRecoilState(isLoginState);
 
   const reValChange = e => {
     setReVal(e.target.value);
@@ -128,7 +133,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
         `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
         {
           commentId,
-          content: reVal,
+          content: 'kkk',
         },
         {
           headers: {
@@ -185,19 +190,33 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
       {btnIdx === reValIdx && (
         <form onSubmit={submitHandler}>
           <div className={writeContent}>
-            <UserName
-              name={user.nickname}
-              id={user.memberId}
-              grade={user.grade}
-              img={user.img}
-            />
-            <input
-              type="text"
-              name="text"
-              value={reVal}
-              onChange={reValChange}
-            />
-            <button type="submit">등록</button>
+            {isLogin ? (
+              <>
+                <UserName
+                  name={user.nickname}
+                  id={user.memberId}
+                  grade={user.grade}
+                  img={user.img}
+                />
+                <input
+                  type="text"
+                  name="text"
+                  placeholder="댓글을 남겨주세요"
+                  value={reVal}
+                  onChange={reValChange}
+                />
+                <button type="submit">등록</button>
+              </>
+            ) : (
+              <input
+                type="text"
+                name="text"
+                placeholder="댓글을 작성하려면 로그인 해주세요"
+                readOnly
+                value={reVal}
+                onChange={reValChange}
+              />
+            )}
           </div>
           <div className={content}>
             {reValList[btnIdx]?.map((el, idx) => (
