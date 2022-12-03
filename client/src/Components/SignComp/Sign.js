@@ -112,6 +112,13 @@ const Sign = () => {
               username: userInput.email,
               password: userInput.password,
             },
+            {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cache: 'no-cache',
+              },
+            },
             { withCredentials: true },
           )
           .then(res => {
