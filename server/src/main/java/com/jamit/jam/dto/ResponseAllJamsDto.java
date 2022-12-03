@@ -13,6 +13,7 @@ public class ResponseAllJamsDto {
 
     private Long jamId;
     private String nickname;
+    private String image;
     private String title;
     private LocalDateTime jamFrom;
     private LocalDateTime jamTo;
