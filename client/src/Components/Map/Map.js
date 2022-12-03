@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { coordinate } from '../../Atom/atoms';
+import { location, coordinate } from '../../Atom/atoms';
 
 const { kakao } = window;
 const Map = ({ jamData }) => {
@@ -11,22 +11,8 @@ const Map = ({ jamData }) => {
   const [longitude, setLongitude] = useState(126.825479);
   const [currentLevel, setCurrentLevel] = useState(4);
 
-  // 장소 검색 객체를 생성합니다
-  // const ps = new kakao.maps.services.Places();
-  // const [currentLocation] = useRecoilState(location); // 스타벅스 마곡역점
+  const [currentLocation] = useRecoilState(location); // 스타벅스 마곡역점
   const [, setCurrentCoordinate] = useRecoilState(coordinate); // 37.5602098, 126.825479
-  // setLatitude(currentCoordinate.latitude);
-  // setLongitude(currentCoordinate.longitude);
-
-  // 초기 설정
-  // const con = document.getElementById('map'); // 지도를 표시할 div
-  // const op = {
-  //   center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-  //   level: 4, // 지도 확대 레벨
-  // };
-
-  // // eslint-disable-next-line no-unused-vars
-  // let map = new kakao.maps.Map(con, op);
 
   // 좌표로 주소 얻기
   function getMap() {
@@ -57,24 +43,24 @@ const Map = ({ jamData }) => {
   }
 
   // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-  // function placesSearchCB(data, status) {
-  //   if (status === kakao.maps.services.Status.OK) {
-  //     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-  //     // LatLngBounds 객체에 좌표를 추가합니다
-  //     const bounds = new kakao.maps.LatLngBounds();
+  function placesSearchCB(data, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+      // LatLngBounds 객체에 좌표를 추가합니다
+      const bounds = new kakao.maps.LatLngBounds();
 
-  //     for (let i = 0; i < data.length; i += 1) {
-  //       // displayMarker(data[i]);
-  //       bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-  //     }
+      for (let i = 0; i < data.length; i += 1) {
+        // displayMarker(data[i]);
+        bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+      }
 
-  //     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-  //     getMap().setBounds(bounds);
-  //   }
-  // }
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+      getMap().setBounds(bounds);
+    }
+  }
 
-  // 키워드로 장소를 검색합니다
-  // ps.keywordSearch(currentLocation, placesSearchCB);
+  // 장소 검색 객체를 생성합니다
+  const ps = new kakao.maps.services.Places();
 
   const MapPin = () => {
     console.log('MapPin 진입했습니다.');
@@ -116,9 +102,11 @@ const Map = ({ jamData }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getMap();
-  // }, [currentLocation]);
+  useEffect(() => {
+    // 키워드로 장소를 검색합니다
+    ps.keywordSearch(currentLocation, placesSearchCB);
+    // getMap();
+  }, [currentLocation]);
 
   useEffect(() => {
     MapPin();
