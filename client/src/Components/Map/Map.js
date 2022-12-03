@@ -9,6 +9,7 @@ const Map = ({ jamData }) => {
   // 마곡
   const [latitude, setLatitude] = useState(37.5602098);
   const [longitude, setLongitude] = useState(126.825479);
+  const [currentLevel, setCurrentLevel] = useState(4);
 
   // 장소 검색 객체를 생성합니다
   // const ps = new kakao.maps.services.Places();
@@ -32,13 +33,16 @@ const Map = ({ jamData }) => {
     const container = document.getElementById('map'); // 지도를 표시할 div
     const options = {
       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-      level: 4, // 지도 확대 레벨
+      level: currentLevel, // 지도 확대 레벨
     };
 
     const map = new kakao.maps.Map(container, options);
 
     // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     kakao.maps.event.addListener(map, 'center_changed', function () {
+      // 지도의  레벨을 얻어옵니다
+      const level = map.getLevel();
+      setCurrentLevel(level);
       // 지도의 중심좌표를 얻어옵니다
       const latlng = map.getCenter();
 
