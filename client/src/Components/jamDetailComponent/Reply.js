@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
@@ -7,11 +7,7 @@ import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
-import {
-  imgUrlState,
-  jamGradeState,
-  loginUserInfoState,
-} from '../../Atom/atoms';
+import { loginUserInfoState } from '../../Atom/atoms';
 import ReReply from './ReReply';
 
 const replyContainer = css`
@@ -77,18 +73,6 @@ const Reply = ({ replyList, jamData }) => {
   const [editVal, setEditVal] = useState('');
   const [user] = useRecoilState(loginUserInfoState);
   const [clickIndex, setClickIndex] = useState('');
-  const [grade, setGrade] = useRecoilState(jamGradeState);
-  const [imgUrl, setImgUrl] = useRecoilState(imgUrlState);
-
-  useEffect(() => {
-    const copy = { ...grade };
-    copy[user.nickname] = user.grade;
-    setGrade(copy);
-
-    const copy2 = { ...imgUrl };
-    copy2[user.nickname] = user.img;
-    setImgUrl(copy2);
-  }, []);
 
   const editHandleChange = e => {
     setEditVal(e.target.value);

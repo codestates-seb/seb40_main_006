@@ -6,11 +6,7 @@ import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
 // import Button from '../Button';
 import UserName from '../userComp/UserName';
-import { imgUrlState, loginUserInfoState } from '../../Atom/atoms';
-
-// import { FaUserCircle } from 'react-icons/fa';
-// import { AiOutlineTwitter } from 'react-icons/ai';
-// import { palette } from '../../Styles/theme';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 const Container = css`
   width: 100%;
@@ -45,7 +41,6 @@ const RegisterComment = css`
 
 const WriteComment = ({ text, setText, handleSubmit }) => {
   const [user] = useRecoilState(loginUserInfoState);
-  const [imgUrl] = useRecoilState(imgUrlState);
 
   const handleTextChange = e => {
     setText(e.target.value);
@@ -67,7 +62,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
           name={user.nickname}
           id={user.memberId}
           grade={user.grade}
-          img={imgUrl[user.nickname]}
+          img={user.profileImage}
         />
       </div>
       <div css={InputBox}>
