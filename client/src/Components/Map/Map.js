@@ -1,8 +1,8 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-// import { useRecoilState } from 'recoil';
-// import { location } from '../../Atom/atoms';
+import { useRecoilState } from 'recoil';
+import { coordinate } from '../../Atom/atoms';
 
 const { kakao } = window;
 const Map = ({ jamData }) => {
@@ -13,7 +13,7 @@ const Map = ({ jamData }) => {
   // 장소 검색 객체를 생성합니다
   // const ps = new kakao.maps.services.Places();
   // const [currentLocation] = useRecoilState(location); // 스타벅스 마곡역점
-  // const [currentCoordinate] = useRecoilState(coordinate); // 37.5602098, 126.825479
+  const [, setCurrentCoordinate] = useRecoilState(coordinate); // 37.5602098, 126.825479
   // setLatitude(currentCoordinate.latitude);
   // setLongitude(currentCoordinate.longitude);
 
@@ -41,8 +41,13 @@ const Map = ({ jamData }) => {
     kakao.maps.event.addListener(map, 'center_changed', function () {
       // 지도의 중심좌표를 얻어옵니다
       const latlng = map.getCenter();
+
       setLatitude(latlng.getLat());
       setLongitude(latlng.getLng());
+      setCurrentCoordinate({
+        latitude: latlng.getLat(),
+        longitude: latlng.getLng(),
+      });
     });
     return map;
   }
@@ -113,7 +118,7 @@ const Map = ({ jamData }) => {
 
   useEffect(() => {
     MapPin();
-  }, [latitude, longitude]);
+  }, [jamData]);
 
   return (
     <div
