@@ -97,6 +97,8 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 export default function GiveJam() {
   const [open, setOpen] = React.useState(false);
   const [pageUser] = useRecoilState(myPageInfoState);
@@ -117,7 +119,7 @@ export default function GiveJam() {
     setJam(copy);
   };
 
-  const BASE_URL = `${process.env.REACT_APP_URL}`;
+  
 
   const jamGradeSubmitHandler = e => {
     e.preventDefault();
