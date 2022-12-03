@@ -17,11 +17,14 @@ const box = css`
   overflow: hidden;
   border: 0.5px solid;
   border-color: ${palette.border};
-  border-radius: 10px;
+  border-radius: 3px;
   align-items: center;
-  padding: 10px 15px;
+  padding: 10px 10px;
   margin: 10px;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
 const openedJam = css`
@@ -37,7 +40,17 @@ const realTimeJam = css`
 const coverImage = css`
   width: 60px;
   height: 50px;
-  background-color: ${palette.gray_4};
+  /* background-color: ${palette.gray_4}; */
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 3px;
+  }
+`;
+
+const defaultImage = css`
+  opacity: 0.5;
 `;
 
 const info = css`
@@ -79,6 +92,8 @@ const bottomInfo = css`
   }
 `;
 
+const backgroundImage = './img/orangeJam.png';
+
 const LongJamCard = ({ jam }) => {
   let isCompleteJam;
   if (jam.completeStatus === 'FALSE') {
@@ -90,9 +105,20 @@ const LongJamCard = ({ jam }) => {
   const handleCardClick = jamId => {
     navigate(`/jamdetail/${jamId}`);
   };
+
   return (
     <div className={box} onClick={() => handleCardClick(jam.jamId)}>
-      <div className={coverImage} />
+      <div className={coverImage}>
+        {jam.image ? (
+          <img src={jam.image} alt="jamImage" />
+        ) : (
+          <img
+            className={defaultImage}
+            src={backgroundImage}
+            alt="jamDefaultImage"
+          />
+        )}
+      </div>
       <div className={info}>
         <div className={topInfo}>
           <p>{jam.title}</p>
