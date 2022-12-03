@@ -61,3 +61,4 @@ export const NoNearyByData = () => {
     </div>
   );
 };
+// export default NoData;
