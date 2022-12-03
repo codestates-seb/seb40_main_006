@@ -8,5 +8,5 @@ import lombok.Getter;
 public class ResponseParticipantDto {
     private Long memberId;
     private String nickname;
-    private String image;
+    private String profileImage;
 }

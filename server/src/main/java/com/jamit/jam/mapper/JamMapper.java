@@ -38,6 +38,7 @@ public interface JamMapper {
 
     @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "member.nickname", target = "nickname")
+    @Mapping(source = "member.profileImage", target = "profileImage")
     ResponseParticipantDto participantToParticipantListDto(JamParticipant jamParticipant);
 
 //    @IterableMapping(qualifiedByName = "jamList")
