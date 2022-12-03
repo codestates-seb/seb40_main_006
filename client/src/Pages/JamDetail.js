@@ -76,6 +76,8 @@ const CommentContainer = css`
   border-radius: 3px;
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const JamDetail = ({ isEdit, setIsEdit }) => {
   const [host, setHost] = useState('김코딩'); // eslint-disable-line no-unused-vars
   const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
@@ -95,7 +97,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
     await axios
-      .get(`/jams/${id}`)
+      .get(`${BASE_URL}/jams/${id}`)
       .then(res => {
         console.log('res.data: ', res.data);
         setJamData({ ...res.data });
@@ -121,7 +123,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
     }
     axios
       .post(
-        `/jams/${jamData.jamId}/comments`,
+        `${BASE_URL}/jams/${jamData.jamId}/comments`,
         { content: text },
         {
           headers: {

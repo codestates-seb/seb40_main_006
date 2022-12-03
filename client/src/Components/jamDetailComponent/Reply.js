@@ -69,6 +69,8 @@ const editForm = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const Reply = ({ replyList, jamData }) => {
   // 댓글
   const [edit, setEdit] = useState(false);
@@ -98,7 +100,7 @@ const Reply = ({ replyList, jamData }) => {
     if (edit) {
       axios
         .patch(
-          `/jams/${jamId}/comments/${commentId}`,
+          `${BASE_URL}/jams/${jamId}/comments/${commentId}`,
           { content: editVal },
           {
             headers: {
@@ -113,7 +115,7 @@ const Reply = ({ replyList, jamData }) => {
   const deleteHandler = (jamId, commentId) => {
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
-        .delete(`/jams/${jamId}/comments/${commentId}`, {
+        .delete(`${BASE_URL}/jams/${jamId}/comments/${commentId}`, {
           headers: {
             Authorization: `Bearer ${getCookie('accessToken')}`,
           },

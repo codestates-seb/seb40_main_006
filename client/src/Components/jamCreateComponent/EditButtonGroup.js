@@ -37,6 +37,8 @@ const DeleteEdit = css`
   background-color: ${palette.colorBtn2};
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const EditButtonGroup = ({ patchData }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -78,7 +80,7 @@ const EditButtonGroup = ({ patchData }) => {
 
     if (confirmData && accessToken) {
       try {
-        await axios.delete(`/jams/${id}`, {
+        await axios.delete(`${BASE_URL}/jams/${id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

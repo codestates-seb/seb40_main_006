@@ -130,6 +130,8 @@ const CancleButton = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 // eslint-disable-next-line no-unused-vars
 const JamSideBar = ({
   jamData,
@@ -191,7 +193,7 @@ const JamSideBar = ({
       if (accessToken) {
         await axios
           .post(
-            `/jams/${id}/complete/true`,
+            `${BASE_URL}/jams/${id}/complete/true`,
             {},
             {
               headers: {
@@ -225,7 +227,7 @@ const JamSideBar = ({
 
     if (confirmData && accessToken) {
       await axios
-        .delete(`/jams/${id}/complete/false`, {
+        .delete(`${BASE_URL}/jams/${id}/complete/false`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -253,7 +255,7 @@ const JamSideBar = ({
 
     await axios
       .post(
-        `/jams/${id}/participation/true`,
+        `${BASE_URL}/jams/${id}/participation/true`,
         {},
         {
           headers: {
@@ -285,7 +287,7 @@ const JamSideBar = ({
 
     if (confirmData && accessToken) {
       await axios
-        .delete(`/jams/${id}/participation/false`, {
+        .delete(`${BASE_URL}/jams/${id}/participation/false`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

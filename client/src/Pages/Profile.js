@@ -126,7 +126,7 @@ const Profile = () => {
       setErrorMessage({ nickname: '', password: '' });
       await axios
         .patch(
-          `/user/change/${user.memberId}`,
+          `${BASE_URL}/user/change/${user.memberId}`,
           {
             nickname: userInput.nickname,
             password: userInput.password,

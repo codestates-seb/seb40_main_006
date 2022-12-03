@@ -117,6 +117,8 @@ export default function GiveJam() {
     setJam(copy);
   };
 
+  const BASE_URL = `${process.env.REACT_APP_URL}`;
+
   const jamGradeSubmitHandler = e => {
     e.preventDefault();
     const grade = jam.filter(el => el).length;
@@ -124,7 +126,7 @@ export default function GiveJam() {
     console.log(grade);
     axios
       .post(
-        `/user/profile/${location}/grade`,
+        `${BASE_URL}/user/profile/${location}/grade`,
         { grade },
         {
           headers: {

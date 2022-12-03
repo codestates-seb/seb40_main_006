@@ -90,6 +90,8 @@ const rereply = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reVal, setReVal] = useState('');
   const [reValIdx, setReValIdx] = useState('');
@@ -129,7 +131,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     e.preventDefault();
     axios
       .post(
-        `/jams/${jamData.jamId}/comments/${commentId}/replies`,
+        `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
         {
           commentId,
           content: reVal,
@@ -150,7 +152,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     if (reEdit) {
       axios
         .patch(
-          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
           {
             replyId: jamData.commentList[btnIdx].replyList[idx].replyId,
             content: reEditVal,
@@ -169,7 +171,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
         .delete(
-          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
           {
             headers: {
               Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -226,7 +228,6 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                   ) : (
                     <div className="content">{el.content}</div>
                   )}
-
                   {el.nickname === user.nickname && (
                     <div className="reImg">
                       <button type="button" onClick={e => editHandler(e, idx)}>
