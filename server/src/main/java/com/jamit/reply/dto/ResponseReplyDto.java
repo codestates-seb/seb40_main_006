@@ -11,7 +11,8 @@ public class ResponseReplyDto {
     private Long memberId;
     private Long commentId;
     private String nickname;
-    private String image;
+    private String profileImage;
+    private double grade;
     private String content;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
