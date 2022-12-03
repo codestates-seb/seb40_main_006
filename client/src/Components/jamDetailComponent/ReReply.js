@@ -207,7 +207,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                     name={el.nickname}
                     id={el.memberId}
                     grade={el.grade}
-                    img={el.image}
+                    img={el.profileImage}
                   />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
                 </div>
