@@ -23,9 +23,11 @@ const userTitleContainer = css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     gap: 10px;
     font-size: 18px;
+    > .nickname {
+      margin-left: 3px;
+    }
   }
   .userTitleJam {
     display: flex;
@@ -62,22 +64,20 @@ const UserTitle = () => {
   const [pageUser] = useRecoilState(myPageInfoState);
   const [user] = useRecoilState(loginUserInfoState);
 
-  console.log('user', user);
-
   return (
     <div className={userTitle}>
       <div className={userTitleContainer}>
         {!user.img ? (
           <Avatar sx={{ width: 96, height: 96 }} alt="Jaehoon" src={user.img} />
         ) : (
-          <img src={user.img} alt="userimage" />
+          <img src={pageUser.img} alt="이미지를 설정해주세요" />
         )}
         <div className="userTitleInfo">
-          <div>{pageUser.nickname}</div>
+          <div className="nickname">{pageUser.nickname}</div>
           <div className="userTitleJam">
-            <JamColor />
+            <JamColor color={pageUser.grade} />
             <div>{pageUser.grade}</div>
-            <div>{`(${pageUser.평가수})`}</div>
+            <div>{`(${pageUser.gradeCount})`}</div>
           </div>
         </div>
       </div>

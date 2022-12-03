@@ -8,7 +8,7 @@ import JamColor from '../JamColor';
 
 const userName = css`
   display: flex;
-  // align-items: center;
+  align-items: center;
   gap: 5px;
   height: 20px;
   padding: 3px;
@@ -24,9 +24,14 @@ const userName = css`
 const UserName = props => {
   return (
     <Link to={`/mypage/${props.id}`} className={userName}>
-      <FaUserCircle size={15} />
+      {props.img ? (
+        <img src={props.img} alt="img" />
+      ) : (
+        <FaUserCircle size={15} />
+      )}
+
       {props.name}
-      <JamColor />
+      <JamColor color={props.grade} />
     </Link>
   );
 };

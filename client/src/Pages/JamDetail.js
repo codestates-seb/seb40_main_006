@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';

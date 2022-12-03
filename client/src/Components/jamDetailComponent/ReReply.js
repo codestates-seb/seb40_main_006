@@ -5,7 +5,11 @@ import { useRecoilState } from 'recoil';
 import React, { useState } from 'react';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
-import { loginUserInfoState } from '../../Atom/atoms';
+import {
+  imgUrlState,
+  jamGradeState,
+  loginUserInfoState,
+} from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 
@@ -96,6 +100,8 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reEdit, setReEdit] = useState(false);
   const [reEditVal, setReEditVal] = useState('');
   const [clickIdx, setClickIdx] = useState('');
+  const [grade] = useRecoilState(jamGradeState);
+  const [imgUrl] = useRecoilState(imgUrlState);
 
   const reValChange = e => {
     setReVal(e.target.value);
@@ -183,7 +189,12 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
       {btnIdx === reValIdx && (
         <form onSubmit={submitHandler}>
           <div className={writeContent}>
-            <UserName name={user.nickname} id={user.memberId} />
+            <UserName
+              name={user.nickname}
+              id={user.memberId}
+              grade={grade[user.nickname]}
+              img={imgUrl[user.nickname]}
+            />
             <input
               type="text"
               name="text"
@@ -196,7 +207,12 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
             {reValList[btnIdx]?.map((el, idx) => (
               <div key={el.replyId} className={rereply}>
                 <div className="title">
-                  <UserName name={el.nickname} id={user.memberId} />
+                  <UserName
+                    name={el.nickname}
+                    id={el.memberId}
+                    grade={grade[el.nickname]}
+                    img={imgUrl[el.nickname]}
+                  />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
                 </div>
                 <div className="container">

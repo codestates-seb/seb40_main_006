@@ -44,10 +44,20 @@ export default function ForgetPassword() {
       setError('이름과 이메일을 전부 입력해주세요.');
     } else {
       setError('');
-      axios.post('user/password', userInput).then(() => {
-        alert('제출 완료되었습니다.');
-        setOpen(false);
-      });
+      axios
+        .post('/user/findpassword/send', {
+          email: userInput.email,
+          nickname: userInput.name,
+        })
+        .then(() => {
+          alert('제출 완료되었습니다.');
+          setOpen(false);
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            setError('닉네임과 이메일을 확인해주세요');
+          }
+        });
     }
   };
 
@@ -68,8 +78,8 @@ export default function ForgetPassword() {
         <DialogTitle>비밀번호를 잊으셨나요?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            회원가입시 입력했던 이름과 이메일 주소를 입력하십시오. 정보가 일치할
-            경우, 이메일로 임시 비밀번호가 발급됩니다
+            회원가입시 입력했던 이름과 이메일 주소를 입력해주세요. 정보가 일치할
+            경우, 이메일로 임시 비밀번호가 발급됩니다.
           </DialogContentText>
           <TextField
             autoFocus
@@ -95,7 +105,7 @@ export default function ForgetPassword() {
           <div className={validateText}>{error}</div>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" onClick={clickSubmitHandler}>
+          <Button type="button" onClick={clickSubmitHandler}>
             제출
           </Button>
           <Button onClick={handleClose}>취소</Button>
