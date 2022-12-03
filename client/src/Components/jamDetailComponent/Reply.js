@@ -118,6 +118,7 @@ const Reply = ({ replyList, jamData }) => {
       {replyList?.map((reply, idx) => (
         <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
+            {console.log(reply)}
             <UserName
               name={reply.nickname}
               id={reply.memberId}
