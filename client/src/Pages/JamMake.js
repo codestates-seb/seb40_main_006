@@ -155,6 +155,8 @@ const ChatlinkBox = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const CURRENT_DATE_TIME = new Date();
 const TODAY_MIDNIGHT_TIME = new Date();
 // const TODAY_MIDNIGHT_TIME = new Date(
@@ -254,7 +256,7 @@ const JamMake = ({ isEdit }) => {
     formData.append('address', address);
 
     await axios
-      .post(`/jams/write`, mainData, {
+      .post(`${BASE_URL}/jams/write`, mainData, {
         headers: {
           // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
@@ -273,7 +275,7 @@ const JamMake = ({ isEdit }) => {
   const getJamForEdit = async () => {
     // eslint-disable-next-line no-return-await
     return await axios
-      .get(`/jams/${id}`)
+      .get(`${BASE_URL}/jams/${id}`)
       .then(res => {
         // console.log('res.data: ', res.data);
         // setJamData({ ...res.data });

@@ -97,6 +97,8 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 export default function GiveJam() {
   const [open, setOpen] = React.useState(false);
   const [pageUser] = useRecoilState(myPageInfoState);
@@ -124,7 +126,7 @@ export default function GiveJam() {
     console.log(grade);
     axios
       .post(
-        `/user/profile/${location}/grade`,
+        `${BASE_URL}/user/profile/${location}/grade`,
         { grade },
         {
           headers: {
