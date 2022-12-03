@@ -30,7 +30,7 @@ export default function AccountMenu() {
   };
   const handleLogout = () => {
     setIsLogin(false);
-    setUser({ memberId: '', nickname: '', img: '', grade: '' });
+    setUser({ memberId: '', nickname: '', img: '', grade: '', gradeCount: '' });
     removeCookie('accessToken');
     removeCookie('refreshToken');
     navigate('/login');

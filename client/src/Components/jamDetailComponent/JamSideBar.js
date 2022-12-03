@@ -266,6 +266,7 @@ const JamSideBar = ({
         if (res.status === 200) {
           setJoiner([...joiner, currentUser]);
         }
+        window.location.reload();
       })
       .catch(error => {
         console.log(error.message);
@@ -291,6 +292,7 @@ const JamSideBar = ({
         })
         .then(res => {
           console.log('res.status: ', res.status);
+          window.location.reload();
           if (res.status === 200) {
             // setJoiner(false);
             setJoiner(

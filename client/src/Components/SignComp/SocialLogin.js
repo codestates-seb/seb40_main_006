@@ -24,6 +24,7 @@ const SocialLogin = () => {
       nickname: userObject.name,
       img: userObject.picture,
       grade: '2',
+      gradeCount: '5',
     });
     setIsLogin(true);
     setCookie('accessToken', encodedJwtIdToken);

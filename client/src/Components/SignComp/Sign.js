@@ -119,12 +119,12 @@ const Sign = () => {
             // const accessToken = res.headers.get('Authorization');
             const refreshToken = res.headers.refresh;
             setIsLogin(true);
-            console.log(res.data);
             setUser({
               memberId: res.data.memberId,
               nickname: res.data.nickname,
               img: res.data.profileImage,
               grade: res.data.grade,
+              gradeCount: res.data.gradeCount,
             });
             setCookie('accessToken', accessToken);
             setCookie('refreshToken', refreshToken);
