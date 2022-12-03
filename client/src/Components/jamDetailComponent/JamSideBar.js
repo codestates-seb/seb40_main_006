@@ -7,7 +7,7 @@ import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import RecruitState from './RecruitState';
@@ -364,9 +364,9 @@ const JamSideBar = ({
             <span>채팅채널</span>
             <br />
             <span>
-              <Link to={openChatLink} target="_blank">
+              <a href={openChatLink} target="_blank" rel="noopener noreferrer">
                 {openChatLink}
-              </Link>
+              </a>
             </span>
           </div>
         </>
