@@ -12,9 +12,11 @@ import com.jamit.auth.jwt.JwtTokenizer;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.auth.handler.OAuth2MemberSuccessHandler;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -53,6 +55,7 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer()) // Custom Configurer 추가
             .and()
                 .authorizeHttpRequests(authorize -> authorize
+                    .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/*/user/signup").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/*/user/login").permitAll()
 //                    .antMatchers("/login/oauth2/code/google").permitAll()
@@ -75,8 +78,10 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE"));
+        configuration.setAllowCredentials(true);
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
 
