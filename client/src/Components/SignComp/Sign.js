@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-alert */
 import * as React from 'react';
 import { useState } from 'react';
@@ -112,6 +113,13 @@ const Sign = () => {
               username: userInput.email,
               password: userInput.password,
             },
+            {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cache: 'no-cache',
+              },
+            },
             { withCredentials: true },
           )
           .then(res => {
@@ -141,16 +149,22 @@ const Sign = () => {
           });
       }
       if (page === 'signup') {
-        await axios
-          .post(
-            `/user/signup`,
-            {
-              email: userInput.email,
-              password: userInput.password,
-              nickname: userInput.name,
-            },
-            { withCredentials: true },
-          )
+        const data = JSON.stringify({
+          email: userInput.email,
+          password: userInput.password,
+          nickname: userInput.name,
+        });
+
+        const config = {
+          method: 'post',
+          url: '/user/signup',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data,
+        };
+
+        axios(config)
           .then(() => {
             setError({ ...error, email: '' });
             alert('회원가입이 완료되었습니다');
@@ -164,6 +178,30 @@ const Sign = () => {
               });
             }
           });
+
+        // await axios
+        //   .post(
+        //     `/user/signup`,
+        //     {
+        //       email: userInput.email,
+        //       password: userInput.password,
+        //       nickname: userInput.name,
+        //     },
+        //     { withCredentials: true },
+        //   )
+        //   .then(() => {
+        //     setError({ ...error, email: '' });
+        //     alert('회원가입이 완료되었습니다');
+        //     navigate('/login');
+        //   })
+        //   .catch(err => {
+        //     if (err.response.status === 409) {
+        //       setError({
+        //         ...error,
+        //         email: '이름과 이메일 정보를 확인해주세요',
+        //       });
+        //     }
+        //   });
       }
     };
 
