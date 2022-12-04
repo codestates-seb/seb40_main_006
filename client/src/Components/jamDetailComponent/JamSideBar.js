@@ -15,6 +15,7 @@ import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import { getCookie } from '../SignComp/Cookie';
 import { loginUserInfoState } from '../../Atom/atoms';
+import UserName from '../userComp/UserName';
 
 const JamSideContainer = css`
   width: 220px;
@@ -313,8 +314,12 @@ const JamSideBar = ({
       <div css={Header}>
         <div css={UserAndStateBox}>
           <div css={UserBox}>
-            <FaUserCircle />
-            <span>{nickname}</span>
+            <UserName
+              name={jamData.nickname}
+              id={jamData.memberId}
+              grade={jamData.grade}
+              img={jamData.image}
+            />
           </div>
           {isComplete === 'FALSE' ? (
             <RecruitState state="open" variant="colorJamOpen">
@@ -357,7 +362,11 @@ const JamSideBar = ({
               jamData.participantList.map(el => {
                 return (
                   <div key={el.memberId} className="imgContainer">
-                    <img src={el.profileImage} alt={el.nickname} />
+                    {el.profileImage ? (
+                      <img src={el.profileImage} alt={el.nickname} />
+                    ) : (
+                      <FaUserCircle size={32} />
+                    )}
                   </div>
                 );
               })}
