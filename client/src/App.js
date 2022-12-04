@@ -5,7 +5,7 @@ import Signup from './Pages/Signup';
 import Profile from './Pages/Profile';
 import Mypage from './Pages/Mypage';
 import Home from './Pages/Home';
-import Category from './Components/Category/CategoryResult';
+import Category from './Pages/CategoryResult';
 import Header from './Components/Header/Header';
 import JamDetail from './Pages/JamDetail';
 import JamMake from './Pages/JamMake';

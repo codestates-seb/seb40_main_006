@@ -30,6 +30,8 @@ const validateText = css`
   color: #d32f2f;
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const Sign = () => {
   const [, setIsLogin] = useRecoilState(isLoginState);
   const [, setUser] = useRecoilState(loginUserInfoState);
@@ -107,10 +109,17 @@ const Sign = () => {
       if (page === 'login') {
         await axios
           .post(
-            `/user/login`,
+            `${BASE_URL}/user/login`,
             {
               username: userInput.email,
               password: userInput.password,
+            },
+            {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cache: 'no-cache',
+              },
             },
             { withCredentials: true },
           )
@@ -143,7 +152,7 @@ const Sign = () => {
       if (page === 'signup') {
         await axios
           .post(
-            `/user/signup`,
+            `${BASE_URL}/user/signup`,
             {
               email: userInput.email,
               password: userInput.password,

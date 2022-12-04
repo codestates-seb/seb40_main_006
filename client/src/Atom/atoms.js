@@ -3,6 +3,16 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
+const totalJamLength = atom({
+  key: 'totalJamLength',
+  default: 0,
+});
+
+const pageNumber = atom({
+  key: 'pageNumber',
+  default: 1,
+});
+
 const location = atom({
   key: 'location',
   default: '서울특별시 강서구 마곡동',
@@ -29,22 +39,6 @@ const loginUserInfoState = atom({
     img: '',
     grade: '',
     gradeCount: '',
-  },
-  effects_UNSTABLE: [persistAtom],
-});
-
-const jamGradeState = atom({
-  key: 'jamGrade',
-  default: {
-    name: '',
-  },
-  effects_UNSTABLE: [persistAtom],
-});
-
-const imgUrlState = atom({
-  key: 'imgUrl',
-  default: {
-    name: '',
   },
   effects_UNSTABLE: [persistAtom],
 });
@@ -98,12 +92,12 @@ const myPageInfoState = atom({
 });
 
 export {
+  totalJamLength,
+  pageNumber,
   location,
   coordinate,
   selectedCategory,
   isLoginState,
   loginUserInfoState,
   myPageInfoState,
-  jamGradeState,
-  imgUrlState,
 };

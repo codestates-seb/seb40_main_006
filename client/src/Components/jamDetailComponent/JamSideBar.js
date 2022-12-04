@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
@@ -7,7 +9,7 @@ import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import RecruitState from './RecruitState';
@@ -15,6 +17,7 @@ import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import { getCookie } from '../SignComp/Cookie';
 import { loginUserInfoState } from '../../Atom/atoms';
+import UserName from '../userComp/UserName';
 
 const JamSideContainer = css`
   width: 220px;
@@ -87,11 +90,8 @@ const AvatarContainer = css`
     width: 30px;
     height: 30px;
     border-radius: 100px;
+    cursor: pointer;
   }
-  /* .imgContainer {
-    display: flex;
-    justify-content: flex;
-  } */
 `;
 
 const ButtonContainer = css`
@@ -129,6 +129,8 @@ const CancleButton = css`
     background-color: grey;
   }
 `;
+
+const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 // eslint-disable-next-line no-unused-vars
 const JamSideBar = ({
@@ -191,7 +193,7 @@ const JamSideBar = ({
       if (accessToken) {
         await axios
           .post(
-            `/jams/${id}/complete/true`,
+            `${BASE_URL}/jams/${id}/complete/true`,
             {},
             {
               headers: {
@@ -225,7 +227,7 @@ const JamSideBar = ({
 
     if (confirmData && accessToken) {
       await axios
-        .delete(`/jams/${id}/complete/false`, {
+        .delete(`${BASE_URL}/jams/${id}/complete/false`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -253,7 +255,7 @@ const JamSideBar = ({
 
     await axios
       .post(
-        `/jams/${id}/participation/true`,
+        `${BASE_URL}/jams/${id}/participation/true`,
         {},
         {
           headers: {
@@ -285,7 +287,7 @@ const JamSideBar = ({
 
     if (confirmData && accessToken) {
       await axios
-        .delete(`/jams/${id}/participation/false`, {
+        .delete(`${BASE_URL}/jams/${id}/participation/false`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -306,13 +308,21 @@ const JamSideBar = ({
     }
   };
 
+  const handleCardClick = jamId => {
+    navigate(`/mypage/${jamId}`);
+  };
+
   return (
     <div css={JamSideContainer}>
       <div css={Header}>
         <div css={UserAndStateBox}>
           <div css={UserBox}>
-            <FaUserCircle />
-            <span>{nickname}</span>
+            <UserName
+              name={jamData.nickname}
+              id={jamData.memberId}
+              grade={jamData.grade}
+              img={jamData.image}
+            />
           </div>
           {isComplete === 'FALSE' ? (
             <RecruitState state="open" variant="colorJamOpen">
@@ -354,8 +364,16 @@ const JamSideBar = ({
             {jamData &&
               jamData.participantList.map(el => {
                 return (
-                  <div key={el.memberId} className="imgContainer">
-                    <img src={el.profileImage} alt={el.nickname} />
+                  <div
+                    key={el.memberId}
+                    className="imgContainer"
+                    onClick={() => handleCardClick(el.memberId)}
+                  >
+                    {el.profileImage ? (
+                      <img src={el.profileImage} alt={el.nickname} />
+                    ) : (
+                      <FaUserCircle size={32} />
+                    )}
                   </div>
                 );
               })}
@@ -364,9 +382,9 @@ const JamSideBar = ({
             <span>채팅채널</span>
             <br />
             <span>
-              <Link to={openChatLink} target="_blank">
+              <a href={openChatLink} target="_blank" rel="noopener noreferrer">
                 {openChatLink}
-              </Link>
+              </a>
             </span>
           </div>
         </>
@@ -375,7 +393,15 @@ const JamSideBar = ({
       {nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
           {!isJoiner ? (
-            <button type="button" css={RegisterButton} onClick={handleJoin}>
+            <button
+              type="button"
+              css={RegisterButton}
+              onClick={handleJoin}
+              disabled={isComplete === 'TRUE'}
+              style={
+                isComplete === 'TRUE' ? { backgroundColor: '#bababa' } : null
+              }
+            >
               참여하기
             </button>
           ) : (

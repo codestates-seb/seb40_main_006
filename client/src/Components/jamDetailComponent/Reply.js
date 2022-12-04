@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
@@ -7,11 +7,7 @@ import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 import { palette } from '../../Styles/theme';
-import {
-  imgUrlState,
-  jamGradeState,
-  loginUserInfoState,
-} from '../../Atom/atoms';
+import { loginUserInfoState } from '../../Atom/atoms';
 import ReReply from './ReReply';
 
 const replyContainer = css`
@@ -69,24 +65,14 @@ const editForm = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const Reply = ({ replyList, jamData }) => {
   // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
   const [user] = useRecoilState(loginUserInfoState);
   const [clickIndex, setClickIndex] = useState('');
-  const [grade, setGrade] = useRecoilState(jamGradeState);
-  const [imgUrl, setImgUrl] = useRecoilState(imgUrlState);
-
-  useEffect(() => {
-    const copy = { ...grade };
-    copy[user.nickname] = user.grade;
-    setGrade(copy);
-
-    const copy2 = { ...imgUrl };
-    copy2[user.nickname] = user.img;
-    setImgUrl(copy2);
-  }, []);
 
   const editHandleChange = e => {
     setEditVal(e.target.value);
@@ -98,7 +84,7 @@ const Reply = ({ replyList, jamData }) => {
     if (edit) {
       axios
         .patch(
-          `/jams/${jamId}/comments/${commentId}`,
+          `${BASE_URL}/jams/${jamId}/comments/${commentId}`,
           { content: editVal },
           {
             headers: {
@@ -113,7 +99,7 @@ const Reply = ({ replyList, jamData }) => {
   const deleteHandler = (jamId, commentId) => {
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
-        .delete(`/jams/${jamId}/comments/${commentId}`, {
+        .delete(`${BASE_URL}/jams/${jamId}/comments/${commentId}`, {
           headers: {
             Authorization: `Bearer ${getCookie('accessToken')}`,
           },
@@ -135,10 +121,9 @@ const Reply = ({ replyList, jamData }) => {
             <UserName
               name={reply.nickname}
               id={reply.memberId}
-              grade={grade[reply.nickname]}
-              img={imgUrl[reply.nickname]}
+              grade={reply.grade}
+              img={reply.profileImage}
             />
-            {console.log(reply.createdAt)}
             <p>{jamElapsedTime(reply.createdAt)}</p>
           </div>
           <div className={replyContent}>

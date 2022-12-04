@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 // import palette from '../Styles/theme';
 import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
-import LongJamCard from '../Components/Category/LongJamCard';
+import LongJamCard from '../Components/Card/LongJamCard';
 import Map from '../Components/Map/Map';
 import { location, coordinate } from '../Atom/atoms';
 import { fetchJamRead } from '../Utils/fetchJam';
@@ -43,6 +43,8 @@ const map = css`
 const list = css`
   display: flex;
   flex-direction: column;
+  height: 70vh;
+  overflow: auto;
   margin-left: 20px;
 `;
 

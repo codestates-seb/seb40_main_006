@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { myPageInfoState } from '../../Atom/atoms';
+import { isLoginState, myPageInfoState } from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import { getCookie } from '../SignComp/Cookie';
 
@@ -97,15 +97,19 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 export default function GiveJam() {
   const [open, setOpen] = React.useState(false);
   const [pageUser] = useRecoilState(myPageInfoState);
   const array = [0, 1, 2, 3, 4];
   const [jam, setJam] = useState([false, false, false, false, false]);
   const location = useLocation().pathname.slice(8);
+  const [isLogin] = useRecoilState(isLoginState);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (isLogin) setOpen(true);
+    else alert('로그인을 진행해주세요.');
   };
 
   const handleClose = () => {
@@ -124,7 +128,7 @@ export default function GiveJam() {
     console.log(grade);
     axios
       .post(
-        `/user/profile/${location}/grade`,
+        `${BASE_URL}/user/profile/${location}/grade`,
         { grade },
         {
           headers: {

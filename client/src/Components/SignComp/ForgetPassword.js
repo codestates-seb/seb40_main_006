@@ -20,6 +20,8 @@ const validateText = css`
   color: #d32f2f;
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 export default function ForgetPassword() {
   const [open, setOpen] = React.useState(false);
 
@@ -45,7 +47,7 @@ export default function ForgetPassword() {
     } else {
       setError('');
       axios
-        .post('/user/findpassword/send', {
+        .post(`${BASE_URL}/user/findpassword/send`, {
           email: userInput.email,
           nickname: userInput.name,
         })

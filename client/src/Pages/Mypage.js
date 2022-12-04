@@ -75,6 +75,8 @@ const userJamInfo = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const Mypage = () => {
   const [, setUser] = useRecoilState(myPageInfoState);
   const location = useLocation().pathname.slice(8);
@@ -82,7 +84,7 @@ const Mypage = () => {
   const accessToken = getCookie('accessToken');
   useEffect(() => {
     axios
-      .get(`/user/profile/${location}`, {
+      .get(`${BASE_URL}/user/profile/${location}`, {
         headers: {
           Authorization: `${accessToken}`,
         },

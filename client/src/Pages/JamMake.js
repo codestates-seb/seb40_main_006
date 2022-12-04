@@ -44,12 +44,7 @@ const Header = css`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5px;
-`;
-
-const HeaderText = css`
-  font-size: 15px;
-  padding: 10px 0;
-  margin-left: 5px;
+  margin-top: 10px;
 `;
 
 const HeaderTap = css`
@@ -160,6 +155,8 @@ const ChatlinkBox = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const CURRENT_DATE_TIME = new Date();
 const TODAY_MIDNIGHT_TIME = new Date();
 // const TODAY_MIDNIGHT_TIME = new Date(
@@ -259,7 +256,7 @@ const JamMake = ({ isEdit }) => {
     formData.append('address', address);
 
     await axios
-      .post(`/jams/write`, mainData, {
+      .post(`${BASE_URL}/jams/write`, mainData, {
         headers: {
           // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
@@ -278,7 +275,7 @@ const JamMake = ({ isEdit }) => {
   const getJamForEdit = async () => {
     // eslint-disable-next-line no-return-await
     return await axios
-      .get(`/jams/${id}`)
+      .get(`${BASE_URL}/jams/${id}`)
       .then(res => {
         // console.log('res.data: ', res.data);
         // setJamData({ ...res.data });
@@ -307,32 +304,33 @@ const JamMake = ({ isEdit }) => {
   };
 
   useEffect(() => {
-    getJamForEdit().then(data => {
-      if (data) {
-        setJamData(data);
-        setCurrentTab(data.realTime);
-        setLocationText(data.location);
-        setTitle(data.title);
-        setCategory(data.category);
-        setCapacity(data.capacity);
+    isEdit &&
+      getJamForEdit().then(data => {
+        if (data) {
+          setJamData(data);
+          setCurrentTab(data.realTime);
+          setLocationText(data.location);
+          setTitle(data.title);
+          setCategory(data.category);
+          setCapacity(data.capacity);
 
-        setLongitude(data.longitude);
-        setLatitude(data.latitude);
-        setAddress(data.address);
-        setPeriod([new Date(data.jamFrom), new Date(data.jamTo)]);
+          setLongitude(data.longitude);
+          setLatitude(data.latitude);
+          setAddress(data.address);
+          setPeriod([new Date(data.jamFrom), new Date(data.jamTo)]);
 
-        setJamTitle(data.title);
-        setJamCategory(data.category);
-        setJamCapacity(data.capacity);
+          setJamTitle(data.title);
+          setJamCategory(data.category);
+          setJamCapacity(data.capacity);
 
-        setDesc(data.content);
-        setChatLink(data.openChatLink);
-        setImage({
-          image_file: '',
-          previewURL: data.image,
-        });
-      }
-    });
+          setDesc(data.content);
+          setChatLink(data.openChatLink);
+          setImage({
+            image_file: '',
+            previewURL: data.image,
+          });
+        }
+      });
   }, []);
 
   const handleChatLink = e => {
@@ -344,7 +342,6 @@ const JamMake = ({ isEdit }) => {
       <Sidebar />
       <div css={Container}>
         <header css={Header}>
-          <div css={HeaderText}>카테고리 &gt; 요리</div>
           <div css={HeaderTap}>
             <ThemeProvider theme={palette}>
               <div css={Tapstyle}>

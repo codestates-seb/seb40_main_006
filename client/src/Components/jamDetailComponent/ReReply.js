@@ -5,11 +5,7 @@ import { useRecoilState } from 'recoil';
 import React, { useState } from 'react';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
-import {
-  imgUrlState,
-  jamGradeState,
-  loginUserInfoState,
-} from '../../Atom/atoms';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
 
@@ -35,6 +31,10 @@ const writeContent = css`
   width: 510px;
   padding-left: 17px;
   margin-bottom: 10px;
+  input::placeholder {
+    font-size: 12px;
+    color: #a6a6a6;
+  }
   > input {
     width: 100%;
     border-radius: 4px;
@@ -90,6 +90,8 @@ const rereply = css`
   }
 `;
 
+const BASE_URL = `${process.env.REACT_APP_URL}`;
+
 const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reVal, setReVal] = useState('');
   const [reValIdx, setReValIdx] = useState('');
@@ -100,8 +102,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
   const [reEdit, setReEdit] = useState(false);
   const [reEditVal, setReEditVal] = useState('');
   const [clickIdx, setClickIdx] = useState('');
-  const [grade] = useRecoilState(jamGradeState);
-  const [imgUrl] = useRecoilState(imgUrlState);
+  const [isLogin] = useRecoilState(isLoginState);
 
   const reValChange = e => {
     setReVal(e.target.value);
@@ -129,7 +130,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     e.preventDefault();
     axios
       .post(
-        `/jams/${jamData.jamId}/comments/${commentId}/replies`,
+        `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
         {
           commentId,
           content: reVal,
@@ -150,7 +151,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     if (reEdit) {
       axios
         .patch(
-          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
           {
             replyId: jamData.commentList[btnIdx].replyList[idx].replyId,
             content: reEditVal,
@@ -169,7 +170,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       axios
         .delete(
-          `/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
+          `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies/${jamData.commentList[btnIdx].replyList[idx].replyId}`,
           {
             headers: {
               Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -189,19 +190,33 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
       {btnIdx === reValIdx && (
         <form onSubmit={submitHandler}>
           <div className={writeContent}>
-            <UserName
-              name={user.nickname}
-              id={user.memberId}
-              grade={grade[user.nickname]}
-              img={imgUrl[user.nickname]}
-            />
-            <input
-              type="text"
-              name="text"
-              value={reVal}
-              onChange={reValChange}
-            />
-            <button type="submit">등록</button>
+            {isLogin ? (
+              <>
+                <UserName
+                  name={user.nickname}
+                  id={user.memberId}
+                  grade={user.grade}
+                  img={user.img}
+                />
+                <input
+                  type="text"
+                  name="text"
+                  placeholder="댓글을 남겨주세요"
+                  value={reVal}
+                  onChange={reValChange}
+                />
+                <button type="submit">등록</button>
+              </>
+            ) : (
+              <input
+                type="text"
+                name="text"
+                placeholder="댓글을 작성하려면 로그인 해주세요"
+                readOnly
+                value={reVal}
+                onChange={reValChange}
+              />
+            )}
           </div>
           <div className={content}>
             {reValList[btnIdx]?.map((el, idx) => (
@@ -210,8 +225,8 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                   <UserName
                     name={el.nickname}
                     id={el.memberId}
-                    grade={grade[el.nickname]}
-                    img={imgUrl[el.nickname]}
+                    grade={el.grade}
+                    img={el.profileImage}
                   />
                   <p>{jamElapsedTime(el.modifiedAt)}</p>
                 </div>
@@ -226,7 +241,6 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                   ) : (
                     <div className="content">{el.content}</div>
                   )}
-
                   {el.nickname === user.nickname && (
                     <div className="reImg">
                       <button type="button" onClick={e => editHandler(e, idx)}>

@@ -14,15 +14,13 @@ const JoinJamCard = ({ jamId, jam }) => {
     navigate(`/jamdetail/${jamId}`);
   };
 
-  console.log(jam);
-
   return (
     <div className="jamContainer" onClick={clickHandler}>
       <Card className="card">
         <CardMedia
           component="img"
           className="cardMedia"
-          image="../img/back2.jpg"
+          image={jam.image ? jam.image : '../img/back2.jpg'}
           alt="img"
           sx={{ width: '25%' }}
         />
