@@ -82,11 +82,11 @@ const Category = () => {
     const totalJam = fetchJamRead('/jams');
 
     totalJam.then(data => {
-      const totalLength = data.content[0].jamId;
+      const totalLength = data.content.length;
       console.log(totalLength);
       data.content[0].jamId % size === 0
-        ? setTotalJamCount(Math.ceil(totalLength / size))
-        : setTotalJamCount(Math.ceil(totalLength / size) + 1);
+        ? setTotalJamCount(Math.floor(totalLength / size))
+        : setTotalJamCount(Math.floor(totalLength / size) + 1);
     });
 
     if (currentCategory.label === '내주변') navigate('/home');
