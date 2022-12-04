@@ -55,7 +55,7 @@ const EditButtonGroup = ({ patchData }) => {
     }
 
     await axios
-      .patch(`/jams/${id}`, patchData, {
+      .patch(`${BASE_URL}/jams/${id}`, patchData, {
         headers: {
           // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
