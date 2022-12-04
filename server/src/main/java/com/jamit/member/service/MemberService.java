@@ -161,32 +161,6 @@ public class MemberService {
     /*
      * 유저 평점 주기
      * */
-    /*public void giveGrades(GradePostDto grade, Long memberId, Long loggedOnId) {
-
-        Member verifiedMember = findVerifiedMemberByMemberId(memberId);
-
-        System.out.println("멤버 아이디 : " + verifiedMember.getMemberId());
-        System.out.println("현재 로그인한 아이디 : " + loggedOnId);
-
-        if (Objects.equals(memberId, loggedOnId)) {
-            throw new BusinessLogicException(ExceptionCode.CAN_NOT_GRADE);
-        } else {
-
-            int gradeCount = verifiedMember.getGradeCount();
-            double currentGrade = verifiedMember.getGrade();
-            double updateGrade;
-
-            if (gradeCount == 0) {
-                updateGrade = grade.getGrade();
-            } else {
-                updateGrade = (((double) gradeCount * currentGrade) + grade.getGrade()) / (double) (gradeCount + 1);
-            }
-            verifiedMember.setGrade((double) Math.round(updateGrade));
-            verifiedMember.setGradeCount(gradeCount + 1);
-            memberRepository.save(verifiedMember);
-        }
-    }*/
-
     public void giveGrades(GradePostDto gradePostDto, Long memberId, Long loggedOnId) {
 
         Member verifiedMember = findVerifiedMemberByMemberId(memberId);
@@ -196,7 +170,7 @@ public class MemberService {
         System.out.println("멤버 아이디 : " + verifiedMember.getMemberId());
         System.out.println("현재 로그인한 아이디 : " + loggedOnId);
 
-        if (Objects.equals(memberId, loggedOnId)) {     // 로그인한 아이디랑 마이페이지 주인이랑 같은 사람이면 -> 근데 애초에 프론트 단에서 잼 주기 버튼 안 보임
+        if (Objects.equals(memberId, loggedOnId)) {
             throw new BusinessLogicException(ExceptionCode.CAN_NOT_GRADE);
         }
 
@@ -204,20 +178,15 @@ public class MemberService {
         double currentGrade = verifiedMember.getGrade();
         double updateGrade;
 
-        if (optionalGrade.isPresent()) {
-            updateGrade = (((double) gradeCount * currentGrade) + gradePostDto.getGrade()) / (double) (gradeCount + 1);
-        } else {
+        if (gradeCount == 0) {
             updateGrade = gradePostDto.getGrade();
+        } else {
+            updateGrade = (((double) gradeCount * currentGrade) + gradePostDto.getGrade()) / (double) (gradeCount + 1);
         }
-
-        grade.setMember(verifiedMember);
-        grade.setGaveGradeId(loggedOnId);
-
+        verifiedMember.setGrade(Double.parseDouble(String.format("%.1f", updateGrade)));
         verifiedMember.setGradeCount(gradeCount + 1);
-        verifiedMember.setGrade((double) Math.round(updateGrade));
-
-        gradeRepository.save(grade);
         memberRepository.save(verifiedMember);
+//        System.out.println(">>> setGrade : " + verifiedMember.getGrade());
 
     }
 
