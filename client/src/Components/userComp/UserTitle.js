@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';

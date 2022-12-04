@@ -24,14 +24,13 @@ const header = css`
   position: fixed;
   z-index: 10;
 `;
-// logo
+
 const logo = css`
   margin-left: 10px;
   width: 130px;
   cursor: pointer;
 `;
 
-// search
 const searchBar = css`
   display: flex;
   align-items: center;
@@ -41,7 +40,7 @@ const searchBar = css`
   margin: 15px 10px;
   flex-grow: 1;
 `;
-// 유저 로그인 파트
+
 const rightHeader = css`
   display: flex;
   align-items: center;
@@ -55,7 +54,6 @@ const loginBtn = css`
   cursor: pointer;
 `;
 
-// logout
 const createJamBtn = css`
   border-radius: 10px;
   padding: 15px 40px;
@@ -98,7 +96,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -109,7 +106,6 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
   const handleSearch = e => {
-    // console.log(e.target.value);
     setSearchText(e.target.value);
   };
 
@@ -125,7 +121,6 @@ const SearchBar = () => {
         </SearchIconWrapper>
         <StyledInputBase
           onChange={handleSearch}
-          // value={searchText}
           placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
           onClick={() => sessionStorage.clear()}
@@ -166,8 +161,6 @@ const LogoutArea = () => {
 
 const Header = () => {
   const [isLogin] = useRecoilState(isLoginState);
-  // const [isAddressClick, setIsAddressClick] = useState(false);
-
   return (
     <div className={headerBox}>
       <div className={header}>
@@ -176,9 +169,6 @@ const Header = () => {
         </Link>
         <AddressDialog />
         <SearchBar />
-
-        {/* <LoginArea /> */}
-        {/* <LogoutArea /> */}
         {!isLogin ? <LoginArea /> : <LogoutArea />}
       </div>
     </div>

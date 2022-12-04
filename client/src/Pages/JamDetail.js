@@ -15,8 +15,6 @@ import Sidebar from '../Components/Sidebar';
 import { palette } from '../Styles/theme';
 import { getCookie } from '../Components/SignComp/Cookie';
 import Reply from '../Components/jamDetailComponent/Reply';
-// import ReplyComment from '../Components/jamDetailComponent/ReplyComment';
-// import ReReplyComment from '../Components/jamDetailComponent/ReReplyComment';
 
 const MergeContainer = css`
   width: 100%;
@@ -46,8 +44,6 @@ const JamContainer = css`
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
-  /* border: 2px solid ${palette.gray_5}; */
   border-radius: 3px;
 `;
 
@@ -72,7 +68,6 @@ const CommentContainer = css`
   justify-content: flex-start;
   align-items: center;
   background-color: ${palette.gray_4};
-  /* box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2); */
   border-radius: 3px;
 `;
 
@@ -112,8 +107,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
     getJamData();
   }, []);
 
-  // .log('jamData: ', jamData);
-
   const handleSubmit = e => {
     e.preventDefault();
     if (text === '') {
@@ -135,17 +128,11 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
     const body = {
       postId: nextId.current,
       contents: text,
-      // writer_id: userData._id,
-      // writer_nickname: userData.nickname,
-      // writer_image: userData.userImage,
-      // responseTo: comments,
-      // responseTo: 'root',
       isRoot: true,
       isEdit: false,
     };
 
     const addComments = () => {
-      // setComments([...comments, body]);
       setComments(comments.concat(body));
       nextId.current += 1;
     };
@@ -154,12 +141,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
     text && addComments(text);
     setText('');
   };
-
-  // useEffect(() => {
-  //   setComments(comments.filter(comment => !comment.responseTo));
-  // }, [comments]);
-
-  console.log('joiner: ', joiner);
 
   return (
     <div css={MergeContainer}>
@@ -188,7 +169,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 handleSubmit={handleSubmit}
                 jamData={jamData}
               />
-              {/* 댓글 */}
               <Reply replyList={jamData.commentList} jamData={jamData} />
             </div>
           </div>

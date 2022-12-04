@@ -6,7 +6,6 @@
 import React from 'react';
 import { Card, CardMedia, CardActions, Button } from '@mui/material/';
 import { useNavigate } from 'react-router-dom';
-// import jamElapsedTime from './JamElapsedTime';
 
 const JoinJamCard = ({ jamId, jam }) => {
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const JoinJamCard = ({ jamId, jam }) => {
           <div className="info">
             <div>
               <img src="../img/userTime.png" alt="시간" />
-              {/* <span>{jamElapsedTime(jam.createdTime)}</span> */}
               <span>{jam.realTime ? '실시간' : '스터디'}</span>
             </div>
             <div>

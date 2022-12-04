@@ -24,12 +24,6 @@ function Values() {
       }}
     >
       <Container sx={{ mt: 15, mb: 30, display: 'flex', position: 'relative' }}>
-        {/* <Box
-          component="img"
-          src="./img/productCurvyLines.png"
-          alt="curvy lines"
-          sx={{ pointerEvents: 'none', position: 'absolute', top: -180 }}
-        /> */}
         <Grid container spacing={5}>
           <Grid item xs={12} md={4}>
             <Box sx={item}>

@@ -63,7 +63,6 @@ const UserBox = css`
 
 const Title = css`
   font-size: 16px;
-  /* margin: 5px 0; */
 `;
 
 const EtcInfo = css`
@@ -140,9 +139,6 @@ const JamSideBar = ({
   joiner,
   setJoiner,
 }) => {
-  // const [isJoin, setIsJoin] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  // const [isJoin, setIsJoin] = useState(false);
   const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
@@ -158,22 +154,10 @@ const JamSideBar = ({
     capacity,
     createdAt,
     category,
-    // completeStatus,
     openChatLink,
-    // participantList,
   } = jamData;
 
   const filteredCategory = categories.filter(el => el.value === category)[0];
-
-  // 로그인 유저가 잼에 참여한 리스트에 있는지 확인
-  // 리턴값 true => 참여한 상태 => 참여취소 버튼 렌더
-  // 리턴값 false => 미참여 상태 => 참여하기 버튼 렌더
-  // const isJoiner = user => {
-  //   // eslint-disable-next-line no-unused-expressions
-  //   return (
-  //     joiner && joiner.filter(el => el.nickname === user.nickname).length === 1
-  //   );
-  // };
 
   const isJoiner =
     joiner &&
@@ -197,13 +181,11 @@ const JamSideBar = ({
             {},
             {
               headers: {
-                // 'Content-Type': 'application/json',
                 Authorization: `Bearer ${accessToken}`,
               },
             },
           )
           .then(res => {
-            console.log('res.status: ', res.status);
             if (res.status === 200) {
               setIsComplete('TRUE');
             }
@@ -233,7 +215,6 @@ const JamSideBar = ({
           },
         })
         .then(res => {
-          console.log('res.status: ', res.status);
           if (res.status === 200) {
             setIsComplete('FALSE');
           }
@@ -264,7 +245,6 @@ const JamSideBar = ({
         },
       )
       .then(res => {
-        console.log('res.status: ', res.status);
         if (res.status === 200) {
           setJoiner([...joiner, currentUser]);
         }
@@ -293,10 +273,8 @@ const JamSideBar = ({
           },
         })
         .then(res => {
-          console.log('res.status: ', res.status);
           window.location.reload();
           if (res.status === 200) {
-            // setJoiner(false);
             setJoiner(
               joiner.filter(el => el.nickname !== currentUser.nickname),
             );
@@ -356,8 +334,6 @@ const JamSideBar = ({
           <span>{location}</span>
         </div>
       </div>
-      {/* 참여했거나 스터디 개설자와 로그인유저가 같으면 렌더  */}
-      {/* {(isJoiner(currentUser) || nickname === currentUser.nickname) && ( */}
       {(isJoiner || nickname === currentUser.nickname) && (
         <>
           <div css={AvatarContainer}>

@@ -108,7 +108,6 @@ const EditButton = css`
 `;
 
 const JamInfo = ({ setIsEdit, jamData }) => {
-  // const [filteredCategory, setFilteredCategory] = useState([])
   const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
@@ -125,13 +124,11 @@ const JamInfo = ({ setIsEdit, jamData }) => {
   } = jamData;
 
   const filteredCategory = categories.filter(el => el.value === category)[0];
-  // console.log('filteredCategory: ', filteredCategory);
 
   const handleIsEdit = () => {
     setIsEdit(true);
     navigate(`/jammake/edit/${id}`);
   };
-  // console.log(isEdit);
 
   return (
     <div css={Container}>

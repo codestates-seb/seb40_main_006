@@ -125,7 +125,6 @@ export default function GiveJam() {
     e.preventDefault();
     const grade = jam.filter(el => el).length;
     const accessToken = getCookie('accessToken');
-    console.log(grade);
     axios
       .post(
         `${BASE_URL}/user/profile/${location}/grade`,

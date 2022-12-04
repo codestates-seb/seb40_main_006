@@ -57,14 +57,12 @@ const EditButtonGroup = ({ patchData }) => {
     await axios
       .patch(`${BASE_URL}/jams/${id}`, patchData, {
         headers: {
-          // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
       })
       // eslint-disable-next-line no-unused-vars
       .then(res => {
-        // console.log('res.data: ', res.data);
         alert('수정이 완료되었습니다.');
         navigate(`/jamdetail/${id}`);
       })
@@ -91,22 +89,7 @@ const EditButtonGroup = ({ patchData }) => {
         console.log(e);
       }
     }
-
-    // if (confirmData && accessToken) {
-    //   await axios
-    //     .delete(`/jams/${id}`, {
-    //       headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //       },
-    //     })
-    //     .then(res => {
-    //       console.log('res.data: ', res.data);
-    //       window.location.reload();
-    //     });
-    // }
   };
-
-  console.log('patchData: ', patchData);
 
   return (
     <div css={ButtonContainer}>

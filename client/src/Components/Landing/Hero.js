@@ -15,7 +15,6 @@ export default function Hero() {
         height: '100%',
       }}
     >
-      {/* Increase the network loading priority of the background image. */}
       <img
         style={{ display: 'none' }}
         src={backgroundImage}

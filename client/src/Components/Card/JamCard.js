@@ -2,10 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
-// import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
-// import { FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
@@ -102,7 +100,6 @@ const JamCard = ({ jam }) => {
     navigate(`/jamdetail/${jamId}`);
   };
 
-  // createdAt을 UTC기준시로부터 한국시간으로(9시간이후) 맞춰주는 작업
   const years = new Date(jam.createdAt).getFullYear();
   const months = new Date(jam.createdAt).getMonth() + 1;
   const dates = new Date(jam.createdAt).getDate();
@@ -140,7 +137,6 @@ const JamCard = ({ jam }) => {
           <div className={infoTop}>
             <div>
               <BsClockFill />
-              {/* <p>{jamElapsedTime(jam.createdAt)}</p> */}
               <p>{jamElapsedTime(newDate)}</p>
             </div>
             <div>

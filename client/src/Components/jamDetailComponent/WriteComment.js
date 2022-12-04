@@ -4,7 +4,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
-// import Button from '../Button';
 import UserName from '../userComp/UserName';
 import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
@@ -24,10 +23,6 @@ const UserBox = css`
   padding: 3px;
   margin-bottom: 5px;
 `;
-
-// const JamIcon = css`
-//   color: ${palette.colorGrade2};
-// `;
 
 const InputBox = css`
   margin-bottom: 10px;
@@ -85,9 +80,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
                 sx={{
                   backgroundColor: '#fff',
                   borderRadius: 1,
-                  // borderColor: '#d2d2d2',
                   '.MuiOutlinedInput-root': {
-                    // 오버라이딩 하기 위해 필드셋으로 기본 양식 없애기
                     fontSize: '13px',
                     '& fieldset': {
                       border: 'none',
@@ -120,9 +113,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
               sx={{
                 backgroundColor: '#fff',
                 borderRadius: 1,
-                // borderColor: '#d2d2d2',
                 '.MuiOutlinedInput-root': {
-                  // 오버라이딩 하기 위해 필드셋으로 기본 양식 없애기
                   fontSize: '13px',
                   '& fieldset': {
                     border: 'none',

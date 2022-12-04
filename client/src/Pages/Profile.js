@@ -130,7 +130,6 @@ const Profile = () => {
           {
             nickname: userInput.nickname,
             password: userInput.password,
-            // profileImage: userInput.profileImage,
             profileImage: image.preview_URL,
           },
           {
@@ -140,7 +139,6 @@ const Profile = () => {
           },
         )
         .then(res => {
-          console.log(res.data);
           setUser({
             memberId: res.data.data.memberId,
             nickname: res.data.data.nickname,
@@ -154,27 +152,8 @@ const Profile = () => {
     }
   };
 
-  // const saveImg = e => {
-  //   e.preventDefault();
-  //   const fileReader = new FileReader();
-
-  //   if (e.target.files[0]) {
-  //     fileReader.readAsDataURL(e.target.files[0]);
-  //   }
-  //   fileReader.onload = () => {
-  //     setImage({
-  //       image_file: e.target.files[0],
-  //       preview_URL: `${fileReader.result}`,
-  //     });
-  //   };
-  // };
-
   const saveImg = async e => {
     e.preventDefault();
-    // eslint-disable-next-line no-shadow
-    // const img = e.target.files[0];
-    // console.log('img', img);
-    // setImage(e.target.files[0]);
 
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
@@ -187,8 +166,6 @@ const Profile = () => {
         },
       })
       .then(res => {
-        console.log('res.data: ', res.data);
-        // setUser(Object.assign(user, { img: res.data }));
         setUser(prevState => ({ ...prevState, img: res.data }));
         setImage({ preview_URL: res.data });
       })
@@ -204,9 +181,6 @@ const Profile = () => {
       preview_URL: '',
     });
   };
-
-  console.log('user: ', user);
-  console.log('userInput: ', userInput);
 
   return (
     <div className={pageContainer}>
@@ -292,7 +266,6 @@ const Profile = () => {
                 autoComplete="current-password"
                 size="small"
                 onChange={handleChange}
-                // error={errorMessage !== '' || false}
               />
             </div>
             <div className={validateText}>{errorMessage.password}</div>

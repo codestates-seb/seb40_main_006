@@ -47,7 +47,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const onCategoryClick = e => {
-    console.log(e.target.innerText);
     setCurrentCategory(
       categories.filter(el => el.label === e.target.innerText)[0],
     );
@@ -55,9 +54,7 @@ const Sidebar = () => {
     sessionStorage.clear();
   };
 
-  useEffect(() => {
-    console.log('sidebar에서 current category 변경: ', currentCategory);
-  }, [currentCategory]);
+  useEffect(() => {}, [currentCategory]);
   return (
     <div className={sidebar}>
       <div>카테고리</div>
