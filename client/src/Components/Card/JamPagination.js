@@ -9,6 +9,7 @@ import { totalJamLength, pageNumber } from '../../Atom/atoms';
 export default function JamPagination() {
   const [totalJamCount] = useRecoilState(totalJamLength);
   const [pageNum, setNextPage] = useRecoilState(pageNumber);
+  React.useEffect(() => {}, [pageNum]);
   const handlePageClick = e => {
     console.log(e);
 
