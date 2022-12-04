@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
@@ -15,6 +17,7 @@ import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import { getCookie } from '../SignComp/Cookie';
 import { loginUserInfoState } from '../../Atom/atoms';
+import UserName from '../userComp/UserName';
 
 const JamSideContainer = css`
   width: 220px;
@@ -87,11 +90,8 @@ const AvatarContainer = css`
     width: 30px;
     height: 30px;
     border-radius: 100px;
+    cursor: pointer;
   }
-  /* .imgContainer {
-    display: flex;
-    justify-content: flex;
-  } */
 `;
 
 const ButtonContainer = css`
@@ -308,13 +308,21 @@ const JamSideBar = ({
     }
   };
 
+  const handleCardClick = jamId => {
+    navigate(`/mypage/${jamId}`);
+  };
+
   return (
     <div css={JamSideContainer}>
       <div css={Header}>
         <div css={UserAndStateBox}>
           <div css={UserBox}>
-            <FaUserCircle />
-            <span>{nickname}</span>
+            <UserName
+              name={jamData.nickname}
+              id={jamData.memberId}
+              grade={jamData.grade}
+              img={jamData.image}
+            />
           </div>
           {isComplete === 'FALSE' ? (
             <RecruitState state="open" variant="colorJamOpen">
@@ -356,8 +364,16 @@ const JamSideBar = ({
             {jamData &&
               jamData.participantList.map(el => {
                 return (
-                  <div key={el.memberId} className="imgContainer">
-                    <img src={el.profileImage} alt={el.nickname} />
+                  <div
+                    key={el.memberId}
+                    className="imgContainer"
+                    onClick={() => handleCardClick(el.memberId)}
+                  >
+                    {el.profileImage ? (
+                      <img src={el.profileImage} alt={el.nickname} />
+                    ) : (
+                      <FaUserCircle size={32} />
+                    )}
                   </div>
                 );
               })}

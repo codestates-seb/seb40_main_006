@@ -1,32 +1,34 @@
 // eslint-disable-next-line consistent-return
-export default function jamElapsedTime(createdAt) {
-  const years = new Date(createdAt).getFullYear();
-  const months = new Date(createdAt).getMonth() + 1;
-  const dates = new Date(createdAt).getDate();
-  const hours = new Date(createdAt).getHours() + 9;
-  const minutes = new Date(createdAt).getMinutes();
-  const seconds = new Date(createdAt).getSeconds();
-  const date = `${years}-${months}-${dates} ${hours}:${minutes}:${seconds}`;
+export default function jamElapsedTime(value) {
+  const today = new Date();
+  const timeValue = new Date(value);
 
-  const start = new Date(date);
-  const end = new Date();
-  const diff = end - start;
+  const utcToday = new Date(
+    today.getUTCFullYear(),
+    today.getUTCMonth(),
+    today.getUTCDate(),
+    today.getUTCHours(),
+    today.getUTCMinutes(),
+    today.getUTCSeconds(),
+  );
 
-  const times = [
-    { time: '년', milliSeconds: 1000 * 60 * 60 * 24 * 365 },
-    { time: '개월', milliSeconds: 1000 * 60 * 60 * 24 * 30 },
-    { time: '일', milliSeconds: 1000 * 60 * 60 * 24 },
-    { time: '시간', milliSeconds: 1000 * 60 * 60 },
-    { time: '분', milliSeconds: 1000 * 60 },
-    { time: '초', milliSeconds: 1000 },
-  ];
-
-  // eslint-disable-next-line no-restricted-syntax, no-unreachable-loop
-  for (const value of times) {
-    const betweenTime = Math.floor(diff / value.milliSeconds);
-    if (betweenTime > 0) {
-      return `${betweenTime}${value.time}전`;
-    }
+  const betweenTime = Math.floor(
+    (utcToday.getTime() - timeValue.getTime()) / 1000 / 60,
+  );
+  if (betweenTime < 1) return '방금전';
+  if (betweenTime < 60) {
+    return `${betweenTime}분전`;
   }
-  return '방금전';
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    return `${betweenTimeHour}시간전`;
+  }
+
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeDay < 365) {
+    return `${betweenTimeDay}일전`;
+  }
+
+  return `${Math.floor(betweenTimeDay / 365)}년전`;
 }

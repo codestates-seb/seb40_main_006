@@ -99,7 +99,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
     await axios
       .get(`${BASE_URL}/jams/${id}`)
       .then(res => {
-        console.log('res.data: ', res.data);
         setJamData({ ...res.data });
         setIsComplete({ ...res.data }.completeStatus);
         setJoiner({ ...res.data }.participantList);

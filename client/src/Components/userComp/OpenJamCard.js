@@ -17,7 +17,7 @@ const OpenJamCard = ({ jamId, jam }) => {
       <Card className="card">
         <CardMedia
           component="img"
-          image="../img/back2.jpg"
+          image={jam.image ? jam.image : '../img/back2.jpg'}
           alt="random"
           sx={{ width: '25%' }}
         />

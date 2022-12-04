@@ -44,6 +44,9 @@ const SliderStyle = styled(Slider)`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    &.defaultImage {
+      opacity: 0.5;
+    }
   }
   .slick-dots {
     bottom: -30px;
@@ -83,6 +86,8 @@ const SliderStyle = styled(Slider)`
 //     cursor: pointer;
 //   }
 // `;
+
+const backgroundImage = '/img/back1.jpg';
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
   <button
@@ -145,14 +150,16 @@ const JamCarousel = ({ jamData }) => {
           <span>{content}</span>
         </div>
         <div>
-          <img src={image} alt="studyimage" />
+          {image ? (
+            <img src={image} alt="jamImage" />
+          ) : (
+            <img
+              className="defaultImage"
+              src={backgroundImage}
+              alt="jamDefaultImage"
+            />
+          )}
         </div>
-        {/* <div>
-          <img
-            src="https://cdn.pixabay.com/photo/2022/11/13/20/29/town-7590138__340.jpg"
-            alt="nightfestival"
-          />
-        </div> */}
       </SliderStyle>
     </div>
   );

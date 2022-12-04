@@ -15,9 +15,10 @@ const userName = css`
   margin-bottom: 5px;
   cursor: pointer;
   img {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     margin-bottom: 1px;
+    border-radius: 30px;
   }
 `;
 
