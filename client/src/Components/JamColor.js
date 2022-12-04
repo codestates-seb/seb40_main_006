@@ -48,7 +48,11 @@ const imgColor = css`
 const JamColor = ({ color }) => {
   return (
     <div className={imgColor}>
-      <img src="../img/jam.png" alt="jam" className={`grade${color}`} />
+      <img
+        src="../img/jam.png"
+        alt="jam"
+        className={`grade${Math.floor(color)}`}
+      />
     </div>
   );
 };
