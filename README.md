@@ -17,3 +17,25 @@
 
 ## 프로젝트 구조
 ![image](https://user-images.githubusercontent.com/92264867/205497004-b11c084c-7385-437f-9a77-e5dad4b7b6ee.png)
+
+## 서비스 시연
+<details><summary>랜딩 페이지</summary></details>
+<details><summary>메인 홈페이지</summary></details>
+<details><summary>상단 네비게이션 바</summary></details>
+<details><summary>회원가입</summary></details>
+
+<details><summary>소셜 로그인</summary></details>
+
+<details><summary>자체 로그인</summary></details>
+
+</details>
+<details><summary>로그아웃</summary>
+
+![로그아웃](https://user-images.githubusercontent.com/92264867/205497937-107657cb-c5bc-44eb-a9c0-c01c54811715.gif)
+</details>
+<details><summary>마이페이지</summary></details>
+<details><summary>잼</summary></details>
+<details><summary>댓글</summary></details>
+<details><summary>대댓글</summary></details>
+<details><summary>댓글에서 유저프로필 클릭하여 이동</summary></details>
+<details><summary>참여목록에서 유저프로필 클릭하여 이동</summary></details>
