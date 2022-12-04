@@ -68,7 +68,11 @@ const UserTitle = () => {
     <div className={userTitle}>
       <div className={userTitleContainer}>
         {!user.img ? (
-          <Avatar sx={{ width: 96, height: 96 }} alt="Jaehoon" src={user.img} />
+          <Avatar
+            sx={{ width: 96, height: 96 }}
+            alt="userProfile"
+            src={user.img}
+          />
         ) : (
           <img src={pageUser.img} alt="이미지를 설정해주세요" />
         )}
