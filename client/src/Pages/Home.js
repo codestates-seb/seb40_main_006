@@ -40,12 +40,6 @@ const map = css`
   background-color: cadetblue;
 `;
 
-const listContainer = css`
-  height: 70vh;
-  /* background-color: red; */
-  overflow-y: scroll;
-`;
-
 const list = css`
   display: flex;
   flex-direction: column;
@@ -81,20 +75,18 @@ const Home = () => {
           <div className={map}>
             <Map jamData={jamData} />
           </div>
-          <div className={listContainer}>
-            {jamData.length ? (
-              <div className={list}>
-                {jamData &&
-                  jamData.map(jam => {
-                    return <LongJamCard key={jam.jamId} jam={jam} />;
-                  })}
-              </div>
-            ) : (
-              <div className={list}>
-                <NoNearyByData />
-              </div>
-            )}
-          </div>
+          {jamData.length ? (
+            <div className={list}>
+              {jamData &&
+                jamData.map(jam => {
+                  return <LongJamCard key={jam.jamId} jam={jam} />;
+                })}
+            </div>
+          ) : (
+            <div className={list}>
+              <NoNearyByData />
+            </div>
+          )}
         </div>
       </div>
     </div>
