@@ -62,6 +62,8 @@ const SliderStyle = styled(Slider)`
 
 const backgroundImage = '/img/back1.jpg';
 
+const backgroundImage = '/img/back1.jpg';
+
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
   <button
     {...props}

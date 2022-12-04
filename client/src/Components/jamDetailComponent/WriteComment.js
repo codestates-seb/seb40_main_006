@@ -4,7 +4,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { TextField, Box } from '@mui/material';
-// import Button from '../Button';
 import UserName from '../userComp/UserName';
 import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
@@ -81,7 +80,6 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
                 sx={{
                   backgroundColor: '#fff',
                   borderRadius: 1,
-                  // borderColor: '#d2d2d2',
                   '.MuiOutlinedInput-root': {
                     fontSize: '13px',
                     '& fieldset': {
