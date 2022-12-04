@@ -4,10 +4,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Slider from 'react-slick';
-import { palette } from '../../Styles/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-// import { TfiArrowCircleLeft, TfiArrowCircleRight } from 'react-icons/tfi';
 
 const Container = css`
   overflow: hidden;
@@ -15,14 +13,7 @@ const Container = css`
 
 const SliderStyle = styled(Slider)`
   .slick-slider {
-    /* height: 100%; */
   }
-  /* position: relative;
-  .slick-prev::before,
-  .slick-next::before {
-    opacity: 0;
-    display: none;
-  } */
   .slick-list {
     width: 560px;
     height: 275px;
@@ -34,8 +25,6 @@ const SliderStyle = styled(Slider)`
     outline: none;
     width: 560px;
     height: 450px;
-    /* background-color: ${palette.gray_5}; */
-
     span {
       padding: 10px;
     }
@@ -67,25 +56,9 @@ const SliderStyle = styled(Slider)`
       display: flex;
       justify-content: center;
       align-items: center;
-      /* background-color: rgba(230, 230, 230, 0); */
     }
   }
 `;
-
-// const SliderStyle = css`
-//   height: 260px;
-//   width: 100%;
-//   position: relative;
-//   .slick-prev::before,
-//   .slick-next::before {
-//     opacity: 0;
-//     display: none;
-//   }
-//   .slick-slide div {
-//     //슬라이더  컨텐츠
-//     cursor: pointer;
-//   }
-// `;
 
 const backgroundImage = '/img/back1.jpg';
 

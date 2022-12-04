@@ -28,7 +28,6 @@ const home = css`
 const mainArea = css`
   display: flex;
   margin: 10px;
-  /* justify-content: space-around; */
 `;
 
 const map = css`

@@ -104,7 +104,7 @@ const JamInputField = ({
               maxWidth: '100%',
               '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
               '& .MuiInput-underline:after': {
-                borderBottomColor: 'black', // 포커스시 아래라인 색상
+                borderBottomColor: 'black',
               },
             }}
           />

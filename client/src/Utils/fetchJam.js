@@ -6,10 +6,7 @@ export const fetchJamRead = async endPoint => {
   return axios
     .get(BASE_URL + endPoint)
     .then(res => {
-      if (!res.ok) {
-        // console.log(res);
-      }
-      return res.data;
+      if (!res.ok) return res.data;
     })
     .catch(err => {
       console.log(err);
@@ -22,10 +19,7 @@ export const fetchJamSearch = async param => {
     url: `${BASE_URL}/jams/search?keyword=${param}`,
   })
     .then(res => {
-      if (!res.ok) {
-        // console.log(res);
-      }
-      return res.data;
+      if (!res.ok) return res.data;
     })
     .catch(err => {
       console.log(err);

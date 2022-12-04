@@ -91,7 +91,6 @@ const Tapstyle = css`
   .focused {
     background-color: ${palette.colorMain};
     color: black;
-    /* border-bottom: 5px solid ${palette.colorBtn2}; */
     transition: 0.2s;
   }
 
@@ -117,7 +116,6 @@ const ArticleLeft = css`
   justify-content: space-between;
   align-items: space-between;
   margin-right: 10px;
-  /* background-color: #563254; */
 `;
 
 const ArticleRight = css`
@@ -159,20 +157,11 @@ const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 const CURRENT_DATE_TIME = new Date();
 const TODAY_MIDNIGHT_TIME = new Date();
-// const TODAY_MIDNIGHT_TIME = new Date(
-//   new Date().setHours(24, 0, 0, 0),
-// ).toLocaleString();
 
 const JamMake = ({ isEdit }) => {
   // eslint-disable-next-line no-unused-vars
   const [jamData, setJamData] = useState([]);
   const [currentTab, setCurrentTab] = useState(false);
-  // const [isCreated, setIsCreated] = useState(false);
-
-  // const [image, setImage] = useState({
-  //   image_file: '',
-  //   previewURL: null,
-  // });
   const [image, setImage] = useState({
     image_file: '',
     previewURL: null,
@@ -201,7 +190,6 @@ const JamMake = ({ isEdit }) => {
     { id: true, name: '실시간 잼', content: '실시간 잼 내용' },
   ];
 
-  // const loginState = 리코일 아톰에서 가져오기?
   const accessToken = getCookie('accessToken');
 
   const selectTapHandler = el => {
@@ -250,7 +238,7 @@ const JamMake = ({ isEdit }) => {
     formData.append('realTime', currentTab);
     formData.append('openChatLink', chatLink);
     formData.append('location', locationText);
-    formData.append('jamImg', image.previewURL); // (수정필요) 서버에 업로드후 돌려받는 이미지 주소를 넣어줘야 함
+    formData.append('jamImg', image.previewURL);
     formData.append('longitude', longitude);
     formData.append('latitude', latitude);
     formData.append('address', address);
@@ -258,13 +246,11 @@ const JamMake = ({ isEdit }) => {
     await axios
       .post(`${BASE_URL}/jams/write`, mainData, {
         headers: {
-          // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then(res => {
-        // console.log('res.data: ', res.data);
         navigate(`/jamdetail/${res.data.jamId}`);
       })
       .catch(error => {
@@ -277,8 +263,6 @@ const JamMake = ({ isEdit }) => {
     return await axios
       .get(`${BASE_URL}/jams/${id}`)
       .then(res => {
-        // console.log('res.data: ', res.data);
-        // setJamData({ ...res.data });
         return res.data;
       })
       .catch(error => {

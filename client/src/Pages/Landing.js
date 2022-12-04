@@ -3,7 +3,6 @@ import { useRecoilState } from 'recoil';
 import Hero from '../Components/Landing/Hero';
 import Values from '../Components/Landing/Values';
 import Categories from '../Components/Landing/Categories';
-// import HowItWorks from '../Components/Rending/HowItWorks';
 import Works from '../Components/Landing/Works';
 import { isLoginState } from '../Atom/atoms';
 import { removeCookie } from '../Components/SignComp/Cookie';
@@ -22,7 +21,6 @@ const Rending = () => {
       <Hero />
       <Values />
       <Categories />
-      {/* <HowItWorks /> */}
       <Works />
     </div>
   );

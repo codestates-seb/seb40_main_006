@@ -89,9 +89,6 @@ function Typography(props) {
 }
 
 Typography.propTypes = {
-  /**
-   * The content of the component.
-   */
   children: PropTypes.node,
   marked: PropTypes.oneOf(['center', 'left', 'none']),
   /**

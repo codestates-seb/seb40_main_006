@@ -42,7 +42,6 @@ const topContainer = css`
 const cardContainer = css`
   display: flex;
   flex-flow: row wrap;
-  /* justify-content: center; */
   width: 100%;
   height: auto;
   overflow: hidden;
@@ -78,7 +77,6 @@ const Category = () => {
   const [, setTotalJamCount] = useRecoilState(totalJamLength);
 
   useEffect(() => {
-    // 잼 전체 개수 조회
     const totaljamEndpoint =
       currentCategory.label === '전체'
         ? '/jams'
