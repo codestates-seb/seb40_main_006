@@ -393,7 +393,15 @@ const JamSideBar = ({
       {nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
           {!isJoiner ? (
-            <button type="button" css={RegisterButton} onClick={handleJoin}>
+            <button
+              type="button"
+              css={RegisterButton}
+              onClick={handleJoin}
+              disabled={isComplete === 'TRUE'}
+              style={
+                isComplete === 'TRUE' ? { backgroundColor: '#bababa' } : null
+              }
+            >
               참여하기
             </button>
           ) : (

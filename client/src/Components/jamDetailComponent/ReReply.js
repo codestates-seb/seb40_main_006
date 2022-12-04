@@ -133,7 +133,7 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
         `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
         {
           commentId,
-          content: 'kkk',
+          content: reVal,
         },
         {
           headers: {
