@@ -72,19 +72,21 @@ const Category = () => {
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
-  const [page] = useRecoilState(pageNumber);
+  const [page, setCurrentPage] = useRecoilState(pageNumber);
   const [size] = useState(6);
   const navigate = useNavigate();
   const [, setTotalJamCount] = useRecoilState(totalJamLength);
 
   useEffect(() => {
     // 잼 전체 개수 조회
-    const totalJam = fetchJamRead('/jams');
-
+    const totaljamEndpoint =
+      currentCategory.label === '전체'
+        ? '/jams'
+        : `/jams/category?category=${currentCategory.param}&page=1&size=${size}`;
+    const totalJam = fetchJamRead(totaljamEndpoint);
     totalJam.then(data => {
-      const totalLength = data.content.length;
-      console.log(totalLength);
-      data.content[0].jamId % size === 0
+      const totalLength = data.totalElements;
+      totalLength % size === 0
         ? setTotalJamCount(Math.floor(totalLength / size))
         : setTotalJamCount(Math.floor(totalLength / size) + 1);
     });
@@ -108,6 +110,10 @@ const Category = () => {
       });
     }
   }, [currentCategory, page]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [currentCategory]);
 
   const handleFilterClick = (_, label) => {
     if (label === '실시간 잼')
