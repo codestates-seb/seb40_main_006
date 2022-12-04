@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
@@ -88,11 +90,8 @@ const AvatarContainer = css`
     width: 30px;
     height: 30px;
     border-radius: 100px;
+    cursor: pointer;
   }
-  /* .imgContainer {
-    display: flex;
-    justify-content: flex;
-  } */
 `;
 
 const ButtonContainer = css`
@@ -309,6 +308,10 @@ const JamSideBar = ({
     }
   };
 
+  const handleCardClick = jamId => {
+    navigate(`/mypage/${jamId}`);
+  };
+
   return (
     <div css={JamSideContainer}>
       <div css={Header}>
@@ -361,7 +364,11 @@ const JamSideBar = ({
             {jamData &&
               jamData.participantList.map(el => {
                 return (
-                  <div key={el.memberId} className="imgContainer">
+                  <div
+                    key={el.memberId}
+                    className="imgContainer"
+                    onClick={() => handleCardClick(el.memberId)}
+                  >
                     {el.profileImage ? (
                       <img src={el.profileImage} alt={el.nickname} />
                     ) : (
