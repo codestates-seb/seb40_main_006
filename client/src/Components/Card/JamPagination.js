@@ -8,11 +8,19 @@ import { totalJamLength, pageNumber } from '../../Atom/atoms';
 
 export default function JamPagination() {
   const [totalJamCount] = useRecoilState(totalJamLength);
-  const [, setNextPage] = useRecoilState(pageNumber);
+  const [pageNum, setNextPage] = useRecoilState(pageNumber);
   const handlePageClick = e => {
-    const nowPageNum = Number(e.target.outerText);
-    console.log(nowPageNum);
-    setNextPage(nowPageNum);
+    console.log(e);
+
+    if (e.target.dataset.testid === 'NavigateNextIcon')
+      setNextPage(pageNum + 1);
+    else if (e.target.dataset.testid === 'NavigateBeforeIcon')
+      setNextPage(pageNum - 1);
+    else {
+      const nowPageNum = Number(e.target.outerText);
+      console.log(nowPageNum);
+      setNextPage(nowPageNum);
+    }
   };
   return (
     <ThemeProvider theme={theme}>
