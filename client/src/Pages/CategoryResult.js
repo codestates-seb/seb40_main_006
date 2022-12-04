@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
@@ -7,13 +8,14 @@ import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { fetchJamRead, fetchJamSearch } from '../../Utils/fetchJam';
-import { theme } from '../../Styles/theme';
-import Sidebar from '../Sidebar';
-import JamCard from './JamCard';
-import { selectedCategory } from '../../Atom/atoms';
-import ScrollToTop from '../../ScrollToTop';
-import { NoCategoryData } from '../NoData';
+import { fetchJamRead, fetchJamSearch } from '../Utils/fetchJam';
+import { theme } from '../Styles/theme';
+import Sidebar from '../Components/Sidebar';
+import JamCard from '../Components/Card/JamCard';
+import { pageNumber, selectedCategory, totalJamLength } from '../Atom/atoms';
+import ScrollToTop from '../ScrollToTop';
+import { NoCategoryData } from '../Components/NoData';
+import JamPagination from '../Components/Card/JamPagination';
 
 const pagewithSidebar = css`
   display: flex;
@@ -55,15 +57,38 @@ const noDataContainer = css`
   align-items: center;
   padding: 20px;
 `;
+
+const pagination = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+`;
+
 const Category = () => {
   const [currentCategory] = useRecoilState(selectedCategory);
   const searchText = sessionStorage.getItem('searchText');
   const [jamData, setJamData] = useState([]);
   const [filteredData, setFilteredData] = useState('');
   const filterButtonGroup = ['전체', '실시간 잼', '스터디 잼'];
+  const [page] = useRecoilState(pageNumber);
+  const [size] = useState(6);
   const navigate = useNavigate();
+  const [, setTotalJamCount] = useRecoilState(totalJamLength);
 
   useEffect(() => {
+    // 잼 전체 개수 조회
+    const totalJam = fetchJamRead('/jams');
+
+    totalJam.then(data => {
+      const totalLength = data.content[0].jamId;
+      console.log(totalLength);
+      data.content[0].jamId % size === 0
+        ? setTotalJamCount(Math.ceil(totalLength / size))
+        : setTotalJamCount(Math.ceil(totalLength / size) + 1);
+    });
+
     if (currentCategory.label === '내주변') navigate('/home');
     if (searchText) {
       const Jams = fetchJamSearch(searchText);
@@ -74,15 +99,15 @@ const Category = () => {
     } else {
       const endpoint =
         currentCategory.label === '전체'
-          ? '/jams'
-          : `/jams/category?category=${currentCategory.param}&page=1&size=5`;
+          ? `/jams?page=${page}&size=${size}`
+          : `/jams/category?category=${currentCategory.param}&page=${page}&size=${size}`;
       const searchJams = fetchJamRead(endpoint);
       searchJams.then(data => {
         setJamData(data.content);
         setFilteredData(data.content);
       });
     }
-  }, [currentCategory]);
+  }, [currentCategory, page]);
 
   const handleFilterClick = (_, label) => {
     if (label === '실시간 잼')
@@ -126,6 +151,9 @@ const Category = () => {
             <NoCategoryData />
           </div>
         )}
+        <div className={pagination}>
+          <JamPagination />
+        </div>
       </div>
     </div>
   );
