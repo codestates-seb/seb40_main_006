@@ -43,6 +43,8 @@ const map = css`
 const list = css`
   display: flex;
   flex-direction: column;
+  height: 70vh;
+  overflow: auto;
   margin-left: 20px;
 `;
 

@@ -13,8 +13,6 @@ import jamElapsedTime from '../userComp/JamElapsedTime';
 const box = css`
   display: flex;
   width: 400px;
-  height: auto;
-  overflow: hidden;
   border: 0.5px solid;
   border-color: ${palette.border};
   border-radius: 3px;
