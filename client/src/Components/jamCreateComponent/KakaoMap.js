@@ -1,7 +1,7 @@
+/** @jsxImportSource @emotion/react */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-no-comment-textnodes */
-/** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
@@ -90,34 +90,23 @@ const KakaoMap = ({
   setLatitude,
   setAddress,
 }) => {
-  // 검색결과 배열에 담아줌
   const [Places, setPlaces] = useState([]);
 
   useEffect(() => {
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-    // const markers = [];
     const container = document.getElementById('myMap');
     const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
 
-    // 지도 생성
     const map = new kakao.maps.Map(container, options);
 
-    // 장소 검색 객체 생성
     const ps = new kakao.maps.services.Places();
 
-    // if (!keyword.replace(/^\s+|\s+$/g, "")) {
-    //   alert("키워드를 입력해주세요!");
-    //   return false;
-    // }
-
-    // 장소 검색 객체를 통해 키워드로 장소 검색 요청
     // eslint-disable-next-line no-use-before-define
     ps.keywordSearch(keyword, placesSearchCB);
 
-    // 장소 검색이 완료됐을 때 호출되는 콜백 함수
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         const bounds = new kakao.maps.LatLngBounds();
@@ -129,20 +118,17 @@ const KakaoMap = ({
         }
 
         map.setBounds(bounds);
-        // 페이지 목록 보여주는 displayPagination() 추가
         // eslint-disable-next-line no-use-before-define
         displayPagination(pagination);
         setPlaces(data);
       }
     }
 
-    // 검색결과 목록 하단에 페이지 번호 표시
     function displayPagination(pagination) {
       const paginationEl = document.getElementById('pagination');
       const fragment = document.createDocumentFragment();
       let i;
 
-      // 기존에 추가된 페이지 번호 삭제
       while (paginationEl.hasChildNodes()) {
         paginationEl.removeChild(paginationEl.lastChild);
       }
@@ -167,7 +153,6 @@ const KakaoMap = ({
       paginationEl.appendChild(fragment);
     }
 
-    // 마커를 생성하고 지도에 표시
     function displayMarker(place) {
       const marker = new kakao.maps.Marker({
         map,
@@ -205,17 +190,12 @@ const KakaoMap = ({
                 <div key={i} className={resultItem}>
                   <div className={resultNumber}>{i + 1}</div>
                   <div className={resultTextBox}>
-                    {/* <h5>{item.place_name}</h5> */}
                     <div onClick={() => handleTextInput(item)}>
                       {item.place_name}
                     </div>
-                    {/* <button type="button" onClick={() => handleTextInput(item)}>
-                      {item.place_name}
-                    </button> */}
                     {item.road_address_name ? (
                       <div>
                         <span>{item.road_address_name}</span>
-                        {/* <span>{item.address_name}</span> */}
                       </div>
                     ) : (
                       <span>{item.address_name}</span>

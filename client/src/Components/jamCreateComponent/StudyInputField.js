@@ -62,20 +62,13 @@ const StudyInputField = ({
   capacity,
   setCapacity,
 }) => {
-  // const [period, setPeriod] = useState([new Date(), new Date()]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handlePeriodChange = pickDate => {
     setPeriod([pickDate[0], pickDate[1]]);
-    // setPeriod([new Date(pickDate[0]), new Date(pickDate[1])]);
-    //   // console.log('From: ', period[0]);
-    //   // console.log('To: ', period[1]);
   };
-
-  // console.log('From: ', period[0]);
-  // console.log('To: ', period[1]);
 
   const handleLocationText = e => {
     setLocationText(e.target.value);
@@ -116,7 +109,7 @@ const StudyInputField = ({
               maxWidth: '100%',
               '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
               '& .MuiInput-underline:after': {
-                borderBottomColor: 'black', // 포커스시 아래라인 색상
+                borderBottomColor: 'black',
               },
             }}
           />
@@ -151,7 +144,6 @@ const StudyInputField = ({
             variant="standard"
             value={locationText || ''}
             onChange={handleLocationText}
-            // name=""
             placeholder="클릭하면 주소 검색창이 나와요"
             sx={{
               width: 300,
@@ -199,9 +191,7 @@ const StudyInputField = ({
               format="yyyy-MM-dd hh:mm aa"
               showMeridian
               style={{ color: 'black' }}
-              // defaultCalendarValue={[new Date(), new Date()]}
               name="period"
-              // value={periodRef.current}
               value={period}
               onChange={handlePeriodChange}
             />

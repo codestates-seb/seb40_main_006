@@ -47,21 +47,20 @@ const Description = ({ desc, setDesc }) => {
             placeholder="함께할 스터디를 소개해주세요"
             value={desc || ''}
             onChange={handleDesc}
-            // 커스텀 색상 설정
             sx={{
               '& > :not(style)': { m: 0, width: '790px' },
               '& label, label.Mui-focused': {
-                color: 'grey', // 기본 라벨, 포커스시 라벨 색상
+                color: 'grey',
               },
               '&.MuiOutlinedInput-root:hover': {
-                color: 'grey', // 호버시 외곽선 색상
+                color: 'grey',
               },
               '& .MuiOutlinedInput-root': {
-                '& > fieldset': { borderColor: '#d2d2d2' }, // 기본 외곽선 색상
+                '& > fieldset': { borderColor: '#d2d2d2' },
               },
               '& .MuiOutlinedInput-root.Mui-focused': {
                 '& > fieldset': {
-                  borderColor: '#d2d2d2', // 포커스시 외곽선 색상
+                  borderColor: '#d2d2d2',
                 },
               },
             }}

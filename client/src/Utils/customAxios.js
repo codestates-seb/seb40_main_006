@@ -38,7 +38,6 @@ api.interceptors.response.use(
           return await api.request(originalRequest);
         }
       } catch (e) {
-        // 토큰 재발급에 실패한 경우
         console.log(e.error);
       }
       return Promise.reject(error);
@@ -67,7 +66,6 @@ api.interceptors.response.use(
           return await api.request(originalRequest);
         }
       } catch (error) {
-        // 토큰 재발급에 실패한 경우
         console.log(error);
       }
       return Promise.reject(error);

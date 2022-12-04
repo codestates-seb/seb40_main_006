@@ -96,18 +96,13 @@ const ReplyComment = ({ postId, comment, comments, setComments }) => {
 
     const body = {
       postId,
-      // commentId: postId,
       contents: text,
-      // writer_id: userData._id,
-      // writer_nickname: userData.nickname,
-      // writer_image: userData.userImage,
       responseTo: replyId.current,
       isEdit: false,
       isRoot: false,
     };
 
     const addComments = () => {
-      // setComments([...comments, body]);
       setComments(comments.concat(body));
       replyId.current += 1;
       setshowReplyInput(false);
@@ -117,8 +112,6 @@ const ReplyComment = ({ postId, comment, comments, setComments }) => {
     text && addComments(text);
     setText('');
   };
-
-  // console.log('comment: ', comment);
 
   return (
     <>
@@ -143,7 +136,6 @@ const ReplyComment = ({ postId, comment, comments, setComments }) => {
             댓글작성(누르면 작성창 열림)
           </button>
         )}
-        {/* <div>{showReplyInput && <WriteComment />}</div> */}
         <form css={TextInputStyle}>
           {showReplyInput && (
             <>

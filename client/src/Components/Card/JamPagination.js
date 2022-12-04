@@ -11,15 +11,12 @@ export default function JamPagination() {
   const [pageNum, setNextPage] = useRecoilState(pageNumber);
   React.useEffect(() => {}, [pageNum]);
   const handlePageClick = e => {
-    console.log(e);
-
     if (e.target.dataset.testid === 'NavigateNextIcon')
       setNextPage(pageNum + 1);
     else if (e.target.dataset.testid === 'NavigateBeforeIcon')
       setNextPage(pageNum - 1);
     else {
       const nowPageNum = Number(e.target.outerText);
-      console.log(nowPageNum);
       setNextPage(nowPageNum);
     }
   };

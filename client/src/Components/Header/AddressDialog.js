@@ -47,14 +47,12 @@ export default function AddressDialog() {
 
   const navigate = useNavigate();
 
-  // 대한민국의 모든 특별/광역시, 도 반환
   function getCityData(code) {
     const apiLocation = getJuso(code);
     apiLocation.then(data => {
       setCityList(data.regcodes);
     });
   }
-  // 선택한 시(cityCode) 소속의 모든 구 반환
   function getGuData(cityCode) {
     const code = cityCode.slice(0, 2).concat('*00000');
     const apiLocation = getJuso(code);
@@ -62,7 +60,6 @@ export default function AddressDialog() {
       setGuList(data.regcodes.slice(1));
     });
   }
-  // 선택한 구(guCode)의 모든 동 반환
   function getDongData(guCode) {
     const code = guCode.slice(0, 5).concat('*&is_ignore_zero=true');
     const apiLocation = getJuso(code);
@@ -71,25 +68,23 @@ export default function AddressDialog() {
     });
   }
 
-  // selecter 선택시
   const handleCityClick = e => {
     const cityCode = cityList.filter(el => el.name === e.target.value)[0].code;
-    getGuData(cityCode); // 시/도 이름에 맞는 구 코드 찾아서 요청받아오기
+    getGuData(cityCode);
   };
   const handleGuClick = e => {
     const guCode = guList.filter(
       el => el.name.slice(city.length) === e.target.value,
     )[0].code;
-    getDongData(guCode); // 시/군/구 이름에 맞는 읍/면/동/리 코드 찾아서 요청받아오기
+    getDongData(guCode);
   };
   const handleDongClick = e => {
     const dongCode = dongList.filter(
       el => el.name.slice(city.length + gu.length) === e.target.value,
     )[0].code;
-    getDongData(dongCode); // 읍/면/동/리 이름에 맞는 코드 찾아서 요청받아오기
+    getDongData(dongCode);
   };
 
-  // state 변경
   const handleCityChange = event => {
     setCity(event.target.value || '');
     handleCityClick(event);
@@ -103,7 +98,6 @@ export default function AddressDialog() {
     handleDongClick(event);
   };
 
-  // dialog open/close 설정
   const handleClickOpen = () => {
     navigate('/home');
     setOpen(true);
@@ -120,7 +114,7 @@ export default function AddressDialog() {
   };
 
   useEffect(() => {
-    getCityData('*00000000'); // 대한민국의 모든 특별/광역시, 도 반환
+    getCityData('*00000000');
   }, []);
 
   return (

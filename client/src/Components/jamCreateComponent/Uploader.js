@@ -58,7 +58,6 @@ const UploadButton = css`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  /* margin: 5px; */
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
@@ -76,10 +75,6 @@ const Uploader = ({ image, setImage }) => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
 
-    for (const [key, value] of formData.entries()) {
-      console.log([key, value]);
-    }
-
     // eslint-disable-next-line no-undef
     await axios
       .post(`${BASE_URL}/upload`, formData, {
@@ -88,7 +83,6 @@ const Uploader = ({ image, setImage }) => {
         },
       })
       .then(res => {
-        console.log(res.data);
         setImage({ previewURL: res.data });
       })
       .catch(err => {

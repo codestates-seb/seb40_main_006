@@ -2,10 +2,6 @@ import { css } from '@emotion/css';
 import React from 'react';
 
 const imgColor = css`
-  // > img {
-  //   width: 15px;
-  //   height: 15px;
-  // }
   .grade0 {
     filter: invert(43%) sepia(100%) saturate(374%) hue-rotate(358deg)
       brightness(96%) contrast(101%);

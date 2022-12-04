@@ -2,10 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
-// import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
-// import { FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../Styles/theme';
 import jamElapsedTime from '../userComp/JamElapsedTime';
@@ -38,7 +36,6 @@ const realTimeJam = css`
 const coverImage = css`
   width: 60px;
   height: 50px;
-  /* background-color: ${palette.gray_4}; */
   img {
     width: 100%;
     height: 100%;
@@ -54,7 +51,6 @@ const defaultImage = css`
 const info = css`
   width: 100%;
   height: 100%;
-  /* background-color: magenta; */
 `;
 
 const topInfo = css`

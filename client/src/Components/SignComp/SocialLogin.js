@@ -33,19 +33,18 @@ const SocialLogin = () => {
   }
 
   useEffect(() => {
-    /* global google */
+    // eslint-disable-next-line no-undef
     google.accounts.id.initialize({
       client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       callback: handleCallbackResponse,
     });
+    // eslint-disable-next-line no-undef
     google.accounts.id.renderButton(document.getElementById('signInDiv'), {
       theme: 'outline',
       size: 'large',
       shape: 'square',
       logo_alignment: 'left',
     });
-
-    // google.accounts.id.prompt();
   }, []);
 
   return (
