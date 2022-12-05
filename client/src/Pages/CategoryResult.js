@@ -8,11 +8,11 @@ import { ButtonGroup, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { fetchJamRead, fetchJamSearch } from '../Utils/fetchJam';
+import { fetchJamRead } from '../Utils/fetchJam';
 import { theme } from '../Styles/theme';
 import Sidebar from '../Components/Sidebar';
 import JamCard from '../Components/Card/JamCard';
-import { pageNumber, selectedCategory, totalJamLength } from '../Atom/atoms';
+import { pageNumber, selectedCategory, totalPageNumber } from '../Atom/atoms';
 import ScrollToTop from '../ScrollToTop';
 import { NoCategoryData } from '../Components/NoData';
 import JamPagination from '../Components/Card/JamPagination';
@@ -74,27 +74,17 @@ const Category = () => {
   const [page, setCurrentPage] = useRecoilState(pageNumber);
   const [size] = useState(6);
   const navigate = useNavigate();
-  const [, setTotalJamCount] = useRecoilState(totalJamLength);
+  const [, setTotalPage] = useRecoilState(totalPageNumber);
 
   useEffect(() => {
-    const totaljamEndpoint =
-      currentCategory.label === '전체'
-        ? '/jams'
-        : `/jams/category?category=${currentCategory.param}&page=1&size=${size}`;
-    const totalJam = fetchJamRead(totaljamEndpoint);
-    totalJam.then(data => {
-      const totalLength = data.totalElements;
-      totalLength % size === 0
-        ? setTotalJamCount(Math.floor(totalLength / size))
-        : setTotalJamCount(Math.floor(totalLength / size) + 1);
-    });
-
     if (currentCategory.label === '내주변') navigate('/home');
     if (searchText) {
-      const Jams = fetchJamSearch(searchText);
+      const endpoint = `/jams/search?keyword=${searchText}&page=${page}&size=${size}`;
+      const Jams = fetchJamRead(endpoint);
       Jams.then(data => {
         setJamData(data.content);
         setFilteredData(data.content);
+        setTotalPage(data.totalPages);
       });
     } else {
       const endpoint =
@@ -105,6 +95,7 @@ const Category = () => {
       searchJams.then(data => {
         setJamData(data.content);
         setFilteredData(data.content);
+        setTotalPage(data.totalPages);
       });
     }
   }, [currentCategory, page]);
