@@ -24,9 +24,15 @@
 <details><summary>상단 네비게이션 바</summary></details>
 <details><summary>회원가입</summary></details>
 
-<details><summary>소셜 로그인</summary></details>
+<details><summary>소셜 로그인</summary>
+  
+![소셜로그인1](https://user-images.githubusercontent.com/92264867/205549047-49346ca4-26c1-469f-bc19-352adeda8754.gif)
+</details>
 
-<details><summary>자체 로그인</summary></details>
+<details><summary>자체 로그인</summary>
+  
+![자체로그인](https://user-images.githubusercontent.com/92264867/205549052-6179e4d9-8924-4d68-b789-6c2ebdc06f52.gif)
+</details>
 
 </details>
 <details><summary>로그아웃</summary>
@@ -34,8 +40,39 @@
 ![로그아웃](https://user-images.githubusercontent.com/92264867/205497937-107657cb-c5bc-44eb-a9c0-c01c54811715.gif)
 </details>
 <details><summary>마이페이지</summary></details>
-<details><summary>잼</summary></details>
-<details><summary>댓글</summary></details>
-<details><summary>대댓글</summary></details>
+<details><summary>잼</summary>
+  
+  ### 잼 작성 1
+![잼작성1](https://user-images.githubusercontent.com/92264867/205548494-a1bc7619-12ee-4924-ba4d-704e18babe70.gif)
+  
+  ### 잼 작성 2
+![잼작성2](https://user-images.githubusercontent.com/92264867/205548501-f48d332f-3294-4a95-80aa-4d1f498be549.gif)
+
+</details>
+
+<details><summary>댓글</summary>
+
+  ### 댓글 작성
+![댓글작성](https://user-images.githubusercontent.com/92264867/205548061-220c7140-6c92-4974-b908-4b22950cb612.gif)
+
+  ### 댓글 수정
+![댓글수정](https://user-images.githubusercontent.com/92264867/205548071-7879ecf1-ab1b-4715-a59b-fcb6fe68b695.gif)
+
+  ### 댓글 삭제
+![댓글삭제](https://user-images.githubusercontent.com/92264867/205548073-a42da75b-3dec-4ed5-af63-136f3aa2e898.gif)
+
+</details>
+<details><summary>대댓글</summary>
+
+  ### 대댓글 작성
+![대댓글작성](https://user-images.githubusercontent.com/92264867/205548229-df8b516d-537b-40e3-a58c-64ebd52dadbe.gif)
+  
+  ### 대댓글 수정
+![대댓글수정](https://user-images.githubusercontent.com/92264867/205548238-4e8f1a50-567c-4d91-9b77-534e7a9b31db.gif)
+  
+  ### 대댓글 삭제
+![대댓글삭제](https://user-images.githubusercontent.com/92264867/205548244-e7163204-b1e2-444a-a1e6-d04141f54e00.gif)
+
+</details>
 <details><summary>댓글에서 유저프로필 클릭하여 이동</summary></details>
 <details><summary>참여목록에서 유저프로필 클릭하여 이동</summary></details>
