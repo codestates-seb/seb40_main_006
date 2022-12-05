@@ -3,8 +3,8 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-const totalJamLength = atom({
-  key: 'totalJamLength',
+const totalPageNumber = atom({
+  key: 'totalPageNumber',
   default: 0,
 });
 
@@ -92,7 +92,7 @@ const myPageInfoState = atom({
 });
 
 export {
-  totalJamLength,
+  totalPageNumber,
   pageNumber,
   location,
   coordinate,
