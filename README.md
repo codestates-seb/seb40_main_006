@@ -83,6 +83,26 @@
 
 </details>
 
+<details><summary>잼 참여 / 참여 취소</summary>
+  
+  ### 잼 참여하기
+![참여하기](https://user-images.githubusercontent.com/92264867/205570354-10882cdf-d681-47c0-9570-ba1cfbb93026.gif)
+
+  ### 잼 참여 취소하기
+![참여취소하기](https://user-images.githubusercontent.com/92264867/205570377-f6fa8342-35e7-452a-b9e6-cc65dc1e3991.gif)
+
+</details>
+
+<details><summary>잼 모집완료 / 모집완료 취소</summary>
+  
+  ### 잼 모집 완료하기
+![모집완료](https://user-images.githubusercontent.com/92264867/205571255-42479ef0-7a3a-4c3b-b602-bda1d37e03ad.gif)
+
+  ### 잼 모집완료 취소하기
+![모집완료취소](https://user-images.githubusercontent.com/92264867/205571269-e9bb8f6f-cff8-442c-8376-4ac33053c1d3.gif)
+
+</details>
+
 <details><summary>댓글</summary>
 
   ### 댓글 작성
