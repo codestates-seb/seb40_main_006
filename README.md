@@ -19,10 +19,35 @@
 ![image](https://user-images.githubusercontent.com/92264867/205497004-b11c084c-7385-437f-9a77-e5dad4b7b6ee.png)
 
 ## 🎞️ 서비스 시연
-<details><summary>랜딩 페이지</summary></details>
-<details><summary>메인 홈페이지</summary></details>
-<details><summary>상단 네비게이션 바</summary></details>
-<details><summary>회원가입</summary></details>
+<details><summary>랜딩 페이지</summary>
+
+![랜딩](https://user-images.githubusercontent.com/97942837/205564273-aa377f04-e801-4d0a-9b6f-d89e0c0b4d58.gif)
+
+</details>
+
+<details><summary>메인 홈페이지</summary>
+
+![홈페이지기능뉴](https://user-images.githubusercontent.com/97942837/205566209-06bfe77b-2c91-4d1e-8256-0bf43d310d29.gif)
+
+</details>
+
+<details><summary>상단 네비게이션 바</summary>
+
+![동네선택 기능](https://user-images.githubusercontent.com/97942837/205564454-e073da97-a86a-41a8-a417-8e281dbc5b9c.gif)
+
+</details>
+
+<details><summary>좌측 카테고리 및 스터디 종류 선택 필터링</summary>
+
+![좌측 카테고리, 우측 스티디 종류 선택](https://user-images.githubusercontent.com/97942837/205564615-df3537aa-70bd-49f5-a17b-7ee2cd3ce146.gif)
+
+</details>
+
+<details><summary>회원가입</summary>
+
+![회원가입](https://user-images.githubusercontent.com/97942837/205565073-d6da6e3b-64c4-4324-b9cd-bfaaed4c7297.gif)
+
+</details>
 
 <details><summary>소셜 로그인</summary>
   
@@ -39,7 +64,15 @@
 
 ![로그아웃](https://user-images.githubusercontent.com/92264867/205497937-107657cb-c5bc-44eb-a9c0-c01c54811715.gif)
 </details>
-<details><summary>마이페이지</summary></details>
+<details><summary>마이페이지</summary>
+
+  ### 평점 주기
+  ![평점 주기](https://user-images.githubusercontent.com/97942837/205567517-6bd3d3d0-bcd9-44c5-ba71-7a000a8ee703.gif)
+  
+  ### 유저 프로필 및 수정
+  ![유저프로필수정](https://user-images.githubusercontent.com/97942837/205567568-a079af99-247b-43bb-afe4-9c5528bd9e00.gif)
+
+</details>
 <details><summary>잼</summary>
   
   ### 잼 작성 1
@@ -74,5 +107,13 @@
 ![대댓글삭제](https://user-images.githubusercontent.com/92264867/205548244-e7163204-b1e2-444a-a1e6-d04141f54e00.gif)
 
 </details>
-<details><summary>댓글에서 유저프로필 클릭하여 이동</summary></details>
-<details><summary>참여목록에서 유저프로필 클릭하여 이동</summary></details>
+<details><summary>댓글에서 유저프로필 클릭하여 이동</summary>
+
+![댓글에서유저프로필이동](https://user-images.githubusercontent.com/97942837/205567883-85e7dff1-6491-456a-869d-e7cc9b9f3046.gif)
+
+</details>
+<details><summary>참여목록에서 유저프로필 클릭하여 이동</summary>
+
+![참여목록에서프로필이동](https://user-images.githubusercontent.com/97942837/205567929-7f6dbd97-cad0-4442-95ff-4e9adcab0867.gif)
+
+</details>
