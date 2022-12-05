@@ -43,6 +43,8 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
     setText(e.target.value);
   };
 
+  console.log(user);
+
   return (
     <div css={Container}>
       <div css={UserBox}>
@@ -51,7 +53,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
             name={user.nickname}
             id={user.memberId}
             grade={user.grade}
-            img={user.profileImage}
+            img={user.img}
           />
         ) : (
           ''
