@@ -67,7 +67,7 @@ const editForm = css`
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const Reply = ({ replyList, jamData }) => {
+const Reply = ({ replyList, jamData, replyData, setReplyData }) => {
   // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -92,7 +92,15 @@ const Reply = ({ replyList, jamData }) => {
             },
           },
         )
-        .then(window.location.reload());
+        .then(res => {
+          const copy = [...replyData];
+          for (let i = 0; i < copy.length; i += 1) {
+            if (copy[i].memberId === res.data.memberId) {
+              copy[i] = res.data;
+            }
+          }
+          setReplyData(copy);
+        });
     }
   };
 
@@ -118,6 +126,7 @@ const Reply = ({ replyList, jamData }) => {
       {replyList?.map((reply, idx) => (
         <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
+            {console.log(user)}
             <UserName
               name={reply.nickname}
               id={reply.memberId}

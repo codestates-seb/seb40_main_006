@@ -88,6 +88,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   const { id } = useParams();
 
+  const [replyData, setReplyData] = useState([]);
+
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
@@ -105,7 +107,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   useEffect(() => {
     getJamData();
-  }, []);
+  }, [replyData]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -123,7 +125,11 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
           },
         },
       )
-      .then(window.location.reload());
+      .then(res => {
+        const copy = [...replyData];
+        copy.push(res.data);
+        setReplyData(copy);
+      });
 
     const body = {
       postId: nextId.current,
@@ -169,7 +175,12 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 handleSubmit={handleSubmit}
                 jamData={jamData}
               />
-              <Reply replyList={jamData.commentList} jamData={jamData} />
+              <Reply
+                replyList={jamData.commentList}
+                jamData={jamData}
+                replyData={replyData}
+                setReplyData={setReplyData}
+              />
             </div>
           </div>
         </div>
