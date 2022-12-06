@@ -12,8 +12,7 @@ const Container = css`
 `;
 
 const SliderStyle = styled(Slider)`
-  .slick-slider {
-  }
+  object-fit: cover;
   .slick-list {
     width: 560px;
     height: 275px;
@@ -24,9 +23,12 @@ const SliderStyle = styled(Slider)`
   .slick-slide div {
     outline: none;
     width: 560px;
-    height: 450px;
+    height: 100%;
+    object-fit: cover;
     span {
-      padding: 10px;
+      /* padding: 10px; */
+      white-space: pre-line;
+      object-fit: cover;
     }
   }
   .slick-slide img {
