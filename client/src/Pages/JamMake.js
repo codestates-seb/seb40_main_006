@@ -156,7 +156,9 @@ const ChatlinkBox = css`
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 const CURRENT_DATE_TIME = new Date();
-const TODAY_MIDNIGHT_TIME = new Date();
+const TODAY_MIDNIGHT_TIME = new Date(new Date().setHours(23, 59, 59, 59));
+
+// console.log('TODAY_MIDNIGHT_TIME: ', TODAY_MIDNIGHT_TIME);
 
 const JamMake = ({ isEdit }) => {
   // eslint-disable-next-line no-unused-vars
@@ -196,6 +198,21 @@ const JamMake = ({ isEdit }) => {
     setCurrentTab(el.id);
   };
 
+  const validate = () => {
+    if (
+      !period ||
+      !locationText ||
+      !(title || jamTitle) ||
+      !(category || jamCategory) ||
+      !(capacity || jamCapacity) ||
+      !desc ||
+      !chatLink
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -205,57 +222,52 @@ const JamMake = ({ isEdit }) => {
       window.location.reload();
     }
 
-    // eslint-disable-next-line no-console
-    const mainData = {
-      title: currentTab ? jamTitle : title,
-      content: desc,
-      capacity: currentTab ? Number(jamCapacity) : Number(capacity),
-      category: currentTab ? jamCategory : category,
-      jamFrom: currentTab ? CURRENT_DATE_TIME : period[0],
-      jamTo: currentTab ? TODAY_MIDNIGHT_TIME : period[1],
-      realTime: currentTab,
-      openChatLink: chatLink,
-      location: locationText,
-      image: image.previewURL,
-      longitude,
-      latitude,
-      address,
-    };
+    if (!validate()) {
+      // eslint-disable-next-line no-alert
+      alert('입력사항을 작성해주셔야 잼이 개설됩니다');
+    } else {
+      // 1. 현재 시간(Locale)
+      const curr0 = new Date(period[0]);
+      const curr1 = new Date(period[1]);
+      // 2. UTC 시간 계산
+      const utc0 = curr0.getTime() + curr0.getTimezoneOffset() * 60 * 1000;
+      const utc1 = curr1.getTime() + curr1.getTimezoneOffset() * 60 * 1000;
+      // 3. UTC to KST (UTC + 9시간)
+      const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+      const krCurr0 = new Date(utc0 + KR_TIME_DIFF);
+      const krCurr1 = new Date(utc1 + KR_TIME_DIFF);
 
-    const formData = new FormData();
-    formData.append('title', currentTab ? jamTitle : title);
-    formData.append('content', desc);
-    formData.append('category', currentTab ? jamCategory : category);
-    formData.append(
-      'capacity',
-      currentTab ? Number(jamCapacity) : Number(capacity),
-    );
-    formData.append('jamFrom', currentTab ? CURRENT_DATE_TIME : period[0]);
-    formData.append(
-      'jamTo',
-      currentTab !== 0 ? TODAY_MIDNIGHT_TIME : period[1],
-    );
-    formData.append('realTime', currentTab);
-    formData.append('openChatLink', chatLink);
-    formData.append('location', locationText);
-    formData.append('jamImg', image.previewURL);
-    formData.append('longitude', longitude);
-    formData.append('latitude', latitude);
-    formData.append('address', address);
+      // eslint-disable-next-line no-console
+      const mainData = {
+        title: currentTab ? jamTitle : title,
+        content: desc,
+        capacity: currentTab ? Number(jamCapacity) : Number(capacity),
+        category: currentTab ? jamCategory : category,
+        jamFrom: currentTab ? CURRENT_DATE_TIME : krCurr0,
+        jamTo: currentTab ? TODAY_MIDNIGHT_TIME : krCurr1,
+        realTime: currentTab,
+        openChatLink: chatLink,
+        location: locationText,
+        image: image.previewURL,
+        longitude,
+        latitude,
+        address,
+      };
 
-    await axios
-      .post(`${BASE_URL}/jams/write`, mainData, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then(res => {
-        navigate(`/jamdetail/${res.data.jamId}`);
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+      await axios
+        .post(`${BASE_URL}/jams/write`, mainData, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(res => {
+          navigate(`/jamdetail/${res.data.jamId}`);
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    }
   };
 
   const getJamForEdit = async () => {
