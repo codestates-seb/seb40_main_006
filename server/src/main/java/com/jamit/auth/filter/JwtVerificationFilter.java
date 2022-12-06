@@ -6,7 +6,6 @@ import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
-import com.jamit.member.entity.Role;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -46,31 +45,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-
-
         try {
-            String accessToken = jwtTokenizer.resolveAccessToken(request);
-            String refreshToken = jwtTokenizer.resolveRefreshToken(request);
             Map<String, Object> claims = verifyJws(request);
-            String username = (String) claims.get("username");
-            Optional<Member> optionalMember = memberRepository.findByEmail(username);
-            Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-            if (jwtTokenizer.validateToken(accessToken) == true && jwtTokenizer.validateToken(refreshToken) == true) {
-                setAuthenticationToContext(claims);
-                filterChain.doFilter(request, response);
-
-            } else if (jwtTokenizer.validateToken(accessToken) == false && jwtTokenizer.validateToken(refreshToken) == true) {
-                member.setEmail(username);
-                member.setRoles(Role.USER);
-                String newAccessToken = delegateAccessToken(member);
-
-                response.setHeader("Authorization", "Bearer " + newAccessToken);
-                response.setHeader("Refresh", refreshToken);
-
-                setAuthenticationToContext(claims);
-                filterChain.doFilter(request, response);
-            }
+            setAuthenticationToContext(claims);
 
         } catch (SignatureException se) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -84,8 +61,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
             ErrorResponse errorResponse = new ErrorResponse(401, "Expired JWT");
             new ObjectMapper().writeValue(response.getWriter(), errorResponse);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
