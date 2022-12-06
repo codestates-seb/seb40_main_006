@@ -6,12 +6,11 @@ import { location, coordinate } from '../../Atom/atoms';
 
 const { kakao } = window;
 const Map = ({ jamData }) => {
-  // 마곡
   const [latitude, setLatitude] = useState(37.5602098);
   const [longitude, setLongitude] = useState(126.825479);
   const [currentLevel, setCurrentLevel] = useState(4);
 
-  const [currentLocation] = useRecoilState(location);
+  const [currentLocation, setCurrentLocation] = useRecoilState(location);
   const [, setCurrentCoordinate] = useRecoilState(coordinate);
 
   function getMap() {
@@ -35,6 +34,31 @@ const Map = ({ jamData }) => {
         longitude: latlng.getLng(),
       });
     });
+
+    // 주소-좌표 변환 객체를 생성합니다
+    const geocoder = new kakao.maps.services.Geocoder();
+    function searchAddrFromCoords(coords, callback) {
+      // 좌표로 행정동 주소 정보를 요청합니다
+      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    }
+    // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'idle', function () {
+      searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    });
+    // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+    function displayCenterInfo(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        for (let i = 0; i < result.length; i += 1) {
+          // 행정동의 region_type 값은 'H' 이므로
+          if (result[i].region_type === 'H') {
+            const locationName = result[i].address_name.split(' ');
+            setCurrentLocation(locationName[locationName.length - 1]);
+            break;
+          }
+        }
+      }
+    }
+
     return map;
   }
 
@@ -43,7 +67,6 @@ const Map = ({ jamData }) => {
       const bounds = new kakao.maps.LatLngBounds();
 
       for (let i = 0; i < data.length; i += 1) {
-        // displayMarker(data[i]);
         bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
       }
 
