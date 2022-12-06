@@ -100,8 +100,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         return UriComponentsBuilder
             .newInstance()
-            .scheme("https")
-            .host("api.jamit.click")
+            .scheme("http")
+            .host("localhost")
 //                .port(80)
             .path("/receive-token.html")
             .queryParams(queryParams)
