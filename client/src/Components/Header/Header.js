@@ -143,13 +143,17 @@ const LoginArea = () => {
   );
 };
 
+const handleReload = () => {
+  window.location.reload();
+};
+
 const LogoutArea = () => {
   const [user] = useRecoilState(loginUserInfoState);
 
   return (
     <div className={rightHeader}>
       <Link to="/jammake">
-        <button type="button" className={createJamBtn}>
+        <button type="button" className={createJamBtn} onClick={handleReload}>
           잼 만들기{' '}
         </button>
       </Link>
