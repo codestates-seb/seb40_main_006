@@ -146,13 +146,16 @@ const LoginArea = () => {
 const LogoutArea = () => {
   const [user] = useRecoilState(loginUserInfoState);
 
+  const handleReload = () => {
+    // eslint-disable-next-line no-restricted-globals
+    location.replace('/jammake');
+  };
+
   return (
     <div className={rightHeader}>
-      <Link to="/jammake">
-        <button type="button" className={createJamBtn}>
-          잼 만들기{' '}
-        </button>
-      </Link>
+      <button type="button" className={createJamBtn} onClick={handleReload}>
+        잼 만들기{' '}
+      </button>
       <div className={username}>{user.nickname}님</div>
       <AccountMenu />
     </div>

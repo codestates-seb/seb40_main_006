@@ -3,8 +3,8 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-const totalJamLength = atom({
-  key: 'totalJamLength',
+const totalPageNumber = atom({
+  key: 'totalPageNumber',
   default: 0,
 });
 
@@ -16,6 +16,11 @@ const pageNumber = atom({
 const location = atom({
   key: 'location',
   default: '서울특별시 강서구 마곡동',
+});
+
+const locationChanged = atom({
+  key: 'locationChanged',
+  default: false,
 });
 
 const coordinate = atom({
@@ -92,9 +97,10 @@ const myPageInfoState = atom({
 });
 
 export {
-  totalJamLength,
+  totalPageNumber,
   pageNumber,
   location,
+  locationChanged,
   coordinate,
   selectedCategory,
   isLoginState,

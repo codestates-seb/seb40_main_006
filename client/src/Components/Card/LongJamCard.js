@@ -61,12 +61,14 @@ const topInfo = css`
     font-size: 16px;
     font-weight: bold;
     margin: 0px 5px;
+    word-break: keep-all;
   }
   div {
     border-radius: 10px;
     padding: 3px 20px;
     margin: 0px 5px;
     font-size: 12px;
+    white-space: nowrap;
   }
 `;
 

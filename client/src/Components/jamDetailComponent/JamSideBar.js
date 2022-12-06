@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { BiCategory } from 'react-icons/bi';
 import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
@@ -146,18 +146,9 @@ const JamSideBar = ({
 
   const accessToken = getCookie('accessToken');
 
-  const {
-    title,
-    location,
-    nickname,
-    currentPpl,
-    capacity,
-    createdAt,
-    category,
-    openChatLink,
-  } = jamData;
-
-  const filteredCategory = categories.filter(el => el.value === category)[0];
+  const filteredCategory = categories.filter(
+    el => el.value === jamData.category,
+  )[0];
 
   const isJoiner =
     joiner &&
@@ -286,9 +277,25 @@ const JamSideBar = ({
     }
   };
 
-  const handleCardClick = jamId => {
-    navigate(`/mypage/${jamId}`);
+  const handleCardClick = memeberId => {
+    navigate(`/mypage/${memeberId}`);
   };
+
+  const [jamOpener, setJamOpener] = useState({
+    memberId: '',
+    name: '',
+    img: '',
+  });
+
+  useEffect(() => {
+    if (jamData.participantList) {
+      setJamOpener({
+        memberId: jamData.participantList[0].memberId,
+        name: jamData.participantList[0].nickname,
+        img: jamData.participantList[0].profileImage,
+      });
+    }
+  }, [jamData.participantList]);
 
   return (
     <div css={JamSideContainer}>
@@ -296,10 +303,9 @@ const JamSideBar = ({
         <div css={UserAndStateBox}>
           <div css={UserBox}>
             <UserName
-              name={jamData.nickname}
-              id={jamData.memberId}
-              grade={jamData.grade}
-              img={jamData.image}
+              name={jamOpener.name}
+              id={jamOpener.memberId}
+              img={jamOpener.img}
             />
           </div>
           {isComplete === 'FALSE' ? (
@@ -313,7 +319,7 @@ const JamSideBar = ({
           )}
         </div>
       </div>
-      <h6 css={Title}>{title}</h6>
+      <h6 css={Title}>{jamData.title}</h6>
       <div css={EtcInfo}>
         <div className="categoryIcons">
           <BiCategory />
@@ -321,20 +327,20 @@ const JamSideBar = ({
         </div>
         <div className="categoryIcons">
           <BsClockFill />
-          <span>{jamElapsedTime(createdAt)}</span>
+          <span>{jamElapsedTime(jamData.createdAt)}</span>
         </div>
         <div className="categoryIcons">
           <BsPeopleFill />
           <span>
-            {currentPpl}/{capacity}명
+            {jamData.currentPpl}/{jamData.capacity}명
           </span>
         </div>
         <div className="categoryIcons">
           <ImLocation />
-          <span>{location}</span>
+          <span>{jamData.location}</span>
         </div>
       </div>
-      {(isJoiner || nickname === currentUser.nickname) && (
+      {(isJoiner || jamData.nickname === currentUser.nickname) && (
         <>
           <div css={AvatarContainer}>
             {jamData &&
@@ -358,15 +364,19 @@ const JamSideBar = ({
             <span>채팅채널</span>
             <br />
             <span>
-              <a href={openChatLink} target="_blank" rel="noopener noreferrer">
-                {openChatLink}
+              <a
+                href={jamData.openChatLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {jamData.openChatLink}
               </a>
             </span>
           </div>
         </>
       )}
       {/* 스터디 개설 유저가 로그인 유저와 같지 않으면 참여 부분, 같으면 모집 부분 렌더 */}
-      {nickname !== currentUser.nickname ? (
+      {jamData.nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
           {!isJoiner ? (
             <button

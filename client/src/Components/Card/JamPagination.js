@@ -4,12 +4,12 @@ import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material';
 import { useRecoilState } from 'recoil';
 import { theme } from '../../Styles/theme';
-import { totalJamLength, pageNumber } from '../../Atom/atoms';
+import { totalPageNumber, pageNumber } from '../../Atom/atoms';
 
 export default function JamPagination() {
-  const [totalJamCount] = useRecoilState(totalJamLength);
+  const [totalPage] = useRecoilState(totalPageNumber);
   const [pageNum, setNextPage] = useRecoilState(pageNumber);
-  React.useEffect(() => {}, [pageNum]);
+  React.useEffect(() => {}, [pageNum, totalPage]);
   const handlePageClick = e => {
     if (e.target.dataset.testid === 'NavigateNextIcon')
       setNextPage(pageNum + 1);
@@ -24,7 +24,7 @@ export default function JamPagination() {
     <ThemeProvider theme={theme}>
       <Stack spacing={2}>
         <Pagination
-          count={totalJamCount}
+          count={totalPage}
           color="primary"
           onClick={handlePageClick}
         />
