@@ -26,7 +26,6 @@ const SliderStyle = styled(Slider)`
     height: 100%;
     object-fit: cover;
     span {
-      /* padding: 10px; */
       white-space: pre-line;
       object-fit: cover;
     }
