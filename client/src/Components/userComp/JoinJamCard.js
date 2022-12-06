@@ -44,7 +44,7 @@ const JoinJamCard = ({ jamId, jam }) => {
         </CardActions>
       </Card>
       <Button size="small" className="cardBtn">
-        {!jam.complete ? '모집완료' : '모집중'}
+        {jam.completeStatus === 'TRUE' ? '모집완료' : '모집중'}
       </Button>
     </div>
   );
