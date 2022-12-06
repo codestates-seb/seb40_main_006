@@ -67,7 +67,14 @@ const editForm = css`
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const Reply = ({ replyList, jamData, replyData, setReplyData }) => {
+const Reply = ({
+  replyList,
+  jamData,
+  replyData,
+  setReplyData,
+  rereplyData,
+  getJamData,
+}) => {
   // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -126,7 +133,6 @@ const Reply = ({ replyList, jamData, replyData, setReplyData }) => {
       {replyList?.map((reply, idx) => (
         <div key={reply.commentId} className={replyContainer}>
           <div className={replyUser}>
-            {console.log(user)}
             <UserName
               name={reply.nickname}
               id={reply.memberId}
@@ -177,6 +183,11 @@ const Reply = ({ replyList, jamData, replyData, setReplyData }) => {
               jamData={jamData}
               commentId={reply.commentId}
               btnIdx={idx}
+              replyData={replyData}
+              setReplyData={setReplyData}
+              rereplyData={rereplyData}
+              replyList={replyList}
+              getJamData={getJamData}
             />
           )}
         </div>

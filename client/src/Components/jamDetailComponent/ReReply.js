@@ -2,7 +2,7 @@
 import { css } from '@emotion/css';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserName from '../userComp/UserName';
 import { getCookie } from '../SignComp/Cookie';
 import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
@@ -92,11 +92,22 @@ const rereply = css`
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
+const ReReply = ({
+  openRe,
+  setOpenRe,
+  jamData,
+  commentId,
+  btnIdx,
+  replyData,
+  setReplyData,
+  rereplyData,
+  replyList,
+  // getJamData,
+}) => {
   const [reVal, setReVal] = useState('');
   const [reValIdx, setReValIdx] = useState('');
   const [reValList, setReValList] = useState(
-    new Array(jamData.commentList.length).fill([]),
+    new Array(replyList.length).fill([]),
   );
   const [user] = useRecoilState(loginUserInfoState);
   const [reEdit, setReEdit] = useState(false);
@@ -126,6 +137,10 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
     setReEditVal(e.target.value);
   };
 
+  useEffect(() => {
+    // getJamData();
+  }, [replyData, reValList, openRe]);
+
   const submitHandler = e => {
     e.preventDefault();
     axios
@@ -141,7 +156,17 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
           },
         },
       )
-      .then(window.location.reload());
+      .then(res => {
+        const copy = [...replyData];
+        for (let i = 0; i < copy.length; i += 1) {
+          if (copy[i].commentId === rereplyData.commentId) {
+            copy[i].push(res.data);
+          }
+        }
+        setReplyData(copy);
+        setReValList(copy);
+        setOpenRe(false);
+      });
   };
 
   const editHandler = (e, idx) => {
@@ -187,8 +212,9 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
         <div>{openRe && btnIdx === reValIdx ? '▼' : '▶'}</div>
         <div>{jamData.commentList[btnIdx].replyList.length}개의 댓글</div>
       </button>
-      {btnIdx === reValIdx && (
-        <form onSubmit={submitHandler}>
+
+      <form onSubmit={submitHandler}>
+        {btnIdx === reValIdx && (
           <div className={writeContent}>
             {isLogin ? (
               <>
@@ -218,8 +244,11 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
               />
             )}
           </div>
-          <div className={content}>
-            {reValList[btnIdx]?.map((el, idx) => (
+        )}
+
+        <div className={content}>
+          {reValList[btnIdx] &&
+            reValList[btnIdx].map((el, idx) => (
               <div key={el.replyId} className={rereply}>
                 <div className="title">
                   <UserName
@@ -261,9 +290,8 @@ const ReReply = ({ openRe, setOpenRe, jamData, commentId, btnIdx }) => {
                 </div>
               </div>
             ))}
-          </div>
-        </form>
-      )}
+        </div>
+      </form>
     </div>
   );
 };

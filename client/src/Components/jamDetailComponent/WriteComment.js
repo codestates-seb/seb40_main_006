@@ -43,8 +43,6 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
     setText(e.target.value);
   };
 
-  console.log(user);
-
   return (
     <div css={Container}>
       <div css={UserBox}>

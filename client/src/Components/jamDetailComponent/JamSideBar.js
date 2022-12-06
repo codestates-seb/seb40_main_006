@@ -299,7 +299,6 @@ const JamSideBar = ({
   });
 
   useEffect(() => {
-    console.log(jamData.participantList);
     if (jamData.participantList) {
       setJamOpener({
         memberId: jamData.participantList[0].memberId,

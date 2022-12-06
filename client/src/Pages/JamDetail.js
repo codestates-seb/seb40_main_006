@@ -89,6 +89,7 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
   const { id } = useParams();
 
   const [replyData, setReplyData] = useState([]);
+  const [rereplyData] = useState([]);
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
@@ -180,6 +181,8 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 jamData={jamData}
                 replyData={replyData}
                 setReplyData={setReplyData}
+                rereplyData={rereplyData}
+                getJamData={getJamData}
               />
             </div>
           </div>
