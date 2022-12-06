@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
+import { palette } from '../../Styles/theme';
 
 const { kakao } = window;
 
@@ -16,34 +17,44 @@ const JamLocationMap = ({ jamData }) => {
     return map;
   }
 
+  const imageSrc =
+    'https://github.com/codestates-seb/seb40_main_006/blob/dev-fe/client/src/Assets/images/map_pin.png?raw=true'; // 마커이미지의 주소입니다
+  const imageSize = new kakao.maps.Size(30, 40); // 마커이미지의 크기입니다
+  const imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+  const markerImage = new kakao.maps.MarkerImage(
+    imageSrc,
+    imageSize,
+    imageOption,
+  );
   const MapPin = () => {
-    const positions = [
-      {
-        content: `<div>${jamData.location}</div>`,
-        latlng: new kakao.maps.LatLng(jamData.latitude, jamData.longitude),
-      },
-    ];
+    const positions = {
+      content: `<div class="customoverlay" style="position: relative;bottom: 76px;border-radius: 6px;float: left;">
+            <div style="display: block;text-decoration: none;color: #222;text-align: center;border-radius: 6px;font-size: 14px;font-weight: bold;overflow: hidden;background: ${palette.colorAccent};background: ${palette.colorAccent} url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;">
+            <span class="title" style="display: block;text-align: center;background: #fff;margin-right: 35px;padding: 8px 10px;font-size: 13px;font-weight: bold;">
+            ${jamData.location}</span></div></div>`,
+      latlng: new kakao.maps.LatLng(jamData.latitude, jamData.longitude),
+    };
     const map = getMap();
-    for (let i = 0; i < positions.length; i++) {
-      const marker = new kakao.maps.Marker({
-        map,
-        position: positions[i].latlng,
-      });
+    const marker = new kakao.maps.Marker({
+      map,
+      position: positions.latlng,
+      image: markerImage,
+    });
 
-      // 마커에 표시할 인포윈도우를 생성합니다
-      const infowindow = new kakao.maps.InfoWindow({
-        content: positions[i].content,
-      });
+    const overlay = new kakao.maps.CustomOverlay({
+      position: positions.latlng,
+      content: positions.content,
+      yAnchor: -2,
+    });
 
-      (function (point, window) {
-        kakao.maps.event.addListener(point, 'mouseover', function () {
-          window.open(map, point);
-        });
-        kakao.maps.event.addListener(point, 'mouseout', function () {
-          window.close();
-        });
-      })(marker, infowindow);
-    }
+    kakao.maps.event.addListener(marker, 'mouseover', function () {
+      overlay.setMap(map);
+    });
+
+    kakao.maps.event.addListener(marker, 'mouseout', function () {
+      overlay.setMap(null);
+    });
   };
 
   useEffect(() => {

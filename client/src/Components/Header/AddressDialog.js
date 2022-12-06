@@ -17,7 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { palette, theme } from '../../Styles/theme';
 import getJuso from './getJuso';
-import { location } from '../../Atom/atoms';
+import { location, locationChanged } from '../../Atom/atoms';
 
 const addressContainer = css`
   display: flex;
@@ -107,9 +107,11 @@ export default function AddressDialog() {
   };
 
   const [, setCurrentLocation] = useRecoilState(location);
+  const [, setIsUserLocationChanged] = useRecoilState(locationChanged);
 
   const onSubmit = () => {
     setCurrentLocation(`${city} ${gu} ${dong}`);
+    setIsUserLocationChanged(true);
     handleClose();
   };
 
