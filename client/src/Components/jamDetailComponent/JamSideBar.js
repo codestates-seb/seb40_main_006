@@ -146,17 +146,6 @@ const JamSideBar = ({
 
   const accessToken = getCookie('accessToken');
 
-  // const {
-  //   title,
-  //   location,
-  //   nickname,
-  //   currentPpl,
-  //   capacity,
-  //   createdAt,
-  //   category,
-  //   openChatLink,
-  // } = jamData;
-
   const filteredCategory = categories.filter(
     el => el.value === jamData.category,
   )[0];
