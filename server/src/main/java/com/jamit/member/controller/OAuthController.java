@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class OAuthController {
 
-    @GetMapping("/oauth-login")
+    @GetMapping("/user/login/google")
     public String login() {
         return "oauth-login";
     }
