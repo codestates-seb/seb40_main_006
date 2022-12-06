@@ -51,7 +51,7 @@ const WriteComment = ({ text, setText, handleSubmit }) => {
             name={user.nickname}
             id={user.memberId}
             grade={user.grade}
-            img={user.profileImage}
+            img={user.img}
           />
         ) : (
           ''

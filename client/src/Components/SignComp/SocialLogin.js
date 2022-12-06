@@ -1,5 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 import { css } from '@emotion/css';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
+import { setCookie } from './Cookie';
 
 const loginContainer = css`
   display: flex;
@@ -7,8 +13,24 @@ const loginContainer = css`
 `;
 
 const SocialLogin = () => {
-  function handleCallbackResponse() {
-    alert('점검중입니다!');
+  const [user, setUser] = useRecoilState(loginUserInfoState);
+  const [, setIsLogin] = useRecoilState(isLoginState);
+  const navigate = useNavigate();
+
+  function handleCallbackResponse(response) {
+    const encodedJwtIdToken = response.credential;
+    const userObject = jwtDecode(encodedJwtIdToken);
+    // setUser({
+    //   memberId: 100 + user.memberId,
+    //   nickname: userObject.name,
+    //   img: userObject.picture,
+    //   grade: '2',
+    //   gradeCount: '5',
+    // });
+    setIsLogin(true);
+    setCookie('accessToken', encodedJwtIdToken);
+    document.getElementById('signInDiv').hidden = true;
+    navigate('/');
   }
 
   useEffect(() => {
@@ -23,6 +45,8 @@ const SocialLogin = () => {
       shape: 'square',
       logo_alignment: 'left',
     });
+
+    // google.accounts.id.prompt();
   }, []);
 
   return (
