@@ -169,13 +169,15 @@ const KakaoMap = ({
   }, [keyword]);
 
   const handleTextInput = item => {
-    const splitAddress = item.address_name.split(' ');
-    const editAddress = `${splitAddress[0]} ${splitAddress[1]} ${splitAddress[2]}`;
+    // const splitAddress = item.address_name.split(' ');
+    // const editAddress = `${splitAddress[0]} ${splitAddress[1]} ${splitAddress[2]}`;
 
     setLocationText(item.place_name);
     setLongitude(item.x);
     setLatitude(item.y);
-    setAddress(editAddress);
+    setAddress(
+      item.road_address_name ? item.road_address_name : item.address_name,
+    );
     handleClose(false);
   };
 
