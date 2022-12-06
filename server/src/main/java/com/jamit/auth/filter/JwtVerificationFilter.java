@@ -6,21 +6,23 @@ import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
+import com.jamit.member.entity.Role;
 import com.jamit.member.repository.MemberRepository;
 import com.jamit.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -44,9 +46,32 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
+
+
         try {
+            String accessToken = jwtTokenizer.resolveAccessToken(request);
+            String refreshToken = jwtTokenizer.resolveRefreshToken(request);
             Map<String, Object> claims = verifyJws(request);
-            setAuthenticationToContext(claims);
+            String username = (String) claims.get("username");
+            Optional<Member> optionalMember = memberRepository.findByEmail(username);
+            Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            if (jwtTokenizer.validateToken(accessToken) == true && jwtTokenizer.validateToken(refreshToken) == true) {
+                setAuthenticationToContext(claims);
+                filterChain.doFilter(request, response);
+
+            } else if (jwtTokenizer.validateToken(accessToken) == false && jwtTokenizer.validateToken(refreshToken) == true) {
+                member.setEmail(username);
+                member.setRoles(Role.USER);
+                String newAccessToken = delegateAccessToken(member);
+
+                response.setHeader("Authorization", "Bearer " + newAccessToken);
+                response.setHeader("Refresh", refreshToken);
+
+                setAuthenticationToContext(claims);
+                filterChain.doFilter(request, response);
+            }
+
         } catch (SignatureException se) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
@@ -59,7 +84,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
             ErrorResponse errorResponse = new ErrorResponse(401, "Expired JWT");
             new ObjectMapper().writeValue(response.getWriter(), errorResponse);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -110,5 +136,23 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails,
             memberDetails.getPassword(), memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private String delegateAccessToken(Member member) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", member.getEmail());
+        claims.put("roles", member.getRoles());
+
+        String subject = member.getEmail();
+        Date expiration = jwtTokenizer.getTokenExpiration(
+            jwtTokenizer.getAccessTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(
+            jwtTokenizer.getSecretKey());
+
+        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration,
+            base64EncodedSecretKey);
+
+        return accessToken;
     }
 }
