@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 /* eslint-disable consistent-return */
-import { css } from '@emotion/react';
-import React, { useRef } from 'react';
-import { Button } from '@mui/material';
+import { css, ThemeProvider } from '@emotion/react';
+import { useRef } from 'react';
+import { IconButton } from '@mui/material';
 import axios from 'axios';
 import { BsPlusCircle } from 'react-icons/bs';
-import { palette } from '../../Styles/theme';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { theme, palette } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -53,21 +54,16 @@ const ImgBox = css`
   gap: 20px;
 `;
 
-const UploadButton = css`
+const DeleteButton = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 const Uploader = ({ image, setImage }) => {
   const fileInputRef = useRef(null);
-
-  const handleClickFileInput = () => {
-    fileInputRef.current.click();
-  };
 
   const saveImage = async e => {
     e.preventDefault();
@@ -117,23 +113,23 @@ const Uploader = ({ image, setImage }) => {
             accept="image/*"
             onChange={saveImage}
             ref={fileInputRef}
-            onClick={handleClickFileInput}
             hidden
             style={{ display: 'none' }}
           />
         </div>
       </label>
-      <div css={UploadButton}>
-        <Button
-          type="primary"
-          variant="contained"
-          onClick={handleClickFileInput}
-        >
-          미리보기
-        </Button>
-        <Button color="error" variant="contained" onClick={deleteImage}>
-          삭제
-        </Button>
+      <div css={DeleteButton}>
+        {image.previewURL && (
+          <ThemeProvider theme={theme}>
+            <IconButton
+              aria-label="delete"
+              color="primary"
+              onClick={deleteImage}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ThemeProvider>
+        )}
       </div>
     </div>
   );

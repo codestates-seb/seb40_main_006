@@ -52,12 +52,17 @@ const InfoIcons = css`
   align-items: center;
   gap: 10px;
   font-size: 12px;
+  margin-bottom: 13px;
   .categoryIcons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 3px;
   }
+`;
+
+const periodDisplay = css`
+  font-size: 15px;
 `;
 
 const Carousel = css`
@@ -85,8 +90,12 @@ const LocationText = css`
   width: 100%;
   display: flex;
   justify-content: flex-start;
+  align-items: baseline;
   font-size: 15px;
   font-weight: 600;
+  span:last-child {
+    font-size: 12px;
+  }
 `;
 
 const LocationMap = css`
@@ -121,6 +130,10 @@ const JamInfo = ({ setIsEdit, jamData }) => {
     capacity,
     createdAt,
     category,
+    jamFrom,
+    jamTo,
+    address,
+    realTime,
   } = jamData;
 
   const filteredCategory = categories.filter(el => el.value === category)[0];
@@ -165,6 +178,24 @@ const JamInfo = ({ setIsEdit, jamData }) => {
             <span>{nickname}</span>
           </div>
         </div>
+        {!realTime && (
+          <div css={periodDisplay}>
+            <span>잼 모집기간:</span>
+            <span>
+              {` ${new Date(jamFrom)
+                .toLocaleString('ko-KR', {
+                  timeZone: 'Asia/Seoul',
+                })
+                .slice(0, -3)}`}{' '}
+              ~{' '}
+              {new Date(jamTo)
+                .toLocaleString('ko-KR', {
+                  timeZone: 'Asia/Seoul',
+                })
+                .slice(0, -3)}
+            </span>
+          </div>
+        )}
       </div>
       <div css={Carousel}>
         <div css={JamDescTitle}>
@@ -175,6 +206,7 @@ const JamInfo = ({ setIsEdit, jamData }) => {
       <div css={LocationContainer}>
         <div css={LocationText}>
           <span>우리 잼은 여기 있어요</span>
+          <span>&nbsp;({address})</span>
         </div>
         <ThemeProvider theme={palette}>
           <div css={LocationMap}>
