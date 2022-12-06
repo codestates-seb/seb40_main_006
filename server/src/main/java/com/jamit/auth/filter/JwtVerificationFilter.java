@@ -21,19 +21,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * JWT 검증을 위한 request 당 한번만 실행되는 Security Filter
  */
-public class JwtVerificationFilter extends BasicAuthenticationFilter {
+public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
 
     public JwtVerificationFilter(
-        AuthenticationManager authenticationManager,
         JwtTokenizer jwtTokenizer, MemberRepository memberRepository) {
-        super(authenticationManager);
         this.jwtTokenizer = jwtTokenizer;
         this.memberRepository = memberRepository;
     }

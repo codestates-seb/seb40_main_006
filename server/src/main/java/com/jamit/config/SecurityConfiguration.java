@@ -112,7 +112,7 @@ public class SecurityConfiguration {
                 new MemberAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(
-                authenticationManager, jwtTokenizer, memberRepository);
+                jwtTokenizer, memberRepository);
 
             builder // Security Filter Chain 에 추가
                 .addFilter(jwtAuthenticationFilter) // JWT 인증 필터
