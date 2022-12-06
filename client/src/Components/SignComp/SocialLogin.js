@@ -27,7 +27,6 @@ const SocialLogin = () => {
     //   grade: '2',
     //   gradeCount: '5',
     // });
-    console.log(userObject);
     setIsLogin(true);
     setCookie('accessToken', encodedJwtIdToken);
     document.getElementById('signInDiv').hidden = true;

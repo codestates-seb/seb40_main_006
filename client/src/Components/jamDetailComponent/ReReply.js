@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import axios from 'axios';
@@ -142,31 +143,32 @@ const ReReply = ({
   }, [replyData, reValList, openRe]);
 
   const submitHandler = e => {
-    e.preventDefault();
-    axios
-      .post(
-        `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
-        {
-          commentId,
-          content: reVal,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie('accessToken')}`,
-          },
-        },
-      )
-      .then(res => {
-        const copy = [...replyData];
-        for (let i = 0; i < copy.length; i += 1) {
-          if (copy[i].commentId === rereplyData.commentId) {
-            copy[i].push(res.data);
-          }
-        }
-        setReplyData(copy);
-        setReValList(copy);
-        setOpenRe(false);
-      });
+    alert('점검중입니다!');
+    // e.preventDefault();
+    // axios
+    //   .post(
+    //     `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
+    //     {
+    //       commentId,
+    //       content: reVal,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${getCookie('accessToken')}`,
+    //       },
+    //     },
+    //   )
+    //   .then(res => {
+    //     const copy = [...replyData];
+    //     for (let i = 0; i < copy.length; i += 1) {
+    //       if (copy[i].commentId === rereplyData.commentId) {
+    //         copy[i].push(res.data);
+    //       }
+    //     }
+    //     setReplyData(copy);
+    //     setReValList(copy);
+    //     setOpenRe(false);
+    //   });
   };
 
   const editHandler = (e, idx) => {
