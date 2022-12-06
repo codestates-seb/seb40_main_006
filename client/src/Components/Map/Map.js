@@ -87,10 +87,9 @@ const Map = ({ jamData }) => {
     jamData.forEach(jam => {
       mapPoints.push({
         content: `<div class="customoverlay" style="position: relative;bottom: 76px;border-radius: 6px;float: left;">
-            <a href= "${window.location.hostname}/jamdetail/${jam.jamId}"
-            style="display: block;text-decoration: none;color: #222;text-align: center;border-radius: 6px;font-size: 14px;font-weight: bold;overflow: hidden;background: ${palette.colorAccent};background: ${palette.colorAccent} url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;">
+            <div style="display: block;text-decoration: none;color: #222;text-align: center;border-radius: 6px;font-size: 14px;font-weight: bold;overflow: hidden;background: ${palette.colorAccent};background: ${palette.colorAccent} url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;">
             <span class="title" style="display: block;text-align: center;background: #fff;margin-right: 35px;padding: 8px 10px;font-size: 13px;font-weight: bold;">
-            ${jam.title}</span></a></div>`,
+            ${jam.title}</span></div></div>`,
         latlng: new kakao.maps.LatLng(jam.latitude, jam.longitude),
         jamId: jam.jamId,
       });
@@ -107,7 +106,7 @@ const Map = ({ jamData }) => {
       const overlay = new kakao.maps.CustomOverlay({
         position: mapPoints[i].latlng,
         content: mapPoints[i].content,
-        yAnchor: 0.7,
+        yAnchor: 1,
       });
 
       kakao.maps.event.addListener(marker, 'mouseover', function () {
