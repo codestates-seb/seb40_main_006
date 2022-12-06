@@ -288,8 +288,8 @@ const JamSideBar = ({
     }
   };
 
-  const handleCardClick = jamId => {
-    navigate(`/mypage/${jamId}`);
+  const handleCardClick = memeberId => {
+    navigate(`/mypage/${memeberId}`);
   };
 
   const [jamOpener, setJamOpener] = useState({
