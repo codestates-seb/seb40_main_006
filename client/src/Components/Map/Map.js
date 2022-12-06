@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { location, coordinate } from '../../Atom/atoms';
+import { location, coordinate, locationChanged } from '../../Atom/atoms';
 
 const { kakao } = window;
 const Map = ({ jamData }) => {
@@ -12,7 +12,8 @@ const Map = ({ jamData }) => {
 
   const [currentLocation, setCurrentLocation] = useRecoilState(location);
   const [, setCurrentCoordinate] = useRecoilState(coordinate);
-
+  const [isUserLocationChanged, setIsUserLocationChanged] =
+    useRecoilState(locationChanged);
   function getMap() {
     const container = document.getElementById('map');
     const options = {
@@ -33,6 +34,7 @@ const Map = ({ jamData }) => {
         latitude: latlng.getLat(),
         longitude: latlng.getLng(),
       });
+      setIsUserLocationChanged(false);
     });
 
     // 주소-좌표 변환 객체를 생성합니다
@@ -51,8 +53,7 @@ const Map = ({ jamData }) => {
         for (let i = 0; i < result.length; i += 1) {
           // 행정동의 region_type 값은 'H' 이므로
           if (result[i].region_type === 'H') {
-            const locationName = result[i].address_name.split(' ');
-            setCurrentLocation(locationName[locationName.length - 1]);
+            setCurrentLocation(result[i].address_name);
             break;
           }
         }
@@ -109,7 +110,8 @@ const Map = ({ jamData }) => {
   };
 
   useEffect(() => {
-    ps.keywordSearch(currentLocation, placesSearchCB);
+    if (isUserLocationChanged)
+      ps.keywordSearch(currentLocation, placesSearchCB);
   }, [currentLocation]);
 
   useEffect(() => {

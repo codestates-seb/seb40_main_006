@@ -18,6 +18,11 @@ const location = atom({
   default: '서울특별시 강서구 마곡동',
 });
 
+const locationChanged = atom({
+  key: 'locationChanged',
+  default: false,
+});
+
 const coordinate = atom({
   key: 'coordinate',
   default: {
@@ -95,6 +100,7 @@ export {
   totalPageNumber,
   pageNumber,
   location,
+  locationChanged,
   coordinate,
   selectedCategory,
   isLoginState,
