@@ -58,6 +58,11 @@ spring:
             enable: true
     address:
       admin: admin@gmail.com
+#  redis:
+#    host: ${REDIS_HOST}
+#    port: ${REDIS_PORT}
+#  cache:
+#    type: redis
 logging:
   level:
     org:

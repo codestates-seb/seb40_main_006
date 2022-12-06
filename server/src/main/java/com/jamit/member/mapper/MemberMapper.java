@@ -2,6 +2,7 @@ package com.jamit.member.mapper;
 
 import com.jamit.jam.entity.Jam;
 import com.jamit.jam.entity.JamParticipant;
+import com.jamit.jam.status.CompleteStatus;
 import com.jamit.member.dto.MemberDto;
 import com.jamit.member.entity.Member;
 import com.jamit.member.dto.ProfileDto;
@@ -34,7 +35,6 @@ public interface MemberMapper {
         Double grade = 0.0;
         int gradeCount = 0;
 
-
         memberId = member.getMemberId();
         email = member.getEmail();
         nickname = member.getNickname();
@@ -49,7 +49,7 @@ public interface MemberMapper {
         joinJams = joinJamList(member.getJamParticipantList());
 
         ProfileDto.Response profileDto = new ProfileDto.Response(memberId, email, nickname,
-                profileImage, grade, gradeCount, createJams, joinJams);
+            profileImage, grade, gradeCount, createJams, joinJams);
 
         return profileDto;
     }
@@ -66,6 +66,7 @@ public interface MemberMapper {
         Integer currentPpl = null;
         Integer capacity = null;
         boolean realTime = false;
+        CompleteStatus completeStatus = null;
 
         jamId = jam.getId();
         title = jam.getTitle();
@@ -74,11 +75,13 @@ public interface MemberMapper {
         currentPpl = jam.getCurrentPpl();
         capacity = jam.getCapacity();
         realTime = jam.getRealTime();
+        completeStatus = jam.getCompleteStatus();
 
         Long memberId = null;
 
-        ProfileDto.CreateJam createJam = new ProfileDto.CreateJam(memberId, jamId, title, image, location, currentPpl,
-                capacity, realTime);
+        ProfileDto.CreateJam createJam = new ProfileDto.CreateJam(memberId, jamId, title, image,
+            location, currentPpl,
+            capacity, completeStatus, realTime);
 
         createJam.setMember(jam.getMember());
 
@@ -111,6 +114,7 @@ public interface MemberMapper {
         Integer currentPpl = null;
         Integer capacity = null;
         boolean realTime = false;
+        CompleteStatus completeStatus = null;
 
         jamId = jamParticipant.getJam().getId();
         title = jamParticipant.getJam().getTitle();
@@ -119,11 +123,13 @@ public interface MemberMapper {
         currentPpl = jamParticipant.getJam().getCurrentPpl();
         capacity = jamParticipant.getJam().getCapacity();
         realTime = jamParticipant.getJam().getRealTime();
+        completeStatus = jamParticipant.getJam().getCompleteStatus();
 
         Long memberId = null;
 
-        ProfileDto.JoinJam joinJam = new ProfileDto.JoinJam(memberId, jamId, title, image, location, currentPpl,
-                capacity, realTime);
+        ProfileDto.JoinJam joinJam = new ProfileDto.JoinJam(memberId, jamId, title, image, location,
+            currentPpl,
+            capacity, completeStatus, realTime);
 
         joinJam.setMember(jamParticipant.getMember());
 
