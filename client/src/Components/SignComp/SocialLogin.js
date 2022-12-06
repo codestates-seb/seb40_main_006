@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
 import { css } from '@emotion/css';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
-import { setCookie } from './Cookie';
+import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import { loginUserInfoState, isLoginState } from '../../Atom/atoms';
 
 const loginContainer = css`
   display: flex;
@@ -45,8 +44,6 @@ const SocialLogin = () => {
       shape: 'square',
       logo_alignment: 'left',
     });
-
-    // google.accounts.id.prompt();
   }, []);
 
   return (

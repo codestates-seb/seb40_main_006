@@ -19,23 +19,121 @@
 ![image](https://user-images.githubusercontent.com/92264867/205497004-b11c084c-7385-437f-9a77-e5dad4b7b6ee.png)
 
 ## 🎞️ 서비스 시연
-<details><summary>랜딩 페이지</summary></details>
-<details><summary>메인 홈페이지</summary></details>
-<details><summary>상단 네비게이션 바</summary></details>
-<details><summary>회원가입</summary></details>
+<details><summary>랜딩 페이지</summary>
 
-<details><summary>소셜 로그인</summary></details>
+![랜딩](https://user-images.githubusercontent.com/97942837/205564273-aa377f04-e801-4d0a-9b6f-d89e0c0b4d58.gif)
 
-<details><summary>자체 로그인</summary></details>
+</details>
+
+<details><summary>메인 홈페이지</summary>
+
+![홈페이지기능뉴](https://user-images.githubusercontent.com/97942837/205566209-06bfe77b-2c91-4d1e-8256-0bf43d310d29.gif)
+
+</details>
+
+<details><summary>상단 네비게이션 바</summary>
+
+![동네선택 기능](https://user-images.githubusercontent.com/97942837/205564454-e073da97-a86a-41a8-a417-8e281dbc5b9c.gif)
+
+</details>
+
+<details><summary>좌측 카테고리 및 스터디 종류 선택 필터링</summary>
+
+![좌측 카테고리, 우측 스티디 종류 선택](https://user-images.githubusercontent.com/97942837/205564615-df3537aa-70bd-49f5-a17b-7ee2cd3ce146.gif)
+
+</details>
+
+<details><summary>회원가입</summary>
+
+![회원가입](https://user-images.githubusercontent.com/97942837/205565073-d6da6e3b-64c4-4324-b9cd-bfaaed4c7297.gif)
+
+</details>
+
+<details><summary>소셜 로그인</summary>
+  
+![소셜로그인1](https://user-images.githubusercontent.com/92264867/205549047-49346ca4-26c1-469f-bc19-352adeda8754.gif)
+</details>
+
+<details><summary>자체 로그인</summary>
+  
+![자체로그인](https://user-images.githubusercontent.com/92264867/205549052-6179e4d9-8924-4d68-b789-6c2ebdc06f52.gif)
+</details>
 
 </details>
 <details><summary>로그아웃</summary>
 
 ![로그아웃](https://user-images.githubusercontent.com/92264867/205497937-107657cb-c5bc-44eb-a9c0-c01c54811715.gif)
 </details>
-<details><summary>마이페이지</summary></details>
-<details><summary>잼</summary></details>
-<details><summary>댓글</summary></details>
-<details><summary>대댓글</summary></details>
-<details><summary>댓글에서 유저프로필 클릭하여 이동</summary></details>
-<details><summary>참여목록에서 유저프로필 클릭하여 이동</summary></details>
+<details><summary>마이페이지</summary>
+
+  ### 평점 주기
+  ![평점 주기](https://user-images.githubusercontent.com/97942837/205567517-6bd3d3d0-bcd9-44c5-ba71-7a000a8ee703.gif)
+  
+  ### 유저 프로필 및 수정
+  ![유저프로필수정](https://user-images.githubusercontent.com/97942837/205567568-a079af99-247b-43bb-afe4-9c5528bd9e00.gif)
+
+</details>
+<details><summary>잼</summary>
+  
+  ### 잼 작성 1
+![잼작성1](https://user-images.githubusercontent.com/92264867/205548494-a1bc7619-12ee-4924-ba4d-704e18babe70.gif)
+  
+  ### 잼 작성 2
+![잼작성2](https://user-images.githubusercontent.com/92264867/205548501-f48d332f-3294-4a95-80aa-4d1f498be549.gif)
+
+</details>
+
+<details><summary>잼 참여 / 참여 취소</summary>
+  
+  ### 잼 참여하기
+![참여하기](https://user-images.githubusercontent.com/92264867/205570354-10882cdf-d681-47c0-9570-ba1cfbb93026.gif)
+
+  ### 잼 참여 취소하기
+![참여취소하기](https://user-images.githubusercontent.com/92264867/205570377-f6fa8342-35e7-452a-b9e6-cc65dc1e3991.gif)
+
+</details>
+
+<details><summary>잼 모집완료 / 모집완료 취소</summary>
+  
+  ### 잼 모집 완료하기
+![모집완료](https://user-images.githubusercontent.com/92264867/205571255-42479ef0-7a3a-4c3b-b602-bda1d37e03ad.gif)
+
+  ### 잼 모집완료 취소하기
+![모집완료취소](https://user-images.githubusercontent.com/92264867/205571269-e9bb8f6f-cff8-442c-8376-4ac33053c1d3.gif)
+
+</details>
+
+<details><summary>댓글</summary>
+
+  ### 댓글 작성
+![댓글작성](https://user-images.githubusercontent.com/92264867/205548061-220c7140-6c92-4974-b908-4b22950cb612.gif)
+
+  ### 댓글 수정
+![댓글수정](https://user-images.githubusercontent.com/92264867/205548071-7879ecf1-ab1b-4715-a59b-fcb6fe68b695.gif)
+
+  ### 댓글 삭제
+![댓글삭제](https://user-images.githubusercontent.com/92264867/205548073-a42da75b-3dec-4ed5-af63-136f3aa2e898.gif)
+
+</details>
+<details><summary>대댓글</summary>
+
+  ### 대댓글 작성
+![대댓글작성](https://user-images.githubusercontent.com/92264867/205548229-df8b516d-537b-40e3-a58c-64ebd52dadbe.gif)
+  
+  ### 대댓글 수정
+![대댓글수정](https://user-images.githubusercontent.com/92264867/205548238-4e8f1a50-567c-4d91-9b77-534e7a9b31db.gif)
+  
+  ### 대댓글 삭제
+![대댓글삭제](https://user-images.githubusercontent.com/92264867/205548244-e7163204-b1e2-444a-a1e6-d04141f54e00.gif)
+
+</details>
+<details><summary>댓글에서 유저프로필 클릭하여 이동</summary>
+
+![댓글에서유저프로필이동](https://user-images.githubusercontent.com/97942837/205567883-85e7dff1-6491-456a-869d-e7cc9b9f3046.gif)
+
+</details>
+<details><summary>참여목록에서 유저프로필 클릭하여 이동</summary>
+
+![참여목록에서프로필이동](https://user-images.githubusercontent.com/97942837/205567929-7f6dbd97-cad0-4442-95ff-4e9adcab0867.gif)
+
+</details>
