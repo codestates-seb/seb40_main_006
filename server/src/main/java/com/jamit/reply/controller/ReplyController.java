@@ -1,7 +1,5 @@
 package com.jamit.reply.controller;
 
-import static com.jamit.global.utils.Check.checkAuthor;
-
 import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.comment.service.CommentService;
 import com.jamit.exception.BusinessLogicException;
@@ -10,6 +8,7 @@ import com.jamit.member.entity.Member;
 import com.jamit.member.service.MemberService;
 import com.jamit.reply.dto.ReplyPatchDto;
 import com.jamit.reply.dto.ReplyPostDto;
+import com.jamit.reply.dto.ResponseReplyDto;
 import com.jamit.reply.entity.Reply;
 import com.jamit.reply.mapper.ReplyMapper;
 import com.jamit.reply.service.ReplyService;
@@ -37,6 +36,7 @@ public class ReplyController {
     private final ReplyService replyService;
     private final CommentService commentService;
     private final MemberService memberService;
+    private final ReplyMapper mapper;
 
     /**
      * REPLY-01: Reply 작성
@@ -57,9 +57,10 @@ public class ReplyController {
                 replyPostDto.getContent()
             );
             replyService.createReply(reply);
-        }
+            ResponseReplyDto response = mapper.replyToResponseReplyDto(reply);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
     }
 
     /**
@@ -77,8 +78,9 @@ public class ReplyController {
         if (member.getEmail().equals(reply.getMember().getEmail())) {
             reply.updateContent(replyPatchDto.getContent());
             replyService.updateReply(reply);
+            ResponseReplyDto response = mapper.replyToResponseReplyDto(reply);
 
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
 
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
