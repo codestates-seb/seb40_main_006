@@ -292,13 +292,22 @@ const JamSideBar = ({
     navigate(`/mypage/${jamId}`);
   };
 
-  const [jamOpener, setJamOpener] = useState('');
+  const [jamOpener, setJamOpener] = useState({
+    memberId: '',
+    name: '',
+    img: '',
+  });
 
   useEffect(() => {
+    console.log(jamData.participantList);
     if (jamData.participantList) {
-      setJamOpener(jamData.participantList[0].memberId);
+      setJamOpener({
+        memberId: jamData.participantList[0].memberId,
+        name: jamData.participantList[0].nickname,
+        img: jamData.participantList[0].profileImage,
+      });
     }
-  }, []);
+  }, [jamData.participantList]);
 
   return (
     <div css={JamSideContainer}>
@@ -306,10 +315,9 @@ const JamSideBar = ({
         <div css={UserAndStateBox}>
           <div css={UserBox}>
             <UserName
-              name={jamData.nickname}
-              id={jamOpener}
-              grade={jamData.grade}
-              img={jamData.image}
+              name={jamOpener.name}
+              id={jamOpener.memberId}
+              img={jamOpener.img}
             />
           </div>
           {isComplete === 'FALSE' ? (
