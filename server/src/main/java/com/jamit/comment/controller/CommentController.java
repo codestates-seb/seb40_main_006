@@ -3,7 +3,9 @@ package com.jamit.comment.controller;
 import com.jamit.auth.userdetails.MemberDetails;
 import com.jamit.comment.dto.CommentPatchDto;
 import com.jamit.comment.dto.CommentPostDto;
+import com.jamit.comment.dto.ResponseCommentDto;
 import com.jamit.comment.entity.Comment;
+import com.jamit.comment.mapper.CommentMapper;
 import com.jamit.comment.service.CommentService;
 import com.jamit.exception.BusinessLogicException;
 import com.jamit.exception.ExceptionCode;
@@ -34,6 +36,7 @@ public class CommentController {
     private final CommentService commentService;
     private final JamService jamService;
     private final MemberService memberService;
+    private final CommentMapper mapper;
 
     /**
      * COMMENT-01: Comment 작성
@@ -54,8 +57,9 @@ public class CommentController {
                 commentPostDto.getContent()
             );
             commentService.createComment(comment);
+            ResponseCommentDto response = mapper.commentToResponseCommentDto(comment);
 
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
     }
 
@@ -73,8 +77,9 @@ public class CommentController {
         if (member.getEmail().equals(comment.getMember().getEmail())) {
             comment.updateContent(commentPatchDto.getContent());
             commentService.updateComment(comment);
+            ResponseCommentDto response = mapper.commentToResponseCommentDto(comment);
 
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
 
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);

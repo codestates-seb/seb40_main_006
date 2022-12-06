@@ -14,6 +14,6 @@ public class ResponseReplyDto {
     private String profileImage;
     private double grade;
     private String content;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }
