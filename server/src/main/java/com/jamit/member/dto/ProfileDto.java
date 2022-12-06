@@ -1,6 +1,7 @@
 package com.jamit.member.dto;
 
 import com.jamit.jam.entity.JamParticipant;
+import com.jamit.jam.status.CompleteStatus;
 import com.jamit.member.entity.Member;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class ProfileDto {
         private String location;
         private Integer currentPpl;
         private Integer capacity;
+        private CompleteStatus completeStatus;
         private boolean realTime;
 
         public void setMember(Member member) {
@@ -52,6 +54,7 @@ public class ProfileDto {
         private String location;
         private Integer currentPpl;
         private Integer capacity;
+        private CompleteStatus completeStatus;
         private boolean realTime;
 
         public void setMember(Member member) {
