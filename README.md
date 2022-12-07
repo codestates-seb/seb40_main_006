@@ -12,6 +12,9 @@
 📍 지금 진행되고있는 실시간 잼을 찾아보세요. <br />
 🧑‍🤝‍🧑 내 주변에서 나와 같은 관심사를 가진 사람들과 함께하세요. <br />
 
+## 🔗 배포 링크
+https://jamit.vercel.app/
+
 ## 🛠️ 기술 스택
 ![image](https://user-images.githubusercontent.com/92264867/205496985-0bf19090-b9d8-47fb-a1ad-5ee4fb452477.png)
 
