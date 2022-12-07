@@ -1,6 +1,7 @@
 package com.jamit.auth.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -96,6 +97,25 @@ public class JwtTokenizer {
      */
     public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization").replace("Bearer ", "");
+    }
+
+    /**
+     * Refresh Token 가져오기
+     */
+    public String resolveRefreshToken(HttpServletRequest request) {
+        return request.getHeader("Refresh");
+    }
+
+    /**
+     * 토큰 만료 확인
+     */
+    public boolean validateToken(String jwt) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwt);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
     }
 
     /**
