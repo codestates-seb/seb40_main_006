@@ -15,6 +15,10 @@ const userTitle = css`
   justify-content: space-between;
   align-items: center;
   padding: 40px 0;
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start;
+    gap: 50px;
+  }
 `;
 
 const userTitleContainer = css`
@@ -43,6 +47,14 @@ const userTitleContainer = css`
     border-radius: 100px;
     padding-bottom: 1px;
   }
+  @media screen and (max-width: 767px) {
+    .userTitleInfo {
+      font-size: 16px;
+    }
+    .userTitleJam {
+      font-size: 16px;
+    }
+  }
 `;
 
 const userGiveJam = css`
@@ -58,6 +70,11 @@ const userGiveJam = css`
     :hover {
       background: ${palette.colorGrade3};
       border: 1px solid ${palette.colorGrade3};
+    }
+  }
+  @media screen and (max-width: 767px) {
+    Button {
+      font-size: 16px;
     }
   }
 `;
@@ -79,11 +96,11 @@ const UserTitle = () => {
           <img src={pageUser.img} alt="이미지를 설정해주세요" />
         )}
         <div className="userTitleInfo">
-          <div className="nickname">{pageUser.nickname}</div>
+          <div className="nickname">{pageUser.nickname}김재훈</div>
           <div className="userTitleJam">
             <JamColor color={pageUser.grade} />
             <div>{pageUser.grade}</div>
-            <div>{`(${pageUser.gradeCount})`}</div>
+            <div>{`(${pageUser.gradeCount})`}4.8</div>
           </div>
         </div>
       </div>
