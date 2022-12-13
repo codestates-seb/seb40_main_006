@@ -14,6 +14,9 @@ import { NoNearyByData } from '../Components/NoData';
 
 const pagewithSidebar = css`
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 const home = css`
   display: flex;
