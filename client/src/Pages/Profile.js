@@ -15,13 +15,18 @@ import { loginUserInfoState } from '../Atom/atoms';
 const pageContainer = css`
   display: flex;
   gap: 100px;
+  @media screen and (max-width: 767px) {
+    gap: 40px;
+  }
 `;
 
 const userContainer = css`
   padding: 40px;
   width: 700px;
   min-width: 400px;
-  // margin: 0 auto;
+  @media screen and (max-width: 767px) {
+    padding: 20px 0;
+  }
 `;
 
 const userTitle = css`
@@ -35,6 +40,13 @@ const userTitle = css`
     font-weight: 500;
     color: ${palette.colorTitle};
   }
+  @media screen and (max-width: 767px) {
+    border: none;
+    h1 {
+      padding: 10px 0;
+      font-size: 26px;
+    }
+  }
 `;
 
 const userAvatar = css`
@@ -43,6 +55,10 @@ const userAvatar = css`
   align-items: center;
   gap: 20px;
   padding: 40px 0;
+  @media screen and (max-width: 767px) {
+    margin-right: 100px;
+    border-top: 1px solid ${palette.colorBorder};
+  }
 `;
 
 const userInfo = css`
@@ -56,6 +72,13 @@ const userInfo = css`
     justify-content: space-between;
     align-items: center;
   }
+  @media screen and (max-width: 767px) {
+    gap: 10px;
+    div {
+      width: 80%;
+      font-size: 14px;
+    }
+  }
 `;
 
 const userBtn = css`
@@ -63,6 +86,10 @@ const userBtn = css`
   justify-content: center;
   padding: 100px;
   gap: 20px;
+  @media screen and (max-width: 767px) {
+    padding: 20px;
+    width: 80%;
+  }
 `;
 
 const validateText = css`
@@ -72,6 +99,9 @@ const validateText = css`
   display: flex;
   padding-left: 190px;
   min-width: 300px;
+  @media screen and (max-width: 767px) {
+    padding-left: 125px;
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;

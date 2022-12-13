@@ -96,11 +96,11 @@ const UserTitle = () => {
           <img src={pageUser.img} alt="이미지를 설정해주세요" />
         )}
         <div className="userTitleInfo">
-          <div className="nickname">{pageUser.nickname}김재훈</div>
+          <div className="nickname">{pageUser.nickname}</div>
           <div className="userTitleJam">
             <JamColor color={pageUser.grade} />
             <div>{pageUser.grade}</div>
-            <div>{`(${pageUser.gradeCount})`}4.8</div>
+            <div>{`(${pageUser.gradeCount})`}</div>
           </div>
         </div>
       </div>
