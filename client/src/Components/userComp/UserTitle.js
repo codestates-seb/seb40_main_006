@@ -15,6 +15,10 @@ const userTitle = css`
   justify-content: space-between;
   align-items: center;
   padding: 40px 0;
+  @media screen and (max-width: 767px) {
+    justify-content: flex-start;
+    gap: 50px;
+  }
 `;
 
 const userTitleContainer = css`
@@ -43,6 +47,14 @@ const userTitleContainer = css`
     border-radius: 100px;
     padding-bottom: 1px;
   }
+  @media screen and (max-width: 767px) {
+    .userTitleInfo {
+      font-size: 16px;
+    }
+    .userTitleJam {
+      font-size: 16px;
+    }
+  }
 `;
 
 const userGiveJam = css`
@@ -58,6 +70,11 @@ const userGiveJam = css`
     :hover {
       background: ${palette.colorGrade3};
       border: 1px solid ${palette.colorGrade3};
+    }
+  }
+  @media screen and (max-width: 767px) {
+    Button {
+      font-size: 16px;
     }
   }
 `;

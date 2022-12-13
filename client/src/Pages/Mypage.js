@@ -14,11 +14,17 @@ import { myPageInfoState } from '../Atom/atoms';
 const pageContainer = css`
   display: flex;
   gap: 100px;
+  @media screen and (max-width: 767px) {
+    gap: 40px;
+  }
 `;
 const userContainer = css`
   width: 800px;
   min-width: 400px;
   margin: 40px auto;
+  @media screen and (max-width: 767px) {
+    margin: 0 0 0 20px;
+  }
 `;
 
 const userJamInfo = css`
@@ -72,6 +78,16 @@ const userJamInfo = css`
     position: relative;
     bottom: 100px;
     left: 320px;
+  }
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    gap: 60px;
+    .container {
+      font-size: 16px;
+    }
+    .cardActions {
+      font-size: 12px;
+    }
   }
 `;
 
