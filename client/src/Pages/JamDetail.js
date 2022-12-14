@@ -19,6 +19,16 @@ import Reply from '../Components/jamDetailComponent/Reply';
 const MergeContainer = css`
   width: 100%;
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+`;
+
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const Container = css`
@@ -151,7 +161,9 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   return (
     <div css={MergeContainer}>
-      <Sidebar />
+      <div css={sidebarContainer}>
+        <Sidebar />
+      </div>
       <main css={Container}>
         <div css={SectionContainer}>
           <ThemeProvider theme={palette}>

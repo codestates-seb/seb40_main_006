@@ -18,6 +18,14 @@ const pageContainer = css`
     gap: 40px;
   }
 `;
+
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const userContainer = css`
   width: 800px;
   min-width: 400px;
@@ -120,7 +128,9 @@ const Mypage = () => {
 
   return (
     <div className={pageContainer}>
-      <Sidebar />
+      <div className={sidebarContainer}>
+        <Sidebar />
+      </div>
       <div className={userContainer}>
         <UserTitle />
         <div className={userJamInfo}>
