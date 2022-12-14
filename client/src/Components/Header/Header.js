@@ -6,6 +6,8 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Avatar } from '@mui/material/';
+import { MdArrowBack } from 'react-icons/md';
+import { IconButton } from '@material-ui/core';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
@@ -30,6 +32,13 @@ const header = css`
   @media screen and (max-width: 767px) {
     padding: 10px;
     height: 70px;
+  }
+`;
+
+const backBtn = css`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: flex;
   }
 `;
 
@@ -142,6 +151,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const BackBtn = () => {
+  const navigate = useNavigate();
+  const handleBackBtnClick = () => {
+    navigate(-1);
+  };
+  return (
+    <div className={backBtn}>
+      <IconButton aria-label="back" onClick={handleBackBtnClick}>
+        <MdArrowBack fontSize="large" />
+      </IconButton>
+    </div>
+  );
+};
+
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
@@ -213,6 +236,7 @@ const Header = () => {
         <Link to="/" onClick={() => sessionStorage.clear}>
           <img className={logo} alt="logo_jamit" src={logoImage} />
         </Link>
+        <BackBtn className={backBtn} />
         <AddressDialog />
         <SearchBar />
         {!isLogin ? <LoginArea /> : <LogoutArea />}
