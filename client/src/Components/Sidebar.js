@@ -40,11 +40,8 @@ const sidebar = css`
     flex-direction: column;
     @media screen and (max-width: 767px) {
       flex-direction: row;
-      overflow: auto;
+      overflow: scroll;
       margin: 0;
-      ::-webkit-scrollbar {
-        display: none;
-      }
     }
   }
 
