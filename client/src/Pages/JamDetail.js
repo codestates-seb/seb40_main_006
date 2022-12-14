@@ -83,7 +83,7 @@ const CommentContainer = css`
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const JamDetail = ({ isEdit, setIsEdit }) => {
+const JamDetail = ({ setIsEdit }) => {
   const [text, setText] = useState('');
   const [comments, setComments] = useState([]);
   const nextId = useRef(0);
@@ -157,9 +157,12 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
           <ThemeProvider theme={palette}>
             <div css={JamContainer}>
               <JamInfo
-                isEdit={isEdit}
                 setIsEdit={setIsEdit}
                 jamData={jamData}
+                isComplete={isComplete}
+                setIsComplete={setIsComplete}
+                joiner={joiner}
+                setJoiner={setJoiner}
               />
             </div>
           </ThemeProvider>
