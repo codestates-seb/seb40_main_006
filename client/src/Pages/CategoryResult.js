@@ -19,6 +19,9 @@ import JamPagination from '../Components/Card/JamPagination';
 
 const pagewithSidebar = css`
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 const category = css`
   display: flex;
@@ -30,9 +33,13 @@ const topContainer = css`
   width: 100%;
   justify-content: space-between;
   padding: 20px 50px;
-
+  white-space: nowrap;
+  flex-wrap: wrap;
   p {
     margin: 10px;
+    @media screen and (max-width: 767px) {
+      margin: 0px 0px 10px 0px;
+    }
   }
   & ButtonGroup {
     justify-content: end;

@@ -25,6 +25,11 @@ const addressContainer = css`
   justify-content: center;
   margin: 5px 10px;
   padding: 20px;
+  white-space: nowrap;
+  @media screen and (max-width: 767px) {
+    margin: 0px;
+    padding: 0px;
+  }
 `;
 const addressBtn = css`
   background-color: ${palette.gray_4};
@@ -33,6 +38,11 @@ const addressBtn = css`
   text-align: center;
   border-radius: 10px;
   padding: 15px 30px;
+  @media screen and (max-width: 767px) {
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+  }
 `;
 
 export default function AddressDialog() {
@@ -122,12 +132,20 @@ export default function AddressDialog() {
   return (
     <div className={addressContainer}>
       <button className={addressBtn} onClick={handleClickOpen} type="button">
-        동네 선택
+        동네 선택 ▾
       </button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>동네를 선택해주세요!</DialogTitle>
         <DialogContent>
-          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Box
+            component="form"
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <ThemeProvider theme={theme}>
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-dialog-select-label">시/도</InputLabel>

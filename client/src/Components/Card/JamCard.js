@@ -20,11 +20,15 @@ const box = css`
 
 const topArea = css`
   display: flex;
+  flex-wrap: wrap;
+
   div {
     border-radius: 10px;
     padding: 5px 15px;
     font-size: 12px;
+    margin-bottom: 2px;
     margin-right: 5px;
+    white-space: nowrap;
   }
 `;
 
@@ -57,11 +61,12 @@ const defaultImage = css`
 const bottomArea = css`
   display: flex;
   flex-flow: column wrap;
-
   > p {
     font-size: 20px;
     font-weight: bold;
     margin: 5px 0px;
+    word-break: break-all;
+    word-wrap: break-word;
   }
 `;
 
@@ -73,6 +78,7 @@ const info = css`
       font-size: medium;
       font-weight: normal;
       padding-left: 5px;
+      word-break: keep-all;
     }
   }
 `;
@@ -80,6 +86,7 @@ const info = css`
 const infoTop = css`
   display: flex;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 const infoBottom = css`
   display: flex;

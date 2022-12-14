@@ -20,6 +20,13 @@ const pageContainer = css`
   }
 `;
 
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const userContainer = css`
   padding: 40px;
   width: 700px;
@@ -214,7 +221,9 @@ const Profile = () => {
 
   return (
     <div className={pageContainer}>
-      <Sidebar />
+      <div className={sidebarContainer}>
+        <Sidebar />
+      </div>
       <ThemeProvider theme={themeUserPage}>
         <Box
           component="form"

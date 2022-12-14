@@ -15,6 +15,13 @@ const sidebar = css`
   border: 1px ${palette.gray_4} solid;
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 70px;
+    flex-direction: row;
+    padding-bottom: 0px;
+  }
 
   & > div {
     display: flex;
@@ -22,10 +29,22 @@ const sidebar = css`
     align-items: center;
     height: 50px;
     background-color: ${palette.colorMain};
+    @media screen and (max-width: 767px) {
+      height: 50px;
+      display: none;
+    }
   }
   & > ul {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 767px) {
+      flex-direction: row;
+      overflow: scroll;
+      margin: 0;
+    }
   }
+
   & > ul > li {
     padding: 12px;
     border-radius: 5px;
@@ -37,6 +56,13 @@ const sidebar = css`
 
     &:hover {
       background-color: ${palette.colorMain};
+    }
+
+    @media screen and (max-width: 767px) {
+      background-color: ${palette.gray_4};
+      border-radius: 50px;
+      display: inline-block;
+      padding: 12px;
     }
   }
 `;

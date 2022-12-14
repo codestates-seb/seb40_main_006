@@ -25,6 +25,13 @@ const MergeContainer = css`
   align-items: flex-start;
 `;
 
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const Container = css`
   margin: 10px 30px;
   width: 100%;
@@ -335,7 +342,9 @@ const JamMake = ({ isEdit }) => {
 
   return (
     <div css={MergeContainer}>
-      <Sidebar />
+      <div css={sidebarContainer}>
+        <Sidebar />
+      </div>
       <div css={Container}>
         <header css={Header}>
           <div css={HeaderTap}>
