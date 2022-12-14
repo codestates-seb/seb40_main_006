@@ -21,7 +21,6 @@ import UserName from '../userComp/UserName';
 
 const JamSideContainer = css`
   width: 220px;
-  /* min-width: 200px; */
   display: flex;
   position: sticky;
   left: 20px;
@@ -36,6 +35,9 @@ const JamSideContainer = css`
   font-size: 12px;
   padding: 15px;
   margin-top: 30px;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const Header = css`
