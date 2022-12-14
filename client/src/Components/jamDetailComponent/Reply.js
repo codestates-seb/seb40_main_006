@@ -67,14 +67,7 @@ const editForm = css`
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const Reply = ({
-  replyList,
-  jamData,
-  replyData,
-  setReplyData,
-  rereplyData,
-  getJamData,
-}) => {
+const Reply = ({ replyList, jamData, replyData, setReplyData }) => {
   // 댓글
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -124,7 +117,6 @@ const Reply = ({
   };
 
   // 대댓글
-  const [Re] = useState([1, 2, 3]);
   const [isRe] = useState(true);
   const [openRe, setOpenRe] = useState(false);
 
@@ -177,7 +169,6 @@ const Reply = ({
           </div>
           {isRe && (
             <ReReply
-              Re={Re}
               openRe={openRe}
               setOpenRe={setOpenRe}
               jamData={jamData}
@@ -185,9 +176,7 @@ const Reply = ({
               btnIdx={idx}
               replyData={replyData}
               setReplyData={setReplyData}
-              rereplyData={rereplyData}
               replyList={replyList}
-              getJamData={getJamData}
             />
           )}
         </div>

@@ -84,36 +84,24 @@ const CommentContainer = css`
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 const JamDetail = ({ isEdit, setIsEdit }) => {
-  const [host, setHost] = useState('김코딩'); // eslint-disable-line no-unused-vars
-  const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
-
   const [text, setText] = useState('');
   const [comments, setComments] = useState([]);
-
   const nextId = useRef(0);
-
   const [jamData, setJamData] = useState([]);
   const [isComplete, setIsComplete] = useState('');
   const [joiner, setJoiner] = useState([]);
-
   const { id } = useParams();
 
   const [replyData, setReplyData] = useState([]);
-  const [rereplyData] = useState([]);
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios
-      .get(`${BASE_URL}/jams/${id}`)
-      .then(res => {
-        setJamData({ ...res.data });
-        setIsComplete({ ...res.data }.completeStatus);
-        setJoiner({ ...res.data }.participantList);
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    await axios.get(`${BASE_URL}/jams/${id}`).then(res => {
+      setJamData({ ...res.data });
+      setIsComplete({ ...res.data }.completeStatus);
+      setJoiner({ ...res.data }.participantList);
+    });
   };
 
   useEffect(() => {
@@ -169,8 +157,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
           <ThemeProvider theme={palette}>
             <div css={JamContainer}>
               <JamInfo
-                host={host}
-                loginUser={loginUser}
                 isEdit={isEdit}
                 setIsEdit={setIsEdit}
                 jamData={jamData}
@@ -193,8 +179,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 jamData={jamData}
                 replyData={replyData}
                 setReplyData={setReplyData}
-                rereplyData={rereplyData}
-                getJamData={getJamData}
               />
             </div>
           </div>
