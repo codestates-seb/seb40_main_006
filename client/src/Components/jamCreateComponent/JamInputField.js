@@ -2,8 +2,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
-import { css } from '@emotion/react';
+import { css, ThemeProvider } from '@emotion/react';
 import KewordAddressModal from './KewordAddressModal';
+import { theme } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
@@ -20,7 +21,7 @@ const InputContainer = css`
 `;
 
 const JamNotice = css`
-  width: 100%;
+  width: 97%;
   height: 60px;
   padding: 10px;
   font-size: 15px;
@@ -84,108 +85,138 @@ const JamInputField = ({
 
   return (
     <div css={Container}>
-      <Box
-        sx={{
-          '& > :not(style)': { m: 1, width: '280px' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div css={InputContainer}>
-          <TextField
-            id="study-name"
-            label="잼 이름"
-            variant="standard"
-            placeholder="실시간 잼의 이름을 지어주세요"
-            value={jamTitle || ''}
-            onChange={handleJamTitle}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            '& > :not(style)': {
+              m: 1,
+              width: {
+                mobile: 290,
+                tablet: 290,
+                laptop: 290,
+                desktop: 290,
               },
-            }}
-          />
-          <TextField
-            id="study-category"
-            select
-            label="카테고리"
-            variant="standard"
-            name="category"
-            value={jamCategory || ''}
-            onChange={handleJamCategory}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          >
-            {categories.map(option => (
-              <MenuItem key={option.value} value={option.value || ''}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="study-location"
-            type="button"
-            onClick={handleOpen}
-            label="잼 위치"
-            variant="standard"
-            placeholder="클릭하면 주소 검색창이 나와요"
-            value={locationText || ''}
-            onChange={handleLocationText}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          />
-          {open && (
-            <KewordAddressModal
-              open={open}
-              handleClose={handleClose}
-              setOpen={setOpen}
-              locationText={locationText}
-              setLocationText={setLocationText}
-              setLatitude={setLatitude}
-              setLongitude={setLongitude}
-              setAddress={setAddress}
+            },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div css={InputContainer}>
+            <TextField
+              id="study-name"
+              label="잼 이름"
+              variant="standard"
+              placeholder="실시간 잼의 이름을 지어주세요"
+              value={jamTitle || ''}
+              onChange={handleJamTitle}
+              sx={{
+                width: {
+                  mobile: 290,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
             />
-          )}
-          <TextField
-            id="study-peopleNumber"
-            label="모집인원"
-            type="number"
-            variant="standard"
-            name="numberOfPeople"
-            InputProps={{ inputProps: { min: 0, max: 100 } }}
-            placeholder="숫자를 입력해주세요"
-            value={jamCapacity || ''}
-            onChange={handleJamCapacity}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          />
-          <div css={JamNotice}>
-            <span>실시간 잼은 개설 시점 기준으로 생성되며,</span>
-            <span>당일 자정이 지나면 자동으로 종료됩니다.</span>
+            <TextField
+              id="study-category"
+              select
+              label="카테고리"
+              variant="standard"
+              name="category"
+              value={jamCategory || ''}
+              onChange={handleJamCategory}
+              sx={{
+                width: {
+                  mobile: 290,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
+            >
+              {categories.map(option => (
+                <MenuItem key={option.value} value={option.value || ''}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="study-location"
+              type="button"
+              onClick={handleOpen}
+              label="잼 위치"
+              variant="standard"
+              placeholder="클릭하면 주소 검색창이 나와요"
+              value={locationText || ''}
+              onChange={handleLocationText}
+              sx={{
+                width: {
+                  mobile: 290,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
+            />
+            {open && (
+              <KewordAddressModal
+                open={open}
+                handleClose={handleClose}
+                setOpen={setOpen}
+                locationText={locationText}
+                setLocationText={setLocationText}
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+                setAddress={setAddress}
+              />
+            )}
+            <TextField
+              id="study-peopleNumber"
+              label="모집인원"
+              type="number"
+              variant="standard"
+              name="numberOfPeople"
+              InputProps={{ inputProps: { min: 0, max: 100 } }}
+              placeholder="숫자를 입력해주세요"
+              value={jamCapacity || ''}
+              onChange={handleJamCapacity}
+              sx={{
+                width: {
+                  mobile: 290,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
+            />
+            <div css={JamNotice}>
+              <span>실시간 잼은 개설 시점 기준으로 생성되며,</span>
+              <span>당일 자정이 지나면 자동으로 종료됩니다.</span>
+            </div>
           </div>
-        </div>
-      </Box>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };
