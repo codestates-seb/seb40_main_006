@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { css } from '@emotion/react';
+import { css, ThemeProvider } from '@emotion/react';
 import { TextField, Box } from '@mui/material';
+import { theme } from '../../Styles/theme';
 
 const AboutStudy = css`
   margin-top: 20px;
@@ -21,6 +22,9 @@ const AboutStudy = css`
   input:focus {
     outline: none;
   }
+  @media screen and (max-width: 767px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const Description = ({ desc, setDesc }) => {
@@ -30,43 +34,59 @@ const Description = ({ desc, setDesc }) => {
 
   return (
     <div css={AboutStudy}>
-      <Box
-        sx={{
-          '& > :not(style)': { m: 0, width: '800px' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            id="standard-basic"
-            label="스터디 소개"
-            multiline
-            rows={10}
-            variant="outlined"
-            placeholder="함께할 스터디를 소개해주세요"
-            value={desc || ''}
-            onChange={handleDesc}
-            sx={{
-              '& > :not(style)': { m: 0, width: '790px' },
-              '& label, label.Mui-focused': {
-                color: 'grey',
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            '& > :not(style)': {
+              m: 0,
+              width: {
+                tablet: 300,
+                laptop: 800,
               },
-              '&.MuiOutlinedInput-root:hover': {
-                color: 'grey',
-              },
-              '& .MuiOutlinedInput-root': {
-                '& > fieldset': { borderColor: '#d2d2d2' },
-              },
-              '& .MuiOutlinedInput-root.Mui-focused': {
-                '& > fieldset': {
-                  borderColor: '#d2d2d2',
+            },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <TextField
+              id="standard-basic"
+              label="스터디 소개"
+              multiline
+              rows={10}
+              variant="outlined"
+              placeholder="함께할 스터디를 소개해주세요"
+              value={desc || ''}
+              onChange={handleDesc}
+              sx={{
+                '& > :not(style)': {
+                  m: 0,
+                  width: {
+                    mobile: 650,
+                    tablet: 790,
+                    laptop: 790,
+                    desktop: 790,
+                  },
                 },
-              },
-            }}
-          />
-        </div>
-      </Box>
+                '& label, label.Mui-focused': {
+                  color: 'grey',
+                },
+                '&.MuiOutlinedInput-root:hover': {
+                  color: 'grey',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > fieldset': { borderColor: '#d2d2d2' },
+                },
+                '& .MuiOutlinedInput-root.Mui-focused': {
+                  '& > fieldset': {
+                    borderColor: '#d2d2d2',
+                  },
+                },
+              }}
+            />
+          </div>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };
