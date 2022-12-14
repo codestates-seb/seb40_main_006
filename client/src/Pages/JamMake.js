@@ -21,7 +21,7 @@ import { getCookie } from '../Components/SignComp/Cookie';
 const MergeContainer = css`
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
 `;
 
@@ -41,17 +41,23 @@ const Container = css`
   justify-content: center;
   align-items: center;
   padding: 5px;
+  @media screen and (max-width: 767px) {
+    margin: 10px 20px;
+  }
 `;
 
 const Header = css`
-  width: 800px;
-  min-width: 300px;
+  width: 100%;
+  max-width: 790px;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5px;
   margin-top: 10px;
+  @media screen and (max-width: 767px) {
+    max-width: 650px;
+  }
 `;
 
 const HeaderTap = css`
