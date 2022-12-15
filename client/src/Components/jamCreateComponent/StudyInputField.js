@@ -7,15 +7,37 @@ import { css, ThemeProvider } from '@emotion/react';
 import { DateRangePicker } from 'rsuite';
 import KewordAddressModal from './KewordAddressModal';
 import { theme } from '../../Styles/theme';
+// import 'rsuite/dist/rsuite-rtl.css';
 
 const Container = css`
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   height: 356px;
+  @media screen and (max-width: 767px) {
+    max-width: 220px;
+  }
+  @media screen and (max-width: 479px) {
+    max-width: none;
+  }
+  * {
+    .rs-picker
+      .rs-picker-menu
+      .rs-picker-daterange
+      .rs-picker-daterange-menu
+      .rs-picker-daterange-panel
+      .rs-stack
+      .rs-stack-item
+      .rs-picker-daterange-content
+      .rs-picker-daterange-calendar-group {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+  }
 `;
 
 const InputContainer = css`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,7 +46,7 @@ const InputContainer = css`
 `;
 
 const PeriodContainer = css`
-  width: 97%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,7 +117,7 @@ const StudyInputField = ({
             '& > :not(style)': {
               m: 1,
               width: {
-                mobile: 290,
+                mobile: 360,
                 tablet: 290,
                 laptop: 290,
                 desktop: 290,
@@ -116,7 +138,7 @@ const StudyInputField = ({
               onChange={handleTitle}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -138,7 +160,7 @@ const StudyInputField = ({
               onChange={handleCategory}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -167,7 +189,7 @@ const StudyInputField = ({
               placeholder="클릭하면 주소 검색창이 나와요"
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -203,7 +225,7 @@ const StudyInputField = ({
               onChange={handleCapacity}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -220,6 +242,9 @@ const StudyInputField = ({
               <DateRangePicker
                 format="yyyy-MM-dd hh:mm aa"
                 placement="bottomEnd"
+                // placement="topEnd"
+                // showOneCalendar="true"
+                preventOverflow="true"
                 showMeridian
                 style={{ color: 'black' }}
                 name="period"

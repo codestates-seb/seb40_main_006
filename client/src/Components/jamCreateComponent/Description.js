@@ -12,6 +12,9 @@ const AboutStudy = css`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  div {
+    width: 100%;
+  }
   span {
     margin-bottom: 5px;
   }
@@ -24,6 +27,7 @@ const AboutStudy = css`
   }
   @media screen and (max-width: 767px) {
     margin-bottom: 30px;
+    width: 100%;
   }
 `;
 
@@ -40,51 +44,51 @@ const Description = ({ desc, setDesc }) => {
             '& > :not(style)': {
               m: 0,
               width: {
-                tablet: 300,
+                mobile: '100%',
+                tablet: 650,
                 laptop: 800,
+                desktop: 800,
               },
             },
           }}
           noValidate
           autoComplete="off"
         >
-          <div>
-            <TextField
-              id="standard-basic"
-              label="스터디 소개"
-              multiline
-              rows={10}
-              variant="outlined"
-              placeholder="함께할 스터디를 소개해주세요"
-              value={desc || ''}
-              onChange={handleDesc}
-              sx={{
-                '& > :not(style)': {
-                  m: 0,
-                  width: {
-                    mobile: 650,
-                    tablet: 790,
-                    laptop: 790,
-                    desktop: 790,
-                  },
+          <TextField
+            id="standard-basic"
+            label="스터디 소개"
+            multiline
+            rows={10}
+            variant="outlined"
+            placeholder="함께할 스터디를 소개해주세요"
+            value={desc || ''}
+            onChange={handleDesc}
+            sx={{
+              '& > :not(style)': {
+                m: 0,
+                width: {
+                  mobile: '100%',
+                  tablet: '100%',
+                  laptop: 790,
+                  desktop: 790,
                 },
-                '& label, label.Mui-focused': {
-                  color: 'grey',
+              },
+              '& label, label.Mui-focused': {
+                color: 'grey',
+              },
+              '&.MuiOutlinedInput-root:hover': {
+                color: 'grey',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& > fieldset': { borderColor: '#d2d2d2' },
+              },
+              '& .MuiOutlinedInput-root.Mui-focused': {
+                '& > fieldset': {
+                  borderColor: '#d2d2d2',
                 },
-                '&.MuiOutlinedInput-root:hover': {
-                  color: 'grey',
-                },
-                '& .MuiOutlinedInput-root': {
-                  '& > fieldset': { borderColor: '#d2d2d2' },
-                },
-                '& .MuiOutlinedInput-root.Mui-focused': {
-                  '& > fieldset': {
-                    borderColor: '#d2d2d2',
-                  },
-                },
-              }}
-            />
-          </div>
+              },
+            }}
+          />
         </Box>
       </ThemeProvider>
     </div>

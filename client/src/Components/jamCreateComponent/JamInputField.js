@@ -8,7 +8,14 @@ import { theme } from '../../Styles/theme';
 
 const Container = css`
   width: 100%;
+  max-width: 280px;
   height: 356px;
+  @media screen and (max-width: 767px) {
+    max-width: 280px;
+  }
+  @media screen and (max-width: 479px) {
+    max-width: none;
+  }
 `;
 
 const InputContainer = css`
@@ -91,7 +98,7 @@ const JamInputField = ({
             '& > :not(style)': {
               m: 1,
               width: {
-                mobile: 290,
+                mobile: 360,
                 tablet: 290,
                 laptop: 290,
                 desktop: 290,
@@ -111,7 +118,7 @@ const JamInputField = ({
               onChange={handleJamTitle}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -133,7 +140,7 @@ const JamInputField = ({
               onChange={handleJamCategory}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -162,7 +169,7 @@ const JamInputField = ({
               onChange={handleLocationText}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
@@ -198,7 +205,7 @@ const JamInputField = ({
               onChange={handleJamCapacity}
               sx={{
                 width: {
-                  mobile: 290,
+                  mobile: 360,
                   tablet: 290,
                   laptop: 290,
                   desktop: 290,
