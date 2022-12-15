@@ -11,6 +11,10 @@ const mapContainer = css`
   position: relative;
   width: 800px;
   height: 600px;
+  @media screen and (max-width: 479px) {
+    width: 400px;
+    height: 600px;
+  }
 `;
 
 const resultContainer = css``;
@@ -28,6 +32,11 @@ const resultList = css`
   padding: 20px;
   background-color: rgba(240, 240, 240, 0.6);
   z-index: 5;
+  @media screen and (max-width: 479px) {
+    width: 250px;
+    height: 300px;
+    top: 75px;
+  }
 
   div {
     font-size: 15px;

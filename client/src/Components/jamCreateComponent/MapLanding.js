@@ -24,6 +24,9 @@ const inputForm = css`
   justify-content: center;
   align-items: center;
   background-color: rgba(240, 240, 240, 0.6);
+  @media screen and (max-width: 479px) {
+    top: 30px;
+  }
 
   input {
     color: #000;
@@ -35,6 +38,9 @@ const inputForm = css`
     border: 2px solid #bababa;
     border-radius: 5px;
     background-color: rgba(240, 240, 240, 0.6);
+    @media screen and (max-width: 479px) {
+      width: 185px;
+    }
   }
   button {
     color: #000;
