@@ -15,11 +15,18 @@ const box = css`
   border-color: ${palette.border};
   border-radius: 3px;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px;
   margin: 10px;
   cursor: pointer;
   &:hover {
     transform: scale(1.02);
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px;
+    border: none;
+    border-bottom: 0.5px solid ${palette.border};
   }
 `;
 
@@ -42,6 +49,10 @@ const coverImage = css`
     object-fit: cover;
     padding: 3px;
   }
+  @media screen and (max-width: 767px) {
+    width: 100px;
+    height: 80px;
+  }
 `;
 
 const defaultImage = css`
@@ -51,6 +62,9 @@ const defaultImage = css`
 const info = css`
   width: 100%;
   height: 100%;
+  @media screen and (max-width: 767px) {
+    margin-top: 5px;
+  }
 `;
 
 const topInfo = css`
@@ -69,21 +83,30 @@ const topInfo = css`
     margin: 0px 5px;
     font-size: 12px;
     white-space: nowrap;
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
   }
 `;
 
 const bottomInfo = css`
   display: flex;
   margin-left: 5px;
-
+  flex-wrap: wrap;
+  white-space: nowrap;
   div {
     display: flex;
-    justify-content: baseline;
+    justify-content: center;
+    align-items: center;
     margin-right: 10px;
-
     p {
       margin-left: 5px;
       font-size: 12px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    div {
+      margin-bottom: 5px;
     }
   }
 `;

@@ -31,6 +31,9 @@ const home = css`
 const mainArea = css`
   display: flex;
   margin: 10px;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 
 const map = css`
@@ -40,6 +43,10 @@ const map = css`
   max-height: 1000px;
   display: flex;
   background-color: cadetblue;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 40vh;
+  }
 `;
 
 const list = css`
@@ -48,6 +55,10 @@ const list = css`
   height: 70vh;
   overflow: auto;
   margin-left: 20px;
+  @media screen and (max-width: 767px) {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
 `;
 
 const Home = () => {
