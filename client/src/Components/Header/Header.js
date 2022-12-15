@@ -108,9 +108,9 @@ const createJamBtn = css`
     background-color: ${palette.colorAccent};
     color: ${palette.white};
   }
-  @media screen and (max-width: 767px) {
+  /* @media screen and (max-width: 767px) {
     display: none;
-  }
+  } */
 `;
 const username = css`
   margin: 10px;
