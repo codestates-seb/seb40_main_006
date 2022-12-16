@@ -33,7 +33,7 @@ const MergeContainer = css`
 const sidebarContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
-    display: none;
+    width: 100%;
   }
 `;
 
@@ -44,12 +44,6 @@ const Container = css`
   align-items: flex-start;
   padding: 10px;
   gap: 20px;
-  @media screen and (max-width: 767px) {
-    margin: 10px 30px;
-  }
-  @media screen and (max-width: 479px) {
-    margin: 10px 30px;
-  }
 `;
 
 const SectionContainer = css`
@@ -58,6 +52,10 @@ const SectionContainer = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    padding: 0 10px;
+    width: 100%;
+  }
   @media screen and (max-width: 479px) {
     width: 100%;
   }
@@ -72,6 +70,11 @@ const JamContainer = css`
   align-items: center;
   padding: 20px;
   border-radius: 3px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 0;
+    margin: 0 10px;
+  }
   @media screen and (max-width: 479px) {
     width: 100%;
   }
@@ -89,6 +92,10 @@ const MainCommentContainer = css`
     text-align: left;
     font-size: 20px;
     margin-bottom: 10px;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 20px 0;
   }
   @media screen and (max-width: 479px) {
     width: 100%;

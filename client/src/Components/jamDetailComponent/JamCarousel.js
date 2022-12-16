@@ -18,6 +18,9 @@ const SliderStyle = styled(Slider)`
     height: 275px;
     object-fit: cover;
     border-radius: 3px;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
     @media screen and (max-width: 479px) {
       width: 100%;
     }
@@ -28,6 +31,9 @@ const SliderStyle = styled(Slider)`
     width: 560px;
     height: 100%;
     object-fit: cover;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
     @media screen and (max-width: 479px) {
       width: 100%;
     }
