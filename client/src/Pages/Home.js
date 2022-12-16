@@ -26,6 +26,13 @@ const home = css`
   h1 {
     margin: 10px;
   }
+  @media screen and (max-width: 767px) {
+    margin: 0px;
+    padding: 0px;
+    h1 {
+      display: none;
+    }
+  }
 `;
 
 const mainArea = css`
@@ -33,6 +40,7 @@ const mainArea = css`
   margin: 10px;
   @media screen and (max-width: 767px) {
     flex-direction: column;
+    margin: 0px;
   }
 `;
 
