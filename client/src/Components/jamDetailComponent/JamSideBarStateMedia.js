@@ -7,7 +7,7 @@ import { css } from '@emotion/react';
 import RecruitState from './RecruitState';
 
 const JamSideContainer = css`
-  width: 200px;
+  width: 70px;
   height: 100%;
   background-color: #fff;
   font-size: 12px;

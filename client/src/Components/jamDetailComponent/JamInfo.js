@@ -60,6 +60,13 @@ const TitleAndState = css`
 const Title = css`
   font-size: 24px;
   margin-bottom: 5px;
+  line-height: 25px;
+  @media screen and (max-width: 767px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 479px) {
+    font-size: 18px;
+  }
 `;
 
 const MediaButton = css`
