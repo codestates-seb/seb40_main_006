@@ -41,13 +41,7 @@ const JamComments = ({
 }) => {
   return (
     <div css={Container}>
-      <div>
-        <WriteComment
-          text={text}
-          setText={setText}
-          handleSubmit={handleSubmit}
-        />
-      </div>
+      <WriteComment text={text} setText={setText} handleSubmit={handleSubmit} />
       <ThemeProvider theme={palette}>
         <hr />
       </ThemeProvider>

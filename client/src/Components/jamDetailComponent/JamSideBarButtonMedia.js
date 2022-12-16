@@ -5,54 +5,40 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import { BiCategory } from 'react-icons/bi';
-import { BsClockFill, BsPeopleFill } from 'react-icons/bs';
-import { ImLocation } from 'react-icons/im';
 import { FaUserCircle } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import RecruitState from './RecruitState';
-import jamElapsedTime from '../userComp/JamElapsedTime';
-import { categories } from '../jamCreateComponent/StudyInputField';
 import { getCookie } from '../SignComp/Cookie';
 import { loginUserInfoState } from '../../Atom/atoms';
 import UserName from '../userComp/UserName';
 
 const JamSideContainer = css`
-  width: 220px;
+  width: 150px;
   display: flex;
-  position: sticky;
-  left: 20px;
-  top: 20px;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-end;
   background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
-  gap: 10px;
+  gap: 5px;
   font-size: 12px;
-  padding: 15px;
-  margin-top: 30px;
   @media screen and (max-width: 767px) {
-    display: none;
+    width: 100%;
   }
 `;
 
-const Header = css`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 5px;
-`;
 const UserAndStateBox = css`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   letter-spacing: 0.5px;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 15px;
+  }
 `;
 
 const UserBox = css`
@@ -61,25 +47,15 @@ const UserBox = css`
   align-items: center;
   gap: 5px;
   letter-spacing: 0.5px;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const Title = css`
   font-size: 16px;
-`;
-
-const EtcInfo = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 5px;
-  .categoryIcons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    letter-spacing: 0.5px;
+  @media screen and (max-width: 767px) {
+    display: none;
   }
 `;
 
@@ -95,9 +71,22 @@ const AvatarContainer = css`
   }
 `;
 
+const ChatLink = css`
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    gap: 5px;
+    font-size: 13px;
+  }
+`;
+
 const ButtonContainer = css`
   width: 100%;
   height: 35px;
+  @media screen and (max-width: 767px) {
+    margin-top: 5px;
+  }
 `;
 
 const RegisterButton = css`
@@ -134,7 +123,7 @@ const CancleButton = css`
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
 // eslint-disable-next-line no-unused-vars
-const JamSideBar = ({
+const JamSideBarButtonMedia = ({
   jamData,
   isComplete,
   setIsComplete,
@@ -147,10 +136,6 @@ const JamSideBar = ({
   const { id } = useParams();
 
   const accessToken = getCookie('accessToken');
-
-  const filteredCategory = categories.filter(
-    el => el.value === jamData.category,
-  )[0];
 
   const isJoiner =
     joiner &&
@@ -301,82 +286,16 @@ const JamSideBar = ({
 
   return (
     <div css={JamSideContainer}>
-      <div css={Header}>
-        <div css={UserAndStateBox}>
-          <div css={UserBox}>
-            <UserName
-              name={jamOpener.name}
-              id={jamOpener.memberId}
-              img={jamOpener.img}
-            />
-          </div>
-          {isComplete === 'FALSE' ? (
-            <RecruitState state="open" variant="colorJamOpen">
-              모집중
-            </RecruitState>
-          ) : (
-            <RecruitState state="close" variant="colorJamClose">
-              모집완료
-            </RecruitState>
-          )}
+      <div css={UserAndStateBox}>
+        <div css={UserBox}>
+          <UserName
+            name={jamOpener.name}
+            id={jamOpener.memberId}
+            img={jamOpener.img}
+          />
         </div>
       </div>
       <h6 css={Title}>{jamData.title}</h6>
-      <div css={EtcInfo}>
-        <div className="categoryIcons">
-          <BiCategory />
-          {filteredCategory && <span>{filteredCategory.label}</span>}
-        </div>
-        <div className="categoryIcons">
-          <BsClockFill />
-          <span>{jamElapsedTime(jamData.createdAt)}</span>
-        </div>
-        <div className="categoryIcons">
-          <BsPeopleFill />
-          <span>
-            {jamData.currentPpl}/{jamData.capacity}명
-          </span>
-        </div>
-        <div className="categoryIcons">
-          <ImLocation />
-          <span>{jamData.location}</span>
-        </div>
-      </div>
-      {(isJoiner || jamData.nickname === currentUser.nickname) && (
-        <>
-          <div css={AvatarContainer}>
-            {jamData &&
-              jamData.participantList.map(el => {
-                return (
-                  <div
-                    key={el.memberId}
-                    className="imgContainer"
-                    onClick={() => handleCardClick(el.memberId)}
-                  >
-                    {el.profileImage ? (
-                      <img src={el.profileImage} alt={el.nickname} />
-                    ) : (
-                      <FaUserCircle size={32} />
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-          <div>
-            <span>채팅채널</span>
-            <br />
-            <span>
-              <a
-                href={jamData.openChatLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {jamData.openChatLink}
-              </a>
-            </span>
-          </div>
-        </>
-      )}
       {/* 스터디 개설 유저가 로그인 유저와 같지 않으면 참여 부분, 같으면 모집 부분 렌더 */}
       {jamData.nickname !== currentUser.nickname ? (
         <div css={ButtonContainer}>
@@ -423,8 +342,43 @@ const JamSideBar = ({
           )}
         </div>
       )}
+      {(isJoiner || jamData.nickname === currentUser.nickname) && (
+        <>
+          <div css={ChatLink}>
+            <span>채팅채널</span>
+            <br />
+            <span>
+              <a
+                href={jamData.openChatLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {jamData.openChatLink}
+              </a>
+            </span>
+          </div>
+          <div css={AvatarContainer}>
+            {jamData &&
+              jamData.participantList.map(el => {
+                return (
+                  <div
+                    key={el.memberId}
+                    className="imgContainer"
+                    onClick={() => handleCardClick(el.memberId)}
+                  >
+                    {el.profileImage ? (
+                      <img src={el.profileImage} alt={el.nickname} />
+                    ) : (
+                      <FaUserCircle size={32} />
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
-export default JamSideBar;
+export default JamSideBarButtonMedia;

@@ -21,13 +21,19 @@ const MergeContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 479px) {
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 const sidebarContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
-    display: none;
+    width: 100%;
   }
 `;
 
@@ -41,13 +47,22 @@ const Container = css`
 `;
 
 const SectionContainer = css`
+  width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    padding: 0 10px;
+    width: 100%;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const JamContainer = css`
+  width: fit-content;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -55,6 +70,14 @@ const JamContainer = css`
   align-items: center;
   padding: 20px;
   border-radius: 3px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 0;
+    margin: 0 10px;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const MainCommentContainer = css`
@@ -62,11 +85,20 @@ const MainCommentContainer = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px;
   span {
+    width: 100%;
+    text-align: left;
     font-size: 20px;
     margin-bottom: 10px;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 20px 0;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
   }
 `;
 
@@ -79,11 +111,14 @@ const CommentContainer = css`
   align-items: center;
   background-color: ${palette.gray_4};
   border-radius: 3px;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const JamDetail = ({ isEdit, setIsEdit }) => {
+const JamDetail = ({ setIsEdit }) => {
   const [text, setText] = useState('');
   const [comments, setComments] = useState([]);
   const nextId = useRef(0);
@@ -157,9 +192,12 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
           <ThemeProvider theme={palette}>
             <div css={JamContainer}>
               <JamInfo
-                isEdit={isEdit}
                 setIsEdit={setIsEdit}
                 jamData={jamData}
+                isComplete={isComplete}
+                setIsComplete={setIsComplete}
+                joiner={joiner}
+                setJoiner={setJoiner}
               />
             </div>
           </ThemeProvider>
