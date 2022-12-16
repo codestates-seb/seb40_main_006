@@ -23,12 +23,16 @@ const MergeContainer = css`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const sidebarContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
-    display: none;
+    width: 100%;
   }
 `;
 
@@ -42,10 +46,12 @@ const Container = css`
   align-items: center;
   padding: 5px;
   @media screen and (max-width: 767px) {
-    margin: 10px 40px;
+    margin: 10px 20px;
+    width: 95%;
   }
   @media screen and (max-width: 479px) {
-    padding: 0 20px;
+    padding: 0 10px;
+    width: 95%;
   }
 `;
 
@@ -59,7 +65,7 @@ const Header = css`
   margin-bottom: 5px;
   margin-top: 10px;
   @media screen and (max-width: 767px) {
-    max-width: 650px;
+    /* max-width: 650px; */
   }
   @media screen and (max-width: 479px) {
     max-width: 460px;
