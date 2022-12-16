@@ -21,14 +21,18 @@ import { getCookie } from '../Components/SignComp/Cookie';
 const MergeContainer = css`
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const sidebarContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
-    display: none;
+    width: 100%;
   }
 `;
 
@@ -41,17 +45,31 @@ const Container = css`
   justify-content: center;
   align-items: center;
   padding: 5px;
+  @media screen and (max-width: 767px) {
+    margin: 10px 20px;
+    width: 95%;
+  }
+  @media screen and (max-width: 479px) {
+    padding: 0 10px;
+    width: 95%;
+  }
 `;
 
 const Header = css`
-  width: 800px;
-  min-width: 300px;
+  width: 100%;
+  max-width: 790px;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5px;
   margin-top: 10px;
+  @media screen and (max-width: 767px) {
+    /* max-width: 650px; */
+  }
+  @media screen and (max-width: 479px) {
+    max-width: 460px;
+  }
 `;
 
 const HeaderTap = css`
@@ -107,12 +125,28 @@ const Tapstyle = css`
   }
 `;
 
+const FormContainer = css`
+  width: 100%;
+  max-width: 790px;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+    max-width: 460px;
+  }
+`;
+
 const SectionContainer = css`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  @media screen and (max-width: 479px) {
+    max-width: 460px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
 
 const ArticleLeft = css`
@@ -123,6 +157,10 @@ const ArticleLeft = css`
   justify-content: space-between;
   align-items: space-between;
   margin-right: 10px;
+  min-width: 300px;
+  @media screen and (max-width: 479px) {
+    margin-right: 0;
+  }
 `;
 
 const ArticleRight = css`
@@ -131,6 +169,10 @@ const ArticleRight = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+    max-width: none;
+  }
 `;
 
 const ChatlinkBox = css`
@@ -374,7 +416,7 @@ const JamMake = ({ isEdit }) => {
             )}
           </div>
         </header>
-        <form id="makeStudy" onSubmit={handleSubmit}>
+        <form id="makeStudy" css={FormContainer} onSubmit={handleSubmit}>
           <main css={SectionContainer}>
             <div css={ArticleLeft}>
               <div>

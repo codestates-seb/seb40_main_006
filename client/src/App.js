@@ -37,7 +37,7 @@ function App() {
           />
           <Route
             path="/jamdetail/:id"
-            element={<JamDetail isEdit={isEdit} setIsEdit={setIsEdit} />}
+            element={<JamDetail setIsEdit={setIsEdit} />}
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

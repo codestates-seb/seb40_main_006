@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { css } from '@emotion/react';
+import { css, ThemeProvider } from '@emotion/react';
 import { TextField, Box } from '@mui/material';
+import { theme } from '../../Styles/theme';
 
 const AboutStudy = css`
   margin-top: 20px;
@@ -11,6 +12,9 @@ const AboutStudy = css`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  div {
+    width: 100%;
+  }
   span {
     margin-bottom: 5px;
   }
@@ -21,6 +25,10 @@ const AboutStudy = css`
   input:focus {
     outline: none;
   }
+  @media screen and (max-width: 767px) {
+    margin-bottom: 30px;
+    width: 100%;
+  }
 `;
 
 const Description = ({ desc, setDesc }) => {
@@ -30,14 +38,22 @@ const Description = ({ desc, setDesc }) => {
 
   return (
     <div css={AboutStudy}>
-      <Box
-        sx={{
-          '& > :not(style)': { m: 0, width: '800px' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            '& > :not(style)': {
+              m: 0,
+              width: {
+                mobile: '100%',
+                tablet: 650,
+                laptop: 800,
+                desktop: 800,
+              },
+            },
+          }}
+          noValidate
+          autoComplete="off"
+        >
           <TextField
             id="standard-basic"
             label="스터디 소개"
@@ -48,7 +64,15 @@ const Description = ({ desc, setDesc }) => {
             value={desc || ''}
             onChange={handleDesc}
             sx={{
-              '& > :not(style)': { m: 0, width: '790px' },
+              '& > :not(style)': {
+                m: 0,
+                width: {
+                  mobile: '100%',
+                  tablet: '100%',
+                  laptop: 790,
+                  desktop: 790,
+                },
+              },
               '& label, label.Mui-focused': {
                 color: 'grey',
               },
@@ -65,8 +89,8 @@ const Description = ({ desc, setDesc }) => {
               },
             }}
           />
-        </div>
-      </Box>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };

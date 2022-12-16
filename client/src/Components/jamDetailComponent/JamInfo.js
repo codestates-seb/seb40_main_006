@@ -15,6 +15,8 @@ import jamElapsedTime from '../userComp/JamElapsedTime';
 import { categories } from '../jamCreateComponent/StudyInputField';
 import JamLocationMap from './JamLocationMap';
 import { loginUserInfoState } from '../../Atom/atoms';
+import JamSideBarButtonMedia from './JamSideBarButtonMedia';
+import JamSideBarStateMedia from './JamSideBarStateMedia';
 
 const Container = css`
   margin: 0 auto;
@@ -36,14 +38,44 @@ const HeaderContainer = css`
 
 const TitleContainer = css`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  @media screen and (max-width: 767px) {
+    /* justify-content: flex-start; */
+    align-items: flex-start;
+    gap: 10px;
+  }
+`;
+
+const TitleAndState = css`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 `;
 
 const Title = css`
   font-size: 24px;
   margin-bottom: 5px;
+  line-height: 25px;
+  @media screen and (max-width: 767px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 479px) {
+    font-size: 18px;
+  }
+`;
+
+const MediaButton = css`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  @media screen and (min-width: 767px) {
+    display: none;
+  }
 `;
 
 const InfoIcons = css`
@@ -116,7 +148,14 @@ const EditButton = css`
   border-radius: 3px;
 `;
 
-const JamInfo = ({ setIsEdit, jamData }) => {
+const JamInfo = ({
+  setIsEdit,
+  jamData,
+  isComplete,
+  setIsComplete,
+  joiner,
+  setJoiner,
+}) => {
   const [currentUser] = useRecoilState(loginUserInfoState);
 
   const navigate = useNavigate();
@@ -147,7 +186,16 @@ const JamInfo = ({ setIsEdit, jamData }) => {
     <div css={Container}>
       <div css={HeaderContainer}>
         <div css={TitleContainer}>
-          <h2 css={Title}>{title}</h2>
+          <div css={TitleAndState}>
+            <h2 css={Title}>{title}</h2>
+            <JamSideBarStateMedia
+              jamData={jamData}
+              isComplete={isComplete}
+              setIsComplete={setIsComplete}
+              joiner={joiner}
+              setJoiner={setJoiner}
+            />
+          </div>
           {nickname === currentUser.nickname && (
             <button css={EditButton} type="button" onClick={handleIsEdit}>
               수정
@@ -213,6 +261,15 @@ const JamInfo = ({ setIsEdit, jamData }) => {
             {jamData && <JamLocationMap jamData={jamData} />}
           </div>
         </ThemeProvider>
+      </div>
+      <div css={MediaButton}>
+        <JamSideBarButtonMedia
+          jamData={jamData}
+          isComplete={isComplete}
+          setIsComplete={setIsComplete}
+          joiner={joiner}
+          setJoiner={setJoiner}
+        />
       </div>
     </div>
   );

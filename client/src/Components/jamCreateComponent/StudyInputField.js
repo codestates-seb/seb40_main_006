@@ -3,18 +3,41 @@
 import 'rsuite/dist/rsuite.min.css';
 import React, { useState } from 'react';
 import { TextField, Box, MenuItem } from '@mui/material';
-import { css } from '@emotion/react';
+import { css, ThemeProvider } from '@emotion/react';
 import { DateRangePicker } from 'rsuite';
 import KewordAddressModal from './KewordAddressModal';
+import { theme } from '../../Styles/theme';
+// import 'rsuite/dist/rsuite-rtl.css';
 
 const Container = css`
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   height: 356px;
+  @media screen and (max-width: 767px) {
+    max-width: 220px;
+  }
+  @media screen and (max-width: 479px) {
+    max-width: none;
+  }
+  * {
+    .rs-picker
+      .rs-picker-menu
+      .rs-picker-daterange
+      .rs-picker-daterange-menu
+      .rs-picker-daterange-panel
+      .rs-stack
+      .rs-stack-item
+      .rs-picker-daterange-content
+      .rs-picker-daterange-calendar-group {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+  }
 `;
 
 const InputContainer = css`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,116 +111,150 @@ const StudyInputField = ({
 
   return (
     <div css={Container}>
-      <Box
-        sx={{
-          '& > :not(style)': { m: 1, width: '280px' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div css={InputContainer}>
-          <TextField
-            id="study-name"
-            label="스터디 이름"
-            variant="standard"
-            name="title"
-            placeholder="스터디 이름을 지어주세요"
-            value={title || ''}
-            onChange={handleTitle}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            '& > :not(style)': {
+              m: 1,
+              width: {
+                mobile: 360,
+                tablet: 290,
+                laptop: 290,
+                desktop: 290,
               },
-            }}
-          />
-          <TextField
-            id="study-category"
-            select
-            label="카테고리"
-            variant="standard"
-            name="category"
-            value={category || ''}
-            onChange={handleCategory}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          >
-            {categories.map(option => (
-              <MenuItem key={option.value} value={option.value || ''}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="study-location"
-            type="button"
-            onClick={handleOpen}
-            label="스터디 위치"
-            variant="standard"
-            value={locationText || ''}
-            onChange={handleLocationText}
-            placeholder="클릭하면 주소 검색창이 나와요"
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          />
-          {open && (
-            <KewordAddressModal
-              open={open}
-              handleClose={handleClose}
-              setOpen={setOpen}
-              locationText={locationText}
-              setLocationText={setLocationText}
-              setLatitude={setLatitude}
-              setLongitude={setLongitude}
-              setAddress={setAddress}
+            },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div css={InputContainer}>
+            <TextField
+              id="study-name"
+              label="스터디 이름"
+              variant="standard"
+              name="title"
+              placeholder="스터디 이름을 지어주세요"
+              value={title || ''}
+              onChange={handleTitle}
+              sx={{
+                width: {
+                  mobile: 360,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' }, // 기본 라벨, 포커스시 라벨 색상
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
             />
-          )}
-          <TextField
-            id="study-peopleNumber"
-            label="모집인원"
-            type="number"
-            variant="standard"
-            name="numberOfPeople"
-            InputProps={{ inputProps: { min: 0, max: 100 } }}
-            placeholder="숫자를 입력해주세요"
-            value={capacity || ''}
-            onChange={handleCapacity}
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-              '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'black',
-              },
-            }}
-          />
-          <div css={PeriodContainer}>
-            <span>모집기간</span>
-            <DateRangePicker
-              format="yyyy-MM-dd hh:mm aa"
-              showMeridian
-              style={{ color: 'black' }}
-              name="period"
-              value={period}
-              onChange={handlePeriodChange}
+            <TextField
+              id="study-category"
+              select
+              label="카테고리"
+              variant="standard"
+              name="category"
+              value={category || ''}
+              onChange={handleCategory}
+              sx={{
+                width: {
+                  mobile: 360,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
+            >
+              {categories.map(option => (
+                <MenuItem key={option.value} value={option.value || ''}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="study-location"
+              type="button"
+              onClick={handleOpen}
+              label="스터디 위치"
+              variant="standard"
+              value={locationText || ''}
+              onChange={handleLocationText}
+              placeholder="클릭하면 주소 검색창이 나와요"
+              sx={{
+                width: {
+                  mobile: 360,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
             />
+            {open && (
+              <KewordAddressModal
+                open={open}
+                handleClose={handleClose}
+                setOpen={setOpen}
+                locationText={locationText}
+                setLocationText={setLocationText}
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+                setAddress={setAddress}
+              />
+            )}
+            <TextField
+              id="study-peopleNumber"
+              label="모집인원"
+              type="number"
+              variant="standard"
+              name="numberOfPeople"
+              InputProps={{ inputProps: { min: 0, max: 100 } }}
+              placeholder="숫자를 입력해주세요"
+              value={capacity || ''}
+              onChange={handleCapacity}
+              sx={{
+                width: {
+                  mobile: 360,
+                  tablet: 290,
+                  laptop: 290,
+                  desktop: 290,
+                },
+                maxWidth: '100%',
+                '& .MuiInputLabel-root.Mui-focused': { color: 'black' },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: 'black',
+                },
+              }}
+            />
+            <div css={PeriodContainer}>
+              <span>모집기간</span>
+              <DateRangePicker
+                format="yyyy-MM-dd hh:mm aa"
+                placement="bottomEnd"
+                // placement="topEnd"
+                // showOneCalendar="true"
+                preventOverflow
+                showMeridian
+                style={{ color: 'black' }}
+                name="period"
+                value={period}
+                onChange={handlePeriodChange}
+              />
+            </div>
           </div>
-        </div>
-      </Box>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };
