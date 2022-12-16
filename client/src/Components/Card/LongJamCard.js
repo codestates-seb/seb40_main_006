@@ -69,7 +69,6 @@ const info = css`
 
 const topInfo = css`
   display: flex;
-  align-items: center;
   margin-bottom: 10px;
   > p {
     font-size: 16px;
@@ -77,18 +76,30 @@ const topInfo = css`
     margin: 0px 5px;
     word-break: keep-all;
   }
-  div {
-    border-radius: 10px;
-    padding: 3px 20px;
-    margin: 0px 5px;
-    font-size: 12px;
-    white-space: nowrap;
-    @media screen and (max-width: 767px) {
-      display: none;
-    }
+  @media screen and (max-width: 767px) {
+    flex-direction: column-reverse;
   }
 `;
 
+const tagInfo = css`
+  display: flex;
+  align-items: center;
+  div {
+    height: auto;
+    padding: 3px 20px;
+    margin: 0px 5px;
+    border-radius: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  @media screen and (max-width: 767px) {
+    div {
+      padding: 3px 5px;
+      margin: 0px 3px;
+    }
+    margin-bottom: 5px;
+  }
+`;
 const bottomInfo = css`
   display: flex;
   margin-left: 5px;
@@ -141,12 +152,14 @@ const LongJamCard = ({ jam }) => {
       <div className={info}>
         <div className={topInfo}>
           <p>{jam.title}</p>
-          {isCompleteJam ? (
-            <div className={closedJam}>마감</div>
-          ) : (
-            <div className={openedJam}>모집중</div>
-          )}
-          {jam.realTime ? <div className={realTimeJam}>실시간</div> : null}
+          <div className={tagInfo}>
+            {isCompleteJam ? (
+              <div className={closedJam}>마감</div>
+            ) : (
+              <div className={openedJam}>모집중</div>
+            )}
+            {jam.realTime ? <div className={realTimeJam}>실시간</div> : null}
+          </div>
         </div>
 
         <div className={bottomInfo}>
