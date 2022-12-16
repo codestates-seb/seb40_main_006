@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React, { useEffect, useState } from 'react';
-// import palette from '../Styles/theme';
 import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Card/LongJamCard';
@@ -11,6 +10,7 @@ import Map from '../Components/Map/Map';
 import { location, coordinate } from '../Atom/atoms';
 import { fetchJamRead } from '../Utils/fetchJam';
 import { NoNearyByData } from '../Components/NoData';
+import FloatingButton from '../Components/FloatingButton';
 
 const pagewithSidebar = css`
   display: flex;
@@ -26,6 +26,13 @@ const home = css`
   h1 {
     margin: 10px;
   }
+  @media screen and (max-width: 767px) {
+    margin: 0px;
+    padding: 0px;
+    h1 {
+      display: none;
+    }
+  }
 `;
 
 const mainArea = css`
@@ -33,6 +40,7 @@ const mainArea = css`
   margin: 10px;
   @media screen and (max-width: 767px) {
     flex-direction: column;
+    margin: 0px;
   }
 `;
 
@@ -79,6 +87,7 @@ const Home = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <FloatingButton />
       <div className={home}>
         <h1>
           {currentLocation

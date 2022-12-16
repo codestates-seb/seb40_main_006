@@ -16,6 +16,7 @@ import { pageNumber, selectedCategory, totalPageNumber } from '../Atom/atoms';
 import ScrollToTop from '../ScrollToTop';
 import { NoCategoryData } from '../Components/NoData';
 import JamPagination from '../Components/Card/JamPagination';
+import FloatingButton from '../Components/FloatingButton';
 
 const pagewithSidebar = css`
   display: flex;
@@ -122,6 +123,7 @@ const Category = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <FloatingButton />
       <ScrollToTop />
       <div className={category}>
         <div className={topContainer}>
