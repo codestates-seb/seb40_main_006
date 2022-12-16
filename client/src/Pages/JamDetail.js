@@ -21,6 +21,12 @@ const MergeContainer = css`
   display: flex;
   @media screen and (max-width: 767px) {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 479px) {
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -38,16 +44,27 @@ const Container = css`
   align-items: flex-start;
   padding: 10px;
   gap: 20px;
+  @media screen and (max-width: 767px) {
+    margin: 10px 30px;
+  }
+  @media screen and (max-width: 479px) {
+    margin: 10px 30px;
+  }
 `;
 
 const SectionContainer = css`
+  width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const JamContainer = css`
+  width: fit-content;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -55,6 +72,9 @@ const JamContainer = css`
   align-items: center;
   padding: 20px;
   border-radius: 3px;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const MainCommentContainer = css`
@@ -62,11 +82,16 @@ const MainCommentContainer = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px;
   span {
+    width: 100%;
+    text-align: left;
     font-size: 20px;
     margin-bottom: 10px;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
   }
 `;
 
@@ -79,6 +104,9 @@ const CommentContainer = css`
   align-items: center;
   background-color: ${palette.gray_4};
   border-radius: 3px;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
