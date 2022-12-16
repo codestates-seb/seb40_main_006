@@ -244,7 +244,7 @@ const StudyInputField = ({
                 placement="bottomEnd"
                 // placement="topEnd"
                 // showOneCalendar="true"
-                preventOverflow="true"
+                preventOverflow
                 showMeridian
                 style={{ color: 'black' }}
                 name="period"
