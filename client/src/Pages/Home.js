@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React, { useEffect, useState } from 'react';
-// import palette from '../Styles/theme';
 import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Card/LongJamCard';
@@ -11,6 +10,7 @@ import Map from '../Components/Map/Map';
 import { location, coordinate } from '../Atom/atoms';
 import { fetchJamRead } from '../Utils/fetchJam';
 import { NoNearyByData } from '../Components/NoData';
+import FloatingButton from '../Components/FloatingButton';
 
 const pagewithSidebar = css`
   display: flex;
@@ -79,6 +79,7 @@ const Home = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <FloatingButton />
       <div className={home}>
         <h1>
           {currentLocation
