@@ -109,9 +109,7 @@ const Map = ({ jamData }) => {
         yAnchor: 1,
       });
 
-      kakao.maps.event.addListener(marker, 'mouseover', function () {
-        overlay.setMap(map);
-      });
+      overlay.setMap(map);
 
       kakao.maps.event.addListener(marker, 'click', function () {
         navigate(`/jamdetail/${mapPoints[i].jamId}`);
