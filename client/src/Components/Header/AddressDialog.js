@@ -46,10 +46,14 @@ const addressBtn = css`
 `;
 
 export default function AddressDialog() {
+  const [currentLocation, setCurrentLocation] = useRecoilState(location);
+  const [, setIsUserLocationChanged] = useRecoilState(locationChanged);
+  const [currentWidth, setCurrentWidth] = useState(1024);
+
   const [open, setOpen] = useState(false);
-  const [city, setCity] = useState('');
-  const [gu, setGu] = useState('');
-  const [dong, setDong] = useState('');
+  const [city, setCity] = useState(currentLocation.split(' ')[0]);
+  const [gu, setGu] = useState(currentLocation.split(' ')[1]);
+  const [dong, setDong] = useState(currentLocation.split(' ')[2]);
 
   const [cityList, setCityList] = useState([]);
   const [guList, setGuList] = useState([]);
@@ -116,9 +120,6 @@ export default function AddressDialog() {
     setOpen(false);
   };
 
-  const [currentLocation, setCurrentLocation] = useRecoilState(location);
-  const [, setIsUserLocationChanged] = useRecoilState(locationChanged);
-  const [currentWidth, setCurrentWidth] = useState(1024);
   const onSubmit = () => {
     setCurrentLocation(`${city} ${gu} ${dong}`);
     setIsUserLocationChanged(true);
@@ -131,6 +132,7 @@ export default function AddressDialog() {
 
   useEffect(() => {
     setCurrentWidth(window.innerWidth);
+    setCurrentLocation(`${city} ${gu} ${dong}`);
   }, [window.innerWidth]);
   return (
     <div className={addressContainer}>
