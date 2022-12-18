@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { css } from '@emotion/css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -23,11 +22,11 @@ const addressContainer = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5px 10px;
+  margin: 0px 10px;
   padding: 20px;
   white-space: nowrap;
   @media screen and (max-width: 767px) {
-    margin: 0px;
+    margin: 10px 0px;
     padding: 0px;
   }
 `;
@@ -46,10 +45,10 @@ const addressBtn = css`
 `;
 
 export default function AddressDialog() {
-  const [open, setOpen] = React.useState(false);
-  const [city, setCity] = React.useState('');
-  const [gu, setGu] = React.useState('');
-  const [dong, setDong] = React.useState('');
+  const [open, setOpen] = useState(false);
+  const [city, setCity] = useState('');
+  const [gu, setGu] = useState('');
+  const [dong, setDong] = useState('');
 
   const [cityList, setCityList] = useState([]);
   const [guList, setGuList] = useState([]);
@@ -132,7 +131,7 @@ export default function AddressDialog() {
   return (
     <div className={addressContainer}>
       <button className={addressBtn} onClick={handleClickOpen} type="button">
-        동네 선택 ▾
+        동네 선택
       </button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>동네를 선택해주세요!</DialogTitle>

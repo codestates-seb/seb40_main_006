@@ -9,6 +9,7 @@ import { MdMenu } from 'react-icons/md';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { useNavigate } from 'react-router-dom';
+import AddressDialog from './AddressDialog';
 
 const drawerContainer = css`
   width: 250px;
@@ -29,6 +30,7 @@ const MenuDrawer = () => {
     navigate(path);
     setIsOpen(false);
   };
+
   return (
     <div>
       <MdMenu aria-label="open drawer" onClick={() => setIsOpen(true)} />
@@ -68,8 +70,8 @@ const MenuDrawer = () => {
           </List>
           <Divider />
           <List>
-            <ListItem button>
-              <ListItemText primary="동네 선택" />
+            <ListItem button onClick={() => setIsOpen(false)}>
+              <AddressDialog />
             </ListItem>
           </List>
           <Divider />

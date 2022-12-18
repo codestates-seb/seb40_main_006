@@ -160,6 +160,12 @@ const drawerContainer = css`
   }
 `;
 
+const AddressDialogContainer = css`
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const BackBtn = () => {
   const navigate = useNavigate();
   const handleBackBtnClick = () => {
@@ -173,7 +179,13 @@ const BackBtn = () => {
     </div>
   );
 };
-
+const CityBtn = () => {
+  return (
+    <div className={AddressDialogContainer}>
+      <AddressDialog />
+    </div>
+  );
+};
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
@@ -185,6 +197,7 @@ const SearchBar = () => {
     sessionStorage.setItem('searchText', searchText);
     navigate('/category');
   };
+
   return (
     <form className={searchBar} onSubmit={handleSubmit}>
       <Search>
@@ -255,8 +268,8 @@ const Header = () => {
         <Link to="/" onClick={() => sessionStorage.clear}>
           <img className={logo} alt="logo_jamit" src={logoImage} />
         </Link>
-        <BackBtn className={backBtn} />
-        <AddressDialog />
+        <BackBtn />
+        <CityBtn />
         <SearchBar />
         {!isLogin ? <LoginArea /> : <LogoutArea />}
         <Drawer />
