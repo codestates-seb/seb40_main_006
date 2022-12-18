@@ -67,14 +67,18 @@ export default function AddressDialog() {
     const code = cityCode.slice(0, 2).concat('*00000');
     const apiLocation = getJuso(code);
     apiLocation.then(data => {
-      setGuList(data.regcodes.slice(1));
+      setGuList(
+        data.regcodes.slice(1).sort((a, b) => a.name.localeCompare(b.name)),
+      );
     });
   }
   function getDongData(guCode) {
     const code = guCode.slice(0, 5).concat('*&is_ignore_zero=true');
     const apiLocation = getJuso(code);
     apiLocation.then(data => {
-      setDongList(data.regcodes);
+      setDongList(
+        data.regcodes.slice(1).sort((a, b) => a.name.localeCompare(b.name)),
+      );
     });
   }
 
