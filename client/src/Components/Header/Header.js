@@ -6,13 +6,14 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Avatar } from '@mui/material/';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBackIosNew } from 'react-icons/md';
 import { IconButton } from '@material-ui/core';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
 import AccountMenu from './AccountMenu';
 import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
+import MenuDrawer from './MenuDrawer';
 
 const headerBox = css`
   height: 100px;
@@ -151,6 +152,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const drawerContainer = css`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    height: 100%;
+  }
+`;
+
 const BackBtn = () => {
   const navigate = useNavigate();
   const handleBackBtnClick = () => {
@@ -159,7 +168,7 @@ const BackBtn = () => {
   return (
     <div className={backBtn}>
       <IconButton aria-label="back" onClick={handleBackBtnClick}>
-        <MdArrowBack fontSize="large" />
+        <MdArrowBackIosNew fontSize="large" />
       </IconButton>
     </div>
   );
@@ -228,6 +237,16 @@ const LogoutArea = () => {
   );
 };
 
+const Drawer = () => {
+  return (
+    <div className={drawerContainer}>
+      <IconButton aria-label="back">
+        <MenuDrawer fontSize="large" />
+      </IconButton>
+    </div>
+  );
+};
+
 const Header = () => {
   const [isLogin] = useRecoilState(isLoginState);
   return (
@@ -240,6 +259,7 @@ const Header = () => {
         <AddressDialog />
         <SearchBar />
         {!isLogin ? <LoginArea /> : <LogoutArea />}
+        <Drawer />
       </div>
     </div>
   );
