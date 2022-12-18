@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -9,16 +8,28 @@ import { MdMenu } from 'react-icons/md';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { useNavigate } from 'react-router-dom';
-import AddressDialog from './AddressDialog';
 
 const drawerContainer = css`
   width: 250px;
+`;
+
+const userContainer = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+
+  p {
+    font-weight: bold;
+    margin: 10px;
+  }
 `;
 const avataBtn = css`
   display: flex;
   justify-content: center;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin: 10px;
 `;
 const MenuDrawer = () => {
   const navigate = useNavigate();
@@ -41,12 +52,12 @@ const MenuDrawer = () => {
         onOpen={() => {}}
       >
         <div className={drawerContainer}>
-          <Box textAlign="center" p={2}>
+          <div className={userContainer}>
             <div className={avataBtn}>
               <Avatar sx={{ width: 70, height: 70 }} />
             </div>
-            유저이름님
-          </Box>
+            <p>유저이름님</p>
+          </div>
           <Divider />
           {/* //TODO: 로그인 여부에 따라 아래 두가지 리스트 중 하나만 보이도록 하기 */}
           <List>
@@ -66,12 +77,6 @@ const MenuDrawer = () => {
             </ListItem>
             <ListItem button>
               <ListItemText primary="회원가입" />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button onClick={() => setIsOpen(false)}>
-              <AddressDialog />
             </ListItem>
           </List>
           <Divider />

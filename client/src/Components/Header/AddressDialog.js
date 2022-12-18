@@ -41,6 +41,7 @@ const addressBtn = css`
     margin: 0px;
     padding: 0px;
     background-color: transparent;
+    font-weight: bold;
   }
 `;
 
@@ -115,9 +116,9 @@ export default function AddressDialog() {
     setOpen(false);
   };
 
-  const [, setCurrentLocation] = useRecoilState(location);
+  const [currentLocation, setCurrentLocation] = useRecoilState(location);
   const [, setIsUserLocationChanged] = useRecoilState(locationChanged);
-
+  const [currentWidth, setCurrentWidth] = useState(1024);
   const onSubmit = () => {
     setCurrentLocation(`${city} ${gu} ${dong}`);
     setIsUserLocationChanged(true);
@@ -128,10 +129,13 @@ export default function AddressDialog() {
     getCityData('*00000000');
   }, []);
 
+  useEffect(() => {
+    setCurrentWidth(window.innerWidth);
+  }, [window.innerWidth]);
   return (
     <div className={addressContainer}>
       <button className={addressBtn} onClick={handleClickOpen} type="button">
-        동네 선택
+        {currentWidth > 767 ? '동네선택' : currentLocation} ▾
       </button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>동네를 선택해주세요!</DialogTitle>
