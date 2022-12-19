@@ -7,7 +7,10 @@ import { useState } from 'react';
 import { MdMenu } from 'react-icons/md';
 import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
+import UserLogout from '../userComp/Logout';
 
 const drawerContainer = css`
   width: 250px;
@@ -31,11 +34,12 @@ const avataBtn = css`
   cursor: pointer;
   margin: 10px;
 `;
-const MenuDrawer = () => {
-  const navigate = useNavigate();
 
+const MenuDrawer = () => {
+  const [user] = useRecoilState(loginUserInfoState);
+  const [isLogin] = useRecoilState(isLoginState);
   const [isOpen, setIsOpen] = useState(false);
-  // isLogin 필요
+  const navigate = useNavigate();
 
   const MoveTo = path => {
     navigate(path);
@@ -54,31 +58,51 @@ const MenuDrawer = () => {
         <div className={drawerContainer}>
           <div className={userContainer}>
             <div className={avataBtn}>
-              <Avatar sx={{ width: 70, height: 70 }} />
+              {isLogin ? (
+                <img src={user.img} alt="userimg" />
+              ) : (
+                <Avatar sx={{ width: 70, height: 70 }} />
+              )}
             </div>
-            <p>유저이름님</p>
+            {isLogin ? <p>{user.nickname}님</p> : <p>로그인을 진행해주세요</p>}
           </div>
           <Divider />
-          {/* //TODO: 로그인 여부에 따라 아래 두가지 리스트 중 하나만 보이도록 하기 */}
-          <List>
-            <ListItem button>
-              <ListItemText primary="마이페이지" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="프로필 수정" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="로그아웃" />
-            </ListItem>
-          </List>
-          <List>
-            <ListItem button>
-              <ListItemText primary="로그인" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="회원가입" />
-            </ListItem>
-          </List>
+          {isLogin ? (
+            <List>
+              <ListItem button>
+                <ListItemText
+                  primary="마이페이지"
+                  onClick={() => MoveTo(`mypage/${user.memberId}`)}
+                />
+              </ListItem>
+              <ListItem button>
+                <ListItemText
+                  primary="프로필 수정"
+                  onClick={() => MoveTo(`profile/${user.memberId}`)}
+                />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="로그아웃">
+                  <UserLogout />
+                </ListItemText>
+              </ListItem>
+            </List>
+          ) : (
+            <List>
+              <ListItem button>
+                <ListItemText
+                  primary="로그인"
+                  onClick={() => MoveTo('login')}
+                />
+              </ListItem>
+              <ListItem button>
+                <ListItemText
+                  primary="회원가입"
+                  onClick={() => MoveTo('signup')}
+                />
+              </ListItem>
+            </List>
+          )}
           <Divider />
           <List>
             <ListItem button>
