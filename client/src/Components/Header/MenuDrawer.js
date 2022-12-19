@@ -10,8 +10,8 @@ import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 import UserLogout from '../userComp/Logout';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
 const drawerContainer = css`
   width: 250px;

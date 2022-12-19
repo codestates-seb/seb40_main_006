@@ -12,8 +12,8 @@ import { Settings, Logout } from '@mui/icons-material/';
 import { Person } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { loginUserInfoState } from '../../Atom/atoms';
 import UserLogout from '../userComp/Logout';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 export default function AccountMenu() {
   const [user] = useRecoilState(loginUserInfoState);
@@ -103,7 +103,6 @@ export default function AccountMenu() {
         <MenuItem>
           <ListItemIcon>
             <Logout fontSize="small" />
-            <UserLogout />
           </ListItemIcon>
           <UserLogout />
         </MenuItem>
