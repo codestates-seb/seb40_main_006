@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -9,8 +10,8 @@ import { css } from '@emotion/css';
 import { Avatar } from '@mui/material/';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 import UserLogout from '../userComp/Logout';
+import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
 
 const drawerContainer = css`
   width: 250px;
@@ -58,7 +59,7 @@ const MenuDrawer = () => {
         <div className={drawerContainer}>
           <div className={userContainer}>
             <div className={avataBtn}>
-              {isLogin ? (
+              {user.img ? (
                 <img src={user.img} alt="userimg" />
               ) : (
                 <Avatar sx={{ width: 70, height: 70 }} />
@@ -82,9 +83,7 @@ const MenuDrawer = () => {
                 />
               </ListItem>
               <ListItem button>
-                <ListItemText primary="로그아웃">
-                  <UserLogout />
-                </ListItemText>
+                <UserLogout />
               </ListItem>
             </List>
           ) : (

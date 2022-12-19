@@ -19,7 +19,7 @@ const UserLogout = () => {
     navigate('/login');
     window.location.reload();
   };
-  return <div onClick={handleLogout} />;
+  return <div onClick={handleLogout}>로그아웃</div>;
 };
 
 export default UserLogout;
