@@ -8,13 +8,13 @@ import { location, coordinate, locationChanged } from '../../Atom/atoms';
 
 const { kakao } = window;
 const Map = ({ jamData }) => {
-  const [latitude, setLatitude] = useState(37.5602098);
-  const [longitude, setLongitude] = useState(126.825479);
   const [currentLevel, setCurrentLevel] = useState(4);
   const [currentLocation, setCurrentLocation] = useRecoilState(location);
-  const [, setCurrentCoordinate] = useRecoilState(coordinate);
+  const [currentCoordinate, setCurrentCoordinate] = useRecoilState(coordinate);
   const [isUserLocationChanged, setIsUserLocationChanged] =
     useRecoilState(locationChanged);
+  const [latitude, setLatitude] = useState(currentCoordinate.latitude);
+  const [longitude, setLongitude] = useState(currentCoordinate.longitude);
   const navigate = useNavigate();
   function getMap() {
     const container = document.getElementById('map');
@@ -109,9 +109,7 @@ const Map = ({ jamData }) => {
         yAnchor: 1,
       });
 
-      kakao.maps.event.addListener(marker, 'mouseover', function () {
-        overlay.setMap(map);
-      });
+      overlay.setMap(map);
 
       kakao.maps.event.addListener(marker, 'click', function () {
         navigate(`/jamdetail/${mapPoints[i].jamId}`);

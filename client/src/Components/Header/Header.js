@@ -6,13 +6,15 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Avatar } from '@mui/material/';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBackIosNew } from 'react-icons/md';
 import { IconButton } from '@material-ui/core';
+import { BiSearch } from 'react-icons/bi';
 import { palette } from '../../Styles/theme';
 import logoImage from '../../Assets/images/logo_header.png';
 import AddressDialog from './AddressDialog';
 import AccountMenu from './AccountMenu';
 import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
+import MenuDrawer from './MenuDrawer';
 
 const headerBox = css`
   height: 100px;
@@ -30,7 +32,7 @@ const header = css`
   position: fixed;
   z-index: 10;
   @media screen and (max-width: 767px) {
-    padding: 10px;
+    padding: 0px;
     height: 70px;
   }
 `;
@@ -61,10 +63,7 @@ const searchBar = css`
   margin: 15px 10px;
   flex-grow: 1;
   @media screen and (max-width: 767px) {
-    padding: 10px 0px;
-    margin: 0px 10px;
-    background-color: transparent;
-    border: 1px solid ${palette.gray_4};
+    display: none;
   }
 `;
 
@@ -92,8 +91,8 @@ const avataBtn = css`
   display: none;
   cursor: pointer;
   @media screen and (max-width: 767px) {
-    display: inline;
-    cursor: pointer;
+    //TODO: display:none -> inline 으로 변경 후 코드를 작성해주세요
+    display: none;
   }
 `;
 
@@ -151,6 +150,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const SearchContainer = css`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    height: 100%;
+  }
+`;
+
+const drawerContainer = css`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    height: 100%;
+  }
+`;
+
+const AddressDialogContainer = css`
+  @media screen and (max-width: 767px) {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+  }
+`;
+
 const BackBtn = () => {
   const navigate = useNavigate();
   const handleBackBtnClick = () => {
@@ -159,7 +182,27 @@ const BackBtn = () => {
   return (
     <div className={backBtn}>
       <IconButton aria-label="back" onClick={handleBackBtnClick}>
-        <MdArrowBack fontSize="large" />
+        <MdArrowBackIosNew fontSize="large" />
+      </IconButton>
+      <IconButton>
+        <MdArrowBackIosNew fontSize="large" visibility="hidden" />
+      </IconButton>
+    </div>
+  );
+};
+const CityBtn = () => {
+  return (
+    <div className={AddressDialogContainer}>
+      <AddressDialog />
+    </div>
+  );
+};
+
+const SearchBtn = () => {
+  return (
+    <div className={SearchContainer}>
+      <IconButton aria-label="search">
+        <BiSearch />
       </IconButton>
     </div>
   );
@@ -176,6 +219,7 @@ const SearchBar = () => {
     sessionStorage.setItem('searchText', searchText);
     navigate('/category');
   };
+
   return (
     <form className={searchBar} onSubmit={handleSubmit}>
       <Search>
@@ -228,6 +272,16 @@ const LogoutArea = () => {
   );
 };
 
+const Drawer = () => {
+  return (
+    <div className={drawerContainer}>
+      <IconButton aria-label="back">
+        <MenuDrawer fontSize="large" />
+      </IconButton>
+    </div>
+  );
+};
+
 const Header = () => {
   const [isLogin] = useRecoilState(isLoginState);
   return (
@@ -236,10 +290,12 @@ const Header = () => {
         <Link to="/" onClick={() => sessionStorage.clear}>
           <img className={logo} alt="logo_jamit" src={logoImage} />
         </Link>
-        <BackBtn className={backBtn} />
-        <AddressDialog />
+        <BackBtn />
+        <CityBtn />
         <SearchBar />
+        <SearchBtn />
         {!isLogin ? <LoginArea /> : <LogoutArea />}
+        <Drawer />
       </div>
     </div>
   );
