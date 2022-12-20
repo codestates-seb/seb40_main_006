@@ -32,7 +32,7 @@ const header = css`
   position: fixed;
   z-index: 10;
   @media screen and (max-width: 767px) {
-    padding: 0px;
+    padding: 10px;
     height: 70px;
   }
 `;
@@ -74,7 +74,7 @@ const rightHeader = css`
   margin-left: 40px;
   white-space: nowrap;
   @media screen and (max-width: 767px) {
-    margin: 0px;
+    display: none;
   }
 `;
 const loginBtn = css`
@@ -106,15 +106,9 @@ const createJamBtn = css`
     background-color: ${palette.colorAccent};
     color: ${palette.white};
   }
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 const username = css`
   margin: 10px;
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 
 const Search = styled('div')(({ theme }) => ({
@@ -173,6 +167,10 @@ const AddressDialogContainer = css`
   }
 `;
 
+const marginBtn = css`
+  width: 42px;
+  height: auto;
+`;
 const BackBtn = () => {
   const navigate = useNavigate();
   const handleBackBtnClick = () => {
@@ -183,9 +181,7 @@ const BackBtn = () => {
       <IconButton aria-label="back" onClick={handleBackBtnClick}>
         <MdArrowBackIosNew fontSize="large" />
       </IconButton>
-      <IconButton>
-        <MdArrowBackIosNew fontSize="large" visibility="hidden" />
-      </IconButton>
+      <div className={marginBtn} />
     </div>
   );
 };

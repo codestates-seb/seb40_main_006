@@ -25,8 +25,8 @@ const addressContainer = css`
   margin: 0px 10px;
   padding: 20px;
   white-space: nowrap;
+  height: 100%;
   @media screen and (max-width: 767px) {
-    margin: 10px 0px;
     padding: 0px;
   }
 `;

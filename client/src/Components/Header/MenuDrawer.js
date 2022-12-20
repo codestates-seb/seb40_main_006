@@ -28,12 +28,24 @@ const userContainer = css`
     font-weight: bold;
     margin: 10px;
   }
+
+  img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 `;
 const avataBtn = css`
   display: flex;
   justify-content: center;
   cursor: pointer;
   margin: 10px;
+`;
+const menuContainer = css`
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 `;
 
 const MenuDrawer = () => {
@@ -49,7 +61,11 @@ const MenuDrawer = () => {
 
   return (
     <div>
-      <MdMenu aria-label="open drawer" onClick={() => setIsOpen(true)} />
+      <MdMenu
+        className={menuContainer}
+        aria-label="open drawer"
+        onClick={() => setIsOpen(true)}
+      />
       <SwipeableDrawer
         anchor="right"
         open={isOpen}
