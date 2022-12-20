@@ -1,0 +1,36 @@
+@media screen and (max-width: 479px) {
+  .rs-picker-daterange-menu {
+    /* max-width: 320px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rs-picker-daterange-panel {
+    /* max-width: 320px; */
+    /* width: 100%; */
+    text-align: center;
+  }
+  .rs-stack-item {
+    width: fit-content;
+  }
+  .rs-picker-daterange-content {
+    width: 100%;
+  }
+  .rs-picker-daterange-header {
+    width: 100%;
+  }
+  .rs-calendar-header-title {
+    font-weight: bold;
+  }
+
+  .rs-picker-daterange-calendar-group {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: auto;
+  }
+  .rs-picker-toolbar {
+    margin-bottom: 20px;
+  }
+}
