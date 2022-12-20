@@ -42,6 +42,11 @@ const avataBtn = css`
   cursor: pointer;
   margin: 10px;
 `;
+const menuContainer = css`
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+`;
 
 const MenuDrawer = () => {
   const [user] = useRecoilState(loginUserInfoState);
@@ -56,7 +61,11 @@ const MenuDrawer = () => {
 
   return (
     <div>
-      <MdMenu aria-label="open drawer" onClick={() => setIsOpen(true)} />
+      <MdMenu
+        className={menuContainer}
+        aria-label="open drawer"
+        onClick={() => setIsOpen(true)}
+      />
       <SwipeableDrawer
         anchor="right"
         open={isOpen}
