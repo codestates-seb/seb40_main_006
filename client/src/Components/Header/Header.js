@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { useRecoilState } from 'recoil';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Avatar } from '@mui/material/';
 import { MdArrowBackIosNew } from 'react-icons/md';
@@ -199,9 +199,13 @@ const CityBtn = () => {
 };
 
 const SearchBtn = () => {
+  const navigate = useNavigate();
+  const handleSearchBtnClick = () => {
+    navigate('/search');
+  };
   return (
     <div className={SearchContainer}>
-      <IconButton aria-label="search">
+      <IconButton aria-label="search" onClick={handleSearchBtnClick}>
         <BiSearch />
       </IconButton>
     </div>
@@ -284,6 +288,8 @@ const Drawer = () => {
 
 const Header = () => {
   const [isLogin] = useRecoilState(isLoginState);
+  const locationNow = useLocation();
+  if (locationNow.pathname === '/search') return null;
   return (
     <div className={headerBox}>
       <div className={header}>
