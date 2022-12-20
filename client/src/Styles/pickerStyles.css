@@ -1,14 +1,11 @@
 @media screen and (max-width: 479px) {
   .rs-picker-daterange-menu {
-    /* max-width: 320px; */
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .rs-picker-daterange-panel {
-    /* max-width: 320px; */
-    /* width: 100%; */
     text-align: center;
   }
   .rs-stack-item {
@@ -29,8 +26,5 @@
     display: flex;
     flex-direction: column;
     min-width: auto;
-  }
-  .rs-picker-toolbar {
-    margin-bottom: 20px;
   }
 }
