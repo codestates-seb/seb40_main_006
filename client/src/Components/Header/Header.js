@@ -88,10 +88,8 @@ const loginBtn = css`
 `;
 
 const avataBtn = css`
-  display: none;
   cursor: pointer;
   @media screen and (max-width: 767px) {
-    //TODO: display:none -> inline 으로 변경 후 코드를 작성해주세요
     display: none;
   }
 `;

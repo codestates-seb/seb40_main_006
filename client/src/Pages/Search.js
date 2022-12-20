@@ -1,12 +1,16 @@
 import { css } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { IconButton } from '@material-ui/core';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import { palette } from '../Styles/theme';
+import LongJamCard from '../Components/Card/LongJamCard';
+import { fetchJamRead } from '../Utils/fetchJam';
+import { NoNearyByData } from '../Components/NoData';
+import { list } from './Home';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,9 +59,19 @@ const searchBar = css`
   margin-right: 20px;
   flex-grow: 1;
 `;
+
+const jamList = css`
+  margin: 10px;
+`;
+
+const label = css`
+  margin: 20px;
+  font-weight: bold;
+`;
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
+
   const handleSearch = e => {
     setSearchText(e.target.value);
   };
@@ -101,11 +115,40 @@ const BackBtn = () => {
   );
 };
 const Search = () => {
+  const [jamData, setJamData] = useState([]);
+  useEffect(() => {
+    const endpoint = `/jams`;
+    const locateJams = fetchJamRead(endpoint);
+    locateJams.then(data => {
+      setJamData(
+        data.content
+          .filter(el => el.completeStatus === 'FALSE')
+          .sort((a, b) => a.jamTo.localeCompare(b.jamTo)),
+      );
+    });
+  }, []);
   return (
-    <nav className={container}>
-      <BackBtn />
-      <SearchBar />
-    </nav>
+    <div>
+      <nav className={container}>
+        <BackBtn />
+        <SearchBar />
+      </nav>
+      <p className={label}>마감이 가까운 잼이에요</p>
+      <div className={jamList}>
+        {jamData ? (
+          <div className={list}>
+            {jamData &&
+              jamData.map(jam => {
+                return <LongJamCard key={jam.jamId} jam={jam} />;
+              })}
+          </div>
+        ) : (
+          <div className={list}>
+            <NoNearyByData />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
