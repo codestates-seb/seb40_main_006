@@ -148,9 +148,12 @@ const Category = () => {
             </ButtonGroup>
           </ThemeProvider>
         </div>
-        <div className={searchTextResult}>
-          <span>{searchText}</span> 검색 결과입니다.
-        </div>
+        {searchText && (
+          <div className={searchTextResult}>
+            <span>{searchText}</span> 검색 결과입니다.
+          </div>
+        )}
+
         {filteredData.length ? (
           <div className={cardContainer}>
             {filteredData &&
