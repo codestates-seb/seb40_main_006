@@ -32,7 +32,7 @@ const header = css`
   position: fixed;
   z-index: 10;
   @media screen and (max-width: 767px) {
-    padding: 0px;
+    padding: 10px;
     height: 70px;
   }
 `;
@@ -173,6 +173,10 @@ const AddressDialogContainer = css`
   }
 `;
 
+const marginBtn = css`
+  width: 42px;
+  height: auto;
+`;
 const BackBtn = () => {
   const navigate = useNavigate();
   const handleBackBtnClick = () => {
@@ -183,9 +187,10 @@ const BackBtn = () => {
       <IconButton aria-label="back" onClick={handleBackBtnClick}>
         <MdArrowBackIosNew fontSize="large" />
       </IconButton>
-      <IconButton>
+      <div className={marginBtn} />
+      {/* <IconButton>
         <MdArrowBackIosNew fontSize="large" visibility="hidden" />
-      </IconButton>
+      </IconButton> */}
     </div>
   );
 };
