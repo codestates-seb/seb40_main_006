@@ -78,6 +78,7 @@ const SearchBar = () => {
           placeholder="제목이나 내용으로 검색해보세요!"
           inputProps={{ 'aria-label': 'search' }}
           onClick={() => sessionStorage.clear()}
+          autoFocus
         />
       </SearchContainer>
     </form>
