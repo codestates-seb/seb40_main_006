@@ -74,7 +74,7 @@ const rightHeader = css`
   margin-left: 40px;
   white-space: nowrap;
   @media screen and (max-width: 767px) {
-    margin: 0px;
+    display: none;
   }
 `;
 const loginBtn = css`
@@ -106,15 +106,9 @@ const createJamBtn = css`
     background-color: ${palette.colorAccent};
     color: ${palette.white};
   }
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 const username = css`
   margin: 10px;
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 
 const Search = styled('div')(({ theme }) => ({
