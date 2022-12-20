@@ -46,6 +46,7 @@ const TitleContainer = css`
     /* justify-content: flex-start; */
     align-items: flex-start;
     gap: 10px;
+    margin-bottom: 5px;
   }
 `;
 
