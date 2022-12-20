@@ -27,7 +27,6 @@ const addressContainer = css`
   white-space: nowrap;
   height: 100%;
   @media screen and (max-width: 767px) {
-    margin: 10px 0px;
     padding: 0px;
   }
 `;
@@ -41,7 +40,6 @@ const addressBtn = css`
   @media screen and (max-width: 767px) {
     margin: 0px;
     padding: 0px;
-    height: 100%;
     background-color: transparent;
     font-weight: bold;
   }
