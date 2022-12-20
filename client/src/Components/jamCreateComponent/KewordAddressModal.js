@@ -34,12 +34,12 @@ const KewordAddressModal = ({
 }) => {
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-      >
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+        >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               스터디할 장소를 키워드로 입력해보세요
@@ -52,8 +52,8 @@ const KewordAddressModal = ({
               setAddress={setAddress}
             />
           </Box>
-        </ThemeProvider>
-      </Modal>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import Sidebar from '../Components/Sidebar';
 import { palette } from '../Styles/theme';
 import { getCookie } from '../Components/SignComp/Cookie';
 import Reply from '../Components/jamDetailComponent/Reply';
+import ScrollToTop from '../ScrollToTop';
 
 const MergeContainer = css`
   width: 100%;
@@ -128,6 +129,8 @@ const JamDetail = ({ setIsEdit }) => {
   const { id } = useParams();
 
   const [replyData, setReplyData] = useState([]);
+
+  ScrollToTop();
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {

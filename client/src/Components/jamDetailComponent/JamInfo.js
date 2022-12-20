@@ -46,6 +46,7 @@ const TitleContainer = css`
     /* justify-content: flex-start; */
     align-items: flex-start;
     gap: 10px;
+    margin-bottom: 5px;
   }
 `;
 
@@ -81,6 +82,7 @@ const MediaButton = css`
 const InfoIcons = css`
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   font-size: 12px;

@@ -8,6 +8,7 @@ import { DateRangePicker } from 'rsuite';
 import KewordAddressModal from './KewordAddressModal';
 import { theme } from '../../Styles/theme';
 // import 'rsuite/dist/rsuite-rtl.css';
+import '../../Styles/pickerStyles.css';
 
 const Container = css`
   width: 100%;
@@ -18,21 +19,6 @@ const Container = css`
   }
   @media screen and (max-width: 479px) {
     max-width: none;
-  }
-  * {
-    .rs-picker
-      .rs-picker-menu
-      .rs-picker-daterange
-      .rs-picker-daterange-menu
-      .rs-picker-daterange-panel
-      .rs-stack
-      .rs-stack-item
-      .rs-picker-daterange-content
-      .rs-picker-daterange-calendar-group {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-    }
   }
 `;
 
@@ -242,11 +228,8 @@ const StudyInputField = ({
               <DateRangePicker
                 format="yyyy-MM-dd hh:mm aa"
                 placement="bottomEnd"
-                // placement="topEnd"
-                // showOneCalendar="true"
                 preventOverflow
                 showMeridian
-                style={{ color: 'black' }}
                 name="period"
                 value={period}
                 onChange={handlePeriodChange}
