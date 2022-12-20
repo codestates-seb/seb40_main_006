@@ -57,7 +57,7 @@ const map = css`
   }
 `;
 
-const list = css`
+export const list = css`
   display: flex;
   flex-direction: column;
   height: 70vh;
