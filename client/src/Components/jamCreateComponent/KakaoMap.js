@@ -15,8 +15,8 @@ const mapContainer = css`
     width: 520px;
   }
   @media screen and (max-width: 479px) {
-    width: 400px;
-    height: 600px;
+    width: 350px;
+    height: 450px;
   }
 `;
 
@@ -42,7 +42,7 @@ const resultList = css`
   }
   @media screen and (max-width: 479px) {
     width: 250px;
-    height: 300px;
+    height: 250px;
     top: 75px;
   }
 
