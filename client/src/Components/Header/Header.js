@@ -182,9 +182,6 @@ const BackBtn = () => {
         <MdArrowBackIosNew fontSize="large" />
       </IconButton>
       <div className={marginBtn} />
-      {/* <IconButton>
-        <MdArrowBackIosNew fontSize="large" visibility="hidden" />
-      </IconButton> */}
     </div>
   );
 };
