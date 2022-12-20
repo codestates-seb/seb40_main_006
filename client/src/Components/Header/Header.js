@@ -88,6 +88,7 @@ const loginBtn = css`
 `;
 
 const avataBtn = css`
+  display: none;
   cursor: pointer;
   @media screen and (max-width: 767px) {
     display: none;
