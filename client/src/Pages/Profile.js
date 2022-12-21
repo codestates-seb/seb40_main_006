@@ -16,7 +16,7 @@ const pageContainer = css`
   display: flex;
   gap: 100px;
   @media screen and (max-width: 767px) {
-    gap: 40px;
+    padding: 0 20px;
   }
 `;
 
@@ -49,8 +49,9 @@ const userTitle = css`
   }
   @media screen and (max-width: 767px) {
     border: none;
+    padding-left: 7%;
     h1 {
-      padding: 10px 0;
+      padding: 0;
       font-size: 26px;
     }
   }
@@ -63,8 +64,7 @@ const userAvatar = css`
   gap: 20px;
   padding: 40px 0;
   @media screen and (max-width: 767px) {
-    margin-right: 100px;
-    border-top: 1px solid ${palette.colorBorder};
+    // border-top: 1px solid ${palette.colorBorder};
   }
 `;
 
@@ -77,13 +77,17 @@ const userInfo = css`
   div {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
   }
   @media screen and (max-width: 767px) {
     gap: 10px;
+    align-items: center;
     div {
       width: 80%;
-      font-size: 14px;
+      font-size: 13px;
+      > span {
+        min-width: 80px;
+      }
     }
   }
 `;
@@ -95,7 +99,6 @@ const userBtn = css`
   gap: 20px;
   @media screen and (max-width: 767px) {
     padding: 20px;
-    width: 80%;
   }
 `;
 
@@ -261,7 +264,7 @@ const Profile = () => {
 
           <div className={userInfo}>
             <div>
-              닉네임
+              <span>닉네임</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"
@@ -277,7 +280,7 @@ const Profile = () => {
             </div>
             <div className={validateText}>{errorMessage.nickname}</div>
             <div>
-              비밀번호
+              <span>비밀번호</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"
@@ -293,7 +296,7 @@ const Profile = () => {
             </div>
             <div className={validateText}> </div>
             <div>
-              비밀번호 확인
+              <span>비밀번호 확인</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"
