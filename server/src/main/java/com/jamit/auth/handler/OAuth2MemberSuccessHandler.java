@@ -1,6 +1,8 @@
 package com.jamit.auth.handler;
 
 import com.jamit.auth.jwt.JwtTokenizer;
+import com.jamit.exception.BusinessLogicException;
+import com.jamit.exception.ExceptionCode;
 import com.jamit.member.entity.Member;
 import com.jamit.member.entity.Role;
 import com.jamit.member.repository.MemberRepository;
@@ -9,6 +11,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,24 +36,45 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Authentication authentication) throws IOException, ServletException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
-//        String provider = userRequest.getClientRegistration().getRegistrationId(); //google
         String providerId = oAuth2User.getAttribute("sub"); // PK
         String nickname = email + "_" + providerId;
         String password = "temppassword" + providerId;
 
-        Member member = new Member(email, nickname, password);
-        member.setRoles(Role.USER);
+        // 이미 존재하는 회원이면 토큰만 발급
+        if (memberRepository.existsByEmail(email)) {
+            Optional<Member> optionalMember = memberRepository.findByEmail(email);
+            Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(
+                ExceptionCode.MEMBER_NOT_FOUND));
 
-        String accessToken = delegateAccessToken(member); // Access Token 생성
-        String refreshToken = delegateRefreshToken(member); // Refresh Token 생성
+            String accessToken = delegateAccessToken(member); // Access Token 생성
+            String refreshToken = delegateRefreshToken(member); // Refresh Token 생성
+            member.setRefreshToken(refreshToken);
 
-        member.setRefreshToken(refreshToken);
-        memberRepository.save(member);
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            response.setHeader("Refresh", refreshToken);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
+            redirect(request, response, accessToken, refreshToken);
 
-        redirect(request, response, accessToken, refreshToken);
+        } else {
+            Member member = new Member();
+            member.setEmail(email);
+            member.setNickname(nickname);
+            member.setPassword(password);
+            member.setRoles(Role.USER);
+
+            memberRepository.save(member);
+
+            String accessToken = delegateAccessToken(member); // Access Token 생성
+            String refreshToken = delegateRefreshToken(member); // Refresh Token 생성
+            member.setRefreshToken(refreshToken);
+
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            response.setHeader("Refresh", refreshToken);
+
+            redirect(request, response, accessToken, refreshToken);
+
+        }
+
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response,
@@ -95,13 +119,13 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private URI createURI(String accessToken, String refreshToken) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token", accessToken);
-        queryParams.add("refresh_token", refreshToken);
+        queryParams.add("Authorization", "Bearer" + accessToken);
+        queryParams.add("Refresh", refreshToken);
 
         return UriComponentsBuilder
             .newInstance()
-            .scheme("http")
-            .host("localhost")
+            .scheme("https")
+            .host("api.jamit.click")
 //                .port(80)
             .path("/receive-token.html")
             .queryParams(queryParams)

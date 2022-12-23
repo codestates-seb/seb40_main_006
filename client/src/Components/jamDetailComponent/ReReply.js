@@ -106,7 +106,7 @@ const ReReply = ({
   const [reVal, setReVal] = useState('');
   const [reValIdx, setReValIdx] = useState('');
   const [reValList, setReValList] = useState(
-    new Array(jamData.commentList.length).fill([]),
+    new Array(replyList.length).fill([]),
   );
   const [user] = useRecoilState(loginUserInfoState);
   const [reEdit, setReEdit] = useState(false);

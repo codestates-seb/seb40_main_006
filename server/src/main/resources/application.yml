@@ -38,6 +38,7 @@ spring:
           google:
             client-id: ${GOOGLE_OAUTH2_ID}
             client-secret: ${GOOGLE_OAUTH2_PASSWORD}
+#            redirect-uri: http://localhost/login/oauth2/code/google
             scope:
               - email
               - profile
