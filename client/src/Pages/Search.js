@@ -59,7 +59,6 @@ const searchBar = css`
 const keywordList = css`
   margin: 20px;
   li {
-    background-color: beige;
     margin: 5px;
     padding: 10px;
     display: flex;
@@ -123,7 +122,9 @@ const BackBtn = () => {
 };
 
 const SearchKeywords = () => {
-  const searchedTextList = JSON.parse(localStorage.getItem('SearchTextList'));
+  const searchedTextList = JSON.parse(
+    localStorage.getItem('SearchTextList'),
+  ).reverse();
   return (
     <div className={keywordList}>
       <ul>
