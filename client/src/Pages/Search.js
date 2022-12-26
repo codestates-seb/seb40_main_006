@@ -1,16 +1,12 @@
 import { css } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { IconButton } from '@material-ui/core';
-import { MdArrowBackIosNew } from 'react-icons/md';
+import { MdArrowBackIosNew, MdOutlineClose } from 'react-icons/md';
 import { palette } from '../Styles/theme';
-import LongJamCard from '../Components/Card/LongJamCard';
-import { fetchJamRead } from '../Utils/fetchJam';
-import { NoNearyByData } from '../Components/NoData';
-import { list } from './Home';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,8 +56,15 @@ const searchBar = css`
   flex-grow: 1;
 `;
 
-const jamList = css`
-  margin: 10px;
+const keywordList = css`
+  margin: 20px;
+  li {
+    background-color: beige;
+    margin: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const label = css`
@@ -71,13 +74,17 @@ const label = css`
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
-
   const handleSearch = e => {
     setSearchText(e.target.value);
   };
 
   const handleSubmit = () => {
     sessionStorage.setItem('searchText', searchText);
+    const searchedTextList = JSON.parse(
+      localStorage.getItem('SearchTextList') || '[]',
+    );
+    searchedTextList.push(searchText);
+    localStorage.setItem('SearchTextList', JSON.stringify(searchedTextList));
     navigate('/category');
   };
 
@@ -114,40 +121,32 @@ const BackBtn = () => {
     </div>
   );
 };
+
+const SearchKeywords = () => {
+  const searchedTextList = JSON.parse(localStorage.getItem('SearchTextList'));
+  return (
+    <div className={keywordList}>
+      <ul>
+        {searchedTextList &&
+          searchedTextList.map((el, idx) => (
+            <li key={idx}>
+              {el}
+              <MdOutlineClose />
+            </li>
+          ))}
+      </ul>
+    </div>
+  );
+};
 const Search = () => {
-  const [jamData, setJamData] = useState([]);
-  useEffect(() => {
-    const endpoint = `/jams`;
-    const locateJams = fetchJamRead(endpoint);
-    locateJams.then(data => {
-      setJamData(
-        data.content
-          .filter(el => el.completeStatus === 'FALSE')
-          .sort((a, b) => a.jamTo.localeCompare(b.jamTo)),
-      );
-    });
-  }, []);
   return (
     <div>
       <nav className={container}>
         <BackBtn />
         <SearchBar />
       </nav>
-      <p className={label}>마감이 가까운 잼이에요</p>
-      <div className={jamList}>
-        {jamData ? (
-          <div className={list}>
-            {jamData &&
-              jamData.map(jam => {
-                return <LongJamCard key={jam.jamId} jam={jam} />;
-              })}
-          </div>
-        ) : (
-          <div className={list}>
-            <NoNearyByData />
-          </div>
-        )}
-      </div>
+      <p className={label}>최근 검색한 키워드예요</p>
+      <SearchKeywords />
     </div>
   );
 };
