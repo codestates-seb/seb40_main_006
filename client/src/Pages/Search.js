@@ -70,6 +70,15 @@ const label = css`
   margin: 20px;
   font-weight: bold;
 `;
+
+const setLocalStorageItem = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
+const getLocalStorageItem = key => {
+  return localStorage.getItem(key);
+};
+
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
@@ -78,12 +87,10 @@ const SearchBar = () => {
   };
 
   const handleSubmit = () => {
-    sessionStorage.setItem('searchText', searchText);
-    const searchedTextList = JSON.parse(
-      localStorage.getItem('SearchTextList') || '[]',
-    );
-    searchedTextList.push(searchText);
-    localStorage.setItem('SearchTextList', JSON.stringify(searchedTextList));
+    setLocalStorageItem('searchText', searchText);
+    const tempList = JSON.parse(getLocalStorageItem('SearchTextList') || '[]');
+    tempList.push(searchText);
+    setLocalStorageItem('SearchTextList', tempList);
     navigate('/category');
   };
 
@@ -122,9 +129,16 @@ const BackBtn = () => {
 };
 
 const SearchKeywords = () => {
-  const searchedTextList = JSON.parse(
-    localStorage.getItem('SearchTextList'),
-  ).reverse();
+  const [searchedTextList, setSearchedTextList] = useState(
+    JSON.parse(getLocalStorageItem('SearchTextList')).reverse(),
+  );
+
+  const handleDeleteBtnClick = keyword => {
+    const deletedList = searchedTextList.filter(v => v !== keyword);
+    setLocalStorageItem('SearchTextList', deletedList);
+    setSearchedTextList(deletedList);
+  };
+
   return (
     <div className={keywordList}>
       <ul>
@@ -132,7 +146,13 @@ const SearchKeywords = () => {
           searchedTextList.map((el, idx) => (
             <li key={idx}>
               {el}
-              <MdOutlineClose />
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handleDeleteBtnClick(el)}
+              >
+                <MdOutlineClose />
+              </button>
             </li>
           ))}
       </ul>
