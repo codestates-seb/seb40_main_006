@@ -3,7 +3,7 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
@@ -127,6 +127,7 @@ const JamDetail = ({ setIsEdit }) => {
   const [isComplete, setIsComplete] = useState('');
   const [joiner, setJoiner] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [replyData, setReplyData] = useState([]);
 
@@ -135,11 +136,21 @@ const JamDetail = ({ setIsEdit }) => {
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
-    await axios.get(`${BASE_URL}/jams/${id}`).then(res => {
-      setJamData({ ...res.data });
-      setIsComplete({ ...res.data }.completeStatus);
-      setJoiner({ ...res.data }.participantList);
-    });
+    await axios
+      .get(`${BASE_URL}/jams/${id}`, { validateStatus: false })
+      .then(res => {
+        if (res.status === 404) {
+          navigate('*');
+          setTimeout(() => {
+            alert('잘못된 접근입니다. 메인페이지로 이동합니다.');
+            navigate('/');
+          }, 3000);
+        } else {
+          setJamData({ ...res.data });
+          setIsComplete({ ...res.data }.completeStatus);
+          setJoiner({ ...res.data }.participantList);
+        }
+      });
   };
 
   useEffect(() => {

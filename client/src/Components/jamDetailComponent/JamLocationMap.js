@@ -49,10 +49,7 @@ const JamLocationMap = ({ jamData }) => {
     });
 
     overlay.setMap(map);
-
-    kakao.maps.event.addListener(marker, 'mouseout', function () {
-      overlay.setMap(null);
-    });
+    marker.setMap(map);
   };
 
   useEffect(() => {
