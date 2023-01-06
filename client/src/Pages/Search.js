@@ -130,7 +130,9 @@ const BackBtn = () => {
 
 const SearchKeywords = () => {
   const [searchedTextList, setSearchedTextList] = useState(
-    JSON.parse(getLocalStorageItem('SearchTextList')).reverse(),
+    getLocalStorageItem('SearchTextList')
+      ? JSON.parse(getLocalStorageItem('SearchTextList')).reverse()
+      : [],
   );
 
   const handleDeleteBtnClick = keyword => {
