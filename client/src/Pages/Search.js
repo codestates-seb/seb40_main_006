@@ -71,6 +71,10 @@ const label = css`
   font-weight: bold;
 `;
 
+const setSessionStorageItem = (key, value) => {
+  sessionStorage.setItem('searchText', value);
+};
+
 const setLocalStorageItem = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
@@ -88,6 +92,7 @@ const SearchBar = () => {
 
   const handleSubmit = () => {
     setLocalStorageItem('searchText', searchText);
+    setSessionStorageItem('searchText', searchText);
     const tempList = JSON.parse(getLocalStorageItem('SearchTextList') || '[]');
     tempList.push(searchText);
     setLocalStorageItem('SearchTextList', tempList);
