@@ -82,6 +82,7 @@ const getLocalStorageItem = key => {
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
+  setLocalStorageItem('SearchTextList', []);
   const handleSearch = e => {
     setSearchText(e.target.value);
   };
