@@ -14,11 +14,25 @@ import { myPageInfoState } from '../Atom/atoms';
 const pageContainer = css`
   display: flex;
   gap: 100px;
+  @media screen and (max-width: 767px) {
+    gap: 40px;
+  }
 `;
+
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const userContainer = css`
   width: 800px;
   min-width: 400px;
   margin: 40px auto;
+  @media screen and (max-width: 767px) {
+    margin: 0 0 0 20px;
+  }
 `;
 
 const userJamInfo = css`
@@ -73,6 +87,16 @@ const userJamInfo = css`
     bottom: 100px;
     left: 320px;
   }
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    gap: 60px;
+    .container {
+      font-size: 16px;
+    }
+    .cardActions {
+      font-size: 12px;
+    }
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
@@ -104,7 +128,9 @@ const Mypage = () => {
 
   return (
     <div className={pageContainer}>
-      <Sidebar />
+      <div className={sidebarContainer}>
+        <Sidebar />
+      </div>
       <div className={userContainer}>
         <UserTitle />
         <div className={userJamInfo}>

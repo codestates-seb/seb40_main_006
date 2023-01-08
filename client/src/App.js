@@ -11,6 +11,7 @@ import JamDetail from './Pages/JamDetail';
 import JamMake from './Pages/JamMake';
 import PageNotFound from './Pages/NotFound';
 import Landing from './Pages/Landing';
+import Search from './Pages/Search';
 
 function App() {
   const [isEdit, setIsEdit] = useState(false);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/category" element={<Category />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage/*" element={<Mypage />} />
@@ -37,7 +39,7 @@ function App() {
           />
           <Route
             path="/jamdetail/:id"
-            element={<JamDetail isEdit={isEdit} setIsEdit={setIsEdit} />}
+            element={<JamDetail setIsEdit={setIsEdit} />}
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

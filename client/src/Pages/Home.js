@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 import { css } from '@emotion/css';
 import React, { useEffect, useState } from 'react';
-// import palette from '../Styles/theme';
 import { useRecoilState } from 'recoil';
 import Sidebar from '../Components/Sidebar';
 import LongJamCard from '../Components/Card/LongJamCard';
@@ -11,9 +10,13 @@ import Map from '../Components/Map/Map';
 import { location, coordinate } from '../Atom/atoms';
 import { fetchJamRead } from '../Utils/fetchJam';
 import { NoNearyByData } from '../Components/NoData';
+import FloatingButton from '../Components/FloatingButton';
 
 const pagewithSidebar = css`
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 const home = css`
   display: flex;
@@ -23,11 +26,22 @@ const home = css`
   h1 {
     margin: 10px;
   }
+  @media screen and (max-width: 767px) {
+    margin: 0px;
+    padding: 0px;
+    h1 {
+      display: none;
+    }
+  }
 `;
 
 const mainArea = css`
   display: flex;
   margin: 10px;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    margin: 0px;
+  }
 `;
 
 const map = css`
@@ -37,14 +51,22 @@ const map = css`
   max-height: 1000px;
   display: flex;
   background-color: cadetblue;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    height: 40vh;
+  }
 `;
 
-const list = css`
+export const list = css`
   display: flex;
   flex-direction: column;
   height: 70vh;
   overflow: auto;
   margin-left: 20px;
+  @media screen and (max-width: 767px) {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
 `;
 
 const Home = () => {
@@ -65,6 +87,7 @@ const Home = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <FloatingButton />
       <div className={home}>
         <h1>
           {currentLocation

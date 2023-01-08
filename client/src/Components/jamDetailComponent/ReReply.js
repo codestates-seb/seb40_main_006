@@ -101,9 +101,7 @@ const ReReply = ({
   btnIdx,
   replyData,
   setReplyData,
-  rereplyData,
   replyList,
-  // getJamData,
 }) => {
   const [reVal, setReVal] = useState('');
   const [reValIdx, setReValIdx] = useState('');
@@ -138,37 +136,34 @@ const ReReply = ({
     setReEditVal(e.target.value);
   };
 
-  useEffect(() => {
-    // getJamData();
-  }, [replyData, reValList, openRe]);
+  useEffect(() => {}, [replyData, reValList, openRe]);
 
   const submitHandler = e => {
-    alert('점검중입니다!');
-    // e.preventDefault();
-    // axios
-    //   .post(
-    //     `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
-    //     {
-    //       commentId,
-    //       content: reVal,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${getCookie('accessToken')}`,
-    //       },
-    //     },
-    //   )
-    //   .then(res => {
-    //     const copy = [...replyData];
-    //     for (let i = 0; i < copy.length; i += 1) {
-    //       if (copy[i].commentId === rereplyData.commentId) {
-    //         copy[i].push(res.data);
-    //       }
-    //     }
-    //     setReplyData(copy);
-    //     setReValList(copy);
-    //     setOpenRe(false);
-    //   });
+    e.preventDefault();
+    axios
+      .post(
+        `${BASE_URL}/jams/${jamData.jamId}/comments/${commentId}/replies`,
+        {
+          commentId,
+          content: reVal,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie('accessToken')}`,
+          },
+        },
+      )
+      .then(res => {
+        const copy = [...jamData.commentList];
+        for (let i = 0; i < copy.length; i += 1) {
+          if (copy[i].commentId === replyData.commentId) {
+            copy[i].push(reVal);
+          }
+        }
+        setReplyData(copy);
+        setReValList(copy);
+        setOpenRe(false);
+      });
   };
 
   const editHandler = (e, idx) => {
@@ -189,7 +184,17 @@ const ReReply = ({
             },
           },
         )
-        .then(window.location.reload());
+        .then(res => {
+          const copy = [...jamData.commentList];
+          for (let i = 0; i < copy.length; i += 1) {
+            if (copy[i].commentId === replyData.commentId) {
+              copy[i] = reVal;
+            }
+          }
+          setReplyData(copy);
+          setReValList(copy);
+          setOpenRe(false);
+        });
     }
   };
 
@@ -249,49 +254,45 @@ const ReReply = ({
         )}
 
         <div className={content}>
-          {reValList[btnIdx] &&
-            reValList[btnIdx].map((el, idx) => (
-              <div key={el.replyId} className={rereply}>
-                <div className="title">
-                  <UserName
-                    name={el.nickname}
-                    id={el.memberId}
-                    grade={el.grade}
-                    img={el.profileImage}
-                  />
-                  <p>{jamElapsedTime(el.modifiedAt)}</p>
-                </div>
-                <div className="container">
-                  {reEdit && idx === clickIdx ? (
-                    <input
-                      type="text"
-                      name="edit"
-                      value={reEditVal}
-                      onChange={e => changeHandler(e)}
-                    />
-                  ) : (
-                    <div className="content">{el.content}</div>
-                  )}
-                  {el.nickname === user.nickname && (
-                    <div className="reImg">
-                      <button type="button" onClick={e => editHandler(e, idx)}>
-                        {reEdit && idx === clickIdx ? (
-                          <img src="../img/edit_move.gif" alt="edit" />
-                        ) : (
-                          <img src="../img/edit.png" alt="edit" />
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={e => deleteHandler(e, idx)}
-                      >
-                        <img src="../img/delete.png" alt="delete" />
-                      </button>
-                    </div>
-                  )}
-                </div>
+          {replyList[btnIdx].replyList.map((el, idx) => (
+            <div key={el.replyId} className={rereply}>
+              <div className="title">
+                <UserName
+                  name={el.nickname}
+                  id={el.memberId}
+                  grade={el.grade}
+                  img={el.profileImage}
+                />
+                <p>{jamElapsedTime(el.modifiedAt)}</p>
               </div>
-            ))}
+              <div className="container">
+                {reEdit && idx === clickIdx ? (
+                  <input
+                    type="text"
+                    name="edit"
+                    value={reEditVal}
+                    onChange={e => changeHandler(e)}
+                  />
+                ) : (
+                  <div className="content">{el.content}</div>
+                )}
+                {el.nickname === user.nickname && (
+                  <div className="reImg">
+                    <button type="button" onClick={e => editHandler(e, idx)}>
+                      {reEdit && idx === clickIdx ? (
+                        <img src="../img/edit_move.gif" alt="edit" />
+                      ) : (
+                        <img src="../img/edit.png" alt="edit" />
+                      )}
+                    </button>
+                    <button type="button" onClick={e => deleteHandler(e, idx)}>
+                      <img src="../img/delete.png" alt="delete" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </form>
     </div>

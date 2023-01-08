@@ -15,13 +15,25 @@ import { loginUserInfoState } from '../Atom/atoms';
 const pageContainer = css`
   display: flex;
   gap: 100px;
+  @media screen and (max-width: 767px) {
+    padding: 0 20px;
+  }
+`;
+
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const userContainer = css`
   padding: 40px;
   width: 700px;
   min-width: 400px;
-  // margin: 0 auto;
+  @media screen and (max-width: 767px) {
+    padding: 20px 0;
+  }
 `;
 
 const userTitle = css`
@@ -35,6 +47,14 @@ const userTitle = css`
     font-weight: 500;
     color: ${palette.colorTitle};
   }
+  @media screen and (max-width: 767px) {
+    border: none;
+    padding-left: 7%;
+    h1 {
+      padding: 0;
+      font-size: 26px;
+    }
+  }
 `;
 
 const userAvatar = css`
@@ -43,6 +63,9 @@ const userAvatar = css`
   align-items: center;
   gap: 20px;
   padding: 40px 0;
+  @media screen and (max-width: 767px) {
+    // border-top: 1px solid ${palette.colorBorder};
+  }
 `;
 
 const userInfo = css`
@@ -54,7 +77,18 @@ const userInfo = css`
   div {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+  }
+  @media screen and (max-width: 767px) {
+    gap: 10px;
     align-items: center;
+    div {
+      width: 80%;
+      font-size: 13px;
+      > span {
+        min-width: 80px;
+      }
+    }
   }
 `;
 
@@ -63,6 +97,9 @@ const userBtn = css`
   justify-content: center;
   padding: 100px;
   gap: 20px;
+  @media screen and (max-width: 767px) {
+    padding: 20px;
+  }
 `;
 
 const validateText = css`
@@ -72,6 +109,9 @@ const validateText = css`
   display: flex;
   padding-left: 190px;
   min-width: 300px;
+  @media screen and (max-width: 767px) {
+    padding-left: 125px;
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
@@ -184,7 +224,9 @@ const Profile = () => {
 
   return (
     <div className={pageContainer}>
-      <Sidebar />
+      <div className={sidebarContainer}>
+        <Sidebar />
+      </div>
       <ThemeProvider theme={themeUserPage}>
         <Box
           component="form"
@@ -222,7 +264,7 @@ const Profile = () => {
 
           <div className={userInfo}>
             <div>
-              닉네임
+              <span>닉네임</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"
@@ -238,7 +280,7 @@ const Profile = () => {
             </div>
             <div className={validateText}>{errorMessage.nickname}</div>
             <div>
-              비밀번호
+              <span>비밀번호</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"
@@ -254,7 +296,7 @@ const Profile = () => {
             </div>
             <div className={validateText}> </div>
             <div>
-              비밀번호 확인
+              <span>비밀번호 확인</span>
               <TextField
                 sx={{ width: '70%' }}
                 margin="normal"

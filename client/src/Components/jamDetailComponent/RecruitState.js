@@ -21,6 +21,7 @@ const RecruitState = ({ children, state = 'open' }) => {
         fontSize: '12px',
         textAlign: 'center',
         padding: '3px 12px',
+        minWidth: 'fit-content',
       }}
     >
       {children}

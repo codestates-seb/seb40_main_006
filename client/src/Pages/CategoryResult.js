@@ -16,9 +16,13 @@ import { pageNumber, selectedCategory, totalPageNumber } from '../Atom/atoms';
 import ScrollToTop from '../ScrollToTop';
 import { NoCategoryData } from '../Components/NoData';
 import JamPagination from '../Components/Card/JamPagination';
+import FloatingButton from '../Components/FloatingButton';
 
 const pagewithSidebar = css`
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 const category = css`
   display: flex;
@@ -30,15 +34,24 @@ const topContainer = css`
   width: 100%;
   justify-content: space-between;
   padding: 20px 50px;
-
+  white-space: nowrap;
+  flex-wrap: wrap;
   p {
     margin: 10px;
+    @media screen and (max-width: 767px) {
+      margin: 0px 0px 10px 0px;
+    }
   }
   & ButtonGroup {
     justify-content: end;
   }
 `;
-
+const searchTextResult = css`
+  padding: 0px 50px;
+  span {
+    font-weight: bold;
+  }
+`;
 const cardContainer = css`
   display: flex;
   flex-flow: row wrap;
@@ -115,6 +128,7 @@ const Category = () => {
   return (
     <div className={pagewithSidebar}>
       <Sidebar />
+      <FloatingButton />
       <ScrollToTop />
       <div className={category}>
         <div className={topContainer}>
@@ -134,6 +148,12 @@ const Category = () => {
             </ButtonGroup>
           </ThemeProvider>
         </div>
+        {searchText && (
+          <div className={searchTextResult}>
+            <span>{searchText}</span> 검색 결과입니다.
+          </div>
+        )}
+
         {filteredData.length ? (
           <div className={cardContainer}>
             {filteredData &&

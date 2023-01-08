@@ -10,31 +10,21 @@ import {
 } from '@mui/material/';
 import { Settings, Logout } from '@mui/icons-material/';
 import { Person } from '@material-ui/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { isLoginState, loginUserInfoState } from '../../Atom/atoms';
-import { removeCookie } from '../SignComp/Cookie';
+import UserLogout from '../userComp/Logout';
+import { loginUserInfoState } from '../../Atom/atoms';
 
 export default function AccountMenu() {
-  const [, setIsLogin] = useRecoilState(isLoginState);
-  const [user, setUser] = useRecoilState(loginUserInfoState);
+  const [user] = useRecoilState(loginUserInfoState);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-  const handleLogout = () => {
-    setIsLogin(false);
-    setUser({ memberId: '', nickname: '', img: '', grade: '', gradeCount: '' });
-    removeCookie('accessToken');
-    removeCookie('refreshToken');
-    navigate('/login');
-    window.location.reload();
   };
   return (
     <>
@@ -110,11 +100,11 @@ export default function AccountMenu() {
             프로필수정
           </MenuItem>
         </Link>
-        <MenuItem onClick={handleLogout}>
+        <MenuItem>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          로그아웃
+          <UserLogout />
         </MenuItem>
       </Menu>
     </>

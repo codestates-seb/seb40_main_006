@@ -3,7 +3,7 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
@@ -15,10 +15,27 @@ import Sidebar from '../Components/Sidebar';
 import { palette } from '../Styles/theme';
 import { getCookie } from '../Components/SignComp/Cookie';
 import Reply from '../Components/jamDetailComponent/Reply';
+import ScrollToTop from '../ScrollToTop';
 
 const MergeContainer = css`
   width: 100%;
   display: flex;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 479px) {
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const sidebarContainer = css`
+  display: flex;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const Container = css`
@@ -31,13 +48,22 @@ const Container = css`
 `;
 
 const SectionContainer = css`
+  width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    padding: 0 10px;
+    width: 100%;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const JamContainer = css`
+  width: fit-content;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -45,6 +71,14 @@ const JamContainer = css`
   align-items: center;
   padding: 20px;
   border-radius: 3px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 0;
+    margin: 0 10px;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const MainCommentContainer = css`
@@ -52,11 +86,20 @@ const MainCommentContainer = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px;
   span {
+    width: 100%;
+    text-align: left;
     font-size: 20px;
     margin-bottom: 10px;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 20px 0;
+  }
+  @media screen and (max-width: 479px) {
+    width: 100%;
   }
 `;
 
@@ -69,40 +112,44 @@ const CommentContainer = css`
   align-items: center;
   background-color: ${palette.gray_4};
   border-radius: 3px;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const BASE_URL = `${process.env.REACT_APP_URL}`;
 
-const JamDetail = ({ isEdit, setIsEdit }) => {
-  const [host, setHost] = useState('김코딩'); // eslint-disable-line no-unused-vars
-  const [loginUser, setLoginUser] = useState('김코딩'); // eslint-disable-line no-unused-vars
-
+const JamDetail = ({ setIsEdit }) => {
   const [text, setText] = useState('');
   const [comments, setComments] = useState([]);
-
   const nextId = useRef(0);
-
   const [jamData, setJamData] = useState([]);
   const [isComplete, setIsComplete] = useState('');
   const [joiner, setJoiner] = useState([]);
-
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [replyData, setReplyData] = useState([]);
-  const [rereplyData] = useState([]);
+
+  ScrollToTop();
 
   // eslint-disable-next-line no-shadow
   const getJamData = async () => {
     // eslint-disable-next-line no-return-await
     await axios
-      .get(`${BASE_URL}/jams/${id}`)
+      .get(`${BASE_URL}/jams/${id}`, { validateStatus: false })
       .then(res => {
-        setJamData({ ...res.data });
-        setIsComplete({ ...res.data }.completeStatus);
-        setJoiner({ ...res.data }.participantList);
-      })
-      .catch(error => {
-        console.log(error.message);
+        if (res.status === 404) {
+          navigate('*');
+          setTimeout(() => {
+            alert('잘못된 접근입니다. 메인페이지로 이동합니다.');
+            navigate('/');
+          }, 3000);
+        } else {
+          setJamData({ ...res.data });
+          setIsComplete({ ...res.data }.completeStatus);
+          setJoiner({ ...res.data }.participantList);
+        }
       });
   };
 
@@ -151,17 +198,20 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
 
   return (
     <div css={MergeContainer}>
-      <Sidebar />
+      <div css={sidebarContainer}>
+        <Sidebar />
+      </div>
       <main css={Container}>
         <div css={SectionContainer}>
           <ThemeProvider theme={palette}>
             <div css={JamContainer}>
               <JamInfo
-                host={host}
-                loginUser={loginUser}
-                isEdit={isEdit}
                 setIsEdit={setIsEdit}
                 jamData={jamData}
+                isComplete={isComplete}
+                setIsComplete={setIsComplete}
+                joiner={joiner}
+                setJoiner={setJoiner}
               />
             </div>
           </ThemeProvider>
@@ -181,8 +231,6 @@ const JamDetail = ({ isEdit, setIsEdit }) => {
                 jamData={jamData}
                 replyData={replyData}
                 setReplyData={setReplyData}
-                rereplyData={rereplyData}
-                getJamData={getJamData}
               />
             </div>
           </div>
